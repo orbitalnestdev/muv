@@ -1,0 +1,456 @@
+{
+  "meta": {
+    "limit": 1, 
+    "next": "/api/v1/property/search/?lang=es_ar&format=json&limit=1&key=a50481846a84f0add9f3fd6c4e7883afae039be1&offset=1&data=%7B%22current_localization_id%22%3A0%2C%22current_localization_type%22%3A%22country%22%2C%22price_from%22%3A0%2C%22price_to%22%3A99999999%2C%22operation_types%22%3A%5B%5D%2C%22property_types%22%3A%5B%5D%2C%22filters%22%3A%5B%5D%7D", 
+    "offset": 0, 
+    "previous": null, 
+    "total_count": 457
+  }, 
+  "objects": [
+    {
+      "address": "Florida al 500", 
+      "address_complement": "", 
+      "age": 30, 
+      "apartment_door": "", 
+      "appartments_per_floor": 0, 
+      "bathroom_amount": 0, 
+      "block_number": "", 
+      "branch": {
+        "address": "Jerónimo Salguero 2686 Buenos Aires", 
+        "alternative_phone": "22862000", 
+        "alternative_phone_area": "11", 
+        "alternative_phone_country_code": "", 
+        "alternative_phone_extension": "", 
+        "branch_type": "Internal", 
+        "contact_time": "de 10 a 19 hs", 
+        "created_date": "2018-07-17T19:10:08", 
+        "display_name": "MUV", 
+        "email": "info@muvpropiedades.com", 
+        "geo_lat": "-34.58078084688539", 
+        "geo_long": "-58.40896773565676", 
+        "gm_location_type": "BY_HAND", 
+        "id": 5072, 
+        "is_default": true, 
+        "logo": "https://static.tokkobroker.com/logos/3161/3161_44563468282869377687731589412186553045307724477222673893818561793842184789871.jpg", 
+        "name": "MUV", 
+        "pdf_footer_text": "", 
+        "phone": "4805-4192", 
+        "phone_area": "011", 
+        "phone_country_code": "", 
+        "phone_extension": "", 
+        "use_pdf_footer": false
+      }, 
+      "building": "", 
+      "cleaning_tax": "0.00", 
+      "common_area": "0.00", 
+      "covered_parking_lot": 0, 
+      "created_at": "2025-02-26T20:36:48", 
+      "credit_eligible": "No especificado", 
+      "custom1": "0.00", 
+      "custom_tags": [], 
+      "deleted_at": "2026-04-08T16:18:29", 
+      "depth_measure": "33.00", 
+      "description": "                        Espectacular local en la mejor cuadra de calle peatonal Florida. Con frente de 4,75 x 33 mts de fondo más sótano y entrepiso con dos oficinas. 2 baños. Kichinette.\n            \n        Apto todo destino, sin expensas y espacio aéreo propio. No tiene tiraje a los 4 vientos. \nCercano a los principales medios de transporte y gran caudal de tránsito peatonal. Rodeado de grandes marcas y comercios de importancia. Venta con Excelente Renta. Nota: Las medidas y superficies son aproximadas. Las definitivas surgirán de la escritura traslativa de dominio.\nDirección: Florida 500 (Entre: Tucumán y Lavalle)\n\n\n\nMuv Propiedades\nMatrícula 515 CUCICBA\n        \r\n        \n\nMuv Propiedades\nMatrícula 515 CUCICBA", 
+      "description_only": "                        Espectacular local en la mejor cuadra de calle peatonal Florida. Con frente de 4,75 x 33 mts de fondo más sótano y entrepiso con dos oficinas. 2 baños. Kichinette.<br>            <br>        <div>Apto todo destino, sin expensas y espacio aéreo propio. No tiene tiraje a los 4 vientos. <br></div><div>Cercano a los principales medios de transporte y gran caudal de tránsito peatonal. Rodeado de grandes marcas y comercios de importancia. Venta con Excelente Renta.&nbsp;<span style=\"font-size: 14px;\">Nota: Las medidas y superficies son aproximadas. Las definitivas surgirán de la escritura traslativa de dominio.</span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\">Dirección: Florida 500 (Entre: Tucumán y Lavalle)</span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><br></div><div>Muv Propiedades<br></div><div>Matrícula 515 CUCICBA</div><br>        \r\n        ", 
+      "development": null, 
+      "development_excel_extra_data": "[]", 
+      "dining_room": 0, 
+      "disposition": "Frente", 
+      "down_payment": "0.00", 
+      "expenses": 0, 
+      "extra_attributes": [], 
+      "fake_address": "Florida al 500", 
+      "files": [], 
+      "fire_insurance_cost": "0.00", 
+      "floor": "", 
+      "floors_amount": 0, 
+      "footer": "Muv Propiedades\nMatrícula 515 CUCICBA", 
+      "front_measure": "4.75", 
+      "geo_lat": "-34.601189", 
+      "geo_long": "-58.375227", 
+      "gm_location_type": "ROOFTOP", 
+      "guests_amount": 0, 
+      "has_temporary_rent": false, 
+      "id": 6806561, 
+      "internal_data": {
+        "commission": "", 
+        "cotization_users": [], 
+        "internal_comments": "Info local Nicolas\nFlorida 589\nPropietario: Nicolas Barmaimon (1123053768)\nMts. 278 por escritura (PB: 4,75 x 33 – SOTANO: 4,75 x 33 – Entrepiso)\nVenta: U$S 2.200.000\nSin expensas\nABL: \nVisitas: Coordinar con Nicolas.\nEstado: Alquilado hasta el 31 de julio de 2027. Inquilino paga el primer año USD 7.000 y el segundo año USD 7.500.\n", 
+        "key_location": "Unknown", 
+        "legally_checked": 3, 
+        "legally_checked_text": "", 
+        "maintenance_user": "", 
+        "network_information": "", 
+        "producer_comision": "0.00", 
+        "property_owners": [
+          {
+            "birthdate": null, 
+            "cellphone": " 5491123053768", 
+            "created_at": "2025-02-26T20:33:58", 
+            "document_number": "", 
+            "email": "", 
+            "id": 50814672, 
+            "name": "Nicolas Barmaimon", 
+            "other_email": "", 
+            "other_phone": "", 
+            "phone": "", 
+            "updated_at": "2025-06-05T21:30:43", 
+            "work_email": ""
+          }
+        ], 
+        "transaction_requirements": ""
+      }, 
+      "iptu": 0, 
+      "iptu_type": "No informado", 
+      "is_denounced": false, 
+      "is_starred_on_web": false, 
+      "legally_checked": "Desconocido", 
+      "livable_area": "0.00", 
+      "living_amount": 0, 
+      "location": {
+        "divisions": [], 
+        "full_location": "Argentina | Capital Federal | Centro (Capital Federal) | Microcentro", 
+        "id": 24699, 
+        "name": "Microcentro", 
+        "parent_division": "/api/v1/location/24697/", 
+        "short_location": "Capital Federal | Centro (Capital Federal) | Microcentro", 
+        "state": null, 
+        "weight": 18613, 
+        "zip_code": null
+      }, 
+      "location_level": null, 
+      "lot_number": "", 
+      "occupation": [], 
+      "operations": [
+        {
+          "operation_id": 1, 
+          "operation_type": "Venta", 
+          "prices": [
+            {
+              "currency": "USD", 
+              "is_promotional": false, 
+              "period": 0, 
+              "price": 1
+            }
+          ]
+        }
+      ], 
+      "orientation": null, 
+      "parking_lot_amount": 0, 
+      "parking_lot_condition": null, 
+      "parking_lot_type": null, 
+      "photos": [
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": true, 
+          "order": 0, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg", 
+          "social_media_url": "https://static.tokkobroker.com/sm_pics/119038907_og.jpg", 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_26517009714463140217199875502044818107438796569951191368489890311667963401431.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 1, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_26517009714463140217199875502044818107438796569951191368489890311667963401431.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_26517009714463140217199875502044818107438796569951191368489890311667963401431_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_104171846073080276897935092778453391282792782868646229376134455182782892987582.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 2, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_104171846073080276897935092778453391282792782868646229376134455182782892987582.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_104171846073080276897935092778453391282792782868646229376134455182782892987582_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_15138230530601488147260788799511948082554764295158061288912080918443896160240.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 3, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_15138230530601488147260788799511948082554764295158061288912080918443896160240.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_15138230530601488147260788799511948082554764295158061288912080918443896160240_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_51499900943988028566965050810943834123607862368938876105561513400295635925038.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 4, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_51499900943988028566965050810943834123607862368938876105561513400295635925038.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_51499900943988028566965050810943834123607862368938876105561513400295635925038_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_69745689825225187213440563449421122828237065883748913304167737574651680242099.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 5, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_69745689825225187213440563449421122828237065883748913304167737574651680242099.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_69745689825225187213440563449421122828237065883748913304167737574651680242099_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_95365601440511450788307734525186133677195246961181444076928885170262862523376.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 6, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_95365601440511450788307734525186133677195246961181444076928885170262862523376.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_95365601440511450788307734525186133677195246961181444076928885170262862523376_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_34226791510711307623618888656245623765399814631587411809458798819136493090323.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 7, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_34226791510711307623618888656245623765399814631587411809458798819136493090323.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_34226791510711307623618888656245623765399814631587411809458798819136493090323_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_56043486268049735291031323276544597686551826387727651331538340103803910445315.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 8, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_56043486268049735291031323276544597686551826387727651331538340103803910445315.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_56043486268049735291031323276544597686551826387727651331538340103803910445315_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_17489593719851350375358205536755231636665068658617976296420458614294419638470.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 9, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_17489593719851350375358205536755231636665068658617976296420458614294419638470.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_17489593719851350375358205536755231636665068658617976296420458614294419638470_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_91769411609972962941865857704410651064630046099845332800157638283065356215809.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 10, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_91769411609972962941865857704410651064630046099845332800157638283065356215809.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_91769411609972962941865857704410651064630046099845332800157638283065356215809_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_81817525837112988139110378465997000894183894751210335633442993419729591341486.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 11, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_81817525837112988139110378465997000894183894751210335633442993419729591341486.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_81817525837112988139110378465997000894183894751210335633442993419729591341486_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_49360796682489628074021456812683497442629712214811621428004915127180634194249.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 12, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_49360796682489628074021456812683497442629712214811621428004915127180634194249.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_49360796682489628074021456812683497442629712214811621428004915127180634194249_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_53938749935535504562730379067625125573555918600772566844872666595301241502497.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 13, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_53938749935535504562730379067625125573555918600772566844872666595301241502497.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_53938749935535504562730379067625125573555918600772566844872666595301241502497_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_3839290316498764738251120555558559427982758496333555707028413701174143641771.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 14, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_3839290316498764738251120555558559427982758496333555707028413701174143641771.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_3839290316498764738251120555558559427982758496333555707028413701174143641771_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_115010399645351003424231488410388743504153163068060118985503232756231731712538.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 15, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_115010399645351003424231488410388743504153163068060118985503232756231731712538.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_115010399645351003424231488410388743504153163068060118985503232756231731712538_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_77553236512660863806104139272209135097189301147378946980023259129674965677793.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 16, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_77553236512660863806104139272209135097189301147378946980023259129674965677793.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_77553236512660863806104139272209135097189301147378946980023259129674965677793_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_2238440667226186669731886940258259492595418775620793013779732007173296874675.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 17, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_2238440667226186669731886940258259492595418775620793013779732007173296874675.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_2238440667226186669731886940258259492595418775620793013779732007173296874675_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_115182870399162644363838777368974958139742071622910174977170419279152538524847.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 18, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_115182870399162644363838777368974958139742071622910174977170419279152538524847.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_115182870399162644363838777368974958139742071622910174977170419279152538524847_thumb.jpg"
+        }, 
+        {
+          "description": null, 
+          "image": "https://static.tokkobroker.com/w_pics/6806561_96010389306842263368502912764297593214595833004271562516777528093727112980268.jpg", 
+          "is_blueprint": false, 
+          "is_front_cover": false, 
+          "order": 19, 
+          "original": "https://static.tokkobroker.com/original_pictures/6806561_96010389306842263368502912764297593214595833004271562516777528093727112980268.jpg", 
+          "social_media_url": null, 
+          "thumb": "https://static.tokkobroker.com/thumbs/6806561_96010389306842263368502912764297593214595833004271562516777528093727112980268_thumb.jpg"
+        }
+      ], 
+      "private_area": "0.00", 
+      "producer": {
+        "cellphone": " 5491156582121", 
+        "email": "valentina@muvpropiedades.com", 
+        "id": 51994, 
+        "name": "Valentina Machado", 
+        "phone": "", 
+        "picture": "https://static.tokkobroker.com/static/img/user.png", 
+        "position": ""
+      }, 
+      "property_condition": "Excelente", 
+      "public_url": "https://ficha.info/p/eCIRpdnGMokKta", 
+      "publication_title": "Florida 500 - Local Comercial en Venta en el Centro Apto todo destino", 
+      "quality_level": null, 
+      "real_address": "Florida 589  VENTA C/Renta hasta Julio 2027", 
+      "reference_code": "MLO6806561", 
+      "rich_description": "                        Espectacular local en la mejor cuadra de calle peatonal Florida. Con frente de 4,75 x 33 mts de fondo más sótano y entrepiso con dos oficinas. 2 baños. Kichinette.<br>            <br>        <div>Apto todo destino, sin expensas y espacio aéreo propio. No tiene tiraje a los 4 vientos. <br></div><div>Cercano a los principales medios de transporte y gran caudal de tránsito peatonal. Rodeado de grandes marcas y comercios de importancia. Venta con Excelente Renta.&nbsp;<span style=\"font-size: 14px;\">Nota: Las medidas y superficies son aproximadas. Las definitivas surgirán de la escritura traslativa de dominio.</span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\">Dirección: Florida 500 (Entre: Tucumán y Lavalle)</span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><span style=\"font-size: 14px;\"><br></span></div><div><br></div><div>Muv Propiedades<br></div><div>Matrícula 515 CUCICBA</div><br>        \r\n        \n\nMuv Propiedades\nMatrícula 515 CUCICBA", 
+      "roofed_surface": "280.00", 
+      "room_amount": 1, 
+      "semiroofed_surface": "0.00", 
+      "seo_description": "", 
+      "seo_keywords": "", 
+      "situation": "Vacía ", 
+      "status": 2, 
+      "suite_amount": 0, 
+      "suites_with_closets": 0, 
+      "surface": "0.00", 
+      "surface_measurement": "M2", 
+      "tags": [
+        {
+          "id": 1, 
+          "name": "Agua Corriente", 
+          "type": 1
+        }, 
+        {
+          "id": 4, 
+          "name": "Internet", 
+          "type": 1
+        }, 
+        {
+          "id": 5, 
+          "name": "Electricidad", 
+          "type": 1
+        }, 
+        {
+          "id": 7, 
+          "name": "Teléfono", 
+          "type": 1
+        }, 
+        {
+          "id": 12, 
+          "name": "Cocina", 
+          "type": 2
+        }, 
+        {
+          "id": 17, 
+          "name": "Oficina", 
+          "type": 2
+        }, 
+        {
+          "id": 24, 
+          "name": "Sótano", 
+          "type": 2
+        }, 
+        {
+          "id": 26, 
+          "name": "Toilette", 
+          "type": 2
+        }, 
+        {
+          "id": 29, 
+          "name": "Alarma", 
+          "type": 3
+        }, 
+        {
+          "id": 1390, 
+          "name": "Luminoso", 
+          "type": 3
+        }, 
+        {
+          "id": 1507, 
+          "name": "Wifi", 
+          "type": 1
+        }, 
+        {
+          "id": 1603, 
+          "name": "Apto comercial", 
+          "type": 3
+        }, 
+        {
+          "id": 1707, 
+          "name": "Local", 
+          "type": 3
+        }
+      ], 
+      "toilet_amount": 1, 
+      "total_suites": 0, 
+      "total_surface": "280.00", 
+      "transaction_requirements": "", 
+      "tv_rooms": 0, 
+      "type": {
+        "code": "LO", 
+        "id": 7, 
+        "name": "Local"
+      }, 
+      "uncovered_parking_lot": 0, 
+      "unroofed_surface": "0.00", 
+      "videos": [], 
+      "web_price": true, 
+      "zonification": ""
+    }
+  ]
+}

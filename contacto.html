@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contacto | MUV Propiedades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#d5e0f7",
+                    "on-surface-variant": "#444748",
+                    "refined-gold": "#C5A059",
+                    "primary": "#000000",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c4c7c7",
+                    "inverse-primary": "#c8c6c5",
+                    "surface-container-highest": "#e1e3e4",
+                    "outline": "#747878",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1c1b1b",
+                    "inverse-on-surface": "#f0f1f2",
+                    "inverse-surface": "#2e3132",
+                    "on-surface": "#191c1d",
+                    "surface-container-high": "#e7e8e9",
+                    "off-white": "#F7F8F9",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "surface-tint": "#5f5e5e",
+                    "surface-variant": "#e1e3e4",
+                    "deep-charcoal": "#121212",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#edeeef",
+                    "on-error-container": "#93000a",
+                    "on-background": "#191c1d",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "pure-white": "#FFFFFF",
+                    "on-tertiary-fixed": "#261900",
+                    "on-secondary": "#ffffff",
+                    "background": "#f8f9fa",
+                    "on-primary-container": "#858383",
+                    "tertiary-fixed": "#ffdea5",
+                    "on-secondary-container": "#586377",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-dim": "#d9dadb",
+                    "secondary": "#545f72",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#f8f9fa",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "tertiary-container": "#261900",
+                    "tertiary": "#000000",
+                    "on-tertiary-container": "#a17f3b",
+                    "on-primary-fixed-variant": "#474746",
+                    "surface-container-low": "#f3f4f5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "secondary-fixed-dim": "#bcc7dd",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9fa",
+                    "on-secondary-fixed": "#111c2c",
+                    "slate-blue": "#4A5568",
+                    "secondary-fixed": "#d8e3fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "section-gap": "120px",
+                    "base": "8px",
+                    "gutter": "32px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-xl": ["Montserrat"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .form-input-focus {
+            transition: border-color 0.3s ease;
+        }
+        .form-input-focus:focus {
+            outline: none;
+            border-bottom-color: #4A5568; /* slate-blue */
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(248,249,250,1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-pure-white/90 dark:bg-deep-charcoal/90 backdrop-blur-md border-b border-outline-variant/30 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.04)]">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<a href="index.html" class="font-headline-md text-headline-md tracking-tighter text-deep-charcoal dark:text-pure-white cursor-pointer active:scale-95 transition-transform block">MUV Propiedades</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-lg text-label-lg text-secondary dark:text-surface-variant hover:text-primary dark:hover:text-pure-white transition-colors" href="/buscar.html">Propiedades</a>
+<a class="font-label-lg text-label-lg text-secondary dark:text-surface-variant hover:text-primary dark:hover:text-pure-white transition-colors" href="quienes_somos.html">Quiénes Somos</a>
+<a class="font-label-lg text-label-lg text-refined-gold font-bold border-b-2 border-refined-gold pb-1 transition-all duration-300" href="contacto.html">Contacto</a>
+<a href="/buscar.html?operation=1" class="text-center font-semibold text-xs tracking-wider uppercase bg-primary text-on-primary px-6 py-2 rounded-DEFAULT font-label-lg text-label-lg hover:opacity-80 transition-all duration-300 active:scale-95 flex items-center justify-center">Vender</a>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary text-3xl">menu</span>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative h-[409px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover grayscale opacity-20" data-alt="A cinematic, wide-angle shot of a minimalist architectural facade in Buenos Aires, featuring clean concrete lines and large glass panels. The scene is bathed in the soft, cool morning light of a modern urban environment, emphasizing architectural precision. The overall aesthetic is one of quiet luxury, professional security, and high-end real estate excellence, utilizing a sophisticated palette of grays and off-whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR0Xg-32_Zw7p-rgBodqsMQiiifJIJqcCGD1G2DtyPpi6tuU0L29s-UCLJofmbniU5WEXe4LcvnaY9CmHDVang-KrAOYXIs5wAAuKNtD1BwEQj13UH221dppcl1tY4fnUp6LKG89c8Z5C3n29gu2YdeItZppVclLvh43STm6ywv2rNojlca3UJZg54gVl5rRdAHxT6b0qetzh5hCFuxJWLbkNrrRLhA0egB4G6SGLk-T5tlvDMhpfk7ZXMMtVB8qjye6QcfD_uO-Q"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<div class="relative z-10 text-center">
+<h1 class="font-display-lg text-display-lg text-primary mb-2 tracking-tight">Contacto</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-xl mx-auto">Estamos aquí para asesorarte en tu próxima inversión inmobiliaria de lujo.</p>
+</div>
+</section>
+<!-- Main Content Grid -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Form -->
+<div class="lg:col-span-7 bg-pure-white p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.04)] rounded-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-12">Envíanos un mensaje</h2>
+<form class="space-y-10">
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-slate-blue mb-2 uppercase tracking-widest">Nombre</label>
+<input class="w-full border-0 border-b border-outline-variant bg-transparent py-3 px-0 font-body-md text-body-md form-input-focus placeholder:text-outline-variant" placeholder="Tu nombre completo" type="text"/>
+</div>
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-slate-blue mb-2 uppercase tracking-widest">Email</label>
+<input class="w-full border-0 border-b border-outline-variant bg-transparent py-3 px-0 font-body-md text-body-md form-input-focus placeholder:text-outline-variant" placeholder="correo@ejemplo.com" type="email"/>
+</div>
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-slate-blue mb-2 uppercase tracking-widest">Teléfono</label>
+<input class="w-full border-0 border-b border-outline-variant bg-transparent py-3 px-0 font-body-md text-body-md form-input-focus placeholder:text-outline-variant" placeholder="+54 11 0000 0000" type="tel"/>
+</div>
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-slate-blue mb-2 uppercase tracking-widest">Mensaje</label>
+<textarea class="w-full border-0 border-b border-outline-variant bg-transparent py-3 px-0 font-body-md text-body-md form-input-focus resize-none placeholder:text-outline-variant" placeholder="¿En qué podemos ayudarte?" rows="4"></textarea>
+</div>
+<div class="pt-4">
+<button class="bg-deep-charcoal text-pure-white px-10 py-4 rounded-DEFAULT font-label-lg text-label-lg hover:bg-primary transition-all duration-300 flex items-center gap-2 group" type="submit">
+                                Enviar Mensaje
+                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Right Column: Info -->
+<div class="lg:col-span-5 flex flex-col justify-between">
+<div class="space-y-12">
+<div>
+<h3 class="font-label-sm text-label-sm text-refined-gold uppercase tracking-[0.2em] mb-4">Nuestra Oficina</h3>
+<p class="font-headline-md text-headline-md text-primary mb-2">Av. del Libertador 4500</p>
+<p class="font-body-lg text-body-lg text-secondary">C1425 CABA, Argentina</p>
+</div>
+<div class="space-y-6">
+<a class="flex items-center gap-4 group" href="#">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center group-hover:bg-off-white transition-colors">
+<span class="material-symbols-outlined text-slate-blue">call</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase">Llámanos</p>
+<p class="font-body-md text-body-md text-primary font-semibold">+54 11 5555 1234</p>
+</div>
+</a>
+<a class="flex items-center gap-4 group" href="https://wa.me/5491155551234" target="_blank">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center group-hover:bg-off-white transition-colors">
+<span class="material-symbols-outlined text-slate-blue" data-icon="chat">chat</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase">WhatsApp</p>
+<p class="font-body-md text-body-md text-primary font-semibold">+54 9 11 5555 1234</p>
+</div>
+</a>
+<a class="flex items-center gap-4 group" href="/buscar.html">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center group-hover:bg-off-white transition-colors">
+<span class="material-symbols-outlined text-slate-blue">mail</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase">Email</p>
+<p class="font-body-md text-body-md text-primary font-semibold">info@muvpropiedades.com</p>
+</div>
+</a>
+</div>
+<div>
+<h3 class="font-label-sm text-label-sm text-outline uppercase tracking-widest mb-4">Redes Sociales</h3>
+<div class="flex gap-6">
+<a class="text-slate-blue hover:text-refined-gold transition-colors" href="#">Instagram</a>
+<a class="text-slate-blue hover:text-refined-gold transition-colors" href="#">LinkedIn</a>
+<a class="text-slate-blue hover:text-refined-gold transition-colors" href="#">Facebook</a>
+</div>
+</div>
+</div>
+<!-- Secondary CTA Card -->
+<div class="mt-12 bg-surface-container-low p-8 rounded-lg border-l-4 border-refined-gold">
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Vende tu propiedad con los expertos</h4>
+<p class="font-body-md text-body-md text-secondary mb-6">Tasaciones profesionales y alcance internacional para tu propiedad de lujo.</p>
+<a class="font-label-lg text-label-lg text-refined-gold flex items-center gap-2 hover:opacity-70 transition-opacity" href="contacto.html">
+                            Solicitar Tasación <span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Section -->
+<section class="w-full h-[500px] relative">
+<div class="absolute inset-0 bg-surface-container-highest">
+<div class="w-full h-full grayscale opacity-80" data-location="Recoleta, Buenos Aires" style="">
+<!-- Map placeholder logic would go here -->
+<iframe allowfullscreen="" height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13138.647576203254!2d-58.406983083042165!3d-34.5843109312109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb59a0f443b3b%3A0x7d0138981447608!2sPalermo%2C%20CABA!5e0!3m2!1ses!2sar!4v1715694200000!5m2!1ses!2sar" style="border:0;" width="100%"></iframe>
+</div>
+</div>
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-pure-white px-8 py-4 shadow-xl flex items-center gap-4 rounded-full">
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-label-lg text-label-lg">Visítanos en Recoleta / Palermo</span>
+</div>
+</section><!-- Footer (Matches screenshot light styling with columns and social card) -->
+<footer class="bg-[#F7F8F9] text-primary pt-16 pb-8 border-t border-outline-variant/30 mt-16">
+    <div class="max-w-container-max mx-auto px-margin-desktop">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16 text-left">
+            <!-- Col 1: Rounded Black Logo Card with Social Icons -->
+            <div class="md:col-span-4">
+                <div class="bg-black text-pure-white rounded-2xl p-8 flex flex-col justify-between h-[160px] w-full max-w-[265px] mb-8">
+                    <div class="font-headline-xl text-[44px] font-bold tracking-tight leading-none text-pure-white select-none">muv</div>
+                    <div class="flex gap-4 items-center">
+                        <!-- Facebook SVG Icon -->
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <!-- Instagram SVG Icon -->
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Col 2: Inmuebles -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Inmuebles</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=1">Venta</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=2">Alquiler</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Tasación</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 3: Empresa -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Empresa</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="quienes_somos.html">Quiénes somos</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Contacto</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">FAQ's</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Trabajá con nosotros</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 4: MUV -->
+            <div class="md:col-span-4">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">MUV</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a href="tel:+541148054192" class="hover:text-refined-gold transition-colors">(011) 4805-4192</a></li>
+                    <li><a href="https://wa.me/5491122862000" target="_blank" rel="noopener noreferrer" class="hover:text-refined-gold transition-colors">(+549) 11 2286 2000</a></li>
+                    <li><a href="mailto:info@muvpropiedades.com" class="hover:text-refined-gold transition-colors">info@muvpropiedades.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-secondary/70">
+            <p>© 2025 MUV Propiedades · Todos los derechos reservados · Términos y Condiciones · Política de Privacidad</p>
+        </div>
+    </div>
+</footer>
+</main>
+<script>
+        // Simple form interaction
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = 'Enviando...';
+            btn.classList.add('opacity-50');
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Enviado con éxito';
+                btn.classList.remove('bg-deep-charcoal');
+                btn.classList.add('bg-green-700');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('bg-green-700', 'opacity-50');
+                    btn.classList.add('bg-deep-charcoal');
+                    btn.disabled = false;
+                    e.target.reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Sticky nav transition
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+    </script>
+</body></html>

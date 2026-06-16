@@ -1,0 +1,281 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SearchFilters from '../components/SearchFilters.astro';
+import PropertyGrid from '../components/PropertyGrid.astro';
+import { getProperties } from '../lib/tokko';
+
+// Extract query parameters from URL for search filters
+const url = Astro.url;
+const q = url.searchParams.get('q') || '';
+const location = url.searchParams.get('location') || '';
+const operationId = url.searchParams.get('operation_id') || '';
+const propertyTypeId = url.searchParams.get('property_type_id') || '';
+const priceMin = url.searchParams.get('price_min') || '';
+const priceMax = url.searchParams.get('price_max') || '';
+const rooms = url.searchParams.get('rooms') || '';
+const bedrooms = url.searchParams.get('bedrooms') || '';
+const amenities = url.searchParams.getAll('amenities') || [];
+const currentPage = Number(url.searchParams.get('page') || '1');
+
+// Fetch properties with SSR filters
+const limit = 6; // items per page
+const { properties, total } = await getProperties({
+  q,
+  location,
+  operation_id: operationId,
+  property_type_id: propertyTypeId,
+  price_min: priceMin,
+  price_max: priceMax,
+  rooms,
+  bedrooms,
+  amenities
+});
+
+// Calculate pagination
+const startIndex = (currentPage - 1) * limit;
+const endIndex = startIndex + limit;
+const paginatedProperties = properties.slice(startIndex, endIndex);
+const totalPages = Math.ceil(properties.length / limit) || 1;
+
+// Active chips labels helper
+interface ActiveChip {
+  key: string;
+  value?: string;
+  label: string;
+}
+const activeChips: ActiveChip[] = [];
+if (q) activeChips.push({ key: 'q', label: `Búsqueda: "${q}"` });
+if (location) activeChips.push({ key: 'location', label: `Barrio: ${location}` });
+if (operationId === '1') activeChips.push({ key: 'operation_id', label: 'Venta' });
+if (operationId === '2') activeChips.push({ key: 'operation_id', label: 'Alquiler' });
+if (propertyTypeId === '2') activeChips.push({ key: 'property_type_id', label: 'Departamento' });
+if (propertyTypeId === '3') activeChips.push({ key: 'property_type_id', label: 'Casa' });
+if (propertyTypeId === '4') activeChips.push({ key: 'property_type_id', label: 'PH' });
+if (propertyTypeId === '7') activeChips.push({ key: 'property_type_id', label: 'Local' });
+if (priceMin && priceMin !== '50000') activeChips.push({ key: 'price_min', label: `Desde USD ${new Intl.NumberFormat('es-AR').format(Number(priceMin))}` });
+if (priceMax && priceMax !== '2500000') activeChips.push({ key: 'price_max', label: `Hasta USD ${new Intl.NumberFormat('es-AR').format(Number(priceMax))}` });
+if (rooms) activeChips.push({ key: 'rooms', label: `${rooms} Ambientes` });
+if (bedrooms) activeChips.push({ key: 'bedrooms', label: `${bedrooms} Dormitorios` });
+
+if (Array.isArray(amenities)) {
+  amenities.forEach(am => {
+    activeChips.push({ key: 'amenities', value: am, label: am });
+  });
+}
+
+// Dynamic Title and SEO Title Helper
+let pageTitle = 'Propiedades Residenciales';
+let seoTitle = 'Propiedades Residenciales | MUV Propiedades';
+
+if (operationId === '1') {
+  pageTitle = 'Propiedades en Venta';
+  seoTitle = 'Propiedades en Venta | MUV Propiedades';
+} else if (operationId === '2') {
+  pageTitle = 'Propiedades en Alquiler';
+  seoTitle = 'Propiedades en Alquiler | MUV Propiedades';
+}
+
+if (location) {
+  pageTitle += ` en ${location}`;
+  seoTitle = `${pageTitle} | MUV Propiedades`;
+}
+---
+
+<MainLayout title={seoTitle} isDarkHero={false}>
+    <main class="pt-32 min-h-[70vh] bg-surface select-none">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-8 pb-24">
+            
+            <!-- Page Banner Header -->
+            <div class="text-left space-y-2">
+                <h1 class="font-headline-xl text-3xl md:text-4xl text-primary font-semibold tracking-tight">{pageTitle}</h1>
+                <div class="w-12 h-[3px] bg-refined-gold"></div>
+            </div>
+
+            <!-- Main Split Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+                
+                <!-- Desktop Sidebar Filters -->
+                <aside class="hidden lg:block lg:col-span-4 bg-pure-white p-6 border border-outline-variant/30 rounded-lg shadow-sm sticky top-28">
+                    <h2 class="font-headline-md text-sm text-primary font-bold mb-4 uppercase tracking-wider">Filtros de búsqueda</h2>
+                    <SearchFilters />
+                </aside>
+
+                <!-- Mobile Floating Filter Button Trigger -->
+                <div class="lg:hidden flex justify-between items-center bg-pure-white p-4 border border-outline-variant/30 rounded shadow-sm w-full">
+                    <span class="text-xs font-semibold text-secondary uppercase">{total} propiedades encontradas</span>
+                    <button 
+                      id="btn-mobile-filters" 
+                      class="bg-primary text-pure-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-2"
+                    >
+                        <span class="material-symbols-outlined text-[16px]">tune</span>
+                        <span>Filtros</span>
+                    </button>
+                </div>
+
+                <!-- Properties List Column -->
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <!-- Search summary, layout toggle and active chips row -->
+                    <div class="flex flex-col gap-4 w-full">
+                        <div class="flex items-center justify-between w-full">
+                            <div class="hidden lg:block text-xs font-semibold text-secondary uppercase">
+                                {total} propiedades encontradas
+                            </div>
+                            <!-- Layout Switcher Toggle (Grid vs List) -->
+                            <div class="flex items-center gap-1 bg-surface-container-low border border-outline-variant/30 rounded-lg p-0.5 select-none">
+                                <button 
+                                  type="button" 
+                                  id="btn-layout-grid" 
+                                  class="w-8 h-8 rounded-md flex items-center justify-center transition-all bg-primary text-pure-white" 
+                                  aria-label="Vista cuadrícula"
+                                >
+                                    <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                                </button>
+                                <button 
+                                  type="button" 
+                                  id="btn-layout-list" 
+                                  class="w-8 h-8 rounded-md flex items-center justify-center transition-all text-secondary hover:text-primary" 
+                                  aria-label="Vista lista"
+                                >
+                                    <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Active filters tags -->
+                        {activeChips.length > 0 && (
+                            <div class="flex flex-wrap gap-2 items-center">
+                                <span class="text-[10px] uppercase font-bold text-secondary tracking-wider">Filtros:</span>
+                                {activeChips.map((chip) => (
+                                    <button 
+                                      class="chip-remove bg-surface-container-high text-primary px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 hover:bg-[#C5A880] hover:text-pure-white transition-colors"
+                                      data-key={chip.key}
+                                      data-value={chip.value || ''}
+                                    >
+                                        <span>{chip.label}</span>
+                                        <span class="material-symbols-outlined text-[14px]">close</span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <!-- Property Cards Grid -->
+                    <PropertyGrid 
+                      properties={paginatedProperties} 
+                      currentPage={currentPage} 
+                      totalPages={totalPages} 
+                    />
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Drawer Modal for Filters -->
+    <div id="mobile-drawer" class="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm hidden select-none">
+        <div class="fixed top-0 right-0 bottom-0 w-80 bg-pure-white p-6 flex flex-col space-y-6 shadow-2xl overflow-y-auto">
+            <div class="flex justify-between items-center pb-4 border-b border-outline-variant/30">
+                <span class="font-headline-md text-sm text-primary font-bold uppercase">Filtrar búsqueda</span>
+                <span class="material-symbols-outlined cursor-pointer text-primary" id="btn-close-drawer">close</span>
+            </div>
+            <SearchFilters />
+        </div>
+    </div>
+</MainLayout>
+
+<script>
+  // Mobile drawer interactions
+  const openBtn = document.getElementById('btn-mobile-filters');
+  const closeBtn = document.getElementById('btn-close-drawer');
+  const drawer = document.getElementById('mobile-drawer');
+
+  if (openBtn && drawer) {
+    openBtn.addEventListener('click', () => {
+      drawer.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  if (closeBtn && drawer) {
+    closeBtn.addEventListener('click', () => {
+      drawer.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+    // Click outside to close
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) {
+        drawer.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // Active filter tags (chips) click handlers to clear values
+  document.querySelectorAll('.chip-remove').forEach((chip: any) => {
+    chip.addEventListener('click', () => {
+      const key = chip.dataset.key;
+      const val = chip.dataset.value;
+      const url = new URL(window.location.href);
+      
+      if (key === 'amenities' && val) {
+        const currentAms = url.searchParams.getAll('amenities');
+        url.searchParams.delete('amenities');
+        currentAms.forEach(am => {
+          if (am !== val) {
+            url.searchParams.append('amenities', am);
+          }
+        });
+      } else {
+        url.searchParams.delete(key);
+      }
+      
+      url.searchParams.set('page', '1'); // reset pagination
+      window.location.href = url.pathname + url.search;
+    });
+  });
+
+  // Layout switcher Grid vs List
+  const gridBtn = document.getElementById('btn-layout-grid');
+  const listBtn = document.getElementById('btn-layout-list');
+  const gridContainer = document.getElementById('property-grid-container');
+  const gridOuter = document.getElementById('property-grid-outer');
+
+  const setViewLayout = (layout: 'grid' | 'list') => {
+    if (!gridContainer || !gridOuter || !gridBtn || !listBtn) return;
+    
+    if (layout === 'list') {
+      gridContainer.classList.remove('grid-cols-1', 'md:grid-cols-2', 'gap-8');
+      gridContainer.classList.add('grid-cols-1', 'gap-6');
+      gridOuter.classList.add('list-view-active');
+      
+      listBtn.classList.remove('text-secondary', 'hover:text-primary');
+      listBtn.classList.add('bg-primary', 'text-pure-white');
+      gridBtn.classList.remove('bg-primary', 'text-pure-white');
+      gridBtn.classList.add('text-secondary', 'hover:text-primary');
+      
+      localStorage.setItem('muv-search-layout', 'list');
+    } else {
+      gridContainer.classList.add('grid-cols-1', 'md:grid-cols-2', 'gap-8');
+      gridContainer.classList.remove('grid-cols-1', 'gap-6');
+      gridOuter.classList.remove('list-view-active');
+      
+      gridBtn.classList.remove('text-secondary', 'hover:text-primary');
+      gridBtn.classList.add('bg-primary', 'text-pure-white');
+      listBtn.classList.remove('bg-primary', 'text-pure-white');
+      listBtn.classList.add('text-secondary', 'hover:text-primary');
+      
+      localStorage.setItem('muv-search-layout', 'grid');
+    }
+  };
+
+  if (gridBtn && listBtn) {
+    gridBtn.addEventListener('click', () => setViewLayout('grid'));
+    listBtn.addEventListener('click', () => setViewLayout('list'));
+    
+    // Initialize layout from localStorage
+    const savedLayout = localStorage.getItem('muv-search-layout') as 'grid' | 'list' | null;
+    if (savedLayout) {
+      setViewLayout(savedLayout);
+    }
+  }
+</script>

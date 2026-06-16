@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades | MUV Propiedades</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols Outlined -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#0B1325',
+              'refined-gold': '#C5A880',
+              'slate-blue': '#5B6675',
+              'pure-white': '#FFFFFF',
+              'off-white': '#F8FAFC',
+              'outline-variant': '#E2E8F0',
+              'background': '#F8FAFC',
+              'surface-dim': '#E4E7EB',
+              'error': '#DC2626'
+            },
+            fontFamily: {
+              'headline': ['Montserrat', 'sans-serif'],
+              'body': ['Inter', 'sans-serif'],
+            },
+            maxWidth: {
+              'container-max': '1280px',
+            },
+            padding: {
+              'margin-desktop': '5%',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /* Custom range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #C5A880;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border: none;
+            border-radius: 50%;
+            background: #C5A880;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+        /* Custom scrollbar for desktop filters */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Card image carousel and badge styles */
+        .card-carousel-container {
+            position: relative;
+            aspect-ratio: 3 / 2;
+            overflow: hidden;
+        }
+        .card-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.85);
+            border: none;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+        .card-carousel-btn:hover {
+            color: #fff;
+            transform: translateY(-50%) scale(1.2);
+        }
+        .card-carousel-btn-left {
+            left: 8px;
+        }
+        .card-carousel-btn-right {
+            right: 8px;
+        }
+        .card-zoom-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            border: none;
+        }
+        .card-zoom-btn:hover {
+            background: rgba(0, 0, 0, 0.85);
+            transform: scale(1.05);
+        }
+        .luxury-card:hover .card-img {
+            transform: scale(1.03);
+        }
+        .card-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-primary font-body overflow-x-hidden relative">
+
+<!-- Top Navigation Bar -->
+<nav id="topNav" class="fixed top-0 w-full z-50 transition-all duration-300 bg-pure-white py-4 text-primary border-b border-outline-variant/30 shadow-sm">
+    <div class="flex justify-between items-center px-margin-desktop max-w-container-max mx-auto">
+        <a href="index.html" class="flex items-center gap-4">
+            <div class="flex items-center gap-1.5">
+                <span class="font-headline font-black text-2xl tracking-tighter text-primary">M</span>
+                <img id="logo-img" src="assets/imgi_188_MUV-WEB_LOGO-NEGRO.png" alt="MUV Propiedades Logo" class="h-10 w-auto rounded opacity-90">
+            </div>
+        </a>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-body text-xs font-bold uppercase tracking-wider text-primary border-b-2 border-primary pb-1" href="buscar.html">Propiedades</a>
+            <a class="font-body text-xs font-semibold uppercase tracking-wider text-primary/75 hover:text-refined-gold transition-colors" href="quienes_somos.html">Quiénes Somos</a>
+            <a class="font-body text-xs font-semibold uppercase tracking-wider text-primary/75 hover:text-refined-gold transition-colors" href="contacto.html">Contacto</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="contacto.html" class="border border-outline-variant text-primary hover:bg-off-white px-5 py-2 font-body text-[11px] font-bold uppercase tracking-wider transition-all duration-300">
+                Tasaciones
+            </a>
+            <a href="contacto.html" class="bg-black text-white hover:bg-primary px-5 py-2 font-body text-[11px] font-bold uppercase tracking-wider transition-all duration-300">
+                Vender
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header Space with Search Block -->
+<div class="pt-32 pb-16 bg-off-white text-primary text-center border-b border-outline-variant/20">
+    <div class="max-w-4xl mx-auto px-4 space-y-6">
+        <h1 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-primary">Encontrá tu próximo hogar</h1>
+        
+        <!-- Search bar card -->
+        <div class="max-w-2xl mx-auto bg-pure-white rounded-lg shadow-md border border-outline-variant/30 p-2 flex items-center gap-2">
+            <div class="flex-grow flex items-center gap-3 pl-3">
+                <span class="material-symbols-outlined text-slate-blue/40">search</span>
+                <input id="header-search-input" type="text" placeholder="Barrio, calle o palabra clave..." class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-sm text-primary placeholder:text-slate-blue/40">
+            </div>
+            <button onclick="triggerHeaderSearch()" class="bg-[#C5A880] hover:bg-[#B3966E] text-pure-white px-6 py-2.5 font-headline text-xs font-bold uppercase tracking-wider transition-colors duration-200">
+                Buscar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Search Layout Container -->
+<div class="max-w-container-max mx-auto px-margin-desktop py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    
+    <!-- Sidebar Filters Container (Left Column) -->
+    <aside id="filterSidebar" class="lg:col-span-1 hidden lg:block bg-pure-white p-6 border border-outline-variant/30 shadow-sm space-y-6 h-fit sticky top-28 scrollbar-thin overflow-y-auto max-h-[85vh]">
+        <div class="border-b border-outline-variant/20 pb-3">
+            <h3 class="font-headline font-extrabold text-sm text-primary uppercase tracking-wider">Filtros</h3>
+        </div>
+        
+        <!-- Operation Type select -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Operación</label>
+            <div class="relative">
+                <select id="filter-operation" onchange="applyFilters()" class="w-full bg-off-white border border-outline-variant/40 rounded px-3 py-2 text-sm text-primary focus:border-refined-gold focus:outline-none transition-all cursor-pointer appearance-none pr-8">
+                    <option value="1">Venta</option>
+                    <option value="2">Alquiler</option>
+                    <option value="3">Alquiler Temporal</option>
+                </select>
+                <span class="material-symbols-outlined text-slate-blue/50 absolute right-3 top-2.5 text-sm pointer-events-none">expand_more</span>
+            </div>
+        </div>
+
+        <!-- Location select -->
+        <div class="space-y-2 relative">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Ubicación</label>
+            <div class="relative">
+                <input id="location-input" type="text" placeholder="Todos los barrios" class="w-full bg-off-white border border-outline-variant/40 rounded px-3 py-2 text-sm text-primary placeholder:text-slate-blue focus:border-refined-gold focus:outline-none transition-all" autocomplete="off">
+                <input id="location-id" type="hidden" value="">
+                <button id="clear-location" class="hidden absolute right-8 top-2.5 text-xs text-slate-blue/50 hover:text-error select-none font-bold">X</button>
+                <span class="material-symbols-outlined text-slate-blue/50 absolute right-3 top-2.5 text-sm pointer-events-none">expand_more</span>
+            </div>
+            <!-- Dynamic dropdown suggestions -->
+            <div id="location-suggestions" class="absolute left-0 right-0 mt-1 bg-pure-white border border-outline-variant/30 rounded shadow-lg z-30 max-h-48 overflow-y-auto hidden text-sm">
+                <!-- dyn populated -->
+            </div>
+        </div>
+
+        <!-- Property type select -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Propiedad</label>
+            <div class="relative">
+                <select id="filter-prop-type" onchange="applyFilters()" class="w-full bg-off-white border border-outline-variant/40 rounded px-3 py-2 text-sm text-primary focus:border-refined-gold focus:outline-none transition-all cursor-pointer appearance-none pr-8">
+                    <option value="">Todos los Tipos</option>
+                    <option value="2">Departamento</option>
+                    <option value="1">Casa</option>
+                    <option value="3">PH</option>
+                    <option value="5">Local Comercial</option>
+                    <option value="6">Oficina</option>
+                    <option value="4">Terreno / Lote</option>
+                </select>
+                <span class="material-symbols-outlined text-slate-blue/50 absolute right-3 top-2.5 text-sm pointer-events-none">expand_more</span>
+            </div>
+        </div>
+
+        <!-- Price Range Slider -->
+        <div class="space-y-3">
+            <div class="flex justify-between items-center">
+                <label id="price-slider-label" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Rango de Precio (USD)</label>
+                <div class="flex gap-1.5 text-[9px] font-bold">
+                    <button type="button" onclick="setCurrency('USD')" id="curr-btn-USD" class="px-1.5 py-0.5 rounded bg-primary text-pure-white transition-all">USD</button>
+                    <button type="button" onclick="setCurrency('ARS')" id="curr-btn-ARS" class="px-1.5 py-0.5 rounded bg-off-white text-slate-blue transition-all">ARS</button>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <input id="price-slider" type="range" min="0" max="2000000" step="50000" value="2000000" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#C5A880]" oninput="updatePriceSlider(this.value)" onchange="applyFilters()">
+                <div class="flex justify-between text-[10px] text-slate-blue/70 font-semibold">
+                    <span>0</span>
+                    <span id="price-slider-value">2.000.000+</span>
+                </div>
+                <!-- Hidden inputs for mapping to query -->
+                <input id="filter-price-min" type="hidden" value="0">
+                <input id="filter-price-max" type="hidden" value="">
+            </div>
+        </div>
+
+        <!-- Environments Counter buttons -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Ambientes</label>
+            <div class="grid grid-cols-4 gap-2">
+                <button type="button" onclick="setRooms(1)" id="rooms-btn-1" class="rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all">1</button>
+                <button type="button" onclick="setRooms(2)" id="rooms-btn-2" class="rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all">2</button>
+                <button type="button" onclick="setRooms(3)" id="rooms-btn-3" class="rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all">3</button>
+                <button type="button" onclick="setRooms(4)" id="rooms-btn-4" class="rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all">4+</button>
+            </div>
+            <input id="filter-rooms" type="hidden" value="">
+        </div>
+
+        <!-- Amenities checkboxes grid -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Amenities</label>
+            <div class="grid grid-cols-2 gap-2 text-xs font-medium text-slate-blue">
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Piscina" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Pileta</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Parrilla" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Parrilla</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="SUM" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>SUM</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Seguridad" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Seguridad</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Cochera" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Cochera</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Gimnasio" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Gimnasio</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Balcón" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Balcón</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+                    <input type="checkbox" value="Apto profesional" class="filter-amenity accent-primary w-4 h-4 rounded border-gray-300"> <span>Apto Profesional</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-3 pt-4 border-t border-outline-variant/10">
+            <button onclick="applyFilters()" class="w-full bg-black text-pure-white py-3 rounded font-headline text-xs font-bold uppercase tracking-wider hover:bg-refined-gold hover:text-primary transition-all duration-300">
+                Aplicar Filtros
+            </button>
+            <button onclick="resetFilters()" class="w-full text-center text-xs text-slate-blue/70 hover:text-primary hover:underline transition-colors block py-1">
+                Limpiar filtros
+            </button>
+        </div>
+    </aside>
+
+    <!-- Results Block Column (Right Column) -->
+    <main class="lg:col-span-3 space-y-6">
+        
+        <!-- Header: result count, active chips, sorting selector -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-outline-variant/20 pb-4">
+            <div>
+                <h2 class="font-headline font-bold text-2xl text-primary" id="results-title">Propiedades en Buenos Aires</h2>
+                <span id="results-count" class="font-body text-xs text-slate-blue/70 block mt-1">Cargando propiedades...</span>
+            </div>
+            
+            <!-- Sort dropdown -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs text-slate-blue whitespace-nowrap">Ordenar por:</span>
+                <div class="relative">
+                    <select id="sort-order" onchange="applySort()" class="bg-transparent border-none py-1 pl-1 pr-6 text-xs font-bold text-primary focus:outline-none cursor-pointer appearance-none">
+                        <option value="recent">Más recientes</option>
+                        <option value="price_asc">Menor precio</option>
+                        <option value="price_desc">Mayor precio</option>
+                    </select>
+                    <span class="material-symbols-outlined text-slate-blue/50 absolute right-0 top-1 text-xs pointer-events-none">expand_more</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Active Filter Chips Container -->
+        <div id="active-chips" class="flex flex-wrap gap-2 items-center text-xs empty:hidden">
+            <!-- chips populated dynamically -->
+        </div>
+        
+        <!-- Grid of Property Cards: 2 Columns on Desktop! -->
+        <div id="property-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Skeletons populated dynamically -->
+        </div>
+        
+        <!-- Pagination controls -->
+        <div id="pagination-container" class="hidden flex items-center justify-center gap-4 py-8">
+            <button id="btn-prev-page" onclick="prevPage()" class="w-10 h-10 border border-outline-variant/60 flex items-center justify-center text-primary/70 hover:border-primary transition-colors bg-pure-white">
+                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <span id="page-indicator" class="font-body text-xs font-semibold text-primary">Página 1 de 21</span>
+            <button id="btn-next-page" onclick="nextPage()" class="w-10 h-10 border border-outline-variant/60 flex items-center justify-center text-primary/70 hover:border-primary transition-colors bg-pure-white">
+                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+        </div>
+    </main>
+</div>
+
+<!-- Floating Filters Button for Mobile -->
+<div class="lg:hidden fixed bottom-6 right-6 z-40">
+    <button onclick="toggleMobileFilters(true)" class="bg-primary text-pure-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-2 font-headline font-bold text-xs uppercase tracking-wider border border-white/10 active:scale-95 transition-transform">
+        <span class="material-symbols-outlined text-[18px]">tune</span> Filtros
+    </button>
+</div>
+
+<!-- Mobile Drawer Backdrop for Filters Panel -->
+<div id="mobile-filter-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
+
+<!-- Mobile Drawer Filters Container -->
+<div id="mobile-filter-drawer" class="fixed top-0 bottom-0 right-0 w-[85%] max-w-sm bg-pure-white z-50 p-6 flex flex-col justify-between shadow-2xl translate-x-full transition-transform duration-300 ease-out">
+    <div class="flex justify-between items-center border-b border-outline-variant/20 pb-3 mb-4">
+        <h3 class="font-headline font-bold text-sm text-primary uppercase tracking-wider">Filtros</h3>
+        <button onclick="toggleMobileFilters(false)" class="text-slate-blue hover:text-primary p-1">
+            <span class="material-symbols-outlined text-[24px]">close</span>
+        </button>
+    </div>
+    
+    <!-- Overflow-y container for mobile filter form -->
+    <div id="mobile-filters-form" class="flex-grow overflow-y-auto space-y-6 pr-1 pb-6 scrollbar-thin">
+        <!-- Dyn cloned from desktop sidebar on load -->
+    </div>
+    
+    <!-- Mobile sticky buttons -->
+    <div class="pt-4 border-t border-outline-variant/20 grid grid-cols-2 gap-4">
+        <button onclick="resetFilters(); toggleMobileFilters(false);" class="border border-outline-variant/50 text-slate-blue py-3 rounded font-headline text-xs font-bold uppercase tracking-wider text-center">
+            Limpiar
+        </button>
+        <button onclick="applyFilters(); toggleMobileFilters(false);" class="bg-primary text-pure-white py-3 rounded font-headline text-xs font-bold uppercase tracking-wider text-center">
+            Ver propiedades
+        </button>
+    </div>
+</div>
+
+<!-- Footer (Matches screenshot light styling with columns and social card) -->
+<footer class="bg-[#F7F8F9] text-primary pt-16 pb-8 border-t border-outline-variant/30 mt-16">
+    <div class="max-w-container-max mx-auto px-margin-desktop">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16 text-left">
+            <!-- Col 1: Rounded Black Logo Card with Social Icons -->
+            <div class="md:col-span-4">
+                <div class="bg-black text-pure-white rounded-2xl p-8 flex flex-col justify-between h-[160px] w-full max-w-[265px] mb-8">
+                    <div class="font-headline-xl text-[44px] font-bold tracking-tight leading-none text-pure-white select-none">muv</div>
+                    <div class="flex gap-4 items-center">
+                        <!-- Facebook SVG Icon -->
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <!-- Instagram SVG Icon -->
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Col 2: Inmuebles -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Inmuebles</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=1">Venta</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=2">Alquiler</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Tasación</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 3: Empresa -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Empresa</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="quienes_somos.html">Quiénes somos</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Contacto</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">FAQ's</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Trabajá con nosotros</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 4: MUV -->
+            <div class="md:col-span-4">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">MUV</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a href="tel:+541148054192" class="hover:text-refined-gold transition-colors">(011) 4805-4192</a></li>
+                    <li><a href="https://wa.me/5491122862000" target="_blank" rel="noopener noreferrer" class="hover:text-refined-gold transition-colors">(+549) 11 2286 2000</a></li>
+                    <li><a href="mailto:info@muvpropiedades.com" class="hover:text-refined-gold transition-colors">info@muvpropiedades.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-secondary/70">
+            <p>© 2025 MUV Propiedades · Todos los derechos reservados · Términos y Condiciones · Política de Privacidad</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none">
+    <!-- Top Toolbar -->
+    <div class="w-full flex justify-between items-center max-w-7xl mx-auto text-pure-white">
+        <div class="font-label-lg text-label-lg tracking-wider" id="lightbox-counter">1 / 1</div>
+        <button onclick="closeLightbox()" class="p-2 hover:bg-white/10 rounded-full transition-all active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px]">close</span>
+        </button>
+    </div>
+
+    <!-- Main Image Content -->
+    <div class="relative w-full flex items-center justify-center flex-grow">
+        <button id="prev-lightbox" onclick="prevLightboxImage()" class="absolute left-2 md:left-4 z-10 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+        </button>
+
+        <img id="lightbox-image" class="max-h-[70vh] max-w-full object-contain rounded transition-all duration-300" src="" alt="Lightbox View">
+
+        <button id="next-lightbox" onclick="nextLightboxImage()" class="absolute right-2 md:right-4 z-10 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+        </button>
+    </div>
+
+    <!-- Thumbnails Area -->
+    <div class="w-full max-w-7xl mx-auto overflow-x-auto py-4 scrollbar-hide flex gap-2 justify-center" id="lightbox-thumbnails"></div>
+</div>
+
+<!-- Search Controller script block -->
+<script>
+    const cardPhotos = {};
+    const cardCurrentIndex = {};
+    let lightboxPhotos = [];
+    let lightboxCurrentIdx = 0;
+
+    let activeOperationId = 1; // 1 = Venta, 2 = Alquiler, 3 = Temporal
+    let activeCurrency = 'USD';
+    let currentPage = 0;
+    const limit = 6; // Grid of 2 columns, loading 6 properties per page
+    let totalProperties = 0;
+    let totalPages = 1;
+
+    // Autocomplete State
+    let selectedLocationId = "";
+    let autocompleteTimeout = null;
+    const favoritesKey = 'muv_favorites';
+
+    // Get current favorites list
+    function getFavorites() {
+        try {
+            return JSON.parse(localStorage.getItem(favoritesKey)) || [];
+        } catch {
+            return [];
+        }
+    }
+
+    // Toggle favorite item
+    window.toggleFavorite = function(id, event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+        let favs = getFavorites();
+        const idx = favs.indexOf(id);
+        const icon = document.getElementById(`fav-icon-${id}`);
+        
+        if (idx > -1) {
+            favs.splice(idx, 1);
+            if (icon) {
+                icon.style.fontVariationSettings = "'FILL' 0";
+                icon.classList.remove('text-error');
+                icon.classList.add('text-primary/70');
+            }
+        } else {
+            favs.push(id);
+            if (icon) {
+                icon.style.fontVariationSettings = "'FILL' 1";
+                icon.classList.add('text-error');
+                icon.classList.remove('text-primary/70');
+            }
+        }
+        localStorage.setItem(favoritesKey, JSON.stringify(favs));
+    };
+
+    // Update favorites icon highlights
+    function updateFavoritesUI() {
+        const favs = getFavorites();
+        favs.forEach(id => {
+            const icon = document.getElementById(`fav-icon-${id}`);
+            if (icon) {
+                icon.style.fontVariationSettings = "'FILL' 1";
+                icon.classList.add('text-error');
+                icon.classList.remove('text-primary/70');
+            }
+        });
+    }
+
+    // Load initial parameters from URL query params
+    function loadParamsFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Operation
+        if (urlParams.has('operation')) {
+            activeOperationId = parseInt(urlParams.get('operation'));
+        }
+        document.getElementById('filter-operation').value = activeOperationId;
+        
+        // Property Type
+        if (urlParams.has('type')) {
+            document.getElementById('filter-prop-type').value = urlParams.get('type');
+        }
+        
+        // Keyword Search Query
+        if (urlParams.has('q')) {
+            const qVal = urlParams.get('q');
+            document.getElementById('filter-query').value = qVal;
+            document.getElementById('header-search-input').value = qVal;
+        }
+
+        // Location Id & Input text
+        if (urlParams.has('location_id')) {
+            selectedLocationId = urlParams.get('location_id');
+            document.getElementById('location-id').value = selectedLocationId;
+        }
+        if (urlParams.has('location_name')) {
+            const input = document.getElementById('location-input');
+            input.value = urlParams.get('location_name');
+            document.getElementById('clear-location').classList.remove('hidden');
+        }
+
+        // Currency
+        if (urlParams.has('currency')) {
+            activeCurrency = urlParams.get('currency');
+        }
+        updateCurrencyButtons();
+
+        // Configure slider settings based on currency
+        const slider = document.getElementById('price-slider');
+        const label = document.getElementById('price-slider-label');
+        if (activeCurrency === 'ARS') {
+            slider.max = 200000000;
+            slider.step = 5000000;
+            slider.value = 200000000;
+            label.innerText = "Rango de Precio (ARS)";
+            document.getElementById('price-slider-value').innerText = "200.000.000+";
+        } else {
+            slider.max = 2000000;
+            slider.step = 50000;
+            slider.value = 2000000;
+            label.innerText = "Rango de Precio (USD)";
+            document.getElementById('price-slider-value').innerText = "2.000.000+";
+        }
+
+        // Price Min / Max
+        if (urlParams.has('price_min')) {
+            document.getElementById('filter-price-min').value = urlParams.get('price_min');
+        }
+        if (urlParams.has('price_max')) {
+            const maxVal = urlParams.get('price_max');
+            document.getElementById('filter-price-max').value = maxVal;
+            if (maxVal) {
+                slider.value = maxVal;
+                document.getElementById('price-slider-value').innerText = new Intl.NumberFormat('es-AR').format(maxVal);
+            }
+        }
+
+        // Specs
+        if (urlParams.has('rooms')) {
+            document.getElementById('filter-rooms').value = urlParams.get('rooms');
+        }
+        updateRoomsButtons();
+
+        // Sorting
+        if (urlParams.has('sort')) {
+            document.getElementById('sort-order').value = urlParams.get('sort');
+        }
+
+        // Amenities
+        if (urlParams.has('amenities')) {
+            const list = urlParams.get('amenities').split(',');
+            const checkboxes = document.querySelectorAll('.filter-amenity');
+            checkboxes.forEach(cb => {
+                if (list.includes(cb.value)) {
+                    cb.checked = true;
+                }
+            });
+        }
+    }
+
+    // Write state back to browser URL
+    function updateUrlParams() {
+        const urlParams = new URLSearchParams();
+        
+        urlParams.set('operation', activeOperationId);
+        
+        const type = document.getElementById('filter-prop-type').value;
+        if (type) urlParams.set('type', type);
+
+        // Read query from desktop input (always contains synced value)
+        const q = document.getElementById('filter-query')?.value?.trim() || '';
+        if (q) urlParams.set('q', q);
+
+        if (selectedLocationId) {
+            urlParams.set('location_id', selectedLocationId);
+            const locName = document.getElementById('location-input').value;
+            urlParams.set('location_name', locName);
+        }
+
+        const priceMin = document.getElementById('filter-price-min').value;
+        if (priceMin && priceMin !== "0") urlParams.set('price_min', priceMin);
+
+        const priceMax = document.getElementById('filter-price-max').value;
+        if (priceMax) urlParams.set('price_max', priceMax);
+
+        urlParams.set('currency', activeCurrency);
+
+        const rooms = document.getElementById('filter-rooms').value;
+        if (rooms) urlParams.set('rooms', rooms);
+
+        const sort = document.getElementById('sort-order').value;
+        if (sort !== 'recent') urlParams.set('sort', sort);
+
+        // Checked amenities
+        const checked = [];
+        document.querySelectorAll('#filterSidebar .filter-amenity:checked').forEach(cb => {
+            checked.push(cb.value);
+        });
+        if (checked.length > 0) {
+            urlParams.set('amenities', checked.join(','));
+        }
+
+        // Push state
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+    }
+
+    // Set currency USD/ARS
+    function setCurrency(curr) {
+        activeCurrency = curr;
+        updateCurrencyButtons();
+        
+        // Update slider settings based on currency
+        const slider = document.getElementById('price-slider');
+        const label = document.getElementById('price-slider-label');
+        if (curr === 'ARS') {
+            slider.max = 200000000;
+            slider.step = 5000000;
+            slider.value = 200000000;
+            label.innerText = "Rango de Precio (ARS)";
+            document.getElementById('price-slider-value').innerText = "200.000.000+";
+        } else {
+            slider.max = 2000000;
+            slider.step = 50000;
+            slider.value = 2000000;
+            label.innerText = "Rango de Precio (USD)";
+            document.getElementById('price-slider-value').innerText = "2.000.000+";
+        }
+        document.getElementById('filter-price-max').value = "";
+        applyFilters();
+    }
+
+    function updateCurrencyButtons() {
+        const currs = ['USD', 'ARS'];
+        currs.forEach(curr => {
+            const btn = document.getElementById(`curr-btn-${curr}`);
+            if (!btn) return;
+            if (curr === activeCurrency) {
+                btn.className = "px-1.5 py-0.5 rounded bg-primary text-pure-white transition-all";
+            } else {
+                btn.className = "px-1.5 py-0.5 rounded bg-off-white text-slate-blue transition-all";
+            }
+        });
+    }
+
+    // Sync filters bidirectionally between desktop and mobile cloned sidebar
+    function syncFilters(fromMobile = false) {
+        const prefixSrc = fromMobile ? '#mobile-filters-form ' : '';
+        const prefixDst = fromMobile ? '' : '#mobile-filters-form ';
+        
+        const syncValue = (id) => {
+            const srcEl = document.querySelector(`${prefixSrc}#${id}`);
+            const dstEl = document.querySelector(`${prefixDst}#${id}`);
+            if (srcEl && dstEl) dstEl.value = srcEl.value;
+        };
+        
+        syncValue('filter-operation');
+        syncValue('filter-prop-type');
+        syncValue('location-input');
+        syncValue('location-id');
+        syncValue('filter-rooms');
+        syncValue('filter-price-min');
+        syncValue('filter-price-max');
+        syncValue('price-slider');
+        
+        // Sync checkboxes
+        const srcAms = document.querySelectorAll(`${prefixSrc}.filter-amenity`);
+        const dstAms = document.querySelectorAll(`${prefixDst}.filter-amenity`);
+        if (srcAms.length > 0 && dstAms.length > 0) {
+            srcAms.forEach((cb, idx) => {
+                if (dstAms[idx]) dstAms[idx].checked = cb.checked;
+            });
+        }
+        
+        // Update price slider labels and rooms buttons classes
+        const sliderVal = document.querySelector(`${prefixSrc}#price-slider`)?.value;
+        if (sliderVal) {
+            const labelDst = document.querySelector(`${prefixDst}#price-slider-value`);
+            if (labelDst) {
+                const maxLim = (activeCurrency === 'ARS' ? 200000000 : 2000000);
+                labelDst.innerText = parseInt(sliderVal) >= maxLim 
+                    ? (activeCurrency === 'ARS' ? "200.000.000+" : "2.000.000+")
+                    : new Intl.NumberFormat('es-AR').format(sliderVal);
+            }
+        }
+        updateRoomsButtons();
+    }
+
+    // Slider knob updates max input
+    function updatePriceSlider(val) {
+        const valueLabel = document.getElementById('price-slider-value');
+        const maxInput = document.getElementById('filter-price-max');
+        const maxLim = (activeCurrency === 'ARS' ? 200000000 : 2000000);
+        
+        if (parseInt(val) >= maxLim) {
+            valueLabel.innerText = activeCurrency === 'ARS' ? "200.000.000+" : "2.000.000+";
+            maxInput.value = "";
+        } else {
+            valueLabel.innerText = new Intl.NumberFormat('es-AR').format(val);
+            maxInput.value = val;
+        }
+        
+        // Sync mobile cloned slider if exists
+        const mobSlider = document.querySelector('#mobile-filters-form #price-slider');
+        const mobValueLabel = document.querySelector('#mobile-filters-form #price-slider-value');
+        if (mobSlider && mobSlider.value !== val) {
+            mobSlider.value = val;
+            mobValueLabel.innerText = valueLabel.innerText;
+        }
+    }
+
+    // Environments Counter buttons
+    function setRooms(num) {
+        const currentRooms = document.getElementById('filter-rooms').value;
+        if (currentRooms == num) {
+            document.getElementById('filter-rooms').value = "";
+        } else {
+            document.getElementById('filter-rooms').value = num;
+        }
+        updateRoomsButtons();
+        applyFilters();
+    }
+    
+    function updateRoomsButtons() {
+        const roomsVal = document.getElementById('filter-rooms').value;
+        const buttons = document.querySelectorAll('.rooms-btn');
+        buttons.forEach(btn => {
+            const num = btn.id.split('-').pop(); // "1", "2", "3", "4"
+            if (roomsVal == num) {
+                btn.className = "rooms-btn py-2 border border-refined-gold bg-[#C5A880] text-pure-white text-sm font-medium transition-all";
+            } else {
+                btn.className = "rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all";
+            }
+        });
+        
+        // Cloned mob buttons sync
+        const mobButtons = document.querySelectorAll('#mobile-filters-form .rooms-btn');
+        mobButtons.forEach(btn => {
+            const num = btn.id.split('-').pop();
+            if (roomsVal == num) {
+                btn.className = "rooms-btn py-2 border border-refined-gold bg-[#C5A880] text-pure-white text-sm font-medium transition-all";
+            } else {
+                btn.className = "rooms-btn py-2 border border-outline-variant/50 text-sm font-medium text-primary hover:border-refined-gold bg-pure-white transition-all";
+            }
+        });
+    }
+
+    // Toggle filters panel for mobile devices
+    function toggleMobileFilters(open) {
+        const backdrop = document.getElementById('mobile-filter-backdrop');
+        const drawer = document.getElementById('mobile-filter-drawer');
+        
+        if (open) {
+            const mobileForm = document.getElementById('mobile-filters-form');
+            if (mobileForm.innerHTML.trim() === '') {
+                cloneDesktopFiltersToMobile();
+            }
+            
+            backdrop.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        } else {
+            backdrop.classList.add('opacity-0');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+            }, 300);
+        }
+    }
+
+    // Clone all controls to mobile drawer
+    function cloneDesktopFiltersToMobile() {
+        const sidebar = document.getElementById('filterSidebar');
+        const mobileForm = document.getElementById('mobile-filters-form');
+        
+        const sidebarContent = sidebar.cloneNode(true);
+        // Remove header
+        sidebarContent.querySelector('div').remove();
+        // Remove Action buttons wrapper at the end
+        const actionBtns = sidebarContent.querySelector('.pt-4');
+        if (actionBtns) actionBtns.remove();
+        
+        mobileForm.innerHTML = sidebarContent.innerHTML;
+        
+        // Re-bind autocomplete inputs in mobile cloned content
+        const mobLocInput = mobileForm.querySelector('#location-input');
+        const mobClearLocBtn = mobileForm.querySelector('#clear-location');
+        const mobLocSuggestions = mobileForm.querySelector('#location-suggestions');
+        
+        mobLocInput.addEventListener('input', () => {
+            const val = mobLocInput.value.trim();
+            if (val.length < 2) {
+                mobLocSuggestions.classList.add('hidden');
+                mobClearLocBtn.classList.add('hidden');
+                return;
+            }
+
+            mobClearLocBtn.classList.remove('hidden');
+            clearTimeout(autocompleteTimeout);
+            autocompleteTimeout = setTimeout(async () => {
+                try {
+                    const res = await fetch(`/api/locations?query=${encodeURIComponent(val)}`);
+                    const data = await res.json();
+                    const locations = data.objects || [];
+                    
+                    if (locations.length === 0) {
+                        mobLocSuggestions.innerHTML = `<div class="p-3 text-slate-blue italic text-xs">No se encontraron barrios</div>`;
+                    } else {
+                        mobLocSuggestions.innerHTML = locations.map(loc => `
+                            <div onclick="selectLocation('${loc.id}', '${loc.name}')" class="p-3 hover:bg-off-white cursor-pointer border-b border-outline-variant/10 font-medium text-primary">
+                                ${loc.name} <span class="text-xs text-slate-blue/60 block">${loc.parent_division || 'Argentina'}</span>
+                            </div>
+                        `).join('');
+                    }
+                    mobLocSuggestions.classList.remove('hidden');
+                } catch (error) {
+                    console.error(error);
+                }
+            }, 300);
+        });
+        
+        mobClearLocBtn.addEventListener('click', () => {
+            mobLocInput.value = '';
+            document.getElementById('location-id').value = '';
+            selectedLocationId = "";
+            document.getElementById('location-input').value = '';
+            mobClearLocBtn.classList.add('hidden');
+            mobLocSuggestions.classList.add('hidden');
+            applyFilters();
+        });
+        
+        // Re-bind price slider change event on mobile
+        const mobSlider = mobileForm.querySelector('#price-slider');
+        if (mobSlider) {
+            mobSlider.addEventListener('input', (e) => {
+                updatePriceSlider(e.target.value);
+            });
+            mobSlider.addEventListener('change', () => {
+                applyFilters();
+            });
+        }
+    }
+
+    // Reset filters
+    function resetFilters() {
+        document.getElementById('filter-query').value = '';
+        document.getElementById('header-search-input').value = '';
+        document.getElementById('filter-prop-type').value = '';
+        document.getElementById('filter-price-min').value = '0';
+        document.getElementById('filter-price-max').value = '';
+        document.getElementById('filter-rooms').value = '';
+        document.getElementById('location-id').value = '';
+        document.getElementById('location-input').value = '';
+        document.getElementById('clear-location').classList.add('hidden');
+        selectedLocationId = "";
+
+        const checkboxes = document.querySelectorAll('.filter-amenity');
+        checkboxes.forEach(cb => cb.checked = false);
+
+        activeOperationId = 1;
+        activeCurrency = 'USD';
+        currentPage = 0;
+
+        document.getElementById('filter-operation').value = '1';
+        
+        // Re-init slider
+        const slider = document.getElementById('price-slider');
+        slider.max = 2000000;
+        slider.step = 50000;
+        slider.value = 2000000;
+        document.getElementById('price-slider-label').innerText = "Rango de Precio (USD)";
+        document.getElementById('price-slider-value').innerText = "2.000.000+";
+
+        updateCurrencyButtons();
+        updateRoomsButtons();
+        
+        applyFilters();
+    }
+
+    // Trigger searches
+    function applyFilters() {
+        const isMobileOpen = !document.getElementById('mobile-filter-drawer').classList.contains('translate-x-full');
+        if (isMobileOpen) {
+            syncFilters(true);
+        } else {
+            const mobileForm = document.getElementById('mobile-filters-form');
+            if (mobileForm.innerHTML.trim() !== '') {
+                syncFilters(false);
+            }
+        }
+        
+        activeOperationId = parseInt(document.getElementById('filter-operation').value);
+        
+        currentPage = 0;
+        updateUrlParams();
+        loadProperties();
+        renderActiveChips();
+    }
+
+    function applySort() {
+        currentPage = 0;
+        updateUrlParams();
+        loadProperties();
+    }
+
+    // Search bar header trigger
+    function triggerHeaderSearch() {
+        const headerVal = document.getElementById('header-search-input').value.trim();
+        // Set query filter input hidden value
+        document.getElementById('filter-query').value = headerVal;
+        
+        // Sync to mobile form if cloned
+        const mobQuery = document.querySelector('#mobile-filters-form #filter-query');
+        if (mobQuery) mobQuery.value = headerVal;
+        
+        applyFilters();
+    }
+
+    // Renders active chips above the properties list
+    function renderActiveChips() {
+        const chipsContainer = document.getElementById('active-chips');
+        chipsContainer.innerHTML = '';
+
+        const query = document.getElementById('filter-query')?.value?.trim() || '';
+        const typeSelect = document.getElementById('filter-prop-type');
+        const typeName = typeSelect.options[typeSelect.selectedIndex].text;
+        const locName = document.getElementById('location-input').value;
+        const minPrice = document.getElementById('filter-price-min').value;
+        const maxPrice = document.getElementById('filter-price-max').value;
+        
+        const operationName = activeOperationId === 1 ? 'Venta' : (activeOperationId === 2 ? 'Alquiler' : 'Alquiler Temp.');
+
+        // Operation Chip (always exists)
+        addChip(operationName, () => {}, false);
+
+        // Keyword
+        if (query) {
+            addChip(`"${query}"`, () => {
+                document.getElementById('filter-query').value = '';
+                document.getElementById('header-search-input').value = '';
+                const mobQuery = document.querySelector('#mobile-filters-form #filter-query');
+                if (mobQuery) mobQuery.value = '';
+                applyFilters();
+            });
+        }
+
+        // Property Type
+        if (typeSelect.value) {
+            addChip(typeName, () => {
+                typeSelect.value = '';
+                const mobType = document.querySelector('#mobile-filters-form #filter-prop-type');
+                if (mobType) mobType.value = '';
+                applyFilters();
+            });
+        }
+
+        // Location
+        if (locName) {
+            addChip(locName, () => {
+                document.getElementById('location-input').value = '';
+                document.getElementById('location-id').value = '';
+                document.getElementById('clear-location').classList.add('hidden');
+                selectedLocationId = "";
+                
+                const mobInput = document.querySelector('#mobile-filters-form #location-input');
+                const mobId = document.querySelector('#mobile-filters-form #location-id');
+                const mobClear = document.querySelector('#mobile-filters-form #clear-location');
+                if (mobInput) {
+                    mobInput.value = '';
+                    mobId.value = '';
+                    mobClear.classList.add('hidden');
+                }
+                applyFilters();
+            });
+        }
+
+        // Price range
+        if ((minPrice && minPrice !== "0") || maxPrice) {
+            let label = '';
+            if (minPrice && minPrice !== "0" && maxPrice) label = `${activeCurrency} ${minPrice}-${maxPrice}`;
+            else if (minPrice && minPrice !== "0") label = `> ${activeCurrency} ${minPrice}`;
+            else label = `< ${activeCurrency} ${maxPrice}`;
+            
+            addChip(label, () => {
+                document.getElementById('filter-price-min').value = '0';
+                document.getElementById('filter-price-max').value = '';
+                
+                // Reset slider
+                const slider = document.getElementById('price-slider');
+                slider.value = slider.max;
+                document.getElementById('price-slider-value').innerText = activeCurrency === 'ARS' ? "200.000.000+" : "2.000.000+";
+
+                const mobMin = document.querySelector('#mobile-filters-form #filter-price-min');
+                const mobMax = document.querySelector('#mobile-filters-form #filter-price-max');
+                const mobSlider = document.querySelector('#mobile-filters-form #price-slider');
+                const mobVal = document.querySelector('#mobile-filters-form #price-slider-value');
+                if (mobMin) {
+                    mobMin.value = '0';
+                    mobMax.value = '';
+                    mobSlider.value = mobSlider.max;
+                    mobVal.innerText = document.getElementById('price-slider-value').innerText;
+                }
+                applyFilters();
+            });
+        }
+
+        // Checked amenities
+        const checked = document.querySelectorAll('#filterSidebar .filter-amenity:checked');
+        checked.forEach(cb => {
+            addChip(cb.parentElement.textContent.trim(), () => {
+                cb.checked = false;
+                const mobCb = document.querySelector(`#mobile-filters-form .filter-amenity[value="${cb.value}"]`);
+                if (mobCb) mobCb.checked = false;
+                applyFilters();
+            });
+        });
+    }
+
+    function addChip(text, onRemove, removeable = true) {
+        const container = document.getElementById('active-chips');
+        const chip = document.createElement('div');
+        chip.className = "flex items-center gap-1.5 px-3 py-1.5 bg-off-white hover:bg-slate-200/50 text-primary rounded-full border border-outline-variant/50 select-none font-semibold transition-all";
+        chip.innerHTML = `
+            <span>${text}</span>
+            ${removeable ? `<span class="material-symbols-outlined text-sm font-bold cursor-pointer text-slate-blue/60 hover:text-error">close</span>` : ''}
+        `;
+        if (removeable) {
+            chip.querySelector('.material-symbols-outlined').addEventListener('click', onRemove);
+        }
+        container.appendChild(chip);
+    }
+
+    // Dynamic Autocomplete dropdown
+    const locInput = document.getElementById('location-input');
+    const locSuggestions = document.getElementById('location-suggestions');
+    const clearLocBtn = document.getElementById('clear-location');
+
+    locInput.addEventListener('input', () => {
+        const val = locInput.value.trim();
+        if (val.length < 2) {
+            locSuggestions.classList.add('hidden');
+            clearLocBtn.classList.add('hidden');
+            return;
+        }
+
+        clearLocBtn.classList.remove('hidden');
+        clearTimeout(autocompleteTimeout);
+        autocompleteTimeout = setTimeout(async () => {
+            try {
+                const res = await fetch(`/api/locations?query=${encodeURIComponent(val)}`);
+                const data = await res.json();
+                const locations = data.objects || [];
+                
+                if (locations.length === 0) {
+                    locSuggestions.innerHTML = `<div class="p-3 text-slate-blue italic text-xs">No se encontraron barrios</div>`;
+                } else {
+                    locSuggestions.innerHTML = locations.map(loc => `
+                        <div onclick="selectLocation('${loc.id}', '${loc.name}')" class="p-3 hover:bg-off-white cursor-pointer border-b border-outline-variant/10 font-medium text-primary">
+                            ${loc.name} <span class="text-xs text-slate-blue/60 block">${loc.parent_division || 'Argentina'}</span>
+                        </div>
+                    `).join('');
+                }
+                locSuggestions.classList.remove('hidden');
+            } catch (error) {
+                console.error(error);
+            }
+        }, 300);
+    });
+
+    // Handle selecting a dynamic location
+    window.selectLocation = function(id, name) {
+        locInput.value = name;
+        selectedLocationId = id;
+        document.getElementById('location-id').value = id;
+        locSuggestions.classList.add('hidden');
+        clearLocBtn.classList.remove('hidden');
+        
+        // Sync mobile if cloned
+        const mobInput = document.querySelector('#mobile-filters-form #location-input');
+        const mobId = document.querySelector('#mobile-filters-form #location-id');
+        const mobClear = document.querySelector('#mobile-filters-form #clear-location');
+        if (mobInput) {
+            mobInput.value = name;
+            mobId.value = id;
+            mobClear.classList.remove('hidden');
+        }
+        
+        applyFilters();
+    };
+
+    clearLocBtn.addEventListener('click', () => {
+        locInput.value = '';
+        selectedLocationId = "";
+        document.getElementById('location-id').value = '';
+        clearLocBtn.classList.add('hidden');
+        locSuggestions.classList.add('hidden');
+        applyFilters();
+    });
+
+    // Close location dropdown if clicked outside
+    document.addEventListener('click', (e) => {
+        if (!locInput.contains(e.target) && !locSuggestions.contains(e.target)) {
+            locSuggestions.classList.add('hidden');
+        }
+    });
+
+    // Dynamic Fetch & Render list of Properties
+    async function loadProperties() {
+        const grid = document.getElementById('property-grid');
+        const paginationContainer = document.getElementById('pagination-container');
+        
+        grid.innerHTML = Array(4).fill(0).map(() => `
+            <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse">
+                <div class="aspect-[3/2] bg-surface-dim"></div>
+                <div class="p-6 space-y-4">
+                    <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                    <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                    <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                </div>
+            </div>
+        `).join('');
+        paginationContainer.classList.add('hidden');
+
+        // Sorting params
+        const sortVal = document.getElementById('sort-order').value;
+        let orderBy = '';
+        let order = '';
+        if (sortVal === 'price_asc') {
+            orderBy = 'price';
+            order = 'asc';
+        } else if (sortVal === 'price_desc') {
+            orderBy = 'price';
+            order = 'desc';
+        }
+
+        const queryParams = new URLSearchParams({
+            operation_id: activeOperationId,
+            property_type_id: document.getElementById('filter-prop-type').value,
+            location_id: selectedLocationId,
+            price_min: document.getElementById('filter-price-min').value,
+            price_max: document.getElementById('filter-price-max').value,
+            rooms: document.getElementById('filter-rooms').value,
+            order_by: orderBy,
+            order: order,
+            limit: limit,
+            offset: currentPage * limit
+        });
+
+        // Query text from hidden input `#filter-query`
+        const queryText = document.getElementById('filter-query')?.value?.trim() || '';
+
+        try {
+            const res = await fetch(`/api/properties?${queryParams.toString()}`);
+            if (!res.ok) throw new Error('API_ERROR');
+            
+            const data = await res.json();
+            let properties = data.objects || [];
+
+            // Client-side text query search filter
+            if (queryText) {
+                const q = queryText.toLowerCase();
+                properties = properties.filter(p => 
+                    (p.publication_title && p.publication_title.toLowerCase().includes(q)) ||
+                    (p.description && p.description.toLowerCase().includes(q)) ||
+                    (p.tags && p.tags.some(t => t.name.toLowerCase().includes(q)))
+                );
+            }
+
+            // Client-side tags checkboxes filtering
+            const activeAmenities = Array.from(document.querySelectorAll('#filterSidebar .filter-amenity:checked')).map(cb => cb.value.toLowerCase());
+            if (activeAmenities.length > 0) {
+                properties = properties.filter(p => {
+                    if (!p.tags) return false;
+                    const propTags = p.tags.map(t => t.name.toLowerCase());
+                    return activeAmenities.every(amenity => propTags.some(pt => pt.includes(amenity)));
+                });
+            }
+
+            const totalCount = data.meta ? data.meta.total_count : properties.length;
+            totalProperties = totalCount;
+
+            document.getElementById('results-count').innerText = `${totalCount} ${totalCount === 1 ? 'resultado encontrado' : 'resultados encontrados'}`;
+
+            grid.innerHTML = '';
+
+            if (properties.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-24 text-center">
+                        <span class="material-symbols-outlined text-6xl text-slate-blue/30 mb-4">search_off</span>
+                        <h3 class="font-headline font-bold text-lg text-primary mb-2">No se encontraron propiedades</h3>
+                        <p class="font-body text-slate-blue text-sm">Intentá modificando los filtros de búsqueda o ampliando los rangos de precios.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Set Title text based on selected location
+            const locName = document.getElementById('location-input').value;
+            if (locName) {
+                document.getElementById('results-title').innerText = `Propiedades en ${locName}`;
+            } else {
+                document.getElementById('results-title').innerText = `Propiedades en Buenos Aires`;
+            }
+
+            properties.forEach(prop => {
+                const photosList = prop.photos && prop.photos.length > 0 
+                    ? prop.photos.map(p => p.image) 
+                    : ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80"];
+
+                cardPhotos[prop.id] = photosList;
+                cardCurrentIndex[prop.id] = 0;
+
+                let priceText = "Consulte";
+                if (prop.operations && prop.operations.length > 0) {
+                    const prices = prop.operations[0].prices;
+                    if (prices && prices.length > 0) {
+                        const price = prices[0];
+                        priceText = price.price === 1 ? 'Consulte' : `${price.currency} ${new Intl.NumberFormat('es-AR').format(price.price)}`;
+                    }
+                }
+
+                // Specs counters
+                const roomAmount = prop.room_amount || 0;
+                const bathroomAmount = (prop.bathroom_amount || 0) + (prop.toilet_amount || 0);
+                const surfaceAmount = parseFloat(prop.total_surface || prop.covered_surface || prop.surface || 0);
+
+                let specsHtml = '';
+                if (roomAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-slate-blue/60">door_front</span>
+                            <span class="text-xs font-semibold text-primary/85">${roomAmount} Amb</span>
+                        </div>
+                    `;
+                }
+
+                if (bathroomAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-slate-blue/60">shower</span>
+                            <span class="text-xs font-semibold text-primary/85">${bathroomAmount}</span>
+                        </div>
+                    `;
+                }
+
+                if (prop.expenses && prop.expenses > 0) {
+                    const expK = Math.round(prop.expenses / 1000);
+                    specsHtml += `
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-slate-blue/60">payments</span>
+                            <span class="text-xs font-semibold text-primary/85">${expK}K Exp.</span>
+                        </div>
+                    `;
+                } else if (surfaceAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] text-slate-blue/60">square_foot</span>
+                            <span class="text-xs font-semibold text-primary/85">${Math.round(surfaceAmount)} m²</span>
+                        </div>
+                    `;
+                }
+
+                let badgeHtml = '';
+                if (prop.is_starred_on_web) {
+                    badgeHtml = `<span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body">DESTACADO</span>`;
+                } else if (prop.operations && prop.operations[0]) {
+                    const opType = prop.operations[0].operation_type.toUpperCase();
+                    if (opType.includes('ALQ') || opType.includes('RENT')) {
+                        badgeHtml = `<span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body">ALQUILER</span>`;
+                    } else {
+                        badgeHtml = `<span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body">VENTA</span>`;
+                    }
+                } else {
+                    badgeHtml = `<span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body">VENTA</span>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = "luxury-card bg-pure-white group overflow-hidden border border-outline-variant/30 rounded-lg transition-all duration-300 hover:shadow-md flex flex-col h-full";
+                card.innerHTML = `
+                    <div class="card-carousel-container relative aspect-[3/2] overflow-hidden bg-gray-100">
+                        <div class="absolute bottom-4 right-4 z-10 text-white/40 font-headline font-bold text-lg pointer-events-none tracking-widest lowercase select-none">muv</div>
+                        
+                        <!-- Top Left Badges overlaying on the image -->
+                        <div class="absolute top-4 left-4 z-10 flex gap-1.5 select-none">
+                            <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body">
+                              DISPONIBLE
+                            </span>
+                            ${badgeHtml}
+                        </div>
+
+                        <button class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-pure-white shadow-sm flex items-center justify-center text-primary/70 hover:text-error transition-colors hover:scale-105 active:scale-95" onclick="toggleFavorite(${prop.id}, event)">
+                            <span class="material-symbols-outlined text-[20px]" id="fav-icon-${prop.id}">favorite</span>
+                        </button>
+
+                        ${photosList.length > 1 ? `
+                            <button class="card-carousel-btn card-carousel-btn-left" onclick="changeCardPhoto(${prop.id}, -1, event)">
+                                <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+                            </button>
+                            <button class="card-carousel-btn card-carousel-btn-right" onclick="changeCardPhoto(${prop.id}, 1, event)">
+                                <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+                            </button>
+                        ` : ''}
+
+                        <button class="card-zoom-btn" onclick="openLightboxFromCard(${prop.id}, event)">
+                            <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                            </svg>
+                        </button>
+
+                        <a href="/property/${prop.id}" class="block w-full h-full">
+                            <img id="card-img-${prop.id}" class="card-img w-full h-full object-cover" loading="lazy" alt="${prop.publication_title}" src="${photosList[0]}">
+                        </a>
+                    </div>
+                    
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-3.5 text-left">
+                        <div class="space-y-2">
+                            <!-- Title / Address -->
+                            <h3 class="font-headline text-sm md:text-base text-primary font-bold leading-snug truncate max-w-full">
+                                <a href="/property/${prop.id}" class="hover:text-refined-gold transition-colors">
+                                  ${prop.fake_address || prop.address || prop.publication_title}
+                                </a>
+                            </h3>
+
+                            <!-- Location pin + neighborhood -->
+                            <div class="flex items-center gap-1 text-[#747878] text-xs font-semibold select-none leading-none">
+                                <span class="material-symbols-outlined text-[16px] text-[#747878] select-none pointer-events-none">location_on</span>
+                                <span class="font-sans leading-none">${prop.location?.name || 'Buenos Aires'}</span>
+                            </div>
+
+                            <!-- Property type -->
+                            <span class="font-body text-[9px] text-[#747878] uppercase tracking-widest block font-bold">
+                              ${prop.type?.name ? prop.type.name.toUpperCase() : 'PROPIEDAD'}
+                            </span>
+
+                            <!-- Price -->
+                            <span class="font-headline text-lg text-primary font-bold block leading-none pt-0.5">${priceText}</span>
+                        </div>
+                        
+                        <!-- Specs row matching reference exactly -->
+                        <div class="border-t border-outline-variant/15 pt-3 flex justify-start items-center gap-4 text-slate-blue/80 font-body text-[12px] font-medium leading-none">
+                            ${specsHtml}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Update Pagination
+            totalPages = Math.ceil(totalCount / limit) || 1;
+            document.getElementById('page-indicator').innerText = `Página ${currentPage + 1} de ${totalPages}`;
+            
+            const btnPrev = document.getElementById('btn-prev-page');
+            const btnNext = document.getElementById('btn-next-page');
+            
+            if (currentPage === 0) {
+                btnPrev.disabled = true;
+                btnPrev.classList.add('opacity-40', 'cursor-not-allowed');
+            } else {
+                btnPrev.disabled = false;
+                btnPrev.classList.remove('opacity-40', 'cursor-not-allowed');
+            }
+            
+            if (currentPage >= totalPages - 1) {
+                btnNext.disabled = true;
+                btnNext.classList.add('opacity-40', 'cursor-not-allowed');
+            } else {
+                btnNext.disabled = false;
+                btnNext.classList.remove('opacity-40', 'cursor-not-allowed');
+            }
+            
+            if (totalPages > 1) {
+                paginationContainer.classList.remove('hidden');
+                paginationContainer.classList.add('flex');
+            } else {
+                paginationContainer.classList.add('hidden');
+                paginationContainer.classList.remove('flex');
+            }
+
+            updateFavoritesUI();
+
+        } catch (error) {
+            console.error(error);
+            grid.innerHTML = `
+                <div class="col-span-full py-24 text-center">
+                    <span class="material-symbols-outlined text-6xl text-error mb-4">error</span>
+                    <h3 class="font-headline font-bold text-lg text-error mb-2">Error de conexión</h3>
+                    <p class="font-body text-slate-blue text-sm">Hubo un problema al cargar los listados de Tokko Broker. Por favor, intentá nuevamente más tarde.</p>
+                </div>
+            `;
+        }
+    }
+
+    // Helper card photo carousel control
+    window.changeCardPhoto = function(id, direction, event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+        const photos = cardPhotos[id];
+        if (!photos || photos.length <= 1) return;
+        
+        let idx = cardCurrentIndex[id] || 0;
+        idx = (idx + direction + photos.length) % photos.length;
+        cardCurrentIndex[id] = idx;
+        
+        const img = document.getElementById(`card-img-${id}`);
+        if (img) {
+            img.src = photos[idx];
+        }
+    };
+
+    // Helper to open Lightbox Modal from a Card
+    window.openLightboxFromCard = function(id, event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+        lightboxPhotos = cardPhotos[id] || [];
+        lightboxCurrentIdx = cardCurrentIndex[id] || 0;
+        if (lightboxPhotos.length === 0) return;
+        
+        updateLightboxUI();
+        document.getElementById('lightbox-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeLightbox = function() {
+        document.getElementById('lightbox-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+    };
+
+    function updateLightboxUI() {
+        const img = document.getElementById('lightbox-image');
+        img.src = lightboxPhotos[lightboxCurrentIdx];
+        
+        document.getElementById('lightbox-counter').innerText = `${lightboxCurrentIdx + 1} / ${lightboxPhotos.length}`;
+        
+        const thumbsContainer = document.getElementById('lightbox-thumbnails');
+        if (lightboxPhotos.length <= 1) {
+            thumbsContainer.innerHTML = '';
+            return;
+        }
+        
+        thumbsContainer.innerHTML = lightboxPhotos.map((photo, i) => `
+            <div onclick="setLightboxImage(${i})" class="w-16 h-16 rounded overflow-hidden cursor-pointer border-2 transition-all flex-shrink-0 hover:opacity-100 ${i === lightboxCurrentIdx ? 'border-refined-gold scale-105 opacity-100' : 'border-transparent opacity-50'}">
+                <img class="w-full h-full object-cover" src="${photo}">
+            </div>
+        `).join('');
+    }
+
+    window.setLightboxImage = function(idx) {
+        lightboxCurrentIdx = idx;
+        updateLightboxUI();
+    };
+
+    window.nextLightboxImage = function() {
+        if (lightboxPhotos.length === 0) return;
+        lightboxCurrentIdx = (lightboxCurrentIdx + 1) % lightboxPhotos.length;
+        updateLightboxUI();
+    };
+
+    window.prevLightboxImage = function() {
+        if (lightboxPhotos.length === 0) return;
+        lightboxCurrentIdx = (lightboxCurrentIdx - 1 + lightboxPhotos.length) % lightboxPhotos.length;
+        updateLightboxUI();
+    };
+
+    // Keyboard navigation for Lightbox
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('lightbox-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            if (e.key === 'ArrowRight') {
+                nextLightboxImage();
+            } else if (e.key === 'ArrowLeft') {
+                prevLightboxImage();
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        }
+    });
+
+    // Pagination handlers
+    window.prevPage = function() {
+        if (currentPage > 0) {
+            currentPage--;
+            loadProperties();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    window.nextPage = function() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            loadProperties();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    // Header search bar enter key trigger
+    document.getElementById('header-search-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            triggerHeaderSearch();
+        }
+    });
+
+    // Init load page
+    window.addEventListener('DOMContentLoaded', () => {
+        loadParamsFromUrl();
+        loadProperties();
+        renderActiveChips();
+    });
+</script>
+</body>
+</html>

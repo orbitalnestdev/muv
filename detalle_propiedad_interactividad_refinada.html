@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DOME Suites | MUV Propiedades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#858383",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "refined-gold": "#C5A059",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "off-white": "#F7F8F9",
+                        "on-secondary-fixed": "#111c2c",
+                        "slate-blue": "#4A5568",
+                        "surface-tint": "#5f5e5e",
+                        "secondary-fixed": "#d8e3fa",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-container": "#a17f3b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f72",
+                        "on-secondary-container": "#586377",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191c1d",
+                        "primary": "#000000",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d5e0f7",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#261900",
+                        "on-surface-variant": "#444748",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed": "#ffdea5",
+                        "pure-white": "#FFFFFF",
+                        "tertiary": "#000000",
+                        "outline": "#747878",
+                        "inverse-surface": "#2e3132",
+                        "deep-charcoal": "#121212",
+                        "tertiary-container": "#261900",
+                        "surface-container-highest": "#e1e3e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "32px",
+                        "margin-desktop": "64px",
+                        "section-gap": "120px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "headline-xl": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .gallery-mask {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .cac-calculator-gradient {
+            background: linear-gradient(135deg, #121212 0%, #1c1b1b 100%);
+        }
+    </style>
+</head>
+<body class="bg-off-white text-on-surface font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 backdrop-blur-md transition-all duration-300 bg-transparent py-6 px-margin-desktop sticky border-b">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<img alt="MUV Propiedades Logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-label-lg text-label-lg text-refined-gold border-b border-refined-gold pb-1" href="#">Properties</a>
+<a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="#">Offices</a>
+<a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="#">Investors</a>
+<a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="#">Services</a>
+</div>
+<button class="bg-primary text-pure-white px-6 py-3 font-label-lg text-label-lg rounded transition-all active:opacity-80 active:scale-95 uppercase tracking-widest">
+                Book a Viewing
+            </button>
+</div>
+</nav>
+<!-- Hero Gallery -->
+<section class="relative h-[85vh] w-full overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="DOME Suites Architecture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvfVgaBKF4zLdvj3kRw0LgKlcbUIDkWsdyz6FysHbAdTPF2MMFDXH8Tg1MlnF6Fua7jgLj21jQV_1Y5kXCCHxTemP7BgLwPzb6dh4Nn4Eyd10o2ldlquDXAxCjLqXyCZapBdzy2CTsTDzi23RPDp927MYA4J7pk35m3NUgttw-f_XdXQufsQXQOwKcnqUR9-0eOVFSE7GvhdP61LHu48C2sqcAEBUIg3h0b0Z_qxOuayd9tpO2KDMpO7A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<div class="relative z-10 h-full max-w-container-max mx-auto px-margin-desktop flex flex-col justify-end pb-24">
+<div class="max-w-2xl">
+<span class="inline-block px-4 py-1 bg-refined-gold text-pure-white font-label-sm text-label-sm mb-4 uppercase tracking-widest">Premium Development</span>
+<h1 class="font-display-lg text-display-lg text-pure-white mb-4 drop-shadow-lg">DOME Suites</h1>
+<p class="font-body-lg text-body-lg text-pure-white/90 leading-relaxed">
+                    A masterclass in modern architectural precision, located in the heart of the city's most exclusive district.
+                </p>
+</div>
+</div>
+</section>
+<!-- Project Overview -->
+<section class="py-section-gap px-margin-desktop bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8 border-l-4 border-refined-gold pl-6">The Essence of Architectural Precision</h2>
+<div class="space-y-6 text-slate-blue font-body-lg leading-relaxed">
+<p class="">
+                        DOME Suites represents a paradigm shift in urban living. Designed with a focus on geometric purity and material honesty, the project integrates concrete, glass, and steel to create a structure that is both monumental and light.
+                    </p>
+<p class="">
+                        Every unit has been meticulously planned to maximize natural light and offer panoramic views of the skyline. With premium amenities including a rooftop infinity pool, a state-of-the-art wellness center, and 24/7 concierge services, DOME Suites is not just a residence—it's a statement of lifestyle.
+                    </p>
+</div>
+<div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<span class="block text-refined-gold font-headline-md text-headline-md mb-1">14</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Floors</span>
+</div>
+<div>
+<span class="block text-refined-gold font-headline-md text-headline-md mb-1">42</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Units</span>
+</div>
+<div>
+<span class="block text-refined-gold font-headline-md text-headline-md mb-1">2026</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Delivery</span>
+</div>
+<div>
+<span class="block text-refined-gold font-headline-md text-headline-md mb-1">980m²</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Amenities</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-off-white p-8 border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Location</h3>
+<div class="w-full h-48 bg-surface-container-high mb-6 overflow-hidden">
+<img alt="Map of Buenos Aires" class="w-full h-full object-cover" data-location="Buenos Aires" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbChp6rn4rt21RCuSUkKct4rLUICFXdUoknzZ_5I9VAawWBrQbgb83PdB5jjiP7Hgw1pmYRf6Yfrz6ptmd5XRXCqsHxOhHQnUe7dLZngVaVdo03jAiJku4J40jPmiLcuQR9DefJDD54fmt0kIhOfh1kh4ZCjkj_ONen4Gdx_xPt0wZKOkUWsafNZ36ULf4fFSBsvvNg_W1TG-vn0m7KrSeYrwnxBXKpkciVDM6mzwQuObGs9-K-tVZmw0fyXNSRd8AJeNKeY-urnI"/>
+</div>
+<p class="text-slate-blue font-body-md mb-2">Av. Quintana &amp; Ayacucho</p>
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase">Recoleta, Buenos Aires</p>
+</div>
+<button class="mt-8 w-full border border-primary py-4 font-label-lg text-label-lg text-primary hover:bg-primary hover:text-pure-white transition-all duration-300">
+                    DOWNLOAD BROCHURE
+                </button>
+</div>
+</div>
+</section>
+<!-- Available Units (Tokko Style Table) -->
+<section class="py-section-gap px-margin-desktop bg-off-white">
+<div class="max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary">Unidades Disponibles</h2>
+<div class="flex gap-4">
+<button class="px-4 py-2 bg-surface-container-high font-label-sm text-label-sm text-slate-blue rounded">Filter by Rooms</button>
+<button class="px-4 py-2 bg-surface-container-high font-label-sm text-label-sm text-slate-blue rounded">Sort by Price</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="border-b border-outline text-left">
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Unit</th>
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Level</th>
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Rooms</th>
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Total m²</th>
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-right">Price</th>
+<th class="py-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">Status</th>
+<th class="py-6"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors duration-300">
+<td class="py-6 font-headline-md text-headline-md text-primary">101</td>
+<td class="py-6 font-body-md text-slate-blue">1st Floor</td>
+<td class="py-6 font-body-md text-slate-blue">2 Rooms</td>
+<td class="py-6 font-body-md text-slate-blue">84 m²</td>
+<td class="py-6 font-headline-md text-headline-md text-primary text-right">USD 345,000</td>
+<td class="py-6 text-center">
+<span class="px-3 py-1 bg-green-500 text-pure-white font-label-sm text-label-sm uppercase tracking-tighter rounded-full">Available</span>
+</td>
+<td class="py-6 text-right">
+<span class="material-symbols-outlined text-refined-gold cursor-pointer">arrow_forward</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors duration-300">
+<td class="py-6 font-headline-md text-headline-md text-primary">402</td>
+<td class="py-6 font-body-md text-slate-blue">4th Floor</td>
+<td class="py-6 font-body-md text-slate-blue">3 Rooms</td>
+<td class="py-6 font-body-md text-slate-blue">126 m²</td>
+<td class="py-6 font-headline-md text-headline-md text-primary text-right">USD 515,000</td>
+<td class="py-6 text-center">
+<span class="px-3 py-1 bg-amber-500 text-pure-white font-label-sm text-label-sm uppercase tracking-tighter rounded-full">Reserved</span>
+</td>
+<td class="py-6 text-right">
+<span class="material-symbols-outlined text-refined-gold cursor-pointer">arrow_forward</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors duration-300">
+<td class="py-6 font-headline-md text-headline-md text-primary">PH-01</td>
+<td class="py-6 font-body-md text-slate-blue">14th Floor</td>
+<td class="py-6 font-body-md text-slate-blue">4 Rooms</td>
+<td class="py-6 font-body-md text-slate-blue">210 m²</td>
+<td class="py-6 font-headline-md text-headline-md text-primary text-right">USD 1,250,000</td>
+<td class="py-6 text-center">
+<span class="px-3 py-1 bg-green-500 text-pure-white font-label-sm text-label-sm uppercase tracking-tighter rounded-full">Available</span>
+</td>
+<td class="py-6 text-right">
+<span class="material-symbols-outlined text-refined-gold cursor-pointer">arrow_forward</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Financing Calculator -->
+<section class="py-section-gap px-margin-desktop cac-calculator-gradient text-pure-white">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-section-gap items-center">
+<div>
+<h2 class="font-headline-xl text-headline-xl mb-6">CAC-Indexed Financing</h2>
+<p class="font-body-lg text-body-lg text-pure-white/80 leading-relaxed mb-8">
+                    Secure your investment with flexible payment plans. Adjust the advance payment and installments to see how your CAC-indexed plan would look.
+                </p>
+<div class="flex items-center gap-4 text-refined-gold">
+<span class="material-symbols-outlined text-4xl">verified_user</span>
+<span class="font-label-lg text-label-lg uppercase tracking-widest">Guaranteed Structural Quality</span>
+</div>
+</div>
+<div class="bg-surface-container-low/10 backdrop-blur-xl border border-pure-white/10 p-10 rounded-xl">
+<div class="space-y-8">
+<div>
+<div class="flex justify-between mb-2">
+<label class="font-label-sm text-label-sm text-pure-white/60 uppercase">Advance Payment</label>
+<span class="font-label-lg text-label-lg text-refined-gold" id="advance-val">30%</span>
+</div>
+<input class="w-full accent-refined-gold" id="advance-slider" max="60" min="20" step="5" type="range" value="30"/><div class="flex justify-between mt-1"><span class="text-label-sm text-pure-white/40">Min: 20%</span><span class="text-label-sm text-refined-gold font-medium">30% = USD 103,500</span><span class="text-label-sm text-pure-white/40">Max: 60%</span></div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<label class="font-label-sm text-label-sm text-pure-white/60 uppercase">Installments (Months)</label>
+<span class="font-label-lg text-label-lg text-refined-gold" id="installments-val">36</span>
+</div>
+<input class="w-full accent-refined-gold" id="installments-slider" max="60" min="12" step="6" type="range" value="36"/><div class="flex justify-between mt-1"><span class="text-label-sm text-pure-white/40">12 Months</span><span class="text-label-sm text-refined-gold font-medium">36 Months Plan</span><span class="text-label-sm text-pure-white/40">60 Months</span></div>
+</div>
+<div class="pt-8 border-t border-pure-white/10">
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-pure-white/60 uppercase mb-1">Estimated Monthly Payment</p>
+<h3 class="font-display-lg text-headline-xl text-pure-white">USD 4,250<span class="text-label-lg text-pure-white/40 ml-2">+ CAC</span></h3>
+</div>
+<button class="bg-refined-gold text-pure-white px-8 py-4 font-label-lg text-label-lg rounded-full hover:scale-105 transition-transform animate-pulse duration-700 transition-all">
+                                Request Quote
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Visuals Gallery -->
+<section class="py-section-gap px-margin-desktop bg-surface-container-low">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-12">Architectural Details</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="Close up architectural detail of a modern concrete and glass building facade at golden hour with long shadows and sharp geometric lines. High-end real estate photography style with a focus on material textures and minimalist design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtDlxda89Og5JVXy97L3UV1nmD-gCwljYQEJHoGjBMUramXKPpOrQx45tLGxmutd6WFUOW3hL6rXeNfyveeWcKzfBGVRkqRPyFFDFMShdm0b6d-Wn4IGtvoWqqMW8VQkznqIhHnwv0tbUCxb3Q-xzr_fqPfT_XtqDHfnKhI7lnJBOyIGo2aF3enl0lgrNblSYN0Ugcdd7Bx5X8B3QEh9nx5RBRFWNq5MGJhQ44OB6Jsc86HW3-KMvuJjHXgNoaWBbpXp5PcQhWOE4"/>
+</div>
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="Luxury interior showroom of a modern apartment with floor to ceiling windows overlooking a city skyline. The interior features premium oak wood flooring, minimalist furniture in neutral tones, and soft ambient lighting that highlights the spacious layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5kUJ5it4LRQMED0A3u-H_pfBF19hnAaWwT4uL5UitHboNEfRsGJNoZvZdVi3OD4w74gwP-mzYpWsgMlmzeYtFfrOA6jDX8mgLOsItD4QA9E0mvSjJI2COh7D2HaG2janEMSE5C3tokRjFkbW81NVQpU2B_BxL8Vd4CSuXsB8e-43Cj9Zls7hRp67wLAOt_Y07pN8bDGf73HxNsADAGEaUZJt2uv1Nb-2EYWG34igfGd4RoEX3khpSOjgiemZFVo6MWV9ZoNVGEw4"/>
+</div>
+<div class="aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="Rooftop infinity pool of a high-end luxury residential building at twilight. The pool water is crystal clear and glowing with subtle underwater lights, reflecting the sunset sky. The surrounding deck is made of dark stone with designer lounge chairs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzccruNtfa9PlH_-8NGQb9CjJ7yP6x3y0eTtJlYGKSqAFy7ByVt4iKfLOrXnk_0iPq5YZiLQs6dpYtztfJtqiXi_ercq5TIy3GCg7GTtPG5SpfQuXTRhwsnoChzQpQPM97bCYUEejVdi1PRUCpB18iA20U5eiHJ3dM4mSb4Jjo3cwaUg5wMxWtbtrHOqewSANJDzk15s6J6Gl6m6XPQGOZ-gI4O2IZuYEbAqpOtuBbCZ4WuSMANoPbmddBDNhIEoWTfEEE8tjWnKE"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-deep-charcoal w-full mt-section-gap border-t border-outline-variant">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-section-gap">
+<div class="md:col-span-4">
+<span class="font-headline-lg text-headline-lg text-primary dark:text-pure-white mb-6 block">MUV Propiedades</span>
+<p class="text-slate-blue dark:text-on-surface-variant font-body-md mb-8 max-w-xs">
+                    Committed to architectural excellence and transparent real estate solutions.
+                </p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">language</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">mail</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">call</span>
+</div>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-lg text-label-lg text-primary mb-6 uppercase">Offices</h4>
+<ul class="space-y-4 font-body-md text-body-md text-slate-blue">
+<li class="hover:text-refined-gold underline transition-all cursor-pointer">London Office</li>
+<li class="hover:text-refined-gold underline transition-all cursor-pointer">Madrid Office</li>
+<li class="hover:text-refined-gold underline transition-all cursor-pointer">Dubai Office</li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-lg text-label-lg text-primary mb-6 uppercase">Links</h4>
+<ul class="space-y-4 font-body-md text-body-md text-slate-blue">
+<li class="hover:text-refined-gold underline transition-all cursor-pointer">Contact Us</li>
+<li class="hover:text-refined-gold underline transition-all cursor-pointer">Privacy Policy</li>
+</ul>
+</div>
+<div class="md:col-span-4 text-right">
+<p class="text-slate-blue dark:text-on-surface-variant font-body-md">© 2024 MUV Propiedades. Architectural Precision.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Scroll Animation for Header
+        window.onscroll = function() {
+            const nav = document.querySelector('nav');
+            if (window.pageYOffset > 100) {
+                nav.classList.add('bg-white/95', 'shadow-sm');
+                nav.classList.remove('bg-transparent');
+            } else {
+                nav.classList.remove('bg-white/95', 'shadow-sm');
+                nav.classList.add('bg-transparent');
+            }
+        };
+
+        // Interactive Financing Slider logic
+        const advSlider = document.getElementById('advance-slider');
+        const instSlider = document.getElementById('installments-slider');
+        const advVal = document.getElementById('advance-val');
+        const instVal = document.getElementById('installments-val');
+
+        advSlider.addEventListener('input', (e) => {
+            advVal.textContent = e.target.value + '%';
+        });
+
+        instSlider.addEventListener('input', (e) => {
+            instVal.textContent = e.target.value;
+        });
+    </script>
+</body></html>

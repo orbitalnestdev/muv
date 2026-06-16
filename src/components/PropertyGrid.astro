@@ -1,0 +1,81 @@
+---
+import PropertyCard from './PropertyCard.astro';
+import type { Property } from '../lib/tokko';
+
+interface Props {
+  properties: Property[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { properties, currentPage, totalPages } = Astro.props;
+
+// Generate clean query URL relative path
+const canonicalUrl = Astro.url;
+function getPageLink(pageNumber: number) {
+  const newUrl = new URL(canonicalUrl);
+  newUrl.searchParams.set('page', pageNumber.toString());
+  return newUrl.pathname + newUrl.search;
+}
+---
+
+<div class="space-y-12 w-full" id="property-grid-outer">
+    {properties.length === 0 ? (
+        <div class="text-center py-20 bg-pure-white border border-outline-variant/30 rounded-lg shadow-sm w-full">
+            <span class="material-symbols-outlined text-[64px] text-secondary/40 mb-4">search_off</span>
+            <h3 class="font-headline-md text-headline-md text-primary mb-2">Sin Resultados</h3>
+            <p class="font-body-md text-secondary">No encontramos propiedades que coincidan con tus filtros.</p>
+        </div>
+    ) : (
+        <div id="property-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full transition-all duration-350">
+            {properties.map((prop) => (
+                <PropertyCard property={prop} />
+            ))}
+        </div>
+    )}
+
+    <!-- Server-Side Pagination Links -->
+    {totalPages > 1 && (
+        <div class="flex justify-center items-center gap-6 pt-8 border-t border-outline-variant/10 w-full select-none">
+            {currentPage > 1 ? (
+                <a 
+                  href={getPageLink(currentPage - 1)} 
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-[#C5A880] hover:text-pure-white transition-all active:scale-95 shadow-sm"
+                  aria-label="Página anterior"
+                >
+                    <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                </a>
+            ) : (
+                <button 
+                  disabled 
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/30 text-secondary/40 cursor-not-allowed opacity-50 shadow-sm"
+                  aria-label="Página anterior"
+                >
+                    <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                </button>
+            )}
+
+            <span class="text-xs font-semibold text-secondary tracking-widest uppercase">
+                Página {currentPage} de {totalPages}
+            </span>
+
+            {currentPage < totalPages ? (
+                <a 
+                  href={getPageLink(currentPage + 1)} 
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-[#C5A880] hover:text-pure-white transition-all active:scale-95 shadow-sm"
+                  aria-label="Página siguiente"
+                >
+                    <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                </a>
+            ) : (
+                <button 
+                  disabled 
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/30 text-secondary/40 cursor-not-allowed opacity-50 shadow-sm"
+                  aria-label="Página siguiente"
+                >
+                    <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                </button>
+            )}
+        </div>
+    )}
+</div>

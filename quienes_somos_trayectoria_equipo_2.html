@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quiénes Somos | MUV Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-container": "#261900",
+                        "surface-dim": "#d9dadb",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary-fixed": "#1c1b1b",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#858383",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary-fixed": "#ffdea5",
+                        "primary-container": "#1c1b1b",
+                        "secondary-container": "#d5e0f7",
+                        "on-secondary-fixed": "#111c2c",
+                        "on-tertiary-container": "#a17f3b",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-container": "#edeeef",
+                        "on-background": "#191c1d",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#545f72",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-container-high": "#e7e8e9",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-fixed": "#261900",
+                        "slate-blue": "#4A5568",
+                        "deep-charcoal": "#121212",
+                        "refined-gold": "#C5A059",
+                        "primary": "#000000",
+                        "outline": "#747878",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f3f4f5",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "secondary-fixed": "#d8e3fa",
+                        "outline-variant": "#c4c7c7",
+                        "off-white": "#F7F8F9",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "surface-tint": "#5f5e5e",
+                        "pure-white": "#FFFFFF",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "inverse-surface": "#2e3132",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#444748",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "on-secondary-container": "#586377",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "section-gap": "120px",
+                        "gutter": "32px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-xl": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-deep-charcoal/80 backdrop-blur-md shadow-sm dark:shadow-none transition-all duration-300" id="main-nav">
+<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center">
+<img alt="MUV Propiedades" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/>
+</div>
+<!-- Desktop Nav Links -->
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-label-lg text-label-lg text-secondary dark:text-surface-variant hover:text-primary dark:hover:text-pure-white transition-colors" href="listado_emprendimientos.html">Emprendimientos</a>
+<a class="font-label-lg text-label-lg text-secondary dark:text-surface-variant hover:text-primary dark:hover:text-pure-white transition-colors" href="index.html#destacados">Propiedades</a>
+<a class="font-label-lg text-label-lg text-primary dark:text-refined-gold font-bold border-b-2 border-primary dark:border-refined-gold pb-1" href="quienes_somos.html">Quiénes Somos</a>
+<a class="font-label-lg text-label-lg text-secondary dark:text-surface-variant hover:text-primary dark:hover:text-pure-white transition-colors" href="contacto.html">Contacto</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="hidden md:block font-label-lg text-label-lg text-primary border border-primary px-6 py-2 hover:bg-primary hover:text-pure-white transition-all">Vender</button>
+<button class="font-label-lg text-label-lg bg-primary text-pure-white px-6 py-2 hover:bg-deep-charcoal transition-all">Tasaciones</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative h-[90vh] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-105" data-alt="A sweeping panoramic view of a contemporary architectural masterpiece with floor-to-ceiling glass windows reflecting a warm, golden sunset. The building features clean lines of concrete and steel, set against a backdrop of a manicured urban landscape." style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLsRnO33GPnZ9esfobXTXm7h0U7cvUeGqDwRdZWyRqjNBpW7U8RBec4AqACwHxLbVRCYHUWKEKh3rlKrFPcalotKhBqyamPYPfeUv_3WH6gMEd6o8bW5j6z6tyfhwFpsteW1d5mBjaktni4eL7z7EA4VqztfiunD2b_k24_Us1tgPNUQXAqOfZrGIVxnnI2noROjnJLh3KGCteHIPvH-vK5XqixDOJqMh5z3WJa2PCv-W213DqsmRMMHJdc');">
+</div>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="relative z-10 text-center px-margin-mobile max-w-4xl">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-pure-white mb-6">
+                Somos MUV, una inmobiliaria basada en el valor de la confianza.
+            </h1>
+<div class="w-24 h-1 bg-refined-gold mx-auto"></div>
+</div>
+</header>
+<!-- Story Section (Redesigned) -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-pure-white overflow-hidden">
+<div class="max-w-container-max mx-auto reveal">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
+<div class="md:col-span-6 lg:col-span-5 relative">
+<div class="absolute -top-12 -left-12 w-48 h-48 border-t border-l border-refined-gold/30 z-0"></div>
+<div class="relative z-10 space-y-6">
+<div class="flex items-center space-x-4">
+<span class="w-12 h-0.5 bg-refined-gold"></span>
+<span class="text-refined-gold font-label-lg text-label-lg tracking-[0.2em] uppercase">Nuestra Trayectoria</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-deep-charcoal leading-tight font-bold">
+                    Más de 15 años <span class="text-refined-gold">transformando</span> el mercado.
+                </h2>
+</div>
+</div>
+<div class="md:col-span-6 lg:col-span-6 lg:col-start-7">
+<div class="space-y-10">
+<p class="font-body-lg text-body-lg text-secondary leading-relaxed">
+                    En MUV Propiedades, entendemos que una propiedad no es solo un inmueble; es un proyecto de vida, una inversión estratégica y un espacio de sueños. Desde nuestros inicios, hemos forjado un camino basado en la integridad absoluta y el compromiso con la excelencia profesional.
+                </p>
+<div class="relative pl-10 border-l-4 border-refined-gold py-2">
+<p class="font-body-lg text-body-lg text-deep-charcoal leading-relaxed font-medium italic">
+                        "Nuestra metodología combina la precisión del análisis de mercado moderno con un trato humano cercano y personalizado. No solo vendemos metros cuadrados; construimos relaciones duraderas."
+                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Values Grid (Redesigned) -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-off-white relative">
+<div class="max-w-container-max mx-auto relative z-10">
+<div class="text-center mb-24 reveal active">
+<span class="text-refined-gold font-label-lg text-label-lg tracking-[0.2em] uppercase block mb-4">Misión &amp; Filosofía</span>
+<h2 class="font-headline-xl text-headline-lg md:text-headline-xl text-deep-charcoal mb-6 font-bold">Nuestros Valores Fundamentales</h2>
+<p class="font-body-lg text-body-md text-secondary max-w-2xl mx-auto leading-relaxed">Los pilares que sostienen cada una de nuestras operaciones y definen nuestra identidad corporativa ante cada cliente.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 reveal active">
+<!-- Excellence -->
+<div class="group relative bg-pure-white p-10 md:p-12 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2">
+<div class="absolute top-0 left-0 w-full h-1 bg-refined-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+<div class="mb-10 w-20 h-20 bg-surface-container-low flex items-center justify-center rounded-sm group-hover:bg-deep-charcoal transition-colors duration-500">
+<span class="material-symbols-outlined text-refined-gold group-hover:text-pure-white transition-colors duration-500" style="font-size: 36px;">workspace_premium</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-charcoal mb-6 font-bold uppercase tracking-tight">Excelencia</h3>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">Buscamos la perfección en cada detalle, desde la tasación inicial hasta la firma final de la escritura, asegurando resultados impecables.</p>
+</div>
+<!-- Commitment -->
+<div class="group relative bg-pure-white p-10 md:p-12 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2">
+<div class="absolute top-0 left-0 w-full h-1 bg-refined-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+<div class="mb-10 w-20 h-20 bg-surface-container-low flex items-center justify-center rounded-sm group-hover:bg-deep-charcoal transition-colors duration-500">
+<span class="material-symbols-outlined text-refined-gold group-hover:text-pure-white transition-colors duration-500" style="font-size: 36px;">handshake</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-charcoal mb-6 font-bold uppercase tracking-tight">Compromiso</h3>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">Su tranquilidad es nuestra prioridad. Actuamos con total transparencia y honestidad, forjando vínculos de confianza irrompibles.</p>
+</div>
+<!-- Innovation -->
+<div class="group relative bg-pure-white p-10 md:p-12 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2">
+<div class="absolute top-0 left-0 w-full h-1 bg-refined-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+<div class="mb-10 w-20 h-20 bg-surface-container-low flex items-center justify-center rounded-sm group-hover:bg-deep-charcoal transition-colors duration-500">
+<span class="material-symbols-outlined text-refined-gold group-hover:text-pure-white transition-colors duration-500" style="font-size: 36px;">lightbulb</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-deep-charcoal mb-6 font-bold uppercase tracking-tight">Innovación</h3>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">Utilizamos las últimas herramientas tecnológicas y estrategias digitales disruptivas para posicionar sus propiedades con máxima efectividad.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-pure-white">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal active">
+<div class="max-w-2xl">
+<span class="text-refined-gold font-label-lg text-label-lg tracking-widest block mb-4 uppercase">El Equipo</span>
+<h2 class="font-headline-xl text-headline-xl text-deep-charcoal font-bold">Los profesionales detrás de tu próximo hogar.</h2>
+</div>
+<div class="mt-8 md:mt-0">
+<p class="font-body-md text-body-md text-secondary">Expertos dedicados a brindarte la mejor experiencia inmobiliaria.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter reveal active">
+<!-- Valentina -->
+<div class="group overflow-hidden">
+<div class="relative h-[450px] overflow-hidden mb-6">
+<img alt="Valentina" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDblCcUgWfCEBus7NvTHSfebwMnd39cn5laA4Ns1OVUn2MuAenpp8Olu02yhjprjaZe13EHkZPTE2zo3ELKPGbydrNoBbOUgRoBZizS0x5Fge-P7e6QQEnoGmOqawDKnc9cqahvY7PgRMmy40oJF5XSy38tHNxD5AF3AwUgwpeHILEKzMrgU_mQFUaw-Ut7h9xVbWxkMMlxrl6kfdolDNAsosNr8zWvlLfoJvVl5ROg1hShwGVHu1e2m428CvZ64ENhv4T0KCos09g"/>
+</div>
+<h4 class="font-headline-md text-headline-md text-deep-charcoal font-bold">Valentina</h4>
+<p class="font-label-lg text-label-lg text-refined-gold uppercase">Directora de Ventas</p>
+</div>
+<!-- Lionel -->
+<div class="group overflow-hidden">
+<div class="relative h-[450px] overflow-hidden mb-6">
+<img alt="Lionel" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFuf3RpOzmzqPzBEgII6n1ddQR9LqoW66pU3pJy7eiPSVonYztbHuuZ7Qtd_q4Y2yq2LwINKbg8BI_iXqhIU99XoyuBmIRE5UmMyZbYOIHeIj4sfNi30-ievpMSqoUactNsHcesyLYFy9B_axHX3JrV4Zx0jovEWnVJb41cQSHUeUN2LC8j0MPUxJUVAl_NlRIWMi5RXTAddVknwOAIXCMXW4gvHrT3QBY1fi10bmGkxzjeZkFKJcvEVuQuNXo844sizd0K0keKwk"/>
+</div>
+<h4 class="font-headline-md text-headline-md text-deep-charcoal font-bold">Lionel</h4>
+<p class="font-label-lg text-label-lg text-refined-gold uppercase">Especialista en Tasaciones</p>
+</div>
+<!-- Ailin -->
+<div class="group overflow-hidden">
+<div class="relative h-[450px] overflow-hidden mb-6">
+<img alt="Ailin" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4pDlW3ifJ5g79-3EsEUxfKDeQ0YJ-KRnctagmDNc6g0HfIK--nKaKfcrWnPuYLiIE636Mp5TcwXJZ8hKKuD36SpDJsLY7buXAYQ3_sjPVXEnR4jak2zPDA6zSTp54iRN4xFs_gA3epbM3b6bNbNV5WpuJDM8HrFnWSdnySYP93Kn8hs-RMqYil5K-H5sNB4iJzBOq_Xr_-w_BkkPHk13eYbFfx7RdvRfRFXumNXTsvwYq-wn2XYc3qC34MauOqaJJ_2DoE8LnFBs"/>
+</div>
+<h4 class="font-headline-md text-headline-md text-deep-charcoal font-bold">Ailin</h4>
+<p class="font-label-lg text-label-lg text-refined-gold uppercase">Atención al Cliente</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-deep-charcoal text-pure-white">
+<div class="max-w-container-max mx-auto reveal active">
+<div class="text-center mb-16">
+<div class="flex justify-center items-center space-x-2 mb-4">
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-refined-gold" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg mb-2 font-bold">Lo que dicen nuestros clientes</h2>
+<p class="font-label-lg text-label-lg text-surface-variant">Calificación 4.9/5 en Google Reviews</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Testimonial 1 -->
+<div class="bg-white/5 p-10 border-l border-refined-gold">
+<p class="font-body-lg text-body-lg italic mb-6">"Excelente atención y profesionalismo. Me acompañaron en todo el proceso de venta de mi departamento con una claridad que me dio muchísima seguridad. Sin duda, los volvería a elegir."</p>
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 bg-refined-gold rounded-full flex items-center justify-center font-bold">RM</div>
+<div>
+<p class="font-label-lg text-label-lg">Ricardo Martínez</p>
+<p class="text-label-sm text-surface-variant">Propietario en Recoleta</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white/5 p-10 border-l border-refined-gold">
+<p class="font-body-lg text-body-lg italic mb-6">"Buscaba un local comercial y Lionel entendió exactamente mis necesidades desde el primer día. El seguimiento fue impecable. Muy recomendables."</p>
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 bg-refined-gold rounded-full flex items-center justify-center font-bold">SG</div>
+<div>
+<p class="font-label-lg text-label-lg">Sofía González</p>
+<p class="text-label-sm text-surface-variant">Inversora Comercial</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-pure-white">
+<div class="max-w-4xl mx-auto text-center reveal active">
+<h2 class="font-headline-xl text-headline-xl text-deep-charcoal mb-8 font-bold">¿Listo para dar el siguiente paso?</h2>
+<p class="font-body-lg text-body-lg text-secondary mb-12">Nuestros asesores están disponibles para brindarte una tasación profesional sin cargo y asesorarte en tu próxima inversión.</p>
+<div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+<a class="bg-deep-charcoal text-pure-white px-10 py-4 font-label-lg text-label-lg hover:bg-black transition-all" href="#">Tasa con un profesional</a>
+<a class="border border-deep-charcoal text-deep-charcoal px-10 py-4 font-label-lg text-label-lg hover:bg-deep-charcoal hover:text-pure-white transition-all" href="#">Contactanos</a>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-deep-charcoal text-pure-white py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="col-span-1 md:col-span-1">
+<h3 class="font-headline-lg text-headline-lg font-bold text-pure-white mb-6">MUV Propiedades</h3>
+<p class="font-body-md text-body-md text-surface-variant mb-6">Excelencia en servicios inmobiliarios. Tu confianza es nuestro motor.</p>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg mb-6 uppercase text-refined-gold font-bold">Empresa</h4>
+<ul class="space-y-4 font-body-md text-body-md">
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="listado_emprendimientos.html">Emprendimientos</a></li>
+<li class=""><a class="text-refined-gold" href="quienes_somos.html">Quiénes Somos</a></li>
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="index.html#destacados">Propiedades</a></li>
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="contacto.html">Contacto</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg mb-6 uppercase text-refined-gold font-bold">Servicios</h4>
+<ul class="space-y-4 font-body-md text-body-md">
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="contacto.html">Tasaciones</a></li>
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="#">Venta</a></li>
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="#">Alquiler</a></li>
+<li class=""><a class="text-surface-variant hover:text-pure-white transition-colors" href="#">Legales</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg mb-6 uppercase text-refined-gold font-bold">Newsletter</h4>
+<p class="text-label-sm text-surface-variant mb-4">Recibí las últimas oportunidades del mercado.</p>
+<form class="flex border-b border-surface-variant pb-2">
+<input class="bg-transparent border-none focus:ring-0 w-full text-pure-white placeholder:text-outline" placeholder="Tu email" type="email"/>
+<button class="material-symbols-outlined text-refined-gold" type="submit">arrow_forward</button>
+</form>
+</div>
+</div>
+<div class="max-w-container-max mx-auto mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-label-sm text-surface-variant">
+<p class="">© 2024 MUV Propiedades. Todos los derechos reservados.</p>
+<div class="flex space-x-6 mt-4 md:mt-0">
+<a class="hover:text-pure-white" href="#">Privacidad</a>
+<a class="hover:text-pure-white" href="#">Términos</a>
+</div>
+</div>
+</footer>
+<script>
+        // Reveal on scroll logic
+        const reveals = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Navbar shadow on scroll
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md', 'bg-surface/95');
+                nav.classList.remove('bg-surface/80');
+            } else {
+                nav.classList.remove('shadow-md', 'bg-surface/95');
+                nav.classList.add('bg-surface/80');
+            }
+        });
+    </script>
+</body></html>

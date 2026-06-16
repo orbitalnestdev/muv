@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>MUV Propiedades | Real Estate Premium</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "on-primary-fixed-variant": "#474746",
+                    "outline-variant": "#c4c7c7",
+                    "on-surface-variant": "#444748",
+                    "outline": "#747878",
+                    "on-secondary": "#ffffff",
+                    "slate-blue": "#4A5568",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-bright": "#f8f9fa",
+                    "background": "#f8f9fa",
+                    "primary": "#000000",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#111c2c",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dadb",
+                    "primary-container": "#1c1b1b",
+                    "on-secondary-container": "#586377",
+                    "tertiary-container": "#261900",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary-fixed-dim": "#bcc7dd",
+                    "on-primary-container": "#858383",
+                    "surface-container-high": "#e7e8e9",
+                    "deep-charcoal": "#121212",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#ffdea5",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "surface-tint": "#5f5e5e",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "secondary": "#545f72",
+                    "surface-container-highest": "#e1e3e4",
+                    "inverse-surface": "#2e3132",
+                    "on-background": "#191c1d",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f3f4f5",
+                    "tertiary": "#000000",
+                    "surface": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "on-tertiary-fixed": "#261900",
+                    "pure-white": "#FFFFFF",
+                    "off-white": "#F7F8F9",
+                    "on-tertiary-container": "#a17f3b",
+                    "secondary-fixed": "#d8e3fa",
+                    "secondary-container": "#d5e0f7",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#1c1b1b",
+                    "inverse-primary": "#c8c6c5",
+                    "surface-variant": "#e1e3e4",
+                    "refined-gold": "#C5A059"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "section-gap": "120px",
+                    "gutter": "32px",
+                    "base": "8px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "label-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                    "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                    "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+                    "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                    "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "label-lg": ["13px", { "lineHeight": "18px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                    "body-lg": ["17px", { "lineHeight": "26px", "fontWeight": "400" }]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        #property-carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.7) 100%);
+        }
+        .luxury-card:hover .card-img {
+            transform: scale(1.03);
+        }
+        .card-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* Card image carousel and badge styles */
+        .card-carousel-container {
+            position: relative;
+            aspect-ratio: 3 / 2;
+            overflow: hidden;
+        }
+        .card-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.85);
+            border: none;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+        .card-carousel-btn:hover {
+            color: #fff;
+            transform: translateY(-50%) scale(1.2);
+        }
+        .card-carousel-btn-left {
+            left: 8px;
+        }
+        .card-carousel-btn-right {
+            right: 8px;
+        }
+        .card-zoom-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            border: none;
+        }
+        .card-zoom-btn:hover {
+            background: rgba(0, 0, 0, 0.85);
+            transform: scale(1.05);
+        }
+        .card-watermark {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 5;
+            color: rgba(255, 255, 255, 0.35);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+            pointer-events: none;
+            text-transform: lowercase;
+        }
+        .card-badge-container {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 5;
+            display: flex;
+            gap: 6px;
+        }
+        .card-badge {
+            background: rgba(0, 0, 0, 0.65);
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 9px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 2px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .card-badge-zonaprop {
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .ambient-shadow {
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.06);
+        }
+        .backdrop-blur-nav {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Premium Team Photo Card Interaction */
+        .team-image-container {
+            position: relative;
+            overflow: visible;
+        }
+        .team-image-frame {
+            position: absolute;
+            inset: -8px;
+            border: 1.5px solid #C5A059; /* refined-gold */
+            border-radius: 8px;
+            pointer-events: none;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+            opacity: 0;
+            transform: scale(0.96);
+            z-index: 5;
+        }
+        .team-image-container:hover .team-image-frame {
+            opacity: 0.85;
+            transform: scale(1);
+        }
+        .team-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+        .team-image-container:hover .team-image-wrapper {
+            transform: scale(0.985);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+        }
+        .team-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .team-image-container:hover .team-img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden relative">
+
+<!-- Top Navigation Bar -->
+<nav id="topNav" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-6 text-pure-white border-b border-white/10">
+    <div class="flex justify-between items-center px-margin-desktop max-w-container-max mx-auto">
+        <a href="index.html" class="flex items-center gap-4">
+            <img id="logo-img" alt="MUV Propiedades Logo" class="h-9 w-auto object-contain brightness-0 invert transition-all duration-300" src="assets/imgi_75_MUV-WEB_LOGO-2.png">
+        </a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar.html?operation=1">Vender</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar.html?operation=2">Alquilar</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="contacto.html">Tasaciones</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="quienes_somos.html">Quienes Somos</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="contacto.html">Contacto</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="hidden lg:flex items-center font-label-lg gap-1.5">
+                <span class="material-symbols-outlined text-[18px]">call</span>
+                <span>+54 11 5555 1234</span>
+            </div>
+            <a href="contacto.html" class="bg-refined-gold text-primary hover:bg-pure-white hover:text-primary px-6 py-2.5 font-label-lg rounded uppercase tracking-wider transition-all duration-300 text-center">
+                Consultar
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="relative h-[95vh] min-h-[680px] flex items-center justify-center overflow-hidden pt-20">
+    <div class="absolute inset-0 z-0">
+        <!-- Hero background image matches screenshot aesthetic (lush trees in front of high-end apartment building) -->
+        <img class="w-full h-full object-cover" src="assets/hero.webp">
+        <div class="absolute inset-0 hero-overlay"></div>
+    </div>
+    
+    <!-- Stylized huge watermark monogram logo overlay behind text -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 opacity-10 text-pure-white">
+        <svg class="w-[60vw] h-[60vw] max-w-[500px]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 90 L35 15 L50 45 L65 15 L90 90" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+
+    <div class="relative z-10 text-center px-margin-mobile w-full max-w-4xl animate-fade-up">
+        <h1 class="font-display-lg text-display-lg-mobile md:text-[64px] text-pure-white mb-2 tracking-tight lowercase">muv propiedades</h1>
+        <p class="font-body-lg text-body-lg text-pure-white/90 mb-10">Encontrá tu propiedad ideal en los mejores barrios de la ciudad de Buenos Aires.</p>
+        
+        <!-- Search Component -->
+        <div class="max-w-4xl mx-auto">
+            <!-- Tabs de Operación -->
+            <div class="flex gap-1 mb-2 justify-center md:justify-start">
+                <button id="tab-venta" class="px-6 py-2.5 font-label-lg rounded-t-lg bg-pure-white text-primary border-b-2 border-primary font-bold transition-all" onclick="changeOperation(1)">Comprar</button>
+                <button id="tab-alquiler" class="px-6 py-2.5 font-label-lg rounded-t-lg bg-pure-white/40 text-pure-white hover:bg-pure-white/60 hover:text-primary transition-all" onclick="changeOperation(2)">Alquilar</button>
+                <button id="tab-temporal" class="px-6 py-2.5 font-label-lg rounded-t-lg bg-pure-white/40 text-pure-white hover:bg-pure-white/60 hover:text-primary transition-all" onclick="changeOperation(3)">Temporal</button>
+            </div>
+            
+            <div class="bg-pure-white p-2 rounded-xl rounded-tl-none shadow-2xl">
+                <div class="flex flex-col md:flex-row items-center gap-2">
+                    <div class="flex-1 w-full grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-outline-variant/30">
+                        <div class="p-3 flex flex-col items-start text-left">
+                            <span class="text-slate-blue font-label-sm uppercase tracking-wider mb-1 text-[10px]">Tipo</span>
+                            <select id="search-type" class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary cursor-pointer outline-none font-bold">
+                                <option value="">Cualquier tipo</option>
+                                <option value="2">Departamento</option>
+                                <option value="3">Casa</option>
+                                <option value="7">Local</option>
+                            </select>
+                        </div>
+                        <div class="p-3 flex flex-col items-start text-left">
+                            <span class="text-slate-blue font-label-sm uppercase tracking-wider mb-1 text-[10px]">Barrio</span>
+                            <select id="search-location" class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary cursor-pointer outline-none font-bold">
+                                <option value="">Todos los barrios</option>
+                                <option value="24681">Recoleta</option>
+                                <option value="24728">Palermo</option>
+                                <option value="24682">Belgrano</option>
+                                <option value="24709">Colegiales</option>
+                            </select>
+                        </div>
+                        <div class="p-3 flex flex-col items-start text-left">
+                            <span class="text-slate-blue font-label-sm uppercase tracking-wider mb-1 text-[10px]">Palabra clave</span>
+                            <input id="search-query" class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary placeholder:text-outline/40 outline-none font-bold" placeholder="Ej: balcón, cochera..." type="text">
+                        </div>
+                    </div>
+                    <button id="search-btn" class="w-full md:w-auto bg-primary text-pure-white px-10 py-4.5 rounded font-label-lg flex items-center justify-center gap-2 hover:bg-refined-gold transition-all duration-300">
+                        <span class="material-symbols-outlined text-[18px]">search</span>
+                        BUSCAR
+                    </button>
+                </div>
+                
+                <!-- Advanced Filters Toggle & Reset -->
+                <div class="flex justify-between items-center mt-3 px-4 py-2 border-t border-outline-variant/20">
+                    <button id="btn-toggle-filters" class="flex items-center gap-2 text-slate-blue font-label-sm hover:text-primary transition-colors outline-none">
+                        <span class="material-symbols-outlined text-[18px]">tune</span> Filtros Avanzados
+                    </button>
+                    <button id="btn-reset-filters" class="text-slate-blue font-label-sm hover:text-error transition-colors outline-none hidden">
+                        Limpiar Filtros
+                    </button>
+                </div>
+                
+                <!-- Advanced Filters Panel -->
+                <div id="advanced-filters" class="hidden grid grid-cols-1 md:grid-cols-4 gap-4 p-6 border-t border-outline-variant/20 mt-2 bg-off-white/50 rounded-b-xl text-left">
+                    <div class="flex flex-col">
+                        <label class="text-slate-blue font-label-sm uppercase mb-1">Precio Mínimo (USD)</label>
+                        <input type="number" id="filter-price-min" placeholder="Sin mínimo" class="border border-outline-variant/30 bg-transparent rounded p-2 focus:ring-1 focus:ring-refined-gold outline-none text-body-md text-primary">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-slate-blue font-label-sm uppercase mb-1">Precio Máximo (USD)</label>
+                        <input type="number" id="filter-price-max" placeholder="Sin máximo" class="border border-outline-variant/30 bg-transparent rounded p-2 focus:ring-1 focus:ring-refined-gold outline-none text-body-md text-primary">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-slate-blue font-label-sm uppercase mb-1">Ambientes</label>
+                        <select id="filter-rooms" class="border border-outline-variant/30 bg-transparent rounded p-2 focus:ring-1 focus:ring-refined-gold outline-none text-body-md text-primary">
+                            <option value="">Cualquiera</option>
+                            <option value="1">1 Ambiente</option>
+                            <option value="2">2 Ambientes</option>
+                            <option value="3">3 Ambientes</option>
+                            <option value="4">4+ Ambientes</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-slate-blue font-label-sm uppercase mb-1">Dormitorios</label>
+                        <select id="filter-bedrooms" class="border border-outline-variant/30 bg-transparent rounded p-2 focus:ring-1 focus:ring-refined-gold outline-none text-body-md text-primary">
+                            <option value="">Cualquiera</option>
+                            <option value="1">1 Dormitorio</option>
+                            <option value="2">2 Dormitorios</option>
+                            <option value="3">3 Dormitorios</option>
+                            <option value="4">4+ Dormitorios</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Destacados Section (Edge-to-Edge Carousel) -->
+<section id="destacados" class="py-20 relative overflow-hidden">
+    <!-- Fade Overlays (subtle, premium edge blend) -->
+    <div class="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent pointer-events-none z-10"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none z-10"></div>
+
+    <div class="px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-end mb-12 gap-4 relative z-20">
+        <div>
+            <span class="text-refined-gold font-label-lg uppercase tracking-[0.2em] mb-1 block">Selección Exclusiva</span>
+            <h2 class="font-headline-xl text-headline-xl text-primary">Destacados</h2>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Carousel Nav Arrows -->
+            <button id="carousel-prev" class="w-11 h-11 border border-outline-variant hover:border-refined-gold hover:bg-refined-gold hover:text-pure-white flex items-center justify-center rounded-full transition-all duration-300 bg-pure-white shadow-sm hover:scale-105 active:scale-95" onclick="slideCarousel(-1)">
+                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <button id="carousel-next" class="w-11 h-11 border border-outline-variant hover:border-refined-gold hover:bg-refined-gold hover:text-pure-white flex items-center justify-center rounded-full transition-all duration-300 bg-pure-white shadow-sm hover:scale-105 active:scale-95" onclick="slideCarousel(1)">
+                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+            <a class="text-slate-blue font-label-lg border-b border-slate-blue hover:text-primary hover:border-primary transition-all whitespace-nowrap" href="buscar.html">Ver todas las propiedades</a>
+        </div>
+    </div>
+    
+    <!-- Edge-to-Edge Carousel Track Wrapper -->
+    <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide py-4 px-4 md:px-12 relative z-0" id="property-carousel-container" style="-ms-overflow-style: none; scrollbar-width: none;">
+        <div id="property-grid" class="flex gap-6 transition-transform duration-500 ease-out w-max">
+            <!-- Loader Skeletons -->
+            <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse w-[290px] md:w-[320px] flex-shrink-0">
+                <div class="aspect-[3/2] bg-surface-dim"></div>
+                <div class="p-6 space-y-4">
+                    <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                    <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                    <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                </div>
+            </div>
+            <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse w-[290px] md:w-[320px] flex-shrink-0">
+                <div class="aspect-[3/2] bg-surface-dim"></div>
+                <div class="p-6 space-y-4">
+                    <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                    <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                    <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                </div>
+            </div>
+            <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse w-[290px] md:w-[320px] flex-shrink-0">
+                <div class="aspect-[3/2] bg-surface-dim"></div>
+                <div class="p-6 space-y-4">
+                    <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                    <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                    <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                </div>
+            </div>
+            <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse w-[290px] md:w-[320px] flex-shrink-0">
+                <div class="aspect-[3/2] bg-surface-dim"></div>
+                <div class="p-6 space-y-4">
+                    <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                    <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                    <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pagination-container" class="mt-12 flex justify-center hidden">
+        <button id="btn-load-more" class="hidden"></button>
+    </div>
+</section>
+
+<!-- Residenciales Bento Grid (Matches screenshot vertical stacking and neighborhoods exactly) -->
+<section class="py-24 bg-surface-container-low/50 relative overflow-hidden">
+    <!-- Large Monogram Watermark Image on the bottom-right background (Matches reference screenshot) -->
+    <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 overflow-hidden w-[70%] max-w-[600px] translate-y-[20%] translate-x-[10%] opacity-[0.06] block">
+        <img src="assets/iso_muv.png" alt="M Monogram Watermark" class="w-full h-auto brightness-0">
+    </div>
+
+    <div class="px-margin-desktop max-w-container-max mx-auto relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+            
+            <!-- Col 1: Title & Palermo Chico -->
+            <div class="flex flex-col gap-6 justify-between">
+                <div class="space-y-4 pr-4">
+                    <h2 class="font-headline-xl text-headline-xl text-primary leading-tight">Residenciales</h2>
+                    <div class="w-12 h-[3px] bg-refined-gold"></div>
+                    <p class="font-body-md text-secondary leading-relaxed text-sm">
+                        Nuestra selección de propiedades en los barrios más exclusivos de Buenos Aires.
+                    </p>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer flex-1 min-h-[220px]" onclick="filterByLocationName('Palermo Chico')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1605538032432-a9f0c8d9baac?auto=format&fit=crop&w=500&q=80" alt="Palermo Chico">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Palermo Chico</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 2: Recoleta & Colegiales -->
+            <div class="flex flex-col gap-6">
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer h-[360px]" onclick="filterByLocationName('Recoleta')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=500&q=80" alt="Recoleta">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Recoleta</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer flex-grow min-h-[160px]" onclick="filterByLocationName('Colegiales')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1549877452-9c387ad64b4a?auto=format&fit=crop&w=500&q=80" alt="Colegiales">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Colegiales</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 3: Palermo & Puerto Madero -->
+            <div class="flex flex-col gap-6 justify-between">
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px]" onclick="filterByLocationName('Palermo')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80" alt="Palermo">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Palermo</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer flex-grow min-h-[220px]" onclick="filterByLocationName('Puerto Madero')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80" alt="Puerto Madero">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Puerto Madero</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 4: Belgrano R & Nuñez -->
+            <div class="flex flex-col gap-6">
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer h-[220px]" onclick="filterByLocationName('Belgrano R')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=500&q=80" alt="Belgrano R">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Belgrano R</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer flex-grow min-h-[220px]" onclick="filterByLocationName('Nuñez')">
+                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=500&q=80" alt="Nuñez">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="absolute bottom-6 left-6 text-pure-white">
+                        <h3 class="font-headline-md text-[18px] mb-1">Nuñez</h3>
+                        <p class="text-[10px] text-pure-white/80 uppercase tracking-wider font-semibold">Ver propiedades</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- muv Emprendimientos Section (Matches screenshot dark section with 2 cards) -->
+<section class="hidden py-24 px-margin-desktop bg-primary text-pure-white relative overflow-hidden">
+    <div class="absolute -right-40 -top-40 w-96 h-96 bg-refined-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+        <div class="lg:col-span-5 space-y-6">
+            <span class="text-refined-gold font-label-lg uppercase tracking-[0.2em] block">EMPRENDIMIENTOS</span>
+            <h2 class="font-headline-xl text-headline-xl text-pure-white leading-none">muv Emprendimientos</h2>
+            <p class="font-body-lg text-pure-white/70 leading-relaxed text-sm">
+                Proyectos de pozo, en construcción y terminados en las zonas más cotizadas de Buenos Aires. Calidad y diseño para tu inversión.
+            </p>
+            <a href="listado_emprendimientos.html" class="inline-block border border-pure-white text-pure-white px-8 py-3.5 font-label-lg hover:bg-pure-white hover:text-primary transition-all duration-300 rounded-full uppercase text-xs tracking-wider">
+                Ver todos los emprendimientos
+            </a>
+        </div>
+        <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Card 1 (DOME Suites) -->
+            <a href="/emprendimiento/201" class="group bg-surface-container-low/10 backdrop-blur border border-white/10 rounded-lg overflow-hidden block hover:border-refined-gold/50 transition-all duration-300 shadow-xl">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                    <img class="w-full h-full object-cover transition-transform duration-750 group-hover:scale-103" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80" alt="DOME Suites">
+                    <span class="absolute top-4 left-4 bg-refined-gold text-pure-white px-3 py-1 font-label-sm text-[10px] uppercase tracking-wider rounded font-bold">En Construcción</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-headline-md text-headline-md text-pure-white mb-1">DOME Suites</h3>
+                    <p class="font-label-sm text-pure-white/60 mb-4">Recoleta, Buenos Aires</p>
+                    <div class="flex justify-between items-center pt-4 border-t border-white/10 text-refined-gold font-semibold">
+                        <span>Ver Proyecto</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Card 2 (Helix Residencial) -->
+            <a href="/emprendimiento/202" class="group bg-surface-container-low/10 backdrop-blur border border-white/10 rounded-lg overflow-hidden block hover:border-refined-gold/50 transition-all duration-300 shadow-xl">
+                <div class="aspect-[4/3] overflow-hidden relative">
+                    <img class="w-full h-full object-cover transition-transform duration-750 group-hover:scale-103" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80" alt="Helix Residencial">
+                    <span class="absolute top-4 left-4 bg-refined-gold text-pure-white px-3 py-1 font-label-sm text-[10px] uppercase tracking-wider rounded font-bold">En Construcción</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-headline-md text-headline-md text-pure-white mb-1">Helix Residencial</h3>
+                    <p class="font-label-sm text-pure-white/60 mb-4">Palermo Chico, Buenos Aires</p>
+                    <div class="flex justify-between items-center pt-4 border-t border-white/10 text-refined-gold font-semibold">
+                        <span>Ver Proyecto</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Quienes Somos / Team Section (Matches screenshot team photography and typography) -->
+<section class="py-24 bg-surface-container-lowest overflow-hidden">
+    <div class="px-margin-desktop max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-20">
+        <div class="w-full lg:w-1/2 relative team-image-container group">
+            <!-- Premium Elegant Gold Frame that expands on hover -->
+            <div class="team-image-frame"></div>
+            <!-- Main Masked Image Wrapper -->
+            <div class="team-image-wrapper border border-outline-variant/30">
+                <!-- Real MUV Team Photo (16:9 to show the built-in badge completely) -->
+                <img class="w-full aspect-[16/9] object-cover team-img" src="assets/home_about.webp" alt="Equipo MUV">
+            </div>
+            <!-- Subtle Gold Glow Background -->
+            <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-refined-gold/10 -z-10 rounded-full blur-3xl transition-all duration-700 group-hover:bg-refined-gold/20 group-hover:scale-110"></div>
+        </div>
+        <div class="w-full lg:w-1/2 space-y-6">
+            <h2 class="font-headline-xl text-[36px] text-primary font-semibold tracking-tight">Quienes somos</h2>
+            <p class="font-body-lg text-secondary leading-relaxed">
+                Somos MUV, una inmobiliaria nacida en 2010 a partir de la amistad y el trabajo en equipo. Desde nuestros inicios, construimos una forma de hacer inmobiliaria basada en el compromiso, la integridad y el profesionalismo.
+            </p>
+            <a href="quienes_somos.html" class="bg-primary text-pure-white hover:bg-refined-gold hover:text-primary px-8 py-3.5 font-medium rounded-full transition-all duration-300 inline-block text-center shadow-[0_4px_14px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] text-[14px]">
+                Ver más sobre nosotros
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Google Reviews Section (Matches screenshot stars grid) -->
+<section class="py-20 bg-surface">
+    <div class="px-margin-desktop max-w-container-max mx-auto">
+        <div class="text-center mb-16">
+            <span class="text-refined-gold font-label-lg uppercase tracking-[0.2em] mb-1 block">Experiencias Reales</span>
+            <h2 class="font-headline-xl text-headline-xl text-primary">Google Reviews</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Review 1 -->
+            <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                        <img src="https://static.tokkobroker.com/static/img/user.png" alt="Ariel" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-headline-md text-[15px] text-primary">Ariel Rossi</h4>
+                        <p class="text-[10px] text-secondary">Hace 2 meses</p>
+                    </div>
+                </div>
+                <div class="flex gap-1 mb-4 text-amber-400">
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                </div>
+                <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                    "Excelente atención de todo el equipo de MUV. Lograron vender mi departamento en Belgrano en un tiempo récord y con total transparencia en la operación."
+                </p>
+            </div>
+            
+            <!-- Review 2 -->
+            <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                        <img src="https://static.tokkobroker.com/static/img/user.png" alt="Laura" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-headline-md text-[15px] text-primary">Laura Valenzuela</h4>
+                        <p class="text-[10px] text-secondary">Hace 3 semanas</p>
+                    </div>
+                </div>
+                <div class="flex gap-1 mb-4 text-amber-400">
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                </div>
+                <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                    "La mejor experiencia con una inmobiliaria. Súper serios, dinámicos, y con un asesoramiento jurídico y comercial de excelencia sobre el boleto de compra."
+                </p>
+            </div>
+            
+            <!-- Review 3 -->
+            <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                        <img src="https://static.tokkobroker.com/static/img/user.png" alt="Federico" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-headline-md text-[15px] text-primary">Federico Marín</h4>
+                        <p class="text-[10px] text-secondary">Hace 1 mes</p>
+                    </div>
+                </div>
+                <div class="flex gap-1 mb-4 text-amber-400">
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                    <span class="material-symbols-outlined text-[16px] fill-[1]">star</span>
+                </div>
+                <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                    "Compré de pozo con ellos en DOME Suites y todo marchó a la perfección. La calculadora de CAC y los informes mensuales de obra son fantásticos."
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Help Section (Matches screenshot "¿Cómo podemos ayudarte?" columns) -->
+<section class="py-20 bg-surface-container-low/30">
+    <div class="px-margin-desktop max-w-container-max mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="font-headline-lg text-headline-lg text-primary">¿Cómo podemos ayudarte?</h2>
+            <p class="font-body-md text-secondary mt-1 text-sm">Escribinos o navega las opciones según tu interés.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <!-- Card 1 -->
+            <a href="#destacados" class="bg-pure-white p-6 border border-outline-variant/20 rounded shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-refined-gold/10 text-refined-gold flex items-center justify-center group-hover:bg-primary group-hover:text-pure-white transition-all duration-300 flex-shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
+                </div>
+                <div>
+                    <h4 class="font-headline-md text-[15px] text-primary font-bold">Quiero comprar o alquilar</h4>
+                    <p class="text-xs text-secondary mt-0.5">Navegá por filtros y propiedades.</p>
+                </div>
+            </a>
+            
+            <!-- Card 2 -->
+            <a href="contacto.html" class="bg-pure-white p-6 border border-outline-variant/20 rounded shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 group">
+                <div class="w-12 h-12 rounded-full bg-refined-gold/10 text-refined-gold flex items-center justify-center group-hover:bg-primary group-hover:text-pure-white transition-all duration-300 flex-shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">real_estate_agent</span>
+                </div>
+                <div>
+                    <h4 class="font-headline-md text-[15px] text-primary font-bold">Quiero vender</h4>
+                    <p class="text-xs text-secondary mt-0.5">Tasá con nosotros hoy mismo.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Redesigned Newsletter Section (Matches reference screenshot exactly) -->
+<section class="bg-black py-16 relative overflow-hidden text-center text-pure-white">
+    <!-- Huge White Monogram Watermark at bottom-right -->
+    <div class="absolute right-0 bottom-0 translate-y-[20%] translate-x-[10%] pointer-events-none select-none z-0 w-[240px] md:w-[320px] opacity-90">
+        <img src="assets/iso_muv.png" alt="M Monogram Watermark" class="w-full h-auto brightness-0 invert">
+    </div>
+    
+    <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center">
+        <!-- Title & Subtitle -->
+        <h3 class="font-headline-md text-[24px] md:text-[28px] font-medium tracking-tight mb-1">¿Querés recibir nuestras novedades?</h3>
+        <p class="text-xs md:text-sm text-pure-white/60 mb-8 font-light">Suscribite</p>
+        
+        <!-- Input & Button Group -->
+        <div class="flex items-center gap-3 w-full max-w-md">
+            <input type="email" placeholder="Correo electrónico" class="bg-[#F3F4F5] border-0 text-[#191c1d] placeholder-[#747878] px-6 py-3.5 w-full rounded-full focus:ring-2 focus:ring-refined-gold focus:outline-none text-[14px]">
+            <button onclick="alert('Inscripción al newsletter recibida')" class="w-12 h-12 rounded-full bg-[#E5E2E1] flex items-center justify-center hover:bg-refined-gold hover:text-primary transition-all duration-300 flex-shrink-0 shadow-md">
+                <span class="material-symbols-outlined text-[20px] text-primary">send</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer (Matches screenshot light styling with columns and social card) -->
+<footer class="bg-[#F7F8F9] text-primary pt-16 pb-8 border-t border-outline-variant/30">
+    <div class="max-w-container-max mx-auto px-margin-desktop">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16 text-left">
+            <!-- Col 1: Rounded Black Logo Card with Social Icons -->
+            <div class="md:col-span-4">
+                <div class="bg-black text-pure-white rounded-2xl p-8 flex flex-col justify-between h-[160px] w-full max-w-[265px] mb-8">
+                    <div class="font-headline-xl text-[44px] font-bold tracking-tight leading-none text-pure-white select-none">muv</div>
+                    <div class="flex gap-4 items-center">
+                        <!-- Facebook SVG Icon -->
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <!-- Instagram SVG Icon -->
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity">
+                            <svg class="w-6 h-6 fill-current text-pure-white" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Col 2: Inmuebles -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Inmuebles</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=1">Venta</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="/buscar.html?operation=2">Alquiler</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Tasación</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 3: Empresa -->
+            <div class="md:col-span-2">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">Empresa</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a class="hover:text-refined-gold transition-colors" href="quienes_somos.html">Quiénes somos</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Contacto</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">FAQ's</a></li>
+                    <li><a class="hover:text-refined-gold transition-colors" href="contacto.html">Trabajá con nosotros</a></li>
+                </ul>
+            </div>
+            
+            <!-- Col 4: MUV -->
+            <div class="md:col-span-4">
+                <h4 class="font-headline-md text-[16px] text-primary font-bold mb-6">MUV</h4>
+                <ul class="space-y-3 text-[14px] text-secondary">
+                    <li><a href="tel:+541148054192" class="hover:text-refined-gold transition-colors">(011) 4805-4192</a></li>
+                    <li><a href="https://wa.me/5491122862000" target="_blank" rel="noopener noreferrer" class="hover:text-refined-gold transition-colors">(+549) 11 2286 2000</a></li>
+                    <li><a href="mailto:info@muvpropiedades.com" class="hover:text-refined-gold transition-colors">info@muvpropiedades.com</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-secondary/70">
+            <p>© 2025 MUV Propiedades · Todos los derechos reservados · Términos y Condiciones · Política de Privacidad</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<a class="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 animate-bounce" href="https://wa.me/5491155551234?text=Hola%20MUV%20Propiedades%2C%20quisiera%20hacer%20una%20consulta.">
+    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.835-3.321c1.581.936 3.447 1.43 5.348 1.432 5.548 0 10.063-4.51 10.066-10.059.002-2.689-1.047-5.215-2.951-7.121C17.43 3.025 14.908 1.977 12.22 1.977c-5.552 0-10.069 4.512-10.072 10.062-.001 1.815.478 3.593 1.39 5.176l-.992 3.616 3.702-.97.109.065zM17.07 14.33c-.273-.137-1.617-.798-1.868-.89-.25-.091-.433-.137-.616.137-.183.274-.707.89-.868 1.072-.16.183-.321.205-.594.069-.273-.137-1.155-.426-2.202-1.36-0.815-.727-1.365-1.624-1.526-1.898-.16-.273-.017-.42.119-.556.124-.122.273-.32.41-.48.137-.16.183-.274.273-.457.091-.183.046-.342-.023-.48-.069-.137-.616-1.484-.845-2.035-.223-.537-.468-.463-.64-.471-.166-.008-.356-.01-.547-.01-.191 0-.501.071-.764.353-.262.282-1 0.98-1 2.39s1.027 2.776 1.17 2.969c.143.193 2.022 3.088 4.899 4.329.684.296 1.218.473 1.635.606.687.218 1.312.187 1.807.114.551-.081 1.617-.66 1.845-1.298.228-.638.228-1.186.16-1.298-.069-.114-.25-.205-.523-.342z"/>
+    </svg>
+</a>
+
+<script>
+    const cardPhotos = {};
+    const cardCurrentIndex = {};
+    let lightboxPhotos = [];
+    let lightboxCurrentIdx = 0;
+
+    let currentOperationId = 1; // 1 = Venta, 2 = Alquiler, 3 = Temporal
+    let currentPage = 0;
+    const limit = 12; // Máximo de 12 propiedades en carrusel
+
+    let autoScrollInterval = null;
+
+    function startAutoScroll() {
+        stopAutoScroll();
+        autoScrollInterval = setInterval(() => {
+            const container = document.getElementById('property-carousel-container');
+            if (!container) return;
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+            if (container.scrollLeft >= maxScrollLeft - 10) {
+                container.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                const card = container.querySelector('.luxury-card');
+                if (!card) return;
+                const cardWidth = card.offsetWidth;
+                const gap = 24;
+                container.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            }
+        }, 4000); // Desplaza una tarjeta cada 4 segundos
+    }
+
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+
+    window.slideCarousel = function(direction) {
+        const container = document.getElementById('property-carousel-container');
+        const card = container.querySelector('.luxury-card');
+        if (!card) return;
+        const cardWidth = card.offsetWidth;
+        const gap = 24; // gap-6 is 24px
+        const scrollAmount = (cardWidth + gap) * 2;
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+        
+        // Reiniciar el scroll automático ante interacción manual
+        startAutoScroll();
+    };
+
+    // Top navbar state transitions
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('topNav');
+        const logo = document.getElementById('logo-img');
+        if (window.scrollY > 80) {
+            nav.classList.add('bg-pure-white/95', 'shadow-md', 'py-4', 'text-primary', 'backdrop-blur-nav');
+            nav.classList.remove('bg-transparent', 'py-6', 'text-pure-white');
+            logo.src = 'assets/imgi_188_MUV-WEB_LOGO-NEGRO.png';
+            logo.classList.remove('brightness-0', 'invert');
+        } else {
+            nav.classList.remove('bg-pure-white/95', 'shadow-md', 'py-4', 'text-primary', 'backdrop-blur-nav');
+            nav.classList.add('bg-transparent', 'py-6', 'text-pure-white');
+            logo.src = 'assets/imgi_75_MUV-WEB_LOGO-2.png';
+            logo.classList.add('brightness-0', 'invert');
+        }
+    });
+
+    function changeOperation(id) {
+        currentOperationId = id;
+        
+        // Update tab styles
+        const tabs = {
+            1: document.getElementById('tab-venta'),
+            2: document.getElementById('tab-alquiler'),
+            3: document.getElementById('tab-temporal')
+        };
+        
+        Object.keys(tabs).forEach(key => {
+            const tab = tabs[key];
+            if (!tab) return;
+            if (key == id) {
+                tab.className = "px-6 py-2.5 font-label-lg rounded-t-lg bg-pure-white text-primary border-b-2 border-primary font-bold transition-all";
+            } else {
+                tab.className = "px-6 py-2.5 font-label-lg rounded-t-lg bg-pure-white/40 text-pure-white hover:bg-pure-white/60 hover:text-primary transition-all";
+            }
+        });
+        
+        currentPage = 0;
+        loadProperties();
+    }
+
+    // Toggle filters panel
+    const btnToggleFilters = document.getElementById('btn-toggle-filters');
+    const advancedFiltersPanel = document.getElementById('advanced-filters');
+    const btnResetFilters = document.getElementById('btn-reset-filters');
+    
+    btnToggleFilters.addEventListener('click', () => {
+        advancedFiltersPanel.classList.toggle('hidden');
+        checkFiltersActive();
+    });
+
+    function checkFiltersActive() {
+        const hasActive = 
+            document.getElementById('filter-price-min').value ||
+            document.getElementById('filter-price-max').value ||
+            document.getElementById('filter-rooms').value ||
+            document.getElementById('filter-bedrooms').value ||
+            document.getElementById('search-type').value ||
+            document.getElementById('search-location').value ||
+            document.getElementById('search-query').value;
+        
+        if (hasActive) {
+            btnResetFilters.classList.remove('hidden');
+        } else {
+            btnResetFilters.classList.add('hidden');
+        }
+    }
+
+    // Reset filters
+    btnResetFilters.addEventListener('click', () => {
+        document.getElementById('filter-price-min').value = "";
+        document.getElementById('filter-price-max').value = "";
+        document.getElementById('filter-rooms').value = "";
+        document.getElementById('filter-bedrooms').value = "";
+        document.getElementById('search-type').value = "";
+        document.getElementById('search-location').value = "";
+        document.getElementById('search-query').value = "";
+        btnResetFilters.classList.add('hidden');
+        currentPage = 0;
+        loadProperties();
+    });
+
+    // Reset to general list
+    function resetSearchAndLoad() {
+        document.getElementById('search-type').value = "";
+        document.getElementById('search-location').value = "";
+        document.getElementById('search-query').value = "";
+        document.getElementById('filter-price-min').value = "";
+        document.getElementById('filter-price-max').value = "";
+        document.getElementById('filter-rooms').value = "";
+        document.getElementById('filter-bedrooms').value = "";
+        btnResetFilters.classList.add('hidden');
+        currentPage = 0;
+        loadProperties();
+    }
+
+    // Interactive bento-grid filter trigger
+    function filterByLocationName(locName) {
+        const select = document.getElementById('search-location');
+        if (!select) return;
+        
+        let foundValue = "";
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].text.toLowerCase().includes(locName.toLowerCase())) {
+                foundValue = select.options[i].value;
+                break;
+            }
+        }
+        
+        if (foundValue) {
+            select.value = foundValue;
+            currentPage = 0;
+            loadProperties();
+            document.getElementById('destacados').scrollIntoView({ behavior: 'smooth' });
+            checkFiltersActive();
+        } else {
+            // General notification fallback
+            console.log("Locacion no mapeada de Tokko");
+        }
+    }
+
+    // Dynamic fetch & render
+    async function loadProperties(append = false) {
+        const grid = document.getElementById('property-grid');
+        const paginationContainer = document.getElementById('pagination-container');
+        
+        if (!append) {
+            // Show 4 skeletons in row
+            grid.innerHTML = Array(4).fill(0).map(() => `
+                <div class="bg-pure-white rounded overflow-hidden border border-outline-variant/30 shadow-sm animate-pulse">
+                    <div class="aspect-[3/2] bg-surface-dim"></div>
+                    <div class="p-6 space-y-4">
+                        <div class="h-4 bg-surface-dim w-1/3 rounded"></div>
+                        <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                        <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+                    </div>
+                </div>
+            `).join('');
+            paginationContainer.classList.add('hidden');
+        }
+
+        const queryParams = new URLSearchParams({
+            operation_id: currentOperationId,
+            property_type_id: document.getElementById('search-type').value,
+            location_id: document.getElementById('search-location').value,
+            price_min: document.getElementById('filter-price-min').value,
+            price_max: document.getElementById('filter-price-max').value,
+            rooms: document.getElementById('filter-rooms').value,
+            bedrooms: document.getElementById('filter-bedrooms').value,
+            limit: limit,
+            offset: currentPage * limit
+        });
+
+        // Search text filter
+        const queryText = document.getElementById('search-query').value.trim();
+
+        try {
+            const res = await fetch(`/api/properties?${queryParams.toString()}`);
+            if (!res.ok) throw new Error('API_ERROR');
+            
+            const data = await res.json();
+            let properties = data.objects || [];
+            
+            // Client-side simple search filter for keyword
+            if (queryText) {
+                const q = queryText.toLowerCase();
+                properties = properties.filter(p => 
+                    (p.publication_title && p.publication_title.toLowerCase().includes(q)) ||
+                    (p.description && p.description.toLowerCase().includes(q)) ||
+                    (p.tags && p.tags.some(t => t.name.toLowerCase().includes(q)))
+                );
+            }
+
+            const totalCount = data.meta ? data.meta.total_count : properties.length;
+            
+            if (!append) {
+                grid.innerHTML = '';
+            }
+
+            if (properties.length === 0 && !append) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <span class="material-symbols-outlined text-5xl text-outline mb-4">search_off</span>
+                        <h3 class="font-headline-md text-headline-md text-primary mb-2">No se encontraron propiedades</h3>
+                        <p class="font-body-md text-secondary">Intentá modificando los filtros o realizando otra búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            properties.forEach(prop => {
+                const photosList = prop.photos && prop.photos.length > 0 
+                    ? prop.photos.map(p => p.image) 
+                    : ["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80"];
+
+                cardPhotos[prop.id] = photosList;
+                cardCurrentIndex[prop.id] = 0;
+
+                let priceText = "Consulte";
+                if (prop.operations && prop.operations.length > 0) {
+                    const prices = prop.operations[0].prices;
+                    if (prices && prices.length > 0) {
+                        const price = prices[0];
+                        priceText = price.price === 1 ? 'Consulte' : `${price.currency}${new Intl.NumberFormat('es-AR').format(price.price)}`;
+                    }
+                }
+
+                // Extracción de especificaciones precisas para iconos
+                const suiteAmount = prop.suite_amount || 0;
+                const roomAmount = prop.room_amount || 0;
+                const bathroomAmount = (prop.bathroom_amount || 0) + (prop.toilet_amount || 0);
+                const parkingAmount = prop.parking_lot_amount || 0;
+                const surfaceAmount = parseFloat(prop.total_surface || prop.covered_surface || prop.surface || 0);
+
+                let specsHtml = '';
+
+                // Dormitorio (Cama horizontal en perspectiva)
+                if (suiteAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1.5 text-primary/70">
+                            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8" />
+                                <rect x="5" y="11" width="6" height="3" rx="1" stroke-linecap="round" stroke-linejoin="round" />
+                                <rect x="13" y="11" width="6" height="3" rx="1" stroke-linecap="round" stroke-linejoin="round" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18" />
+                            </svg>
+                            <span class="text-[12px] font-semibold text-primary/80">${suiteAmount}</span>
+                        </div>
+                    `;
+                }
+
+                // Ambientes (Puerta)
+                if (roomAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1.5 text-primary/70">
+                            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <rect x="5" y="3" width="14" height="18" rx="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="15" cy="12" r="1" fill="currentColor" />
+                            </svg>
+                            <span class="text-[12px] font-semibold text-primary/80">${roomAmount}</span>
+                        </div>
+                    `;
+                }
+
+                // Baños (Ducha/Regadera)
+                if (bathroomAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1.5 text-primary/70">
+                            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21v-7a5 5 0 0 1 5-5h4v3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 12h4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 15v1M16.5 15v2M18 15v1" />
+                            </svg>
+                            <span class="text-[12px] font-semibold text-primary/80">${bathroomAmount}</span>
+                        </div>
+                    `;
+                }
+
+                // Cochera (Auto)
+                if (parkingAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1.5 text-primary/70">
+                            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                                <circle cx="7" cy="17" r="2"/>
+                                <circle cx="17" cy="17" r="2"/>
+                            </svg>
+                            <span class="text-[12px] font-semibold text-primary/80">${parkingAmount}</span>
+                        </div>
+                    `;
+                }
+
+                // Superficie (Escuadra/M2 con ticks de regla)
+                if (surfaceAmount > 0) {
+                    specsHtml += `
+                        <div class="flex items-center gap-1.5 text-primary/70">
+                            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6v12h12L6 6z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12v3h3L9 12z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 8l1 1 M10 10l1 1 M12 12l1 1 M14 14l1 1 M16 16l1 1" />
+                            </svg>
+                            <span class="text-[12px] font-semibold text-primary/80">${surfaceAmount.toFixed(2)} M2</span>
+                        </div>
+                    `;
+                }
+
+                const card = document.createElement('div');
+                card.className = "luxury-card bg-pure-white group overflow-hidden border border-outline-variant/30 rounded-lg transition-all duration-300 hover:shadow-md hover:-translate-y-1 w-[290px] md:w-[320px] flex-shrink-0";
+                card.innerHTML = `
+                    <div class="card-carousel-container">
+                        <!-- Watermark muv -->
+                        <div class="card-watermark">muv</div>
+                        
+                        <!-- Badges container -->
+                        <div class="card-badge-container">
+                            <span class="card-badge">DISPONIBLE</span>
+                            <span class="card-badge">${(prop.operations && prop.operations[0]?.operation_type) || 'VENTA'}</span>
+                            ${prop.is_starred_on_web ? '<span class="card-badge card-badge-zonaprop">ZONAPROP PLUS</span>' : ''}
+                        </div>
+
+                        <!-- Arrows -->
+                        ${photosList.length > 1 ? `
+                            <button class="card-carousel-btn card-carousel-btn-left" onclick="changeCardPhoto(${prop.id}, -1, event)">
+                                <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+                            </button>
+                            <button class="card-carousel-btn card-carousel-btn-right" onclick="changeCardPhoto(${prop.id}, 1, event)">
+                                <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+                            </button>
+                        ` : ''}
+
+                        <!-- Zoom button -->
+                        <button class="card-zoom-btn" onclick="openLightboxFromCard(${prop.id}, event)">
+                            <svg class="w-[16px] h-[16px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                            </svg>
+                        </button>
+
+                        <!-- Clickable image link -->
+                        <a href="/property/${prop.id}" class="block w-full h-full">
+                            <img id="card-img-${prop.id}" class="card-img w-full h-full object-cover" loading="lazy" alt="${prop.publication_title}" src="${photosList[0]}">
+                        </a>
+                    </div>
+                    <div class="p-6 flex flex-col justify-between items-center text-center h-[180px]">
+                        <div>
+                            <h3 class="font-headline-md text-[15px] text-primary mb-1 truncate max-w-full leading-snug">
+                                <a href="/property/${prop.id}" class="hover:text-refined-gold transition-colors">${prop.fake_address || prop.address || prop.publication_title}</a>
+                            </h3>
+                            <span class="font-headline-md text-[18px] text-primary font-bold block mt-1">${priceText}</span>
+                            <p class="text-secondary/50 font-semibold tracking-widest text-[9.5px] uppercase mt-1 mb-4">${prop.type?.name || 'DEPARTAMENTO'}</p>
+                        </div>
+                        <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 w-full text-secondary text-xs">
+                            ${specsHtml}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            if (totalCount > (currentPage + 1) * limit) {
+                paginationContainer.classList.remove('hidden');
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
+
+            // Iniciar scroll automático
+            startAutoScroll();
+
+        } catch (error) {
+            console.error(error);
+            if (!append) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <span class="material-symbols-outlined text-5xl text-error mb-4">error</span>
+                        <h3 class="font-headline-md text-headline-md text-error mb-2">Error de conexión</h3>
+                        <p class="font-body-md text-secondary">Hubo un problema al cargar las propiedades. Por favor, intentá nuevamente más tarde.</p>
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // Search trigger
+    const btnSearch = document.getElementById('search-btn');
+    btnSearch.addEventListener('click', () => {
+        const operation = currentOperationId;
+        const type = document.getElementById('search-type').value;
+        const locationSelect = document.getElementById('search-location');
+        const locationId = locationSelect.value;
+        const locationName = locationSelect.options[locationSelect.selectedIndex]?.text || '';
+        const q = document.getElementById('search-query').value.trim();
+        
+        const params = new URLSearchParams();
+        params.set('operation', operation);
+        if (type) params.set('type', type);
+        if (locationId) {
+            params.set('location_id', locationId);
+            params.set('location_name', locationName);
+        }
+        if (q) params.set('q', q);
+        
+        window.location.href = `/buscar.html?${params.toString()}`;
+    });
+
+    // Pagination trigger
+    const btnLoadMore = document.getElementById('btn-load-more');
+    btnLoadMore.addEventListener('click', () => {
+        currentPage++;
+        loadProperties(true);
+    });
+
+    // Init load
+    window.addEventListener('DOMContentLoaded', () => {
+        loadProperties();
+        
+        const container = document.getElementById('property-carousel-container');
+        if (container) {
+            container.addEventListener('mouseenter', stopAutoScroll);
+            container.addEventListener('mouseleave', startAutoScroll);
+            container.addEventListener('touchstart', stopAutoScroll, { passive: true });
+        }
+    });
+
+    // Helper card photo carousel control
+    window.changeCardPhoto = function(id, direction, event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+        const photos = cardPhotos[id];
+        if (!photos || photos.length <= 1) return;
+        
+        let idx = cardCurrentIndex[id] || 0;
+        idx = (idx + direction + photos.length) % photos.length;
+        cardCurrentIndex[id] = idx;
+        
+        const img = document.getElementById(`card-img-${id}`);
+        if (img) {
+            img.src = photos[idx];
+        }
+    };
+
+    // Helper to open Lightbox Modal from a Card
+    window.openLightboxFromCard = function(id, event) {
+        if (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+        lightboxPhotos = cardPhotos[id] || [];
+        lightboxCurrentIdx = cardCurrentIndex[id] || 0;
+        if (lightboxPhotos.length === 0) return;
+        
+        updateLightboxUI();
+        document.getElementById('lightbox-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeLightbox = function() {
+        document.getElementById('lightbox-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+    };
+
+    function updateLightboxUI() {
+        const img = document.getElementById('lightbox-image');
+        img.src = lightboxPhotos[lightboxCurrentIdx];
+        
+        document.getElementById('lightbox-counter').innerText = `${lightboxCurrentIdx + 1} / ${lightboxPhotos.length}`;
+        
+        const thumbsContainer = document.getElementById('lightbox-thumbnails');
+        if (lightboxPhotos.length <= 1) {
+            thumbsContainer.innerHTML = '';
+            return;
+        }
+        
+        thumbsContainer.innerHTML = lightboxPhotos.map((photo, i) => `
+            <div onclick="setLightboxImage(${i})" class="w-16 h-16 rounded overflow-hidden cursor-pointer border-2 transition-all flex-shrink-0 hover:opacity-100 ${i === lightboxCurrentIdx ? 'border-refined-gold scale-105 opacity-100' : 'border-transparent opacity-50'}">
+                <img class="w-full h-full object-cover" src="${photo}">
+            </div>
+        `).join('');
+    }
+
+    window.setLightboxImage = function(idx) {
+        lightboxCurrentIdx = idx;
+        updateLightboxUI();
+    };
+
+    window.nextLightboxImage = function() {
+        if (lightboxPhotos.length === 0) return;
+        lightboxCurrentIdx = (lightboxCurrentIdx + 1) % lightboxPhotos.length;
+        updateLightboxUI();
+    };
+
+    window.prevLightboxImage = function() {
+        if (lightboxPhotos.length === 0) return;
+        lightboxCurrentIdx = (lightboxCurrentIdx - 1 + lightboxPhotos.length) % lightboxPhotos.length;
+        updateLightboxUI();
+    };
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('lightbox-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            if (e.key === 'ArrowRight') {
+                nextLightboxImage();
+            } else if (e.key === 'ArrowLeft') {
+                prevLightboxImage();
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        }
+    });
+</script>
+
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none">
+    <!-- Top Toolbar -->
+    <div class="w-full flex justify-between items-center max-w-7xl mx-auto text-pure-white">
+        <div class="font-label-lg text-label-lg tracking-wider" id="lightbox-counter">1 / 1</div>
+        <button onclick="closeLightbox()" class="p-2 hover:bg-white/10 rounded-full transition-all active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px]">close</span>
+        </button>
+    </div>
+
+    <!-- Main Image Content -->
+    <div class="relative w-full flex items-center justify-center flex-grow">
+        <button id="prev-lightbox" onclick="prevLightboxImage()" class="absolute left-2 md:left-4 z-10 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+        </button>
+
+        <img id="lightbox-image" class="max-h-[70vh] max-w-full object-contain rounded transition-all duration-300" src="" alt="Lightbox View">
+
+        <button id="next-lightbox" onclick="nextLightboxImage()" class="absolute right-2 md:right-4 z-10 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+        </button>
+    </div>
+
+    <!-- Thumbnails Area -->
+    <div class="w-full max-w-7xl mx-auto overflow-x-auto py-4 scrollbar-hide flex gap-2 justify-center" id="lightbox-thumbnails"></div>
+</div>
+
+</body>
+</html>

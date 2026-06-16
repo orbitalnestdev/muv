@@ -1,0 +1,146 @@
+---
+interface Props {
+  isDarkHero?: boolean;
+}
+
+const { isDarkHero = false } = Astro.props;
+---
+
+<nav 
+  id="topNav" 
+  class:list={[
+    "fixed top-0 w-full z-50 transition-all duration-300",
+    isDarkHero 
+      ? "bg-transparent py-6 text-pure-white border-b border-white/10" 
+      : "bg-surface/90 backdrop-blur-nav py-4 text-primary shadow-md border-b border-outline-variant/30"
+  ]}
+>
+    <div class="flex justify-between items-center px-margin-desktop max-w-container-max mx-auto">
+        <a href="/" class="flex items-center gap-4">
+            <img 
+              id="logo-img" 
+              alt="MUV Propiedades Logo" 
+              class:list={[
+                "h-9 w-auto object-contain transition-all duration-300",
+                isDarkHero ? "brightness-0 invert" : "brightness-0"
+              ]}
+              src={isDarkHero ? "/assets/imgi_75_MUV-WEB_LOGO-2.png" : "/assets/iso_muv.png"}
+            />
+        </a>
+        <div class="hidden md:flex items-center space-x-8">
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar?operation_id=1">Venta</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar?operation_id=2">Alquiler</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/mapa">Mapa</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/quienes-somos">Quienes Somos</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/contacto">Contacto</a>
+            <a 
+              href="/contacto" 
+              class:list={[
+                "px-6 py-2 rounded font-label-lg text-label-lg transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs",
+                isDarkHero 
+                  ? "bg-pure-white text-primary hover:bg-refined-gold hover:text-pure-white"
+                  : "bg-primary text-pure-white hover:bg-refined-gold hover:text-primary"
+              ]}
+            >
+                Vender
+            </a>
+        </div>
+        <div class="md:hidden">
+            <span 
+              class:list={[
+                "material-symbols-outlined cursor-pointer",
+                isDarkHero ? "text-pure-white" : "text-primary"
+              ]}
+              id="menu-toggle"
+            >
+              menu
+            </span>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-menu" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm hidden">
+    <div class="fixed top-0 right-0 bottom-0 w-64 bg-pure-white p-8 flex flex-col space-y-6 shadow-2xl">
+        <div class="flex justify-between items-center pb-4 border-b border-outline-variant/30">
+            <span class="font-headline-md text-primary font-bold">MUV</span>
+            <span class="material-symbols-outlined cursor-pointer text-primary" id="menu-close">close</span>
+        </div>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar?operation_id=1">Venta</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar?operation_id=2">Alquiler</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/mapa">Mapa</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/quienes-somos">Quienes Somos</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/contacto">Contacto</a>
+        <a href="/contacto" class="bg-primary text-pure-white px-6 py-3 rounded text-center uppercase font-label-lg text-label-lg tracking-wider text-xs">
+            Vender
+        </a>
+    </div>
+</div>
+
+<script is:inline define:vars={{ isDarkHero }}>
+  // Scroll navbar animations
+  if (isDarkHero) {
+    const logoImg = document.getElementById('logo-img');
+    if (logoImg) {
+      if (window.scrollY > 50) {
+        logoImg.src = "/assets/iso_muv.png";
+        logoImg.classList.add('brightness-0');
+        logoImg.classList.remove('invert');
+      } else {
+        logoImg.src = "/assets/imgi_75_MUV-WEB_LOGO-2.png";
+        logoImg.classList.add('brightness-0', 'invert');
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+        const topNav = document.getElementById('topNav');
+        const logoImg = document.getElementById('logo-img');
+        const menuToggle = document.getElementById('menu-toggle');
+        if (!topNav || !logoImg) return;
+        
+        if (window.scrollY > 50) {
+            topNav.classList.add('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
+            topNav.classList.remove('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
+            logoImg.src = "/assets/iso_muv.png";
+            logoImg.classList.add('brightness-0');
+            logoImg.classList.remove('invert');
+            if (menuToggle) {
+              menuToggle.classList.remove('text-pure-white');
+              menuToggle.classList.add('text-primary');
+            }
+        } else {
+            topNav.classList.add('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
+            topNav.classList.remove('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
+            logoImg.src = "/assets/imgi_75_MUV-WEB_LOGO-2.png";
+            logoImg.classList.add('brightness-0', 'invert');
+            if (menuToggle) {
+              menuToggle.classList.remove('text-primary');
+              menuToggle.classList.add('text-pure-white');
+            }
+        }
+    });
+  }
+
+  // Mobile menu interactions
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuClose = document.getElementById('menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+    });
+  }
+
+  if (menuClose && mobileMenu) {
+    menuClose.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+    // Click outside to close
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+  }
+</script>

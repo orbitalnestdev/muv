@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MUV Propiedades | Real Estate Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "on-primary-fixed-variant": "#474746",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface-variant": "#444748",
+                        "outline": "#747878",
+                        "on-secondary": "#ffffff",
+                        "slate-blue": "#4A5568",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-bright": "#f8f9fa",
+                        "background": "#f8f9fa",
+                        "primary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#111c2c",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dadb",
+                        "primary-container": "#1c1b1b",
+                        "on-secondary-container": "#586377",
+                        "tertiary-container": "#261900",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "on-primary-container": "#858383",
+                        "surface-container-high": "#e7e8e9",
+                        "deep-charcoal": "#121212",
+                        "on-surface": "#191c1d",
+                        "tertiary-fixed": "#ffdea5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-tint": "#5f5e5e",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "secondary": "#545f72",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "on-background": "#191c1d",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f3f4f5",
+                        "tertiary": "#000000",
+                        "surface": "#f8f9fa",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed": "#261900",
+                        "pure-white": "#FFFFFF",
+                        "off-white": "#F7F8F9",
+                        "on-tertiary-container": "#a17f3b",
+                        "secondary-fixed": "#d8e3fa",
+                        "secondary-container": "#d5e0f7",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "surface-variant": "#e1e3e4",
+                        "refined-gold": "#C5A059"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "section-gap": "120px",
+                        "gutter": "32px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "display-lg": ["Montserrat"],
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+        }
+        .luxury-card:hover .card-img {
+            transform: scale(1.04);
+        }
+        .card-img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Custom range slider styling */
+        input[type='range'] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type='range']::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e5e2e1;
+            border-radius: 2px;
+        }
+        input[type='range']::-webkit-slider-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #000000;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -8px;
+            transition: transform 0.2s;
+        }
+        input[type='range']:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden selection:bg-refined-gold selection:text-pure-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-0 border-b border-transparent transition-all duration-700 ease-in-out py-2" id="main-nav">
+<div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+<a href="index.html" class="flex items-center gap-4"><img alt="MUV Propiedades Logo" class="h-10 w-auto object-contain transition-all" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/></a>
+<div class="hidden md:flex items-center space-x-10">
+<a class="font-label-lg text-label-lg text-primary hover:opacity-70 transition-all cursor-pointer relative group" href="listado_emprendimientos.html">
+                Emprendimientos
+                <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-100 transition-transform origin-left"></span>
+</a>
+<a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-all cursor-pointer relative group" href="index.html#destacados">
+                Residenciales
+                <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+</a>
+<a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-all cursor-pointer relative group" href="quienes_somos.html">
+                Quienes Somos
+                <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+</a>
+<a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-all cursor-pointer relative group" href="contacto.html">
+                Contacto
+                <span class="absolute bottom-[-4px] left-0 w-full h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+</a>
+</div>
+<div class="flex items-center gap-8">
+<div class="hidden lg:flex items-center text-primary font-label-lg tracking-tight">
+<span class="material-symbols-outlined mr-2 text-[20px]">call</span>
+                11 2286 2000
+            </div>
+<button class="bg-primary text-pure-white px-8 py-3.5 font-label-lg rounded-DEFAULT hover:bg-opacity-90 transition-all duration-300 shadow-sm active:scale-[0.98]">
+                Vender
+            </button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative h-[95vh] min-h-[750px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover scale-105 animate-[subtle-zoom_20s_infinite_alternate]" src="https://lh3.googleusercontent.com/aida/AP1WRLv7Es7vBO6C68pWclfHU0uQV379JJWpirWY58EZnjcQbQ3BVlAh-niEPHx8kUtbsJh1KhTl7PIkzr8ZsIcvbF6vWZU3myX27HMqseKWpnMoubG3epU_slZXGm6FCLgoTzVlIShcUJr5DUT0tmbA1U79mLmRABepAi0Tvh-mfqESxQX9qW4iWDAzfcIDH-k3XeuOM27eslzzg7A772xV74TN60gB_dBNiNKdFHuD8rQX4HZnv4ZebTKxT4o"/>
+<div class="absolute inset-0 hero-overlay"></div>
+</div>
+<div class="relative z-10 text-center px-margin-mobile max-w-5xl reveal-up active">
+<h1 class="font-display-lg text-display-lg text-pure-white mb-6 tracking-tight uppercase">muv propiedades</h1>
+<p class="font-body-lg text-body-lg text-pure-white/80 mb-14 max-w-2xl mx-auto">Excelencia inmobiliaria en los barrios más exclusivos de la ciudad de Buenos Aires.</p>
+<!-- Search Bar Component -->
+<div class="bg-pure-white/95 backdrop-blur-md p-2.5 rounded-lg shadow-2xl max-w-5xl mx-auto">
+<div class="flex flex-col md:flex-row items-center gap-2">
+<div class="flex-1 w-full grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-outline-variant/40">
+<div class="p-4 px-6 flex flex-col items-start hover:bg-surface-container-low transition-colors rounded-l-sm cursor-pointer group">
+<span class="text-slate-blue font-label-sm uppercase tracking-[0.1em] mb-1 group-hover:text-primary transition-colors">Tipo de propiedad</span>
+<select class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary cursor-pointer appearance-none">
+<option>Departamento</option>
+<option>Casa</option>
+<option>Local Comercial</option>
+<option>Oficina</option>
+</select>
+</div>
+<div class="p-4 px-6 flex flex-col items-start hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="text-slate-blue font-label-sm uppercase tracking-[0.1em] mb-1 group-hover:text-primary transition-colors">Ubicación</span>
+<select class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary cursor-pointer appearance-none">
+<option>Todos los barrios</option>
+<option>Recoleta</option>
+<option>Palermo</option>
+<option>Belgrano</option>
+<option>Puerto Madero</option>
+</select>
+</div>
+<div class="p-4 px-6 flex flex-col items-start hover:bg-surface-container-low transition-colors rounded-r-sm cursor-pointer group">
+<span class="text-slate-blue font-label-sm uppercase tracking-[0.1em] mb-1 group-hover:text-primary transition-colors">Palabras clave</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-label-lg p-0 text-primary placeholder:text-outline/40" placeholder="Ambientes, balcón, amenities..." type="text"/>
+</div>
+</div>
+<button class="w-full md:w-auto bg-primary text-pure-white px-12 py-5 font-label-lg flex items-center justify-center gap-3 hover:bg-deep-charcoal transition-all shadow-lg active:translate-y-0.5">
+<span class="material-symbols-outlined">search</span>
+                    BUSCAR
+                </button>
+</div>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
+<span class="material-symbols-outlined text-pure-white text-3xl">keyboard_double_arrow_down</span>
+</div>
+</header>
+<!-- Destacados Section -->
+<section class="py-section-gap px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6 reveal-up">
+<div class="max-w-xl">
+<span class="text-refined-gold font-label-lg uppercase tracking-[0.25em] mb-4 block">Curaduría Exclusiva</span>
+<h2 class="font-headline-xl text-headline-xl text-primary leading-tight">Propiedades Destacadas</h2>
+</div>
+<a class="text-slate-blue font-label-lg border-b border-slate-blue/30 pb-1 hover:text-primary hover:border-primary transition-all flex items-center gap-2 group" href="#">
+            Ver catálogo completo
+            <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="reveal-up luxury-card bg-pure-white group overflow-hidden border border-outline-variant/20 rounded-sm transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.12)]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvNAWgqD37GRno9sEmwzoG9wW3Dst5M1OF2NwedRG1ghFridOr91MuZbdPKODjHDdaw2lVG7jTtk6YRVRBwCD_E2v7jHYpMoodLoOpQOFxeTGDIaaE-6KnsKE7e84vv49mw7ihz2170iW4QNIRreJ37i1NUphupL8Mo7lPjahUXVkU4ZnzYktkp2YQfRfW9dSgTq7UoxSTIrg4u6NTAIdbr5UxdNnc3RTw8NIi2I1uGXyrg7pdbGVhLczA"/>
+<div class="absolute top-4 left-4 bg-primary text-pure-white px-4 py-1.5 font-label-sm uppercase tracking-wider text-[10px] shadow-lg">Nuevo Ingreso</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-8">
+<p class="text-refined-gold font-label-sm uppercase tracking-[0.15em] mb-3">Belgrano R</p>
+<h3 class="font-headline-md text-headline-md text-primary mb-6 leading-tight group-hover:text-refined-gold transition-colors">Cabildo Boulevard. 3 amb con suite y balcón aterrazado</h3>
+<div class="grid grid-cols-3 gap-4 text-outline border-y border-outline-variant/20 py-5 mb-8">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">bed</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">2 Dorm</span>
+</div>
+<div class="flex flex-col items-center gap-1 border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-[22px] text-primary">shower</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">3 Baños</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">straighten</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">72 m²</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-sm text-slate-blue/60 uppercase text-[10px] tracking-widest">Precio</span>
+<span class="font-headline-md text-headline-md text-primary">USD 271.103</span>
+</div>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-primary hover:text-pure-white transition-all rounded-full group-hover:translate-x-1">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="reveal-up luxury-card bg-pure-white group overflow-hidden border border-outline-variant/20 rounded-sm transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.12)]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLsxtUcmU4QO-Sr4stlRXKCtZMpt2JT5jQNZnPJ_pphlu_KVNeWkunlQ6vrxl73hsIB84b2fnyjoEkBtbezzMcTBIH2UysJLEIMg1u38iS9T_1Grnh51FtJgj18iz2HHCNorW4FMaKWK3lsF1NRa3epiJGlOrJwIa9n7-I2UNtaQ5ixuOa3AxYoG9FcK6M4JmEx8o-lI3u0shmRZqXIKaR8f1QlLjWX5PHUbcY_p8xjdIKcTDQMGv3TLOw"/>
+<div class="absolute top-4 left-4 bg-primary text-pure-white px-4 py-1.5 font-label-sm uppercase tracking-wider text-[10px] shadow-lg">Unidad Exclusiva</div>
+</div>
+<div class="p-8">
+<p class="text-refined-gold font-label-sm uppercase tracking-[0.15em] mb-3">Colegiales</p>
+<h3 class="font-headline-md text-headline-md text-primary mb-6 leading-tight group-hover:text-refined-gold transition-colors">Cabildo al 2500. Monoambiente Premium amoblado</h3>
+<div class="grid grid-cols-3 gap-4 text-outline border-y border-outline-variant/20 py-5 mb-8">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">bed</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">1 Dorm</span>
+</div>
+<div class="flex flex-col items-center gap-1 border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-[22px] text-primary">shower</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">1 Baño</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">straighten</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">39 m²</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-sm text-slate-blue/60 uppercase text-[10px] tracking-widest">Precio</span>
+<span class="font-headline-md text-headline-md text-primary">USD 178.985</span>
+</div>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-primary hover:text-pure-white transition-all rounded-full group-hover:translate-x-1">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="reveal-up luxury-card bg-pure-white group overflow-hidden border border-outline-variant/20 rounded-sm transition-all duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.12)]">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="card-img w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvfVgaBKF4zLdvj3kRw0LgKlcbUIDkWsdyz6FysHbAdTPF2MMFDXH8Tg1MlnF6Fua7jgLj21jQV_1Y5kXCCHxTemP7BgLwPzb6dh4Nn4Eyd10o2ldlquDXAxCjLqXyCZapBdzy2CTsTDzi23RPDp927MYA4J7pk35m3NUgttw-f_XdXQufsQXQOwKcnqUR9-0eOVFSE7GvhdP61LHu48C2sqcAEBUIg3h0b0Z_qxOuayd9tpO2KDMpO7A"/>
+<div class="absolute top-4 left-4 bg-refined-gold text-pure-white px-4 py-1.5 font-label-sm uppercase tracking-wider text-[10px] shadow-lg">Oportunidad</div>
+</div>
+<div class="p-8">
+<p class="text-refined-gold font-label-sm uppercase tracking-[0.15em] mb-3">Palermo Chico</p>
+<h3 class="font-headline-md text-headline-md text-primary mb-6 leading-tight group-hover:text-refined-gold transition-colors">Av. Libertador al 7000. Piso Exclusivo con vista al río</h3>
+<div class="grid grid-cols-3 gap-4 text-outline border-y border-outline-variant/20 py-5 mb-8">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">bed</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">3 Dorm</span>
+</div>
+<div class="flex flex-col items-center gap-1 border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-[22px] text-primary">shower</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">4 Baños</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[22px] text-primary">straighten</span>
+<span class="font-label-sm text-[11px] uppercase opacity-70">200 m²</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-sm text-slate-blue/60 uppercase text-[10px] tracking-widest">Precio</span>
+<span class="font-headline-md text-headline-md text-primary">USD 1.690.000</span>
+</div>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant hover:bg-primary hover:text-pure-white transition-all rounded-full group-hover:translate-x-1">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Unit Table Section (Refined) -->
+<section class="py-24 bg-surface-container-low border-y border-outline-variant/20">
+<div class="px-margin-desktop max-w-container-max mx-auto reveal-up">
+<div class="mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Unidades Disponibles</h2>
+<p class="text-slate-blue font-body-md">Actualización en tiempo real de disponibilidad por edificio.</p>
+</div>
+<div class="bg-pure-white shadow-xl overflow-hidden rounded-sm border border-outline-variant/30">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-lowest border-b border-outline-variant/30">
+<tr>
+<th class="px-8 py-5 font-label-lg text-primary uppercase text-[12px] tracking-widest">Unidad</th>
+<th class="px-8 py-5 font-label-lg text-primary uppercase text-[12px] tracking-widest">Piso</th>
+<th class="px-8 py-5 font-label-lg text-primary uppercase text-[12px] tracking-widest">Sup. Total</th>
+<th class="px-8 py-5 font-label-lg text-primary uppercase text-[12px] tracking-widest">Estado</th>
+<th class="px-8 py-5 font-label-lg text-primary uppercase text-[12px] tracking-widest text-right">Precio</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<td class="px-8 py-6 font-body-md text-primary font-medium">Departamento 302</td>
+<td class="px-8 py-6 font-body-md text-secondary">3° C</td>
+<td class="px-8 py-6 font-body-md text-secondary">85 m²</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 text-[11px] font-label-lg uppercase tracking-wider text-green-700 bg-green-50 border border-green-200 rounded-full">Disponible</span>
+</td>
+<td class="px-8 py-6 text-right font-headline-md text-[18px] text-primary group-hover:text-refined-gold transition-colors">USD 310.000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<td class="px-8 py-6 font-body-md text-primary font-medium">Departamento 501</td>
+<td class="px-8 py-6 font-body-md text-secondary">5° A</td>
+<td class="px-8 py-6 font-body-md text-secondary">120 m²</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 text-[11px] font-label-lg uppercase tracking-wider text-refined-gold bg-refined-gold/5 border border-refined-gold/20 rounded-full">Reservado</span>
+</td>
+<td class="px-8 py-6 text-right font-headline-md text-[18px] text-primary opacity-50">USD 445.000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<td class="px-8 py-6 font-body-md text-primary font-medium">Penthouse 12</td>
+<td class="px-8 py-6 font-body-md text-secondary">12° B</td>
+<td class="px-8 py-6 font-body-md text-secondary">245 m²</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 text-[11px] font-label-lg uppercase tracking-wider text-green-700 bg-green-50 border border-green-200 rounded-full">Disponible</span>
+</td>
+<td class="px-8 py-6 text-right font-headline-md text-[18px] text-primary group-hover:text-refined-gold transition-colors">USD 1.250.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<!-- Finance Simulator Section -->
+<section class="py-section-gap bg-primary text-pure-white overflow-hidden relative">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+<svg class="h-full w-full stroke-pure-white/20 fill-none" viewbox="0 0 100 100">
+<circle cx="100" cy="50" r="40"></circle>
+<circle cx="100" cy="50" r="30"></circle>
+<circle cx="100" cy="50" r="20"></circle>
+</svg>
+</div>
+<div class="px-margin-desktop max-w-container-max mx-auto reveal-up">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div>
+<span class="text-refined-gold font-label-lg uppercase tracking-[0.25em] mb-4 block">Herramientas</span>
+<h2 class="font-headline-xl text-headline-xl mb-8 leading-tight">Simulá tu financiación</h2>
+<p class="text-pure-white/70 font-body-lg mb-12">Ofrecemos planes a medida para que puedas acceder a tu próxima propiedad de manera simple y transparente.</p>
+<div class="space-y-10">
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="font-label-lg uppercase tracking-widest text-[12px] opacity-60">Entrega Inicial (USD)</label>
+<span class="font-headline-md text-refined-gold" id="initial-value">$80.000</span>
+</div>
+<input class="w-full" max="500000" min="50000" oninput="updateFinance()" step="5000" type="range" value="80000"/>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="font-label-lg uppercase tracking-widest text-[12px] opacity-60">Plazo en Meses</label>
+<span class="font-headline-md text-refined-gold" id="term-value">36 Cuotas</span>
+</div>
+<input class="w-full" max="120" min="12" oninput="updateFinance()" step="12" type="range" value="36"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-highest/10 backdrop-blur-xl border border-pure-white/10 p-12 rounded-sm text-center">
+<p class="font-label-sm uppercase tracking-widest opacity-60 mb-4">Cuota Mensual Estimada</p>
+<div class="font-display-lg text-refined-gold mb-8 transition-all duration-300" id="monthly-installment">USD 3.250</div>
+<div class="grid grid-cols-2 gap-6 text-left border-t border-pure-white/10 pt-8 mb-10">
+<div>
+<p class="text-[10px] uppercase tracking-widest opacity-40 mb-1">Tasa Anual</p>
+<p class="font-label-lg">4.5% Fija</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-widest opacity-40 mb-1">Gastos Admin.</p>
+<p class="font-label-lg">Sin gastos ocultos</p>
+</div>
+</div>
+<button class="w-full bg-refined-gold text-primary py-5 font-label-lg uppercase tracking-widest hover:bg-pure-white transition-all shadow-xl active:scale-[0.98]">
+                    Solicitar Asesoramiento
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Team / Quienes Somos -->
+<section class="py-section-gap">
+<div class="px-margin-desktop max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-24">
+<div class="w-full lg:w-1/2 relative reveal-up">
+<div class="relative z-10 overflow-hidden shadow-2xl">
+<img class="w-full aspect-[4/5] object-cover grayscale hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida/AP1WRLv7Es7vBO6C68pWclfHU0uQV379JJWpirWY58EZnjcQbQ3BVlAh-niEPHx8kUtbsJh1KhTl7PIkzr8ZsIcvbF6vWZU3myX27HMqseKWpnMoubG3epU_slZXGm6FCLgoTzVlIShcUJr5DUT0tmbA1U79mLmRABepAi0Tvh-mfqESxQX9qW4iWDAzfcIDH-k3XeuOM27eslzzg7A772xV74TN60gB_dBNiNKdFHuD8rQX4HZnv4ZebTKxT4o"/>
+<div class="absolute bottom-0 left-0 bg-primary px-10 py-12 text-pure-white">
+<p class="font-headline-xl text-[64px] mb-2 leading-none text-refined-gold">14+</p>
+<p class="font-label-sm uppercase tracking-[0.2em] whitespace-nowrap">Años liderando el mercado</p>
+</div>
+</div>
+<div class="absolute -top-10 -right-10 w-64 h-64 border border-outline-variant/30 -z-10"></div>
+</div>
+<div class="w-full lg:w-1/2 reveal-up" style="transition-delay: 200ms;">
+<span class="text-refined-gold font-label-lg uppercase tracking-[0.25em] mb-6 block">Trayectoria e Integridad</span>
+<h2 class="font-headline-xl text-headline-xl text-primary mb-8 leading-tight">Somos MUV, una inmobiliaria basada en el valor de la confianza.</h2>
+<p class="font-body-lg text-body-lg text-secondary mb-12 leading-relaxed">Desde 2010, transformamos la compra-venta de inmuebles en una experiencia premium. No solo vendemos propiedades; asesoramos proyectos de vida y maximizamos retornos de inversión con un enfoque boutique personalizado.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-14">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-refined-gold">workspace_premium</span>
+<div>
+<h4 class="font-label-lg text-primary uppercase mb-2 tracking-widest">Excelencia</h4>
+<p class="font-body-md text-secondary/80">Estándares internacionales en cada etapa del proceso.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-refined-gold">handshake</span>
+<div>
+<h4 class="font-label-lg text-primary uppercase mb-2 tracking-widest">Compromiso</h4>
+<p class="font-body-md text-secondary/80">Acompañamiento legal y financiero integral y transparente.</p>
+</div>
+</div>
+</div>
+<button class="group flex items-center gap-4 bg-transparent text-primary py-2 px-0 border-b-2 border-primary hover:text-refined-gold hover:border-refined-gold transition-all font-label-lg uppercase tracking-widest">
+                Conocé a nuestro equipo
+                <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">trending_flat</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-primary-container text-pure-white pt-section-gap pb-12">
+<div class="px-margin-desktop max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 mb-24">
+<div class="space-y-8">
+<img alt="MUV Logo" class="h-10 w-auto brightness-0 invert" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/>
+<p class="text-on-primary-container/60 font-body-md leading-relaxed">Curaduría exclusiva de propiedades en Buenos Aires. Compromiso con la arquitectura de vanguardia y el diseño atemporal.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-pure-white/10 rounded-full flex items-center justify-center hover:bg-refined-gold hover:border-refined-gold transition-all group" href="#">
+<img class="w-4 h-4 brightness-0 invert group-hover:brightness-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF9Elj5aayk1VSDdF8XsjAff89sf2IlNuz3-0o0QELy7Urdh84KMNbwhNN4rMBYcFzuCowTJTbBHJW1_5VgqSRRcCN9NxAMHM1AjRh-NVEK3LGM6G6dcrdSIKjOOwNypGd1KsAk-3FSuJmRIKVT83etP2TxExq5kBdKTtWYRDxCriSt8_F1moKiwSCt_S2Jw2MldwQYvR8gaLmiv3msZpixsDBCCEXzjfkuT8_vx6isAqQ2UMRQlThGAK0HMXxAPsr1oOt7EnS9vc"/>
+</a>
+<a class="w-10 h-10 border border-pure-white/10 rounded-full flex items-center justify-center hover:bg-refined-gold hover:border-refined-gold transition-all group" href="#">
+<img class="w-4 h-4 brightness-0 invert group-hover:brightness-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf6CFRVHynMkOhV2ZOGTkY9_U-wu3VdCV93PHjjwZWlDXZ6UQk1dIRcvL2p5_gHzUqVW8ZSxRLvldXMBHvNZUBDunSqfxl-I028A70M7Wwh8s0B2d-OGJmX96A34-JgFbrQ1eXKspHV9yF0YWDO3r4bGqz2EsjWSesrbffkQXHljPMMIJjM4J6V8s7uffBrDt-bF9Uj0lu8DWbqZIUrY1C-SSzGT_wm_FxVArP0nDYwdFM8ilG-iAmSlMqh0Yr2Gm8-A7T8guTFNI"/>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-label-lg uppercase tracking-widest mb-10 text-refined-gold">Servicios</h4>
+<ul class="space-y-5">
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Ventas Exclusivas</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Alquileres Premium</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="listado_emprendimientos.html">Emprendimientos en pozo</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="contacto.html">Tasaciones Profesionales</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg uppercase tracking-widest mb-10 text-refined-gold">Explorar</h4>
+<ul class="space-y-5">
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Barrios Destacados</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Inversiones</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Noticias del Mercado</a></li>
+<li><a class="text-on-primary-container/70 hover:text-pure-white transition-all font-body-md inline-block" href="#">Contactar un Agente</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg uppercase tracking-widest mb-10 text-refined-gold">Newsletter</h4>
+<p class="text-on-primary-container/60 font-body-md mb-8">Suscribite para acceder a preventas exclusivas y reportes del mercado real estate.</p>
+<form class="flex border-b border-pure-white/20 pb-2 group focus-within:border-refined-gold transition-all">
+<input class="bg-transparent border-none focus:ring-0 text-pure-white w-full placeholder:text-pure-white/30 font-body-md" placeholder="Tu correo electrónico" type="email"/>
+<button class="text-refined-gold hover:translate-x-1 transition-transform p-2">
+<span class="material-symbols-outlined">east</span>
+</button>
+</form>
+</div>
+</div>
+<div class="pt-12 border-t border-pure-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-on-primary-container/40 text-[12px] uppercase tracking-widest">© 2024 MUV Propiedades. Elevando estándares inmobiliarios.</p>
+<div class="flex gap-10">
+<a class="text-on-primary-container/40 hover:text-pure-white text-[11px] uppercase tracking-widest transition-all" href="#">Privacidad</a>
+<a class="text-on-primary-container/40 hover:text-pure-white text-[11px] uppercase tracking-widest transition-all" href="#">Términos y Condiciones</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- WhatsApp Floating Button -->
+<a class="fixed bottom-10 right-10 z-[100] group" href="https://wa.me/5491122862000">
+<div class="absolute -inset-4 bg-[#25D366]/20 rounded-full animate-ping group-hover:animate-none"></div>
+<div class="relative w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300">
+<img alt="WhatsApp" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkChGY0rkQMjYxdK0me8CGxIW96yUS90kTHNkUWHudSJL0aoY84HjlY5ZFK7LZMXhFo1m7oUKVxIdsMBJ4ZmeKNREBOfnqkmg-tQMSDHoKRY1gS3TLlBZYxsyrT344NgUeeemEfRXrKSg2qIIyjA0kiXu_0Zdo6kFaITRdSgfK9OgJ-vobUgjhSDBDURV1YJ4qwngyweY9m2fOKCRxQj_L-6-fRFvwG-ZYU0c243i5m2LQbxuWxGvr3Ycc8mIACu6ay40WO1q6rUs"/>
+</div>
+</a>
+<script>
+    // Reveal animations on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Staggered delay for grid items
+                const delay = index % 3 * 100;
+                setTimeout(() => {
+                    entry.target.classList.add('active');
+                }, delay);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal-up').forEach((el) => observer.observe(el));
+
+    // Nav bar effects
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 80) {
+            nav.classList.add('bg-surface/95', 'backdrop-blur-md', 'border-outline-variant/30', 'shadow-md', 'py-1');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-0', 'border-transparent', 'py-2');
+        } else {
+            nav.classList.remove('bg-surface/95', 'backdrop-blur-md', 'border-outline-variant/30', 'shadow-md', 'py-1');
+            nav.classList.add('bg-transparent', 'backdrop-blur-0', 'border-transparent', 'py-2');
+        }
+    });
+
+    // Finance Simulator Logic
+    function updateFinance() {
+        const initial = document.querySelectorAll('input[type="range"]')[0].value;
+        const term = document.querySelectorAll('input[type="range"]')[1].value;
+        
+        document.getElementById('initial-value').textContent = `USD ${parseInt(initial).toLocaleString()}`;
+        document.getElementById('term-value').textContent = `${term} Cuotas`;
+        
+        // Mock formula: (Total - Initial) / Term * Interest
+        const totalProp = 250000;
+        const interest = 1.045;
+        const result = ((totalProp - initial) / term) * interest;
+        
+        const installmentEl = document.getElementById('monthly-installment');
+        installmentEl.style.opacity = '0';
+        setTimeout(() => {
+            installmentEl.textContent = `USD ${Math.round(result).toLocaleString()}`;
+            installmentEl.style.opacity = '1';
+        }, 150);
+    }
+
+    // Initialize simulation
+    updateFinance();
+</script>
+</body></html>

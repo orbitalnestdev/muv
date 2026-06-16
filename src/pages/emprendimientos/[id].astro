@@ -1,0 +1,526 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getDevelopmentById, getPropertiesByDevelopmentId } from '../../lib/tokko';
+
+const { id } = Astro.params;
+
+// Fetch development data at request-time (SSR)
+const development = await getDevelopmentById(Number(id));
+
+// Handle missing development state
+if (!development) {
+  return Astro.redirect('/listado-emprendimientos');
+}
+
+// Fetch properties (units) associated with this development
+const units = await getPropertiesByDevelopmentId(Number(id));
+
+const {
+  name,
+  description,
+  construction_status,
+  location,
+  photos = []
+} = development;
+
+const statusText = construction_status || "PREMIUM";
+const addressText = location?.name || "Buenos Aires";
+const fullLocationText = location?.full_location ? location.full_location.split('|').slice(-2).join(', ') : '';
+---
+
+<MainLayout 
+  title={`${name} | Emprendimientos | MUV Propiedades`} 
+  description={`${name} - Desarrollo exclusivo en ${addressText}. ${description.substring(0, 150)}...`}
+  isDarkHero={false}
+>
+    <main class="pt-24 min-h-[70vh] bg-surface select-none">
+        
+        <!-- Breadcrumbs -->
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+            <nav class="flex items-center space-x-2 text-label-sm font-label-sm text-secondary text-left">
+                <a class="hover:text-primary transition-colors" href="/">Inicio</a>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <a class="hover:text-primary transition-colors" href="/listado-emprendimientos">Emprendimientos</a>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span class="text-on-surface truncate max-w-[150px] md:max-w-xs">{name}</span>
+            </nav>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="relative h-[70vh] w-full overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img 
+                  alt={`Emprendimiento ${name}`} 
+                  class="w-full h-full object-cover" 
+                  src={photos.length > 0 ? photos[0].image : "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80"} 
+                  width="1600" 
+                  height="900" 
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+            </div>
+            <div class="relative z-10 h-full max-w-container-max mx-auto px-margin-desktop flex flex-col justify-end pb-16 text-left">
+                <div class="max-w-2xl">
+                    <span class="inline-block px-4 py-1 bg-refined-gold text-pure-white font-label-sm text-label-sm mb-4 uppercase tracking-widest">{statusText}</span>
+                    <h1 class="font-display-lg text-4xl md:text-6xl text-pure-white mb-4 drop-shadow-lg leading-tight font-semibold">{name}</h1>
+                    <p class="font-body-lg text-body-lg text-pure-white/90 leading-relaxed line-clamp-2">
+                        {description}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Overview Section -->
+        <section class="py-24 px-margin-desktop bg-surface-container-lowest text-left">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+                <div class="lg:col-span-8 space-y-6">
+                    <h2 class="font-headline-lg text-2xl md:text-3xl text-primary border-l-4 border-refined-gold pl-6 font-semibold">Detalles del Emprendimiento</h2>
+                    <div class="space-y-6 text-slate-blue font-body-lg leading-relaxed text-sm md:text-base whitespace-pre-line">
+                        {description}
+                    </div>
+                    
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-outline-variant/30">
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-2xl font-bold mb-1">12</span>
+                            <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-tighter font-semibold">Pisos</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-2xl font-bold mb-1">{units.length || 'S/D'}</span>
+                            <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-tighter font-semibold">Unidades</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-2xl font-bold mb-1 font-bold">2026</span>
+                            <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-tighter font-semibold">Entrega</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-2xl font-bold mb-1">980m²</span>
+                            <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-tighter font-semibold">Amenities</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-4 bg-off-white p-8 border border-outline-variant/30 flex flex-col justify-between h-fit rounded-lg shadow-sm">
+                    <div>
+                        <h3 class="font-headline-md text-lg text-primary font-bold mb-4">Ubicación</h3>
+                        <div class="w-full h-48 bg-surface-container-high mb-6 overflow-hidden rounded relative border border-outline-variant/20 shadow-inner">
+                            <iframe 
+                                class="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
+                                src={`https://maps.google.com/maps?q=${encodeURIComponent(addressText)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
+                                allowfullscreen 
+                                loading="lazy"
+                                title={`Mapa de ${name}`}>
+                            </iframe>
+                        </div>
+                        <p class="text-slate-blue font-body-md mb-2 font-medium">{addressText}</p>
+                        <p class="text-on-surface-variant font-label-sm text-xs uppercase font-semibold">{fullLocationText}</p>
+                    </div>
+                    <button id="btn-download-brochure" class="mt-8 w-full border border-primary py-3.5 rounded font-label-lg text-label-lg text-primary hover:bg-primary hover:text-pure-white transition-all duration-300 font-bold uppercase tracking-wider">
+                        DESCARGAR BROCHURE
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Available Units (Properties Table) -->
+        <section class="py-24 px-margin-desktop bg-off-white">
+            <div class="max-w-container-max mx-auto">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-12 gap-4 text-left">
+                    <div>
+                        <h2 class="font-headline-lg text-2xl md:text-3xl text-primary font-bold">Unidades Disponibles</h2>
+                        <p class="text-secondary text-sm mt-1">Haga clic en una unidad para ver detalles completos o calcular la financiación.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <select id="filter-rooms" class="border border-outline-variant rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold outline-none">
+                            <option value="">Todos los ambientes</option>
+                            <option value="1">1 Ambiente</option>
+                            <option value="2">2 Ambientes</option>
+                            <option value="3">3 Ambientes</option>
+                            <option value="4">4+ Ambientes</option>
+                        </select>
+                        <select id="sort-price" class="border border-outline-variant rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold outline-none">
+                            <option value="asc">Precio: Menor a Mayor</option>
+                            <option value="desc">Precio: Mayor a Menor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto bg-pure-white rounded-lg border border-outline-variant/30 shadow-sm">
+                    <table class="w-full border-collapse text-left">
+                        <thead>
+                            <tr class="border-b border-outline-variant text-left bg-surface-container-low/30">
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider font-bold">Unidad</th>
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider font-bold">Dirección</th>
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider font-bold">Ambientes</th>
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider font-bold">Superficie Total</th>
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider text-right font-bold">Precio</th>
+                                <th class="p-6 font-label-lg text-xs text-on-surface-variant uppercase tracking-wider text-center font-bold">Estado</th>
+                                <th class="p-6"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/30 font-medium" id="units-table-body">
+                            {units.length === 0 ? (
+                                <tr>
+                                    <td colspan="7" class="p-8 text-center text-secondary font-medium">No hay unidades disponibles en este momento.</td>
+                                </tr>
+                            ) : (
+                                units.map(u => {
+                                    const op = u.operations?.[0];
+                                    const price = op?.prices?.[0];
+                                    const priceVal = price?.price || 0;
+                                    const priceText = priceVal > 0 
+                                      ? `USD ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(priceVal)}` 
+                                      : 'Consulte';
+                                    const size = u.total_surface ? `${Math.round(Number(u.total_surface))} m²` : (u.covered_surface ? `${Math.round(Number(u.covered_surface))} m²` : 'S/D');
+                                    const rooms = u.room_amount || 1;
+                                    const status = priceVal > 0 ? 'Disponible' : 'Reservado';
+                                    const statusColor = priceVal > 0 ? 'bg-green-500 text-pure-white' : 'bg-amber-500 text-pure-white';
+
+                                    return (
+                                        <tr 
+                                          class="unit-row hover:bg-surface-container-lowest transition-colors duration-200 cursor-pointer"
+                                          data-id={u.id}
+                                          data-price={priceVal}
+                                          data-rooms={rooms}
+                                          data-code={u.reference_code || u.id}
+                                        >
+                                            <td class="p-6 font-headline-md text-base text-primary font-bold">{u.reference_code || u.id}</td>
+                                            <td class="p-6 font-body-md text-slate-blue truncate max-w-xs">{u.address || 'Ubicación Interna'}</td>
+                                            <td class="p-6 font-body-md text-slate-blue">{rooms} Ambientes</td>
+                                            <td class="p-6 font-body-md text-slate-blue">{size}</td>
+                                            <td class="p-6 font-headline-md text-base text-primary text-right font-bold">{priceText}</td>
+                                            <td class="p-6 text-center">
+                                                <span class={`px-3 py-1 ${statusColor} font-label-sm text-[10px] uppercase tracking-wider rounded-full font-semibold shadow-sm`}>{status}</span>
+                                            </td>
+                                            <td class="p-6 text-right">
+                                                <a href={`/propiedades/${u.id}`} class="material-symbols-outlined text-refined-gold hover:scale-115 transition-transform flex justify-end">arrow_forward</a>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financing Calculator -->
+        <section class="py-24 px-margin-desktop bg-[#121212] text-pure-white text-left relative overflow-hidden" id="financing-calculator-section">
+            <!-- Monogram watermark in dark calculator background -->
+            <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 overflow-hidden w-[350px] opacity-[0.05] translate-y-[10%] translate-x-[5%]">
+                <img src="/assets/iso_muv.png" alt="M Monogram" class="w-full h-auto brightness-0 invert" />
+            </div>
+
+            <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+                <div class="space-y-6">
+                    <span class="text-refined-gold font-label-sm text-xs uppercase tracking-widest block font-bold" id="calc-selected-unit-label">FINANCIACIÓN {name.toUpperCase()}</span>
+                    <h2 class="font-display-lg text-3xl md:text-5xl font-semibold leading-tight">Financiación CAC</h2>
+                    <p class="font-body-lg text-pure-white/80 leading-relaxed text-sm md:text-base">
+                        Simulá tu plan de inversión con cuotas ajustadas por la Cámara Argentina de la Construcción (CAC). Seleccioná cualquier unidad disponible en la tabla de arriba para cargar su precio real.
+                    </p>
+                    <div class="flex items-center gap-4 text-refined-gold">
+                        <span class="material-symbols-outlined text-4xl">verified_user</span>
+                        <span class="font-label-lg text-xs uppercase tracking-widest font-bold">Garantía Estructural Directa</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-2xl shadow-xl">
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label for="advance-slider" class="font-label-sm text-xs text-pure-white/60 uppercase font-semibold">Anticipo</label>
+                                <span class="font-label-lg text-base text-refined-gold font-bold" id="advance-val">30%</span>
+                            </div>
+                            <input class="w-full accent-refined-gold cursor-pointer" id="advance-slider" max="70" min="20" step="5" type="range" value="30">
+                            <div class="flex justify-between mt-1 text-[11px]">
+                                <span class="text-pure-white/40">Min: 20%</span>
+                                <span class="text-refined-gold font-semibold" id="advance-calc-display">USD -</span>
+                                <span class="text-pure-white/40">Max: 70%</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label for="installments-slider" class="font-label-sm text-xs text-pure-white/60 uppercase font-semibold">Plazo en Cuotas (Meses)</label>
+                                <span class="font-label-lg text-base text-refined-gold font-bold" id="installments-val">36</span>
+                            </div>
+                            <input class="w-full accent-refined-gold cursor-pointer" id="installments-slider" max="60" min="12" step="6" type="range" value="36">
+                            <div class="flex justify-between mt-1 text-[11px]">
+                                <span class="text-pure-white/40">12 Meses</span>
+                                <span class="text-refined-gold font-semibold" id="installments-calc-display">Plan 36 Meses</span>
+                                <span class="text-pure-white/40">60 Meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-8 border-t border-white/10">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+                                <div>
+                                    <p class="font-label-sm text-xs text-pure-white/60 uppercase mb-1 font-semibold">Cuota Mensual Estimada</p>
+                                    <h3 class="font-display-lg text-2xl md:text-3xl text-pure-white font-bold" id="calc-monthly-payment">USD - <span class="text-xs text-pure-white/40 ml-2 font-normal">+ CAC</span></h3>
+                                </div>
+                                <button id="btn-request-quote" class="bg-refined-gold text-pure-white hover:bg-refined-gold/90 px-8 py-4 font-label-lg text-sm rounded font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-md">
+                                    Solicitar Cotización
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Photos Gallery -->
+        <section class="py-24 px-margin-desktop bg-surface-container-low">
+            <div class="max-w-container-max mx-auto text-left">
+                <h2 class="font-headline-lg text-2xl md:text-3xl text-primary font-bold mb-12">Detalles del Proyecto</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="dev-photos-grid">
+                    {photos.length > 0 ? (
+                        photos.map(p => (
+                            <div class="aspect-[4/5] overflow-hidden rounded bg-surface-container border border-outline-variant/20 relative group shadow-sm">
+                                <img 
+                                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+                                  src={p.image} 
+                                  loading="lazy" 
+                                  alt={`Foto de ${name}`} 
+                                  width="600" 
+                                  height="750" 
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div class="col-span-3 text-center py-12 text-secondary text-sm font-medium">Detalles visuales adicionales no disponibles.</div>
+                    )}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Dialog for CAC Financing Inquiry -->
+    <dialog id="quote-dialog" class="backdrop:bg-black/60 backdrop:backdrop-blur-sm p-0 rounded-2xl border border-outline-variant/30 max-w-md w-full overflow-hidden shadow-2xl bg-pure-white">
+        <div class="flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-outline-variant/20 bg-surface">
+                <h4 class="font-headline-md text-sm text-primary font-bold uppercase">Solicitar Cotización</h4>
+                <button id="close-quote-dialog" class="material-symbols-outlined text-primary hover:text-refined-gold transition-colors focus:outline-none cursor-pointer">close</button>
+            </div>
+            <div class="p-6">
+                <form id="quote-form" class="space-y-4 text-left">
+                    <div id="quote-form-status" class="hidden p-4 rounded text-xs font-semibold select-none"></div>
+                    <div class="space-y-1">
+                        <label for="quote-name" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Nombre Completo *</label>
+                        <input type="text" id="quote-name" required placeholder="Ej. Juan Pérez" class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary placeholder-[#747878] focus:ring-1 focus:ring-refined-gold focus:outline-none" />
+                    </div>
+                    <div class="space-y-1">
+                        <label for="quote-email" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Correo Electrónico *</label>
+                        <input type="email" id="quote-email" required placeholder="ejemplo@correo.com" class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary placeholder-[#747878] focus:ring-1 focus:ring-refined-gold focus:outline-none" />
+                    </div>
+                    <div class="space-y-1">
+                        <label for="quote-phone" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="quote-phone" required placeholder="Ej. +54 9 11 1234 5678" class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary placeholder-[#747878] focus:ring-1 focus:ring-refined-gold focus:outline-none" />
+                    </div>
+                    <div class="space-y-1">
+                        <label for="quote-message" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Mensaje / Consulta</label>
+                        <textarea id="quote-message" rows="4" class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary placeholder-[#747878] focus:ring-1 focus:ring-refined-gold focus:outline-none resize-none"></textarea>
+                    </div>
+                    <button type="submit" id="btn-quote-submit" class="w-full bg-primary text-pure-white py-3.5 rounded font-headline text-xs font-bold uppercase tracking-wider hover:bg-primary/95 transition-all duration-300 flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                        <span class="material-symbols-outlined text-[18px]">send</span>
+                        <span>Enviar Cotización</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+</MainLayout>
+
+<script is:inline define:vars={{ units, name }}>
+  let selectedPrice = 280000;
+  let selectedCode = "";
+
+  if (units && units.length > 0) {
+    const pricedUnit = units.find(u => {
+      const op = u.operations && u.operations[0];
+      const pr = op && op.prices && op.prices[0];
+      return pr && pr.price > 1;
+    });
+    if (pricedUnit) {
+      selectedPrice = pricedUnit.operations[0].prices[0].price;
+      selectedCode = `Unidad ${pricedUnit.reference_code || pricedUnit.id}`;
+    }
+  }
+
+  function updateCalculatorLabel() {
+    const label = document.getElementById('calc-selected-unit-label');
+    if (label) {
+      label.innerText = `FINANCIACIÓN: ${(selectedCode || name).toUpperCase()} (USD ${selectedPrice.toLocaleString('es-AR')})`;
+    }
+  }
+
+  const advSlider = document.getElementById('advance-slider');
+  const instSlider = document.getElementById('installments-slider');
+  const advVal = document.getElementById('advance-val');
+  const instVal = document.getElementById('installments-val');
+  const advDisplay = document.getElementById('advance-calc-display');
+  const instDisplay = document.getElementById('installments-calc-display');
+  const monthlyDisplay = document.getElementById('calc-monthly-payment');
+
+  function calculateFinancing() {
+    if (!advSlider || !instSlider) return;
+    const pct = parseInt(advSlider.value);
+    const months = parseInt(instSlider.value);
+
+    if (advVal) advVal.innerText = pct + '%';
+    if (instVal) instVal.innerText = months.toString();
+
+    const advanceAmount = selectedPrice * (pct / 100);
+    const balance = selectedPrice - advanceAmount;
+    const monthlyPayment = balance / months;
+
+    if (advDisplay) {
+      advDisplay.innerText = `${pct}% = USD ${Math.round(advanceAmount).toLocaleString('es-AR')}`;
+    }
+    if (instDisplay) {
+      instDisplay.innerText = `Saldo USD ${Math.round(balance).toLocaleString('es-AR')} en ${months} meses`;
+    }
+    if (monthlyDisplay) {
+      monthlyDisplay.innerHTML = `USD ${Math.round(monthlyPayment).toLocaleString('es-AR')}<span class="text-xs text-pure-white/40 ml-2 font-normal">+ CAC</span>`;
+    }
+  }
+
+  advSlider?.addEventListener('input', calculateFinancing);
+  instSlider?.addEventListener('input', calculateFinancing);
+
+  document.querySelectorAll('.unit-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      
+      const price = parseFloat(row.getAttribute('data-price') || '0');
+      const code = row.getAttribute('data-code') || '';
+      
+      if (price > 1) {
+        selectedPrice = price;
+        selectedCode = `Unidad ${code}`;
+        updateCalculatorLabel();
+        calculateFinancing();
+        
+        document.getElementById('financing-calculator-section')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  const filterRooms = document.getElementById('filter-rooms');
+  const sortPrice = document.getElementById('sort-price');
+  const tableBody = document.getElementById('units-table-body');
+
+  function filterAndSortTable() {
+    if (!tableBody) return;
+    const roomVal = filterRooms?.value || '';
+    const sortVal = sortPrice?.value || 'asc';
+    const rows = Array.from(tableBody.querySelectorAll('.unit-row'));
+
+    rows.forEach(row => {
+      const rooms = row.getAttribute('data-rooms') || '';
+      const matchRooms = !roomVal || rooms === roomVal || (roomVal === '4' && parseInt(rooms) >= 4);
+
+      if (matchRooms) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+
+    const sorted = rows.sort((a, b) => {
+      const priceA = parseFloat(a.getAttribute('data-price') || '0');
+      const priceB = parseFloat(b.getAttribute('data-price') || '0');
+      return sortVal === 'asc' ? priceA - priceB : priceB - priceA;
+    });
+
+    sorted.forEach(row => tableBody.appendChild(row));
+  }
+
+  filterRooms?.addEventListener('change', filterAndSortTable);
+  sortPrice?.addEventListener('change', filterAndSortTable);
+
+  updateCalculatorLabel();
+  calculateFinancing();
+
+  const brochureBtn = document.getElementById('btn-download-brochure');
+  brochureBtn?.addEventListener('click', () => {
+    alert(`Brochure digital de ${name} enviado a su correo electrónico.`);
+  });
+
+  // Dialog quote logic
+  const quoteDialog = document.getElementById('quote-dialog');
+  const requestQuoteBtn = document.getElementById('btn-request-quote');
+  const closeQuoteBtn = document.getElementById('close-quote-dialog');
+  const quoteForm = document.getElementById('quote-form');
+  const quoteStatusBox = document.getElementById('quote-form-status');
+  const quoteSubmitBtn = document.getElementById('btn-quote-submit');
+
+  requestQuoteBtn?.addEventListener('click', () => {
+    const messageArea = document.getElementById('quote-message');
+    if (messageArea) {
+      const pct = advSlider ? advSlider.value : '30';
+      const months = instSlider ? instSlider.value : '36';
+      messageArea.value = `Hola, me interesa solicitar cotización y financiación para la unidad ${selectedCode || name}. Plan proyectado: Anticipo de ${pct}% y saldo en ${months} cuotas CAC.`;
+    }
+    
+    quoteDialog?.showModal();
+  });
+
+  closeQuoteBtn?.addEventListener('click', () => {
+    quoteDialog?.close();
+  });
+
+  quoteForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!quoteStatusBox || !quoteSubmitBtn) return;
+
+    quoteStatusBox.className = 'hidden p-4 rounded text-xs font-semibold select-none';
+    quoteStatusBox.innerHTML = '';
+
+    const nameVal = document.getElementById('quote-name').value;
+    const emailVal = document.getElementById('quote-email').value;
+    const phoneVal = document.getElementById('quote-phone').value;
+    const messageVal = document.getElementById('quote-message').value;
+
+    const originalBtnText = quoteSubmitBtn.innerHTML;
+    quoteSubmitBtn.innerHTML = 'Enviando...';
+    quoteSubmitBtn.disabled = true;
+
+    try {
+      const response = await fetch('/api/lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: nameVal,
+          email: emailVal,
+          phone: phoneVal,
+          text: messageVal
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Hubo un error al procesar el contacto.');
+      }
+
+      quoteStatusBox.classList.remove('hidden');
+      quoteStatusBox.classList.add('bg-green-100', 'text-green-800');
+      quoteStatusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined">check_circle</span>¡Solicitud enviada! Nos contactaremos pronto.</span>';
+      quoteForm.reset();
+      
+      setTimeout(() => {
+        quoteDialog?.close();
+        quoteStatusBox.className = 'hidden p-4 rounded text-xs font-semibold select-none';
+      }, 2500);
+
+    } catch (err) {
+      quoteStatusBox.classList.remove('hidden');
+      quoteStatusBox.classList.add('bg-red-100', 'text-red-800');
+      quoteStatusBox.innerHTML = `<span class="flex items-center gap-2"><span class="material-symbols-outlined">error</span>${err.message || 'Error de conexión.'}</span>`;
+    } finally {
+      quoteSubmitBtn.innerHTML = originalBtnText;
+      quoteSubmitBtn.disabled = false;
+    }
+  });
+</script>

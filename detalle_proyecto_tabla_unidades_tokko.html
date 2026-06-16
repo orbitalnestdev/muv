@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DOME Suites | MUV Propiedades</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#858383",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "refined-gold": "#C5A059",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "off-white": "#F7F8F9",
+                        "on-secondary-fixed": "#111c2c",
+                        "slate-blue": "#4A5568",
+                        "surface-tint": "#5f5e5e",
+                        "secondary-fixed": "#d8e3fa",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-container": "#a17f3b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f72",
+                        "on-secondary-container": "#586377",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191c1d",
+                        "primary": "#000000",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d5e0f7",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#261900",
+                        "on-surface-variant": "#444748",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed": "#ffdea5",
+                        "pure-white": "#FFFFFF",
+                        "tertiary": "#000000",
+                        "outline": "#747878",
+                        "inverse-surface": "#2e3132",
+                        "deep-charcoal": "#121212",
+                        "tertiary-container": "#261900",
+                        "surface-container-highest": "#e1e3e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "32px",
+                        "margin-desktop": "64px",
+                        "section-gap": "120px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "headline-xl": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .cac-calculator-gradient {
+            background: linear-gradient(135deg, #121212 0%, #1c1b1b 100%);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            background-image: linear-gradient(#C5A059, #C5A059);
+            background-repeat: no-repeat;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #C5A059;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+            transition: transform 0.2s ease-in-out;
+            border: 2px solid #FFFFFF;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .unit-row:hover {
+            box-shadow: inset 4px 0 0 0 #C5A059;
+        }
+
+        .badge-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="bg-off-white text-on-surface font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent py-4 md:py-6 px-margin-mobile md:px-margin-desktop" id="main-nav">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<div class="flex items-center gap-2">
+<img alt="MUV Propiedades Logo" class="h-8 md:h-10 w-auto object-contain brightness-0 invert" id="nav-logo" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/>
+</div>
+<div class="hidden md:flex gap-10 items-center">
+<a class="font-label-lg text-label-lg text-pure-white/80 hover:text-refined-gold transition-colors duration-300 relative group" href="#">
+                Properties
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-refined-gold transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="font-label-lg text-label-lg text-pure-white/80 hover:text-refined-gold transition-colors duration-300 relative group" href="#">
+                Offices
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-refined-gold transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="font-label-lg text-label-lg text-pure-white/80 hover:text-refined-gold transition-colors duration-300 relative group" href="#">
+                Investors
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-refined-gold transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="font-label-lg text-label-lg text-pure-white/80 hover:text-refined-gold transition-colors duration-300 relative group" href="#">
+                Services
+                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-refined-gold transition-all duration-300 group-hover:w-full"></span>
+</a>
+</div>
+<button class="bg-pure-white text-primary px-6 py-2.5 font-label-lg text-label-lg rounded-sm transition-all hover:bg-refined-gold hover:text-pure-white active:scale-95 uppercase tracking-widest shadow-lg">
+            Book a Viewing
+        </button>
+</div>
+</nav>
+<!-- Hero Gallery -->
+<section class="relative h-[90vh] w-full overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="DOME Suites Architecture" class="w-full h-full object-cover scale-105" src="https://lh3.googleusercontent.com/aida/AP1WRLvfVgaBKF4zLdvj3kRw0LgKlcbUIDkWsdyz6FysHbAdTPF2MMFDXH8Tg1MlnF6Fua7jgLj21jQV_1Y5kXCCHxTemP7BgLwPzb6dh4Nn4Eyd10o2ldlquDXAxCjLqXyCZapBdzy2CTsTDzi23RPDp927MYA4J7pk35m3NUgttw-f_XdXQufsQXQOwKcnqUR9-0eOVFSE7GvhdP61LHu48C2sqcAEBUIg3h0b0Z_qxOuayd9tpO2KDMpO7A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+</div>
+<div class="relative z-10 h-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col justify-end pb-24">
+<div class="max-w-3xl reveal active">
+<span class="inline-block px-4 py-1.5 bg-refined-gold text-pure-white font-label-sm text-label-sm mb-6 uppercase tracking-[0.2em] shadow-lg">Premium Development</span>
+<h1 class="font-display-lg text-display-lg md:text-7xl text-pure-white mb-6 leading-tight">DOME <span class="font-light italic text-refined-gold/90">Suites</span></h1>
+<p class="font-body-lg text-body-lg text-pure-white/90 leading-relaxed max-w-xl">
+                A masterclass in modern architectural precision, located in the heart of the city's most exclusive district.
+            </p>
+<div class="mt-10 flex gap-4">
+<a class="bg-refined-gold text-pure-white px-8 py-4 font-label-lg rounded-sm hover:bg-refined-gold/90 transition-all flex items-center gap-2" href="#unidades">
+                    View Units <span class="material-symbols-outlined">expand_more</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Overview -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 items-start">
+<div class="md:col-span-8 reveal">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-10 border-l-4 border-refined-gold pl-8 uppercase tracking-wide">The Essence of Architectural Precision</h2>
+<div class="space-y-8 text-slate-blue font-body-lg leading-relaxed text-balance">
+<p>
+                    DOME Suites represents a paradigm shift in urban living. Designed with a focus on geometric purity and material honesty, the project integrates concrete, glass, and steel to create a structure that is both monumental and light.
+                </p>
+<p>
+                    Every unit has been meticulously planned to maximize natural light and offer panoramic views of the skyline. With premium amenities including a rooftop infinity pool, a state-of-the-art wellness center, and 24/7 concierge services.
+                </p>
+</div>
+<div class="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-12 border-t border-outline-variant/30 pt-12">
+<div class="group">
+<span class="block text-refined-gold font-display-lg text-4xl mb-2 group-hover:scale-110 transition-transform duration-300 origin-left">14</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Floors</span>
+</div>
+<div class="group">
+<span class="block text-refined-gold font-display-lg text-4xl mb-2 group-hover:scale-110 transition-transform duration-300 origin-left">42</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Units</span>
+</div>
+<div class="group">
+<span class="block text-refined-gold font-display-lg text-4xl mb-2 group-hover:scale-110 transition-transform duration-300 origin-left">2026</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Delivery</span>
+</div>
+<div class="group">
+<span class="block text-refined-gold font-display-lg text-4xl mb-2 group-hover:scale-110 transition-transform duration-300 origin-left">980m²</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Amenities</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-off-white p-10 border border-outline-variant/30 shadow-xl reveal">
+<h3 class="font-headline-md text-headline-md text-primary mb-6 uppercase tracking-tight">Location</h3>
+<div class="w-full h-56 bg-surface-container-high mb-8 overflow-hidden rounded-sm group relative">
+<img alt="Map of Buenos Aires" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-location="Buenos Aires" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbChp6rn4rt21RCuSUkKct4rLUICFXdUoknzZ_5I9VAawWBrQbgb83PdB5jjiP7Hgw1pmYRf6Yfrz6ptmd5XRXCqsHxOhHQnUe7dLZngVaVdo03jAiJku4J40jPmiLcuQR9DefJDD54fmt0kIhOfh1kh4ZCjkj_ONen4Gdx_xPt0wZKOkUWsafNZ36ULf4fFSBsvvNg_W1TG-vn0m7KrSeYrwnxBXKpkciVDM6mzwQuObGs9-K-tVZmw0fyXNSRd8AJeNKeY-urnI"/>
+<div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-slate-blue font-body-md font-semibold">Av. Quintana &amp; Ayacucho</p>
+<p class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Recoleta, Buenos Aires</p>
+</div>
+<button class="w-full border-2 border-primary py-4 font-label-lg text-label-lg text-primary hover:bg-primary hover:text-pure-white transition-all duration-300 mt-4 tracking-widest">
+                    DOWNLOAD BROCHURE
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Available Units (Tokko Style Table) -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-off-white" id="unidades">
+<div class="max-w-container-max mx-auto reveal">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase tracking-wider mb-2">Unidades Disponibles</h2>
+<div class="h-1 w-20 bg-refined-gold"></div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 bg-surface-container-high font-label-sm text-label-sm text-slate-blue rounded-full border border-outline-variant/30 hover:bg-refined-gold hover:text-pure-white transition-all">Filter by Rooms</button>
+<button class="px-6 py-2.5 bg-surface-container-high font-label-sm text-label-sm text-slate-blue rounded-full border border-outline-variant/30 hover:bg-refined-gold hover:text-pure-white transition-all">Sort by Price</button>
+</div>
+</div>
+<div class="overflow-x-auto rounded-sm border border-outline-variant/20 shadow-sm">
+<table class="w-full border-collapse bg-pure-white">
+<thead>
+<tr class="bg-surface-container-low/50 text-left"><th class="py-6 px-8 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Unit</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Piso</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Depto</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Amb.</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Sup. Cub.</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Sup. Desc.</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Total m²</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">Orientación</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest text-right">Precio</th><th class="py-6 px-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest text-center">Estado</th><th class="py-6 px-8"></th></tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20"><tr class="unit-row hover:bg-surface-container-lowest transition-all duration-300 cursor-pointer group"><td class="py-8 px-8 font-headline-md text-headline-md text-primary">101</td><td class="py-8 px-4 font-body-md text-slate-blue">1st Floor</td><td class="py-8 px-4 font-body-md text-slate-blue">A</td><td class="py-8 px-4 font-body-md text-slate-blue">2 Amb</td><td class="py-8 px-4 font-body-md text-slate-blue">55 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">10 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">65 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">North</td><td class="py-8 px-4 font-headline-md text-headline-md text-primary text-right">USD 185,000</td><td class="py-8 px-4 text-center"><span class="badge-shadow inline-block px-4 py-1.5 bg-emerald-500 text-pure-white font-label-sm text-[10px] uppercase tracking-[0.1em] rounded-full">Available</span></td><td class="py-8 px-8 text-right"><span class="material-symbols-outlined text-refined-gold opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">arrow_forward</span></td></tr><tr class="unit-row hover:bg-surface-container-lowest transition-all duration-300 cursor-pointer group"><td class="py-8 px-8 font-headline-md text-headline-md text-primary">402</td><td class="py-8 px-4 font-body-md text-slate-blue">4th Floor</td><td class="py-8 px-4 font-body-md text-slate-blue">B</td><td class="py-8 px-4 font-body-md text-slate-blue">3 Amb</td><td class="py-8 px-4 font-body-md text-slate-blue">85 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">15 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">100 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">East</td><td class="py-8 px-4 font-headline-md text-headline-md text-primary text-right">USD 310,000</td><td class="py-8 px-4 text-center"><span class="badge-shadow inline-block px-4 py-1.5 bg-amber-500 text-pure-white font-label-sm text-[10px] uppercase tracking-[0.1em] rounded-full">Reserved</span></td><td class="py-8 px-8 text-right"><span class="material-symbols-outlined text-refined-gold opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">arrow_forward</span></td></tr><tr class="unit-row hover:bg-surface-container-lowest transition-all duration-300 cursor-pointer group"><td class="py-8 px-8 font-headline-md text-headline-md text-primary">803</td><td class="py-8 px-4 font-body-md text-slate-blue">8th Floor</td><td class="py-8 px-4 font-body-md text-slate-blue">C</td><td class="py-8 px-4 font-body-md text-slate-blue">4 Amb</td><td class="py-8 px-4 font-body-md text-slate-blue">120 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">30 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">150 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">West</td><td class="py-8 px-4 font-headline-md text-headline-md text-primary text-right">USD 550,000</td><td class="py-8 px-4 text-center"><span class="badge-shadow inline-block px-4 py-1.5 bg-emerald-500 text-pure-white font-label-sm text-[10px] uppercase tracking-[0.1em] rounded-full">Available</span></td><td class="py-8 px-8 text-right"><span class="material-symbols-outlined text-refined-gold opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">arrow_forward</span></td></tr><tr class="unit-row hover:bg-surface-container-lowest transition-all duration-300 cursor-pointer group"><td class="py-8 px-8 font-headline-md text-headline-md text-primary font-bold">PH-01</td><td class="py-8 px-4 font-body-md text-slate-blue">14th Floor</td><td class="py-8 px-4 font-body-md text-slate-blue">PH</td><td class="py-8 px-4 font-body-md text-slate-blue">5 Amb</td><td class="py-8 px-4 font-body-md text-slate-blue">180 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">80 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">260 m²</td><td class="py-8 px-4 font-body-md text-slate-blue">North-East</td><td class="py-8 px-4 font-headline-md text-headline-md text-primary text-right">USD 1,250,000</td><td class="py-8 px-4 text-center"><span class="badge-shadow inline-block px-4 py-1.5 bg-emerald-500 text-pure-white font-label-sm text-[10px] uppercase tracking-[0.1em] rounded-full">Available</span></td><td class="py-8 px-8 text-right"><span class="material-symbols-outlined text-refined-gold opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all">arrow_forward</span></td></tr></tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Financing Calculator -->
+<!-- Detailed Visuals Gallery -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+<div class="max-w-container-max mx-auto">
+<div class="flex items-center gap-4 mb-12 reveal">
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase tracking-widest">Architectural Details</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="aspect-[4/5] overflow-hidden rounded-sm reveal group">
+<img class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out" data-alt="Architectural detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtDlxda89Og5JVXy97L3UV1nmD-gCwljYQEJHoGjBMUramXKPpOrQx45tLGxmutd6WFUOW3hL6rXeNfyveeWcKzfBGVRkqRPyFFDFMShdm0b6d-Wn4IGtvoWqqMW8VQkznqIhHnwv0tbUCxb3Q-xzr_fqPfT_XtqDHfnKhI7lnJBOyIGo2aF3enl0lgrNblSYN0Ugcdd7Bx5X8B3QEh9nx5RBRFWNq5MGJhQ44OB6Jsc86HW3-KMvuJjHXgNoaWBbpXp5PcQhWOE4"/>
+</div>
+<div class="aspect-[4/5] overflow-hidden rounded-sm reveal group" style="transition-delay: 100ms">
+<img class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out" data-alt="Interior luxury" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5kUJ5it4LRQMED0A3u-H_pfBF19hnAaWwT4uL5UitHboNEfRsGJNoZvZdVi3OD4w74gwP-mzYpWsgMlmzeYtFfrOA6jDX8mgLOsItD4QA9E0mvSjJI2COh7D2HaG2janEMSE5C3tokRjFkbW81NVQpU2B_BxL8Vd4CSuXsB8e-43Cj9Zls7hRp67wLAOt_Y07pN8bDGf73HxNsADAGEaUZJt2uv1Nb-2EYWG34igfGd4RoEX3khpSOjgiemZFVo6MWV9ZoNVGEw4"/>
+</div>
+<div class="aspect-[4/5] overflow-hidden rounded-sm reveal group" style="transition-delay: 200ms">
+<img class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out" data-alt="Rooftop pool" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzccruNtfa9PlH_-8NGQb9CjJ7yP6x3y0eTtJlYGKSqAFy7ByVt4iKfLOrXnk_0iPq5YZiLQs6dpYtztfJtqiXi_ercq5TIy3GCg7GTtPG5SpfQuXTRhwsnoChzQpQPM97bCYUEejVdi1PRUCpB18iA20U5eiHJ3dM4mSb4Jjo3cwaUg5wMxWtbtrHOqewSANJDzk15s6J6Gl6m6XPQGOZ-gI4O2IZuYEbAqpOtuBbCZ4WuSMANoPbmddBDNhIEoWTfEEE8tjWnKE"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-primary text-pure-white w-full border-t border-white/5">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-16 px-margin-mobile md:px-margin-desktop py-24">
+<div class="md:col-span-5">
+<div class="flex items-center gap-3 mb-8">
+<img alt="Logo" class="h-8 brightness-0 invert" src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg"/>
+<span class="font-headline-lg text-headline-md tracking-widest uppercase">MUV Propiedades</span>
+</div>
+<p class="text-pure-white/60 font-body-md mb-10 max-w-sm leading-relaxed">
+                Committed to architectural excellence and transparent real estate solutions. Shaping urban landscapes with precision and passion.
+            </p>
+<div class="flex gap-6">
+<a class="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-refined-gold hover:border-refined-gold transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-white">language</span>
+</a>
+<a class="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-refined-gold hover:border-refined-gold transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-white">mail</span>
+</a>
+<a class="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-refined-gold hover:border-refined-gold transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-white">call</span>
+</a>
+</div>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-lg text-label-lg text-refined-gold mb-8 uppercase tracking-widest">Offices</h4>
+<ul class="space-y-6 font-body-md text-pure-white/80">
+<li class="hover:text-refined-gold transition-all cursor-pointer">London Office</li>
+<li class="hover:text-refined-gold transition-all cursor-pointer">Madrid Office</li>
+<li class="hover:text-refined-gold transition-all cursor-pointer">Dubai Office</li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-lg text-label-lg text-refined-gold mb-8 uppercase tracking-widest">Links</h4>
+<ul class="space-y-6 font-body-md text-pure-white/80">
+<li class="hover:text-refined-gold transition-all cursor-pointer">Contact Us</li>
+<li class="hover:text-refined-gold transition-all cursor-pointer">Privacy Policy</li>
+<li class="hover:text-refined-gold transition-all cursor-pointer">Terms of Use</li>
+</ul>
+</div>
+<div class="md:col-span-3">
+<h4 class="font-label-lg text-label-lg text-refined-gold mb-8 uppercase tracking-widest">Newsletter</h4>
+<p class="text-sm text-pure-white/50 mb-6">Receive exclusive updates on new developments.</p>
+<div class="flex border-b border-white/20 pb-2">
+<input class="bg-transparent border-none focus:ring-0 text-white w-full text-sm" placeholder="Email Address" type="email"/>
+<button class="text-refined-gold"><span class="material-symbols-outlined">arrow_forward</span></button>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-pure-white/40 uppercase tracking-widest">
+<p>© 2024 MUV Propiedades. Architectural Precision.</p>
+<p>Design by MUV Creative Lab</p>
+</div>
+</footer>
+<script>
+    // Header Scroll Logic
+    const nav = document.getElementById('main-nav');
+    const logo = document.getElementById('nav-logo');
+    const navLinks = nav.querySelectorAll('a');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('bg-pure-white/95', 'shadow-md', 'py-4', 'backdrop-blur-md');
+            nav.classList.remove('py-6', 'border-transparent');
+            nav.classList.add('border-outline-variant/20');
+            logo.classList.remove('brightness-0', 'invert');
+            navLinks.forEach(link => {
+                link.classList.remove('text-pure-white/80');
+                link.classList.add('text-primary');
+            });
+        } else {
+            nav.classList.remove('bg-pure-white/95', 'shadow-md', 'py-4', 'backdrop-blur-md', 'border-outline-variant/20');
+            nav.classList.add('py-6', 'border-transparent');
+            logo.classList.add('brightness-0', 'invert');
+            navLinks.forEach(link => {
+                link.classList.add('text-pure-white/80');
+                link.classList.remove('text-primary');
+            });
+        }
+    });
+
+    // Reveal on Scroll logic
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Financing Calculator Enhanced Logic
+    const advSlider = document.getElementById('advance-slider');
+    const instSlider = document.getElementById('installments-slider');
+    const advVal = document.getElementById('advance-val');
+    const advUsdVal = document.getElementById('advance-usd-val');
+    const instVal = document.getElementById('installments-val');
+    const instLabel = document.getElementById('installments-plan-label');
+    const monthlyPaymentVal = document.getElementById('monthly-payment-val');
+
+    const BASE_PRICE = 345000;
+
+    function updateCalculations() {
+        const advancePercent = parseInt(advSlider.value);
+        const installments = parseInt(instSlider.value);
+        
+        const advanceUsd = (BASE_PRICE * advancePercent) / 100;
+        const remaining = BASE_PRICE - advanceUsd;
+        const monthly = remaining / installments;
+
+        // Smoothly update UI
+        advVal.textContent = advancePercent + '%';
+        advUsdVal.textContent = `USD ${advanceUsd.toLocaleString()}`;
+        instVal.textContent = installments;
+        instLabel.textContent = `${installments} Months Plan`;
+        monthlyPaymentVal.textContent = `USD ${Math.round(monthly).toLocaleString()}`;
+
+        // Update Slider Fill
+        const advPercentPos = ((advancePercent - advSlider.min) / (advSlider.max - advSlider.min)) * 100;
+        advSlider.style.backgroundSize = advPercentPos + '% 100%';
+
+        const instPercentPos = ((installments - instSlider.min) / (instSlider.max - instSlider.min)) * 100;
+        instSlider.style.backgroundSize = instPercentPos + '% 100%';
+    }
+
+    advSlider.addEventListener('input', updateCalculations);
+    instSlider.addEventListener('input', updateCalculations);
+
+    // Initial run
+    updateCalculations();
+</script>
+</body></html>

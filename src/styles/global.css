@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-background text-on-background font-body-md overflow-x-hidden relative;
+    }
+}
+
+/* Scrollbar behaviors */
+#property-carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.hero-overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.7) 100%);
+}
+
+.luxury-card:hover .card-img {
+    transform: scale(1.03);
+}
+
+.card-img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card image carousel and badge styles */
+.card-carousel-container {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+}
+
+.card-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    border: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.card-carousel-btn:hover {
+    color: #fff;
+    transform: translateY(-50%) scale(1.2);
+}
+
+.card-carousel-btn-left {
+    left: 8px;
+}
+
+.card-carousel-btn-right {
+    right: 8px;
+}
+
+.card-zoom-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    border: none;
+}
+
+.card-zoom-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
+}
+
+.card-watermark {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 5;
+    color: rgba(255, 255, 255, 0.35);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    text-transform: lowercase;
+}
+
+.card-badge-container {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+}
+
+.card-badge {
+    background: rgba(0, 0, 0, 0.65);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 9px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.card-badge-zonaprop {
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ambient-shadow {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.06);
+}
+
+.backdrop-blur-nav {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Premium Team Photo Card Interaction */
+.team-image-container {
+    position: relative;
+    overflow: visible;
+}
+.team-image-frame {
+    position: absolute;
+    inset: -8px;
+    border: 1.5px solid #C5A059; /* refined-gold */
+    border-radius: 8px;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    opacity: 0;
+    transform: scale(0.96);
+    z-index: 5;
+}
+.team-image-container:hover .team-image-frame {
+    opacity: 0.85;
+    transform: scale(1);
+}
+.team-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+.team-image-container:hover .team-image-wrapper {
+    transform: scale(0.985);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+}
+.team-img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.team-image-container:hover .team-img {
+    transform: scale(1.05);
+}
+
+/* Property Detail Styles */
+.gallery-mask {
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Boutique Hero Ken Burns Animation */
+@keyframes kenBurns {
+    0% { transform: scale(1.02); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1.02); }
+}
+
+.animate-ken-burns {
+    animation: kenBurns 24s ease-in-out infinite;
+}
+

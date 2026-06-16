@@ -1,0 +1,298 @@
+---
+import type { Property } from '../lib/tokko';
+
+interface Props {
+  property: Property;
+}
+
+const { property } = Astro.props;
+
+const {
+  id,
+  publication_title,
+  address,
+  bathroom_amount,
+  room_amount,
+  suite_amount, // bedrooms
+  total_surface,
+  covered_surface,
+  surface,
+  parking_lot_amount,
+  is_starred_on_web,
+  operations,
+  photos = [],
+  toilet_amount
+} = property;
+
+// Format Price (mockup format: no space between currency and price)
+const op = operations?.[0];
+const price = op?.prices?.[0];
+const priceText = price 
+  ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` 
+  : 'Consultar';
+
+// Format Badges
+let badgeText = 'VENTA';
+let badgeClass = 'bg-[#C5A880]';
+
+if (is_starred_on_web) {
+  badgeText = 'DESTACADO';
+  badgeClass = 'bg-[#C5A059]';
+} else if (op) {
+  const opType = op.operation_type.toUpperCase();
+  if (opType.includes('ALQ') || opType.includes('RENT')) {
+    badgeText = 'ALQUILER';
+    badgeClass = 'bg-black';
+  } else if (opType.includes('TEMP')) {
+    badgeText = 'TEMPORARIO';
+    badgeClass = 'bg-black';
+  }
+}
+
+// Format Specs
+const beds = suite_amount || 0;
+const baths = (bathroom_amount || 0) + (toilet_amount || 0);
+const rooms = room_amount || 0;
+const garage = parking_lot_amount || 0;
+const surfaceAmount = total_surface || covered_surface || surface || '0';
+const formattedSurface = Number(surfaceAmount) > 0 ? Number(surfaceAmount).toFixed(2) + ' M2' : '';
+
+const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+---
+
+<div 
+  class="property-card luxury-card bg-pure-white group overflow-hidden border border-outline-variant/30 rounded-lg transition-all duration-300 hover:shadow-md flex flex-col h-full relative"
+  data-photos={JSON.stringify(photosList)}
+  data-id={id}
+>
+    <!-- Card Photo Carousel -->
+    <div class="card-carousel-container relative aspect-[3/2] overflow-hidden bg-gray-100">
+        <!-- Monogram overlay -->
+        <div class="absolute top-4 left-4 z-10 text-white/35 font-headline-md font-bold text-lg pointer-events-none tracking-widest lowercase select-none">muv</div>
+        <div class="absolute bottom-4 right-4 z-10 text-white/35 font-headline-md font-bold text-lg pointer-events-none tracking-widest lowercase select-none">muv</div>
+        
+        <!-- Top Right Badges matching mockup screenshot exactly -->
+        <div class="absolute top-4 right-4 z-10 flex gap-1.5 select-none">
+            {badgeText === 'ALQUILER' ? (
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  ALQUILER
+                </span>
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  DISPONIBLE
+                </span>
+            ) : badgeText === 'TEMPORARIO' ? (
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  TEMPORARIO
+                </span>
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  DISPONIBLE
+                </span>
+            ) : (
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  DISPONIBLE
+                </span>
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  VENTA
+                </span>
+            )}
+            {is_starred_on_web && (
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                  DESTACADO
+                </span>
+            )}
+        </div>
+
+        <!-- Carousel navigation arrows -->
+        {photosList.length > 1 && (
+            <button class="card-carousel-btn card-carousel-btn-left btn-prev" aria-label="Foto anterior">
+                <span class="material-symbols-outlined text-[24px]">chevron_left</span>
+            </button>
+            <button class="card-carousel-btn card-carousel-btn-right btn-next" aria-label="Siguiente foto">
+                <span class="material-symbols-outlined text-[24px]">chevron_right</span>
+            </button>
+        )}
+
+        <!-- Fullscreen Zoom button -->
+        <button class="card-zoom-btn zoom-btn bg-[#121212]/60 border border-white/20 w-8 h-8 rounded" aria-label="Ampliar imagen">
+            <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+        </button>
+
+        <!-- Image Link -->
+        <a href={`/propiedades/${id}`} class="block w-full h-full">
+            <img 
+              class="carousel-img card-img w-full h-full object-cover" 
+              loading="lazy" 
+              width="360"
+              height="240"
+              alt={publication_title} 
+              src={photosList[0]}
+            />
+        </a>
+    </div>
+    
+    <!-- Details Body (Left-aligned details matching mockup references) -->
+    <div class="p-5 flex-grow flex flex-col justify-between space-y-3.5 text-left">
+        <div class="space-y-2">
+
+            <!-- Title / Address -->
+            <h3 class="font-headline text-sm md:text-base text-primary font-bold leading-snug truncate max-w-full">
+                <a href={`/propiedades/${id}`} class="hover:text-refined-gold transition-colors">
+                  {address || publication_title}
+                </a>
+            </h3>
+
+            <!-- Location pin + neighborhood -->
+            <div class="flex items-center gap-1 text-[#747878] text-xs font-semibold select-none leading-none">
+                <span class="material-symbols-outlined text-[16px] text-[#747878] select-none pointer-events-none">location_on</span>
+                <span class="font-sans leading-none">{property.location?.name || 'Buenos Aires'}</span>
+            </div>
+
+            <!-- Property type -->
+            <span class="font-body-md text-[9px] text-[#747878] uppercase tracking-widest block font-bold">
+              {property.type?.name ? property.type.name.toUpperCase() : 'PROPIEDAD'}
+            </span>
+
+            <!-- Price -->
+            <span class="font-headline text-lg text-primary font-bold block leading-none pt-0.5">{priceText}</span>
+        </div>
+        
+        <!-- Specs row matching reference exactly (No capsules, raw gray outline SVGs and numbers) -->
+        <div class="border-t border-outline-variant/15 pt-4 flex flex-wrap justify-start items-center gap-5 text-[#191c1d] select-none font-body-md text-[12px] font-medium leading-none">
+            {beds > 0 && (
+                <div class="flex items-center gap-1.5" title={`${beds} Dormitorios`}>
+                    <!-- Bed SVG -->
+                    <svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+                      <path d="M3 10V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" />
+                      <path d="M12 4v6" />
+                      <path d="M5 14h14" />
+                    </svg>
+                    <span>{beds}</span>
+                </div>
+            )}
+            {rooms > 0 && (
+                <div class="flex items-center gap-1.5" title={`${rooms} Ambientes`}>
+                    <!-- Door SVG (Knob on the left to match mockup) -->
+                    <svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="5" y="3" width="14" height="18" rx="1" />
+                      <circle cx="8" cy="12" r="0.75" fill="currentColor" />
+                    </svg>
+                    <span>{rooms}</span>
+                </div>
+            )}
+            {baths > 0 && (
+                <div class="flex items-center gap-1.5" title={`${baths} Baños`}>
+                    <!-- Shower SVG -->
+                    <svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 20v-9a4 4 0 0 1 4-4h7" />
+                      <path d="M14 7h3l1 3H13z" fill="currentColor" fill-opacity="0.15" />
+                      <path d="M14 12v2M15.5 12v3M17 12v2" />
+                    </svg>
+                    <span>{baths}</span>
+                </div>
+            )}
+            {garage > 0 && (
+                <div class="flex items-center gap-1.5" title={`${garage} Cocheras`}>
+                    <!-- Car SVG -->
+                    <svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 14 L8 9h8l2 5" />
+                      <rect x="4" y="14" width="16" height="5" rx="1" />
+                      <circle cx="7" cy="16.5" r="0.75" fill="currentColor" />
+                      <circle cx="17" cy="16.5" r="0.75" fill="currentColor" />
+                      <path d="M6 19v2M18 19v2" />
+                    </svg>
+                    <span>{garage}</span>
+                </div>
+            )}
+            {formattedSurface && (
+                <div class="flex items-center gap-1.5" title="Superficie Total">
+                    <!-- Triangle Ruler SVG -->
+                    <svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 5v14h14z" />
+                      <path d="M8 8v8h8z" />
+                      <path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" />
+                    </svg>
+                    <span>{formattedSurface}</span>
+                </div>
+            )}
+        </div>
+    </div>
+</div>
+
+<script>
+  // Setup carousel functionality relative to each card instance
+  document.querySelectorAll('.property-card').forEach((card: any) => {
+    let photos = [];
+    try {
+      photos = JSON.parse(card.dataset.photos || '[]');
+    } catch (e) {
+      console.error("Failed to parse photos dataset for card", e);
+    }
+    const id = card.dataset.id;
+    let currentIdx = 0;
+    
+    const imgElement = card.querySelector('.carousel-img') as HTMLImageElement;
+    const prevBtn = card.querySelector('.btn-prev');
+    const nextBtn = card.querySelector('.btn-next');
+
+    function updateImage() {
+      if (photos.length > 0 && imgElement) {
+        imgElement.src = photos[currentIdx];
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+        updateImage();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        currentIdx = (currentIdx + 1) % photos.length;
+        updateImage();
+      });
+    }
+  });
+</script>
+
+<style is:global>
+  /* Support horizontal list view layout dynamically */
+  .list-view-active .property-card {
+    flex-direction: row !important;
+    height: 200px !important;
+  }
+  @media (max-width: 640px) {
+    .list-view-active .property-card {
+      flex-direction: column !important;
+      height: auto !important;
+    }
+  }
+  .list-view-active .card-carousel-container {
+    width: 300px !important;
+    height: 100% !important;
+    aspect-ratio: auto !important;
+    flex-shrink: 0 !important;
+  }
+  @media (max-width: 640px) {
+    .list-view-active .card-carousel-container {
+      width: 100% !important;
+      aspect-ratio: 3/2 !important;
+    }
+  }
+  .list-view-active .property-card .p-5 {
+    text-align: left !important;
+    justify-content: space-between !important;
+    flex-grow: 1 !important;
+  }
+  .list-view-active .property-card .border-t {
+    justify-content: flex-start !important;
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Quiénes Somos | MUV Propiedades" isDarkHero={false}>
+  <main class="bg-pure-white">
+    <!-- Hero Section: Header with M Isotype Watermark -->
+    <section class="relative bg-black pt-32 pb-16 overflow-hidden flex items-center min-h-[200px]">
+      <!-- Watermark M logo -->
+      <div class="absolute right-0 top-0 h-full w-1/2 opacity-15 pointer-events-none select-none">
+        <img 
+          src="/assets/iso_muv.png" 
+          alt="Watermark" 
+          class="h-[140%] w-auto object-contain absolute right-[-10%] top-[-20%] brightness-0 invert"
+        />
+      </div>
+      
+      <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full text-left">
+        <h1 class="font-display-lg text-3xl md:text-4xl text-pure-white leading-tight font-medium tracking-tight">
+          Quiénes somos
+        </h1>
+      </div>
+    </section>
+
+    <!-- Somos MUV Section -->
+    <section class="py-16 px-margin-mobile md:px-margin-desktop max-w-5xl mx-auto text-left">
+      <div class="space-y-6">
+        <h2 class="font-display-lg text-2xl md:text-3xl text-primary font-semibold tracking-tight">
+          Somos MUV
+        </h2>
+        <p class="font-body-lg text-secondary text-sm md:text-base leading-relaxed max-w-4xl">
+          Acompañamos a las personas en decisiones importantes: comprar, vender o alquilar una propiedad. Nuestro enfoque es claro, cercano y profesional, para que cada operación sea simple y confiable.
+        </p>
+        <p class="font-body-lg text-secondary text-sm md:text-base leading-relaxed max-w-4xl">
+          Contamos también con un área especializada en emprendimientos y oportunidades de inversión, donde brindamos asesoramiento estratégico para potenciar el capital con proyectos sólidos y bien planificados.
+        </p>
+      </div>
+    </section>
+
+    <!-- Misión, Visión & Team Image Grid -->
+    <section class="py-8 px-margin-mobile md:px-margin-desktop max-w-5xl mx-auto text-left">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Left: Misión & Visión text -->
+        <div class="space-y-8">
+          <div class="space-y-3">
+            <h3 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+              Misión
+            </h3>
+            <p class="font-body-md text-secondary text-xs md:text-sm leading-relaxed">
+              Brindar un servicio profesional y responsable de intermediación en la compra, venta y alquiler de inmuebles, atendiendo y comprendiendo las necesidades específicas de cada cliente y aportando valor a las inversiones inmobiliarias.
+            </p>
+          </div>
+          <div class="space-y-3">
+            <h3 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+              Visión
+            </h3>
+            <p class="font-body-md text-secondary text-xs md:text-sm leading-relaxed">
+              Ser una empresa referente en servicios inmobiliarios, reconocida por su profesionalismo, atención personalizada y capacidad de generar valor en cada operación.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Right: Team Photo -->
+        <div>
+          <img 
+            src="/assets/home_about.webp" 
+            alt="MUV Propiedades Team" 
+            class="w-full h-auto object-cover rounded-lg shadow-sm"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Valores Section -->
+    <section class="py-16 px-margin-mobile md:px-margin-desktop max-w-5xl mx-auto text-left">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Left: Sunlit Living Room Image -->
+        <div>
+          <img 
+            src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80" 
+            alt="Valores" 
+            class="w-full h-auto object-cover rounded-lg shadow-sm"
+          />
+        </div>
+
+        <!-- Right: Valores text -->
+        <div class="space-y-4">
+          <h3 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+            Valores
+          </h3>
+          <p class="text-refined-gold font-semibold uppercase text-xs md:text-sm tracking-wider">
+            Compromiso · Integridad · Profesionalismo
+          </p>
+          <div class="space-y-4 text-xs md:text-sm text-secondary leading-relaxed">
+            <p>
+              Nos especializamos en la compra, venta y alquiler de inmuebles, brindando un servicio responsable y personalizado. Acompañamos a cada cliente entendiendo sus necesidades y ofreciendo soluciones claras, seguras y eficientes.
+            </p>
+            <p>
+              Además, desarrollamos y comercializamos emprendimientos inmobiliarios, asesorando a inversores que buscan oportunidades de calidad y valor a largo plazo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cómo trabajamos Section -->
+    <section class="py-16 px-margin-mobile md:px-margin-desktop bg-off-white">
+      <div class="max-w-5xl mx-auto text-center space-y-12">
+        <div class="space-y-3">
+          <h2 class="font-display-lg text-2xl md:text-3xl text-primary font-semibold tracking-tight">
+            Cómo trabajamos
+          </h2>
+          <p class="font-body-md text-secondary text-xs md:text-sm leading-relaxed max-w-2xl mx-auto">
+            Nuestro enfoque combina criterio, datos y una atención cercana. Nos apoyamos en tres pilares.
+          </p>
+        </div>
+
+        <!-- Three cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Card 1: Escucha activa -->
+          <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm space-y-4 flex flex-col items-center">
+            <div class="w-12 h-12 flex items-center justify-center text-primary">
+              <!-- Headphones mic SVG outline icon -->
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-5.25a9 9 0 0 0-18 0v3.75A2.25 2.25 0 0 0 5.25 18H6.5a2.25 2.25 0 0 0 2.25-2.25V12.75A2.25 2.25 0 0 0 6.5 10.5H5.25M21 12v3.75A2.25 2.25 0 0 1 18.75 18H17.5a2.25 2.25 0 0 1-2.25-2.25V12.75a2.25 2.25 0 0 1 2.25-2.25h1.25M18 12a6 6 0 0 0-12 0" />
+              </svg>
+            </div>
+            <h4 class="font-headline-md text-base text-primary font-bold">
+              Escucha activa
+            </h4>
+            <p class="text-xs text-secondary leading-relaxed">
+              Entendemos a fondo las necesidades de cada cliente.
+            </p>
+          </div>
+
+          <!-- Card 2: Análisis preciso -->
+          <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm space-y-4 flex flex-col items-center">
+            <div class="w-12 h-12 flex items-center justify-center text-primary">
+              <!-- Magnifying glass SVG outline icon -->
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </div>
+            <h4 class="font-headline-md text-base text-primary font-bold">
+              Análisis preciso
+            </h4>
+            <p class="text-xs text-secondary leading-relaxed">
+              Evaluamos oportunidades reales con información concreta.
+            </p>
+          </div>
+
+          <!-- Card 3: Gestión eficiente -->
+          <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm space-y-4 flex flex-col items-center">
+            <div class="w-12 h-12 flex items-center justify-center text-primary">
+              <!-- Cog SVG outline icon -->
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </div>
+            <h4 class="font-headline-md text-base text-primary font-bold">
+              Gestión eficiente
+            </h4>
+            <p class="text-xs text-secondary leading-relaxed">
+              Acompañamos cada etapa del proceso de manera clara, ordenada y profesional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section: The Human Connection -->
+    <section class="relative bg-black py-20 overflow-hidden flex items-center min-h-[300px]">
+      <!-- Watermark M logo on right -->
+      <div class="absolute right-0 top-0 h-full w-1/2 opacity-15 pointer-events-none select-none">
+        <img 
+          src="/assets/iso_muv.png" 
+          alt="Watermark" 
+          class="h-[140%] w-auto object-contain absolute right-[-10%] top-[-20%] brightness-0 invert"
+        />
+      </div>
+
+      <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full text-center space-y-6">
+        <h2 class="font-display-lg text-2xl md:text-3xl text-pure-white font-medium tracking-tight">
+          ¿Querés que busquemos juntos la mejor opción?
+        </h2>
+        <p class="font-body-md text-[#d1d5db] text-xs md:text-sm max-w-xl mx-auto">
+          Contactanos y te mostramos las alternativas que mejor se ajustan a lo que necesitás.
+        </p>
+        <div class="pt-4">
+          <a 
+            href="/contacto" 
+            class="bg-white text-black hover:bg-white/90 px-8 py-3 rounded-full font-semibold transition-all inline-block text-xs uppercase tracking-wider"
+          >
+            Encontrá tu propiedad ideal
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Emprendimientos | MUV Propiedades</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#858383",
+                    "on-error": "#ffffff",
+                    "background": "#f8f9fa",
+                    "refined-gold": "#C5A059",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "inverse-on-surface": "#f0f1f2",
+                    "outline-variant": "#c4c7c7",
+                    "on-surface": "#191c1d",
+                    "surface": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "off-white": "#F7F8F9",
+                    "on-secondary-fixed": "#111c2c",
+                    "slate-blue": "#4A5568",
+                    "surface-tint": "#5f5e5e",
+                    "secondary-fixed": "#d8e3fa",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "on-primary-fixed-variant": "#474746",
+                    "surface-dim": "#d9dadb",
+                    "on-tertiary-container": "#a17f3b",
+                    "on-primary-fixed": "#1c1b1b",
+                    "inverse-primary": "#c8c6c5",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "secondary": "#545f72",
+                    "on-secondary-container": "#586377",
+                    "error-container": "#ffdad6",
+                    "on-background": "#191c1d",
+                    "primary": "#000000",
+                    "surface-bright": "#f8f9fa",
+                    "secondary-container": "#d5e0f7",
+                    "surface-container-low": "#f3f4f5",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-fixed": "#261900",
+                    "on-surface-variant": "#444748",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#bcc7dd",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e7e8e9",
+                    "primary-container": "#1c1b1b",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "surface-variant": "#e1e3e4",
+                    "surface-container": "#edeeef",
+                    "tertiary-fixed": "#ffdea5",
+                    "pure-white": "#FFFFFF",
+                    "tertiary": "#000000",
+                    "outline": "#747878",
+                    "inverse-surface": "#2e3132",
+                    "deep-charcoal": "#121212",
+                    "tertiary-container": "#261900",
+                    "surface-container-highest": "#e1e3e4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "32px",
+                    "margin-desktop": "64px",
+                    "section-gap": "120px",
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg": ["Montserrat"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "headline-xl": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .backdrop-blur-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+    <nav class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+        <div class="font-headline-md text-headline-md font-bold tracking-tight text-primary">
+            <a href="/index.html">
+                <img src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg" alt="MUV Propiedades Logo" class="h-10 w-auto object-contain">
+            </a>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+            <a class="font-label-lg text-label-lg text-refined-gold border-b-2 border-refined-gold pb-1" href="/listado_emprendimientos.html">Emprendimientos</a>
+            <a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors" href="//buscar.html">Residenciales</a>
+            <a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors" href="/quienes_somos.html">Quienes Somos</a>
+            <a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors" href="/contacto.html">Contacto</a>
+        </div>
+        <a href="/contacto.html" class="bg-primary text-pure-white px-6 py-2 rounded font-label-lg text-label-lg hover:opacity-80 transition-all active:scale-95 text-center">
+            Vender
+        </a>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<header class="relative h-[65vh] w-full flex items-end overflow-hidden pt-20">
+    <img class="absolute inset-0 w-full h-full object-cover" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80">
+    <div class="absolute inset-0 hero-gradient"></div>
+    <div class="relative w-full max-w-container-max mx-auto px-margin-desktop pb-16">
+        <div class="max-w-2xl animate-fade-up">
+            <span class="inline-block bg-refined-gold text-pure-white px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest mb-4">Signature Series</span>
+            <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-pure-white mb-4 leading-none">Desarrollos de Vanguardia</h1>
+            <p class="font-body-lg text-body-lg text-pure-white/95 max-w-lg mb-6">Emprendimientos exclusivos en las mejores ubicaciones. Diseño y precisión para inversores exigentes.</p>
+            <a class="bg-pure-white text-primary px-8 py-4 inline-block font-label-lg text-label-lg hover:bg-off-white transition-all" href="#projects">
+                Ver Proyectos
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Filters Section -->
+<section class="sticky top-[80px] z-40 bg-surface-container-lowest/95 backdrop-blur-nav border-b border-outline-variant/50">
+    <div class="max-w-container-max mx-auto px-margin-desktop py-6">
+        <div class="flex flex-wrap items-center justify-between gap-6">
+            <div class="flex items-center gap-8">
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-sm text-label-sm text-slate-blue uppercase">Ubicación</label>
+                    <select id="filter-location" class="bg-transparent border-none p-0 pr-8 font-headline-md text-headline-md text-primary focus:ring-0 cursor-pointer appearance-none" onchange="applyFilters()">
+                        <option value="">Todas las Zonas</option>
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div class="h-10 w-[1px] bg-outline-variant/50"></div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-label-sm text-label-sm text-slate-blue uppercase">Estado de Obra</label>
+                    <select id="filter-status" class="bg-transparent border-none p-0 pr-8 font-headline-md text-headline-md text-primary focus:ring-0 cursor-pointer appearance-none" onchange="applyFilters()">
+                        <option value="">Todos los Estados</option>
+                        <option value="En Construcción">En Construcción</option>
+                        <option value="Lanzamiento">Lanzamiento</option>
+                        <option value="Terminado">Terminado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="text-secondary font-label-sm" id="results-counter">
+                Buscando...
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Development Grid -->
+<main class="max-w-container-max mx-auto px-margin-desktop py-16" id="projects">
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" id="developments-grid">
+        <!-- Loader Skeleton -->
+        <div class="bg-pure-white rounded-lg overflow-hidden border border-outline-variant/30 animate-pulse">
+            <div class="aspect-[3/2] bg-surface-dim"></div>
+            <div class="p-6 space-y-4">
+                <div class="h-4 bg-surface-dim w-1/4 rounded"></div>
+                <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+            </div>
+        </div>
+        <div class="bg-pure-white rounded-lg overflow-hidden border border-outline-variant/30 animate-pulse">
+            <div class="aspect-[3/2] bg-surface-dim"></div>
+            <div class="p-6 space-y-4">
+                <div class="h-4 bg-surface-dim w-1/4 rounded"></div>
+                <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+            </div>
+        </div>
+        <div class="bg-pure-white rounded-lg overflow-hidden border border-outline-variant/30 animate-pulse">
+            <div class="aspect-[3/2] bg-surface-dim"></div>
+            <div class="p-6 space-y-4">
+                <div class="h-4 bg-surface-dim w-1/4 rounded"></div>
+                <div class="h-6 bg-surface-dim w-3/4 rounded"></div>
+                <div class="h-4 bg-surface-dim w-1/2 rounded"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Strategic Neighborhoods -->
+<section class="bg-off-white py-16">
+    <div class="max-w-container-max mx-auto px-margin-desktop">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center">
+            <div>
+                <h2 class="font-headline-lg text-headline-lg text-primary mb-6">Barrios Estratégicos</h2>
+                <p class="font-body-lg text-body-lg text-slate-blue mb-10 leading-relaxed">
+                    Seleccionamos los mejores emplazamientos urbanos que garanticen revalorización del capital, accesibilidad, y un estilo de vida de primer nivel.
+                </p>
+                <div class="space-y-6">
+                    <div class="p-6 bg-pure-white border-l-4 border-refined-gold shadow-sm hover:translate-x-2 transition-all duration-300">
+                        <h4 class="font-headline-md text-headline-md mb-1">Recoleta</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">El epicentro de la elegancia tradicional porteña, con sus avenidas arboladas y estilo francés.</p>
+                    </div>
+                    <div class="p-6 bg-pure-white hover:translate-x-2 transition-all duration-300">
+                        <h4 class="font-headline-md text-headline-md mb-1">Palermo Chico</h4>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Exclusividad residencial rodeada de embajadas, museos y pulmones verdes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-[500px] bg-surface-container rounded-lg overflow-hidden group">
+                <iframe 
+                    class="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
+                    src="https://maps.google.com/maps?q=Recoleta,%20Buenos%20Aires&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                    allowfullscreen 
+                    loading="lazy">
+                </iframe>
+                <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded shadow-sm border border-outline-variant/30 pointer-events-none">
+                    <p class="font-label-sm text-label-sm text-primary font-medium">Buenos Aires, Argentina</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-surface-container-lowest border-t border-outline-variant/50">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-section-gap max-w-container-max mx-auto">
+        <div class="md:col-span-4">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg" alt="MUV Propiedades Logo" class="h-10 w-auto object-contain mb-6">
+            <p class="font-body-md text-body-md text-slate-blue mb-8 max-w-xs leading-relaxed">Definiendo el horizonte del lujo contemporáneo. Entregamos más que propiedades; creamos referentes de valor.</p>
+        </div>
+        <div class="md:col-span-3">
+            <h5 class="font-label-lg text-label-lg text-primary uppercase mb-6">Oficinas</h5>
+            <ul class="space-y-4">
+                <li><a class="font-body-md text-body-md text-slate-blue hover:text-refined-gold transition-colors" href="/contacto.html">Belgrano</a></li>
+                <li><a class="font-body-md text-body-md text-slate-blue hover:text-refined-gold transition-colors" href="/contacto.html">Recoleta</a></li>
+                <li><a class="font-body-md text-body-md text-slate-blue hover:text-refined-gold transition-colors" href="/contacto.html">Palermo</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-2">
+            <h5 class="font-label-lg text-label-lg text-primary uppercase mb-6">Compañía</h5>
+            <ul class="space-y-4">
+                <li><a class="font-body-md text-body-md text-slate-blue hover:text-refined-gold transition-colors" href="/quienes_somos.html">Sobre Nosotros</a></li>
+                <li><a class="font-body-md text-body-md text-slate-blue hover:text-refined-gold transition-colors" href="/contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-3">
+            <h5 class="font-label-lg text-label-lg text-primary uppercase mb-6">Boletín</h5>
+            <p class="font-body-md text-body-md text-slate-blue mb-4">Suscribite a nuestro newsletter de lanzamientos.</p>
+            <div class="flex">
+                <input class="flex-grow bg-transparent border-b border-primary focus:border-refined-gold focus:ring-0 px-0 py-2 font-body-md text-body-md outline-none" placeholder="Tu email" type="email">
+                <button onclick="alert('Inscripción al newsletter exitosa.')" class="border-b border-primary text-primary font-label-lg text-label-lg px-4 hover:text-refined-gold transition-colors">Enviar</button>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-container-max mx-auto px-margin-desktop py-8 border-t border-outline-variant flex justify-between items-center">
+        <span class="font-body-md text-body-md text-slate-blue">© 2024 MUV Propiedades. Architectural Precision.</span>
+    </div>
+</footer>
+
+<script>
+    let developmentsList = [];
+
+    async function loadDevelopments() {
+        try {
+            const res = await fetch('/api/developments');
+            if (!res.ok) {
+                throw new Error("No se pudieron cargar los datos de desarrollos.");
+            }
+            
+            const data = await res.json();
+            developmentsList = data.objects || [];
+
+            // Populate unique locations in select
+            populateLocationFilter(developmentsList);
+            
+            // Render grid
+            renderGrid(developmentsList);
+        } catch (err) {
+            console.error(err);
+            document.getElementById('developments-grid').innerHTML = `
+                <div class="col-span-3 text-center py-20">
+                    <span class="material-symbols-outlined text-[48px] text-error mb-2">error</span>
+                    <p class="font-body-lg text-secondary">Hubo un problema al cargar los emprendimientos. Por favor, intentá nuevamente más tarde.</p>
+                </div>
+            `;
+            document.getElementById('results-counter').innerText = 'Error';
+        }
+    }
+
+    function populateLocationFilter(list) {
+        const select = document.getElementById('filter-location');
+        const locations = new Set();
+        
+        list.forEach(dev => {
+            if (dev.location && dev.location.name) {
+                locations.add(dev.location.name);
+            }
+        });
+
+        locations.forEach(loc => {
+            const opt = document.createElement('option');
+            opt.value = loc;
+            opt.innerText = loc;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderGrid(list) {
+        const grid = document.getElementById('developments-grid');
+        const counter = document.getElementById('results-counter');
+
+        if (!list || list.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-3 text-center py-20 text-secondary">
+                    <p class="font-body-lg">No se encontraron emprendimientos con los filtros seleccionados.</p>
+                </div>
+            `;
+            counter.innerText = '0 resultados';
+            return;
+        }
+
+        counter.innerText = `${list.length} ${list.length === 1 ? 'resultado' : 'resultados'}`;
+
+        grid.innerHTML = list.map(dev => {
+            const status = dev.construction_status || 'Premium';
+            const locationName = dev.location ? dev.location.name : 'Buenos Aires';
+            const imageSrc = dev.photos && dev.photos.length > 0 ? dev.photos[0].image : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+            const shortDesc = dev.description ? dev.description.slice(0, 100) + '...' : 'Desarrollo de diseño exclusivo y terminaciones premium.';
+
+            return `
+                <a href="/emprendimiento/${dev.id}" class="group cursor-pointer block animate-fade-up bg-pure-white border border-outline-variant/30 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="relative aspect-[3/2] overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103" src="${imageSrc}" loading="lazy">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-primary text-pure-white px-3 py-1 font-label-sm text-[11px] uppercase tracking-wider rounded">${status}</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline-md text-[20px] text-primary truncate w-3/4">${dev.name}</h3>
+                            <span class="text-refined-gold font-label-sm text-label-sm uppercase font-semibold">MUV</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-blue mb-4">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span>
+                            <span class="font-body-md text-body-md">${locationName}</span>
+                        </div>
+                        <p class="font-body-md text-secondary text-sm mb-4 leading-relaxed line-clamp-2">${shortDesc}</p>
+                        <div class="flex gap-4 border-t border-outline-variant/30 pt-4 text-secondary">
+                            <div class="flex items-center gap-1.5 font-label-sm text-[11px] uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-refined-gold text-[18px]">info</span>
+                                <span>Ver Unidades Disponibles</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+
+    function applyFilters() {
+        const locationVal = document.getElementById('filter-location').value;
+        const statusVal = document.getElementById('filter-status').value;
+
+        let filtered = [...developmentsList];
+
+        if (locationVal) {
+            filtered = filtered.filter(dev => dev.location && dev.location.name === locationVal);
+        }
+
+        if (statusVal) {
+            filtered = filtered.filter(dev => dev.construction_status === statusVal);
+        }
+
+        renderGrid(filtered);
+    }
+
+    // Scroll effect for header
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('py-2', 'shadow-md');
+        } else {
+            header.classList.remove('py-2', 'shadow-md');
+        }
+    });
+
+    // Init
+    window.addEventListener('DOMContentLoaded', loadDevelopments);
+</script>
+
+</body>
+</html>

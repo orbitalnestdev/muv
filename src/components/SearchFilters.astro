@@ -1,0 +1,532 @@
+---
+const url = Astro.url;
+const operationId = url.searchParams.get('operation_id') || '';
+const propertyTypeId = url.searchParams.get('property_type_id') || '';
+const priceMin = url.searchParams.get('price_min') || '50000';
+const priceMax = url.searchParams.get('price_max') || '2500000';
+const rooms = url.searchParams.get('rooms') || '';
+const bedrooms = url.searchParams.get('bedrooms') || '';
+const query = url.searchParams.get('q') || '';
+const location = url.searchParams.get('location') || '';
+const activeAmenities = url.searchParams.getAll('amenities') || [];
+
+// Key amenities for real estate
+const amenitiesList = [
+  'Piscina',
+  'Parrilla',
+  'Cochera',
+  'Seguridad',
+  'Gimnasio',
+  'SUM',
+  'Balcón',
+  'Apto Profesional'
+];
+---
+
+<form method="GET" action="/buscar" class="space-y-6 w-full" id="filters-form">
+    <!-- 1. Tipo de Operación -->
+    <div class="space-y-2">
+        <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Operación</label>
+        <div class="grid grid-cols-3 gap-2">
+            <button 
+              type="button" 
+              data-val="" 
+              class:list={[
+                "btn-op py-2.5 px-3 border rounded font-headline text-xs font-bold uppercase tracking-wider text-center transition-all duration-200",
+                operationId === '' 
+                  ? "bg-primary text-pure-white border-primary" 
+                  : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+              ]}
+            >
+                Todos
+            </button>
+            <button 
+              type="button" 
+              data-val="1" 
+              class:list={[
+                "btn-op py-2.5 px-3 border rounded font-headline text-xs font-bold uppercase tracking-wider text-center transition-all duration-200",
+                operationId === '1' 
+                  ? "bg-primary text-pure-white border-primary" 
+                  : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+              ]}
+            >
+                Venta
+            </button>
+            <button 
+              type="button" 
+              data-val="2" 
+              class:list={[
+                "btn-op py-2.5 px-3 border rounded font-headline text-xs font-bold uppercase tracking-wider text-center transition-all duration-200",
+                operationId === '2' 
+                  ? "bg-primary text-pure-white border-primary" 
+                  : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+              ]}
+            >
+                Alquiler
+            </button>
+        </div>
+        <input type="hidden" name="operation_id" id="val-operation-id" value={operationId} />
+    </div>
+
+    <!-- 2. Ubicación / Barrio -->
+    <div class="space-y-2">
+        <label for="select-location" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Ubicación / Barrio</label>
+        <div class="relative">
+            <select 
+              name="location" 
+              id="select-location"
+              class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none appearance-none !bg-none cursor-pointer pr-10 font-bold"
+            >
+                <option value="">Todos los barrios</option>
+                <option value="Belgrano" selected={location === 'Belgrano'}>Belgrano</option>
+                <option value="Palermo" selected={location === 'Palermo'}>Palermo</option>
+                <option value="Recoleta" selected={location === 'Recoleta'}>Recoleta</option>
+                <option value="Colegiales" selected={location === 'Colegiales'}>Colegiales</option>
+                <option value="Núñez" selected={location === 'Núñez'}>Núñez</option>
+                <option value="Puerto Madero" selected={location === 'Puerto Madero'}>Puerto Madero</option>
+                <option value="Villa Urquiza" selected={location === 'Villa Urquiza'}>Villa Urquiza</option>
+            </select>
+            <span class="material-symbols-outlined text-[18px] text-refined-gold absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">unfold_more</span>
+        </div>
+    </div>
+
+    <!-- 3. Tipo de Propiedad -->
+    <div class="space-y-2">
+        <label for="select-prop-type" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Propiedad</label>
+        <div class="relative">
+            <select 
+              name="property_type_id" 
+              id="select-prop-type"
+              class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none appearance-none !bg-none cursor-pointer pr-10 font-bold"
+            >
+                <option value="">Todos los tipos</option>
+                <option value="2" selected={propertyTypeId === '2'}>Departamento</option>
+                <option value="3" selected={propertyTypeId === '3'}>Casa</option>
+                <option value="4" selected={propertyTypeId === '4'}>PH</option>
+                <option value="7" selected={propertyTypeId === '7'}>Local</option>
+            </select>
+            <span class="material-symbols-outlined text-[18px] text-refined-gold absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">unfold_more</span>
+        </div>
+    </div>
+
+    <!-- 4. Rango de Precio (Slick Double Slider + Manual Sincronizados) -->
+    <div class="space-y-3">
+        <div class="flex justify-between items-center">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest">Presupuesto (USD)</label>
+            <span class="text-xs font-bold text-primary font-sans" id="price-range-label">
+                USD {new Intl.NumberFormat('es-AR').format(Number(priceMin))} - USD {new Intl.NumberFormat('es-AR').format(Number(priceMax))}
+            </span>
+        </div>
+        
+        <!-- Double Slider Track -->
+        <div class="relative w-full h-6 flex items-center select-none slider-wrapper pt-1">
+            <div class="absolute w-full h-[5px] bg-[#e2e8f0] rounded pointer-events-none"></div>
+            <div id="slider-track" class="absolute h-[5px] bg-[#C5A880] rounded pointer-events-none" style="left: 0%; right: 0%;"></div>
+            
+            <input 
+              type="range" 
+              id="slider-min" 
+              min="50000" 
+              max="2500000" 
+              step="25000" 
+              value={priceMin} 
+              class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
+              style="z-index: 2;"
+              aria-label="Precio mínimo"
+            />
+            <input 
+              type="range" 
+              id="slider-max" 
+              min="50000" 
+              max="2500000" 
+              step="25000" 
+              value={priceMax} 
+              class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
+              style="z-index: 2;"
+              aria-label="Precio máximo"
+            />
+        </div>
+        
+        <!-- Manual numeric inputs styled nicely -->
+        <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="space-y-1">
+                <span class="text-[9px] font-bold text-slate-blue/60 uppercase tracking-wider block">Mínimo</span>
+                <div class="relative flex items-center">
+                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">$</span>
+                    <input 
+                      type="number" 
+                      id="input-price-min" 
+                      placeholder="Mínimo" 
+                      value={priceMin}
+                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-7 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
+                    />
+                </div>
+            </div>
+            <div class="space-y-1">
+                <span class="text-[9px] font-bold text-slate-blue/60 uppercase tracking-wider block">Máximo</span>
+                <div class="relative flex items-center">
+                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">$</span>
+                    <input 
+                      type="number" 
+                      id="input-price-max" 
+                      placeholder="Máximo" 
+                      value={priceMax}
+                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-7 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="price_min" id="val-price-min" value={priceMin} />
+        <input type="hidden" name="price_max" id="val-price-max" value={priceMax} />
+    </div>
+
+    <!-- 5. Ambientes (Rooms) & Dormitorios (Bedrooms) -->
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Ambientes -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Ambientes</label>
+            <div class="grid grid-cols-5 gap-1">
+                {['', '1', '2', '3', '4'].map((num) => (
+                    <button 
+                      type="button" 
+                      data-val={num} 
+                      class:list={[
+                        "btn-rooms py-2 border rounded text-xs font-bold text-center transition-all duration-200",
+                        rooms === num 
+                          ? "bg-primary text-pure-white border-primary" 
+                          : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+                      ]}
+                    >
+                        {num === '' ? 'T' : num === '4' ? '4+' : num}
+                    </button>
+                ))}
+            </div>
+            <input type="hidden" name="rooms" id="val-rooms" value={rooms} />
+        </div>
+
+        <!-- Dormitorios -->
+        <div class="space-y-2">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Dormitorios</label>
+            <div class="grid grid-cols-5 gap-1">
+                {['', '1', '2', '3', '4'].map((num) => (
+                    <button 
+                      type="button" 
+                      data-val={num} 
+                      class:list={[
+                        "btn-bedrooms py-2 border rounded text-xs font-bold text-center transition-all duration-200",
+                        bedrooms === num 
+                          ? "bg-primary text-pure-white border-primary" 
+                          : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+                      ]}
+                    >
+                        {num === '' ? 'T' : num === '4' ? '4+' : num}
+                    </button>
+                ))}
+            </div>
+            <input type="hidden" name="bedrooms" id="val-bedrooms" value={bedrooms} />
+        </div>
+    </div>
+
+    <!-- 6. Características (Amenities Checklist) -->
+    <div class="space-y-3 pt-2">
+        <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Características</label>
+        <div class="grid grid-cols-2 gap-3 text-xs text-slate-blue">
+            {amenitiesList.map((item) => {
+              const isChecked = activeAmenities.includes(item);
+              return (
+                <label class="flex items-center gap-2.5 cursor-pointer hover:text-primary transition-all select-none">
+                    <input 
+                      type="checkbox" 
+                      name="amenities" 
+                      value={item} 
+                      checked={isChecked}
+                      class="filter-checkbox border-outline-variant/50 text-refined-gold focus:ring-refined-gold rounded w-4 h-4 transition-all"
+                    />
+                    <span class="font-semibold font-sans">{item}</span>
+                </label>
+              );
+            })}
+        </div>
+    </div>
+
+    <!-- Search keyword (lower priority search bar inside sidebar) -->
+    <div class="space-y-2 pt-2 border-t border-outline-variant/10">
+        <label for="input-keyword" class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Palabras clave adicionales</label>
+        <div class="relative">
+            <input 
+              type="text" 
+              name="q" 
+              id="input-keyword" 
+              placeholder="Ej. balcón, cochera, vista..." 
+              value={query}
+              class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary placeholder-[#747878] focus:ring-1 focus:ring-refined-gold focus:outline-none"
+            />
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary/60">search</span>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="pt-4 border-t border-outline-variant/20 grid grid-cols-2 gap-4">
+        <button 
+          type="button" 
+          id="btn-clear" 
+          class="border border-outline-variant/50 text-slate-blue py-3 rounded font-headline text-xs font-bold uppercase tracking-wider text-center hover:bg-surface-container transition-colors active:scale-95 cursor-pointer"
+        >
+            Limpiar
+        </button>
+        <button 
+          type="submit" 
+          class="bg-primary text-pure-white py-3 rounded font-headline text-xs font-bold uppercase tracking-wider text-center hover:bg-primary/95 transition-colors active:scale-95 cursor-pointer"
+        >
+            Buscar
+        </button>
+    </div>
+</form>
+
+<script>
+  let submitTimeout: any = null;
+  const submitForm = () => {
+    if (submitTimeout) clearTimeout(submitTimeout);
+    
+    const gridOuter = document.getElementById('property-grid-outer');
+    if (gridOuter) {
+      gridOuter.style.opacity = '0.5';
+      gridOuter.style.pointerEvents = 'none';
+    }
+    
+    submitTimeout = setTimeout(() => {
+      const form = document.getElementById('filters-form') as HTMLFormElement | null;
+      if (form) form.submit();
+    }, 600);
+  };
+
+  // Operation selectors
+  document.querySelectorAll('.btn-op').forEach((btn: any) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-op').forEach((b: any) => {
+        b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
+        b.classList.add('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      });
+      btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+      btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      
+      const valInput = document.getElementById('val-operation-id') as HTMLInputElement;
+      if (valInput) {
+        valInput.value = btn.dataset.val || '';
+        submitForm();
+      }
+    });
+  });
+
+  // Selectors auto-submit
+  const propTypeSelect = document.getElementById('select-prop-type') as HTMLSelectElement | null;
+  if (propTypeSelect) {
+    propTypeSelect.addEventListener('change', submitForm);
+  }
+
+  const locationSelect = document.getElementById('select-location') as HTMLSelectElement | null;
+  if (locationSelect) {
+    locationSelect.addEventListener('change', submitForm);
+  }
+
+  // Checkboxes auto-submit
+  document.querySelectorAll('.filter-checkbox').forEach((checkbox: any) => {
+    checkbox.addEventListener('change', submitForm);
+  });
+
+  // Rooms selectors
+  document.querySelectorAll('.btn-rooms').forEach((btn: any) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-rooms').forEach((b: any) => {
+        b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
+        b.classList.add('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      });
+      btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+      btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      
+      const valInput = document.getElementById('val-rooms') as HTMLInputElement;
+      if (valInput) {
+        valInput.value = btn.dataset.val || '';
+        submitForm();
+      }
+    });
+  });
+
+  // Bedrooms selectors
+  document.querySelectorAll('.btn-bedrooms').forEach((btn: any) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-bedrooms').forEach((b: any) => {
+        b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
+        b.classList.add('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      });
+      btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+      btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      
+      const valInput = document.getElementById('val-bedrooms') as HTMLInputElement;
+      if (valInput) {
+        valInput.value = btn.dataset.val || '';
+        submitForm();
+      }
+    });
+  });
+
+  // Price Double Slider & Manual Inputs Sincronización
+  const sliderMin = document.getElementById('slider-min') as HTMLInputElement | null;
+  const sliderMax = document.getElementById('slider-max') as HTMLInputElement | null;
+  const inputMin = document.getElementById('input-price-min') as HTMLInputElement | null;
+  const inputMax = document.getElementById('input-price-max') as HTMLInputElement | null;
+  const track = document.getElementById('slider-track');
+  const label = document.getElementById('price-range-label');
+  const minValHidden = document.getElementById('val-price-min') as HTMLInputElement | null;
+  const maxValHidden = document.getElementById('val-price-max') as HTMLInputElement | null;
+  const wrapper = document.querySelector('.slider-wrapper');
+
+  if (sliderMin && sliderMax && track && label && minValHidden && maxValHidden && inputMin && inputMax) {
+    const updateSliderFromControls = (minVal: number, maxVal: number, triggerSource: 'slider' | 'input') => {
+      const minGap = 25000;
+      
+      if (maxVal - minVal < minGap) {
+        if (triggerSource === 'slider') {
+          // If slider was adjusted, respect boundaries and push the other slider
+          // to maintain gap
+          // (will be corrected by event caller context)
+        } else {
+          // If numerical input was adjusted, clamp values
+          minVal = maxVal - minGap;
+        }
+      }
+
+      // Constrain within min/max bounds
+      minVal = Math.max(50000, Math.min(2500000, minVal));
+      maxVal = Math.max(50000, Math.min(2500000, maxVal));
+
+      if (triggerSource === 'input') {
+        sliderMin.value = minVal.toString();
+        sliderMax.value = maxVal.toString();
+      } else {
+        inputMin.value = minVal.toString();
+        inputMax.value = maxVal.toString();
+      }
+
+      const minPercent = ((minVal - parseInt(sliderMin.min)) / (parseInt(sliderMin.max) - parseInt(sliderMin.min))) * 100;
+      const maxPercent = ((maxVal - parseInt(sliderMax.min)) / (parseInt(sliderMax.max) - parseInt(sliderMax.min))) * 100;
+
+      track.style.left = minPercent + '%';
+      track.style.right = (100 - maxPercent) + '%';
+
+      label.textContent = `USD ${new Intl.NumberFormat('es-AR').format(minVal)} - USD ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+      
+      minValHidden.value = minVal.toString();
+      maxValHidden.value = maxVal.toString();
+    };
+
+    // Slider inputs
+    const handleSliderInput = function(this: any) {
+      let minVal = parseInt(sliderMin.value);
+      let maxVal = parseInt(sliderMax.value);
+      const minGap = 25000;
+
+      if (maxVal - minVal < minGap) {
+        if (this === sliderMin) {
+          sliderMin.value = (maxVal - minGap).toString();
+          minVal = maxVal - minGap;
+        } else {
+          sliderMax.value = (minVal + minGap).toString();
+          maxVal = minVal + minGap;
+        }
+      }
+
+      updateSliderFromControls(minVal, maxVal, 'slider');
+    };
+
+    sliderMin.addEventListener('input', handleSliderInput);
+    sliderMax.addEventListener('input', handleSliderInput);
+    sliderMin.addEventListener('change', submitForm);
+    sliderMax.addEventListener('change', submitForm);
+
+    // Manual inputs change event (fires when leaving input or hitting enter)
+    const handleManualInputChange = () => {
+      let minVal = parseInt(inputMin.value) || 50000;
+      let maxVal = parseInt(inputMax.value) || 2500000;
+      
+      if (minVal > maxVal) {
+        // Swap values if min is larger than max
+        const temp = minVal;
+        minVal = maxVal;
+        maxVal = temp;
+      }
+      
+      updateSliderFromControls(minVal, maxVal, 'input');
+      submitForm();
+    };
+
+    inputMin.addEventListener('change', handleManualInputChange);
+    inputMax.addEventListener('change', handleManualInputChange);
+
+    // Z-index resolution wrapper hover helper
+    if (wrapper) {
+      wrapper.addEventListener('mousemove', (e: any) => {
+        const rect = wrapper.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        const min = parseFloat(sliderMin.min);
+        const max = parseFloat(sliderMin.max);
+        const hoverVal = min + percent * (max - min);
+
+        const distMin = Math.abs(hoverVal - parseFloat(sliderMin.value));
+        const distMax = Math.abs(hoverVal - parseFloat(sliderMax.value));
+
+        if (distMin < distMax) {
+          sliderMin.style.zIndex = '3';
+          sliderMax.style.zIndex = '2';
+        } else {
+          sliderMin.style.zIndex = '2';
+          sliderMax.style.zIndex = '3';
+        }
+      });
+    }
+    
+    // Sync UI on start
+    updateSliderFromControls(parseInt(sliderMin.value), parseInt(sliderMax.value), 'slider');
+  }
+
+  // Clear button logic
+  const clearBtn = document.getElementById('btn-clear');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      window.location.href = '/buscar';
+    });
+  }
+</script>
+
+<style is:global>
+  /* Double Range Slider Styling */
+  .slider-wrapper input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+  }
+  .slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #C5A880;
+    pointer-events: auto;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    margin-top: -1.5px;
+  }
+  .slider-wrapper input[type="range"]::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #C5A880;
+    pointer-events: auto;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+</style>

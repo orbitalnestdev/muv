@@ -1,0 +1,156 @@
+---
+interface Props {
+  photos: string[];
+  title: string;
+}
+
+const { photos = [], title } = Astro.props;
+const totalPhotos = photos.length;
+---
+
+<div class="w-full h-[600px] select-none" id="gallery-container" data-photos={JSON.stringify(photos)}>
+    {totalPhotos === 0 ? (
+        <div class="w-full h-full bg-surface-container-high rounded-lg flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-[64px] mb-2">image_not_supported</span>
+            <span class="font-label-lg">No hay imágenes disponibles</span>
+        </div>
+    ) : totalPhotos === 1 ? (
+        <div class="w-full h-full rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="0">
+            <img src={photos[0]} alt={title} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+        </div>
+    ) : totalPhotos === 2 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="0">
+                <img src={photos[0]} alt={`${title} - Foto 1`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+            </div>
+            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="1">
+                <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+            </div>
+        </div>
+    ) : (
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-full">
+            <!-- Big Image Left -->
+            <div class="md:col-span-8 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[400px] md:h-full" data-index="0">
+                <img src={photos[0]} alt={`${title} - Principal`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+            </div>
+            <!-- Two Small Images Right -->
+            <div class="md:col-span-4 flex flex-col gap-4 h-full">
+                <div class="flex-1 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[200px] md:h-[290px]" data-index="1">
+                    <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                </div>
+                <div class="flex-1 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[200px] md:h-[290px]" data-index="2">
+                    <img src={photos[2]} alt={`${title} - Foto 3`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                    {totalPhotos > 3 && (
+                        <div class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center text-pure-white font-headline font-bold text-sm pointer-events-none transition-all duration-300 group-hover:bg-black/65">
+                            <!-- Premium photo stack SVG -->
+                            <svg class="w-6 h-6 text-pure-white mb-1.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="3" y="3" width="14" height="14" rx="1" />
+                              <path d="M7 21h13a1 1 0 0 0 1-1V7" />
+                            </svg>
+                            <span class="tracking-wide">+{totalPhotos - 2} Fotos</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    )}
+</div>
+
+<!-- Fullscreen Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none">
+    <!-- Top Bar -->
+    <div class="w-full flex justify-between items-center max-w-7xl mx-auto text-pure-white z-20">
+        <div class="font-label-lg text-label-lg tracking-wider" id="lightbox-counter">1 / 1</div>
+        <button id="close-lightbox" class="p-2 hover:bg-white/10 rounded-full transition-all active:scale-95 flex items-center justify-center" aria-label="Cerrar vista completa">
+            <span class="material-symbols-outlined text-[28px]">close</span>
+        </button>
+    </div>
+
+    <!-- Image Slider Wrapper -->
+    <div class="relative w-full flex items-center justify-center flex-grow z-10">
+        <button id="prev-lightbox" class="absolute left-2 md:left-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center" aria-label="Foto anterior">
+            <span class="material-symbols-outlined text-[32px]">chevron_left</span>
+        </button>
+        
+        <img id="lightbox-img" src="" alt="Vista ampliada" class="max-w-full max-h-[75vh] md:max-h-[80vh] object-contain rounded transition-all duration-300" />
+        
+        <button id="next-lightbox" class="absolute right-2 md:right-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center" aria-label="Siguiente foto">
+            <span class="material-symbols-outlined text-[32px]">chevron_right</span>
+        </button>
+    </div>
+    
+    <!-- Empty bottom row for spacing -->
+    <div class="h-6"></div>
+</div>
+
+<script>
+  // Lightbox Slide Script
+  const container = document.getElementById('gallery-container');
+  const modal = document.getElementById('lightbox-modal');
+  const closeBtn = document.getElementById('close-lightbox');
+  const prevBtn = document.getElementById('prev-lightbox');
+  const nextBtn = document.getElementById('next-lightbox');
+  const imgElement = document.getElementById('lightbox-img') as HTMLImageElement;
+  const counter = document.getElementById('lightbox-counter');
+  
+  if (container && modal && imgElement && counter) {
+    const photos = JSON.parse(container.dataset.photos || '[]');
+    let currentIdx = 0;
+
+    function openLightbox(index: number) {
+      currentIdx = index;
+      updateLightbox();
+      modal?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal?.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+      if (photos.length === 0) return;
+      imgElement.src = photos[currentIdx];
+      counter!.innerText = `${currentIdx + 1} / ${photos.length}`;
+    }
+
+    function prevImage() {
+      currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+      updateLightbox();
+    }
+
+    function nextImage() {
+      currentIdx = (currentIdx + 1) % photos.length;
+      updateLightbox();
+    }
+
+    // Trigger grid items clicks
+    document.querySelectorAll('.zoom-trigger').forEach((trigger: any) => {
+      trigger.addEventListener('click', () => {
+        const index = Number(trigger.dataset.index || 0);
+        openLightbox(index);
+      });
+    });
+
+    // Control clicks
+    closeBtn?.addEventListener('click', closeLightbox);
+    prevBtn?.addEventListener('click', prevImage);
+    nextBtn?.addEventListener('click', nextImage);
+
+    // Close click backdrop
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeLightbox();
+      }
+    });
+
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+    });
+  }
+</script>

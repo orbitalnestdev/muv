@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>MUV Propiedades | Detalle de Emprendimiento</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#858383",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "refined-gold": "#C5A059",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "off-white": "#F7F8F9",
+                        "on-secondary-fixed": "#111c2c",
+                        "slate-blue": "#4A5568",
+                        "surface-tint": "#5f5e5e",
+                        "secondary-fixed": "#d8e3fa",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary-container": "#a17f3b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-primary": "#c8c6c5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f72",
+                        "on-secondary-container": "#586377",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191c1d",
+                        "primary": "#000000",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-container": "#d5e0f7",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#261900",
+                        "on-surface-variant": "#444748",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed": "#ffdea5",
+                        "pure-white": "#FFFFFF",
+                        "tertiary": "#000000",
+                        "outline": "#747878",
+                        "inverse-surface": "#2e3132",
+                        "deep-charcoal": "#121212",
+                        "tertiary-container": "#261900",
+                        "surface-container-highest": "#e1e3e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "32px",
+                        "margin-desktop": "64px",
+                        "section-gap": "120px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "headline-xl": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .gallery-mask {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .cac-calculator-gradient {
+            background: linear-gradient(135deg, #121212 0%, #1c1b1b 100%);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-off-white text-on-surface font-body-md antialiased overflow-x-hidden">
+
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 backdrop-blur-md transition-all duration-300 border-b bg-surface/90 py-6 px-margin-desktop shadow-sm">
+    <div class="max-w-container-max mx-auto flex justify-between items-center">
+        <a href="/index.html">
+            <img src="https://lh3.googleusercontent.com/aida/AP1WRLuMmYPIwDJFzBlpB3IKBA1B5fp_e_R0iIhWOrhEyWvh7d6w43M9WCkYEyStp6i7jnrYJaMTkeb10yCrKXf4zN1jGCX3fxU1IPBiWSFqTmnKbo602z1NeAffe_2aagGgMKmwShpfwFJGVfMXnnKBDTCCMhVnvNhU5lXdQMBzDkrftIBTPduV0sKsAXdNIYh6C0MHxZeWWl2DDs4AwqusmvY5fpcWpjNq_rWksEm9yaXyU-vU1yQqWLAKqg" alt="MUV Propiedades Logo" class="h-10 w-auto object-contain">
+        </a>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-label-lg text-label-lg text-refined-gold border-b border-refined-gold pb-1" href="/listado_emprendimientos.html">Emprendimientos</a>
+            <a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="//buscar.html">Residenciales</a>
+            <a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="/quienes_somos.html">Quienes Somos</a>
+            <a class="font-label-lg text-label-lg text-slate-blue hover:text-refined-gold transition-colors duration-200" href="/contacto.html">Contacto</a>
+        </div>
+        <a href="/contacto.html" class="bg-primary text-pure-white px-6 py-3 font-label-lg text-label-lg rounded transition-all active:opacity-80 active:scale-95 uppercase tracking-widest text-center">
+            Consultar
+        </a>
+    </div>
+</nav>
+
+<main class="pt-24 min-h-[70vh]">
+    <!-- SKELETON LOADER -->
+    <div id="skeleton-loader" class="max-w-container-max mx-auto px-margin-desktop py-12 animate-pulse">
+        <div class="h-4 bg-surface-container-highest w-1/4 rounded mb-6"></div>
+        <div class="h-[60vh] bg-surface-container-highest rounded-lg mb-12"></div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+            <div class="md:col-span-8 space-y-6">
+                <div class="h-10 bg-surface-container-highest w-3/4 rounded"></div>
+                <div class="h-24 bg-surface-container-highest w-full rounded"></div>
+            </div>
+            <div class="md:col-span-4 bg-surface-container-highest h-[300px] rounded-lg"></div>
+        </div>
+    </div>
+
+    <!-- ERROR CONTAINER -->
+    <div id="error-container" class="hidden max-w-md mx-auto my-20 p-8 bg-pure-white border border-error/20 rounded shadow-lg text-center animate-fade-in">
+        <span class="material-symbols-outlined text-[64px] text-error mb-4">error</span>
+        <h2 class="font-headline-md text-headline-md text-primary mb-2">Error al Cargar</h2>
+        <p class="font-body-md text-secondary mb-6" id="error-message">No se pudo cargar el emprendimiento.</p>
+        <a href="/listado_emprendimientos.html" class="inline-block bg-primary text-pure-white px-6 py-3 rounded font-label-lg text-label-lg hover:opacity-90 transition-all">
+            Volver a Emprendimientos
+        </a>
+    </div>
+
+    <!-- ACTUAL DYNAMIC CONTENT -->
+    <div id="real-content" class="hidden">
+        <!-- Hero Section -->
+        <section class="relative h-[70vh] w-full overflow-hidden">
+            <div class="absolute inset-0 z-0" id="hero-bg-container">
+                <img id="dev-hero-img" alt="Emprendimiento Architecture" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            </div>
+            <div class="relative z-10 h-full max-w-container-max mx-auto px-margin-desktop flex flex-col justify-end pb-16">
+                <div class="max-w-2xl">
+                    <span class="inline-block px-4 py-1 bg-refined-gold text-pure-white font-label-sm text-label-sm mb-4 uppercase tracking-widest" id="dev-status">EN CONSTRUCCIÓN</span>
+                    <h1 class="font-display-lg text-display-lg text-pure-white mb-4 drop-shadow-lg" id="dev-name">Nombre de Emprendimiento</h1>
+                    <p class="font-body-lg text-body-lg text-pure-white/90 leading-relaxed truncate" id="dev-header-desc">
+                        Desarrollo premium con terminaciones de primer nivel.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Overview -->
+        <section class="py-section-gap px-margin-desktop bg-surface-container-lowest">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter">
+                <div class="md:col-span-8">
+                    <h2 class="font-headline-lg text-headline-lg text-primary mb-8 border-l-4 border-refined-gold pl-6" id="overview-title">Detalles del Emprendimiento</h2>
+                    <div class="space-y-6 text-slate-blue font-body-lg leading-relaxed" id="dev-description">
+                        <!-- Populated dynamically -->
+                    </div>
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-headline-md mb-1" id="stat-floors">12</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Pisos</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-headline-md mb-1" id="stat-units">36</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Unidades</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-headline-md mb-1" id="stat-delivery">2026</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Entrega</span>
+                        </div>
+                        <div>
+                            <span class="block text-refined-gold font-headline-md text-headline-md mb-1" id="stat-amenities">980m²</span>
+                            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tighter">Amenities</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-4 bg-off-white p-8 border border-outline-variant/30 flex flex-col justify-between h-fit">
+                    <div>
+                        <h3 class="font-headline-md text-headline-md text-primary mb-4">Ubicación</h3>
+                        <div class="w-full h-48 bg-surface-container-high mb-6 overflow-hidden rounded relative" id="dev-map-box">
+                            <!-- Google Maps Iframe -->
+                        </div>
+                        <p class="text-slate-blue font-body-md mb-2" id="dev-address">-</p>
+                        <p class="text-on-surface-variant font-label-sm text-label-sm uppercase" id="dev-zone">-</p>
+                    </div>
+                    <button onclick="alert('Brochure digital enviado a su correo electrónico.');" class="mt-8 w-full border border-primary py-4 font-label-lg text-label-lg text-primary hover:bg-primary hover:text-pure-white transition-all duration-300">
+                        DESCARGAR BROCHURE
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Available Units (Dynamic Tokko Properties Table) -->
+        <section class="py-section-gap px-margin-desktop bg-off-white">
+            <div class="max-w-container-max mx-auto">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-12 gap-4">
+                    <div>
+                        <h2 class="font-headline-lg text-headline-lg text-primary">Unidades Disponibles</h2>
+                        <p class="text-secondary text-body-md mt-1">Haga clic en una unidad para ver detalles completos o calcular la financiación.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <select id="filter-rooms" class="border border-outline-variant rounded px-4 py-2 font-label-sm text-label-sm text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold" onchange="applyFilters()">
+                            <option value="">Todos los ambientes</option>
+                            <option value="1">1 Ambiente</option>
+                            <option value="2">2 Ambientes</option>
+                            <option value="3">3 Ambientes</option>
+                            <option value="4">4+ Ambientes</option>
+                        </select>
+                        <select id="sort-price" class="border border-outline-variant rounded px-4 py-2 font-label-sm text-label-sm text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold" onchange="applyFilters()">
+                            <option value="asc">Precio: Menor a Mayor</option>
+                            <option value="desc">Precio: Mayor a Menor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-pure-white rounded-lg border border-outline-variant/30 shadow-sm">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant text-left bg-surface-container-low/30">
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Unidad</th>
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Ubicación</th>
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Ambientes</th>
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Superficie Total</th>
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-right">Precio</th>
+                                <th class="p-6 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">Estado</th>
+                                <th class="p-6"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/30 font-medium" id="units-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financing Calculator -->
+        <section class="py-section-gap px-margin-desktop cac-calculator-gradient text-pure-white" id="financing-calculator-section">
+            <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-section-gap items-center">
+                <div>
+                    <span class="text-refined-gold font-label-sm text-label-sm uppercase tracking-widest block mb-2" id="calc-selected-unit-label">FINANCIACIÓN DOME Suites</span>
+                    <h2 class="font-headline-xl text-headline-xl mb-6">Financiación CAC</h2>
+                    <p class="font-body-lg text-body-lg text-pure-white/80 leading-relaxed mb-8">
+                        Simulá tu plan de inversión con cuotas ajustadas por la Cámara Argentina de la Construcción (CAC). Seleccioná cualquier unidad disponible en la tabla de arriba para cargar su precio real.
+                    </p>
+                    <div class="flex items-center gap-4 text-refined-gold">
+                        <span class="material-symbols-outlined text-4xl">verified_user</span>
+                        <span class="font-label-lg text-label-lg uppercase tracking-widest">Garantía Estructural Directa</span>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low/10 backdrop-blur-xl border border-pure-white/10 p-10 rounded-xl">
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="font-label-sm text-label-sm text-pure-white/60 uppercase">Anticipo</label>
+                                <span class="font-label-lg text-label-lg text-refined-gold" id="advance-val">30%</span>
+                            </div>
+                            <input class="w-full accent-refined-gold cursor-pointer" id="advance-slider" max="70" min="20" step="5" type="range" value="30">
+                            <div class="flex justify-between mt-1">
+                                <span class="text-label-sm text-pure-white/40">Min: 20%</span>
+                                <span class="text-label-sm text-refined-gold font-medium" id="advance-calc-display">USD -</span>
+                                <span class="text-label-sm text-pure-white/40">Max: 70%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="font-label-sm text-label-sm text-pure-white/60 uppercase">Plazo en Cuotas (Meses)</label>
+                                <span class="font-label-lg text-label-lg text-refined-gold" id="installments-val">36</span>
+                            </div>
+                            <input class="w-full accent-refined-gold cursor-pointer" id="installments-slider" max="60" min="12" step="6" type="range" value="36">
+                            <div class="flex justify-between mt-1">
+                                <span class="text-label-sm text-pure-white/40">12 Meses</span>
+                                <span class="text-label-sm text-refined-gold font-medium" id="installments-calc-display">Plan 36 Meses</span>
+                                <span class="text-label-sm text-pure-white/40">60 Meses</span>
+                            </div>
+                        </div>
+                        <div class="pt-8 border-t border-pure-white/10">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                                <div>
+                                    <p class="font-label-sm text-label-sm text-pure-white/60 uppercase mb-1">Cuota Mensual Estimada</p>
+                                    <h3 class="font-display-lg text-headline-xl text-pure-white" id="calc-monthly-payment">USD - <span class="text-label-lg text-pure-white/40 ml-2">+ CAC</span></h3>
+                                </div>
+                                <button onclick="alert('Solicitud de cotización enviada.');" class="bg-refined-gold text-pure-white px-8 py-4 font-label-lg text-label-lg hover:scale-105 transition-all">
+                                    Solicitar Cotización
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="py-section-gap px-margin-desktop bg-surface-container-low">
+            <div class="max-w-container-max mx-auto">
+                <h2 class="font-headline-lg text-headline-lg text-primary mb-12">Detalles del Proyecto</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="dev-photos-grid">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full mt-section-gap border-t border-outline-variant">
+    <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop py-section-gap">
+        <div class="md:col-span-4">
+            <span class="font-headline-lg text-headline-lg text-primary mb-6 block">MUV Propiedades</span>
+            <p class="text-slate-blue font-body-md mb-8 max-w-xs">
+                Comprometidos con la excelencia arquitectónica y soluciones inmobiliarias transparentes.
+            </p>
+            <div class="flex gap-4">
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">language</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">mail</span>
+                <span class="material-symbols-outlined text-primary cursor-pointer hover:text-refined-gold transition-colors">call</span>
+            </div>
+        </div>
+        <div class="md:col-span-2">
+            <h4 class="font-label-lg text-label-lg text-primary mb-6 uppercase">Sucursales</h4>
+            <ul class="space-y-4 font-body-md text-body-md text-slate-blue">
+                <li><a href="/contacto.html" class="hover:text-refined-gold transition-colors">Oficina Belgrano</a></li>
+                <li><a href="/contacto.html" class="hover:text-refined-gold transition-colors">Oficina Recoleta</a></li>
+                <li><a href="/contacto.html" class="hover:text-refined-gold transition-colors">Oficina Palermo</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-2">
+            <h4 class="font-label-lg text-label-lg text-primary mb-6 uppercase">Legal</h4>
+            <ul class="space-y-4 font-body-md text-body-md text-slate-blue">
+                <li><a href="#" class="hover:text-refined-gold transition-colors">Políticas</a></li>
+                <li><a href="#" class="hover:text-refined-gold transition-colors">Términos</a></li>
+            </ul>
+        </div>
+        <div class="md:col-span-4 text-right">
+            <p class="text-slate-blue font-body-md">© 2024 MUV Propiedades. Architectural Precision.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Extract ID from pathname
+    const pathParts = window.location.pathname.replace(/\/$/, "").split('/');
+    const devId = pathParts[pathParts.length - 1];
+
+    let developmentData = null;
+    let unitsList = [];
+    let activeCalculatorPrice = 350000; // default base price
+    let activeUnitName = "";
+
+    const skeletonLoader = document.getElementById('skeleton-loader');
+    const realContent = document.getElementById('real-content');
+    const errorContainer = document.getElementById('error-container');
+    const errorMessage = document.getElementById('error-message');
+
+    // Init load
+    async function loadDevelopmentDetails() {
+        if (!devId || isNaN(devId)) {
+            showError("ID de Emprendimiento no especificado o inválido en la URL.");
+            return;
+        }
+
+        try {
+            const devRes = await fetch(`/api/developments/${devId}`);
+            if (!devRes.ok) {
+                throw new Error("No se pudo obtener la información de Tokko Broker.");
+            }
+            const devData = await devRes.json();
+            developmentData = devData.objects ? devData.objects[0] : devData;
+
+            if (!developmentData || !developmentData.id) {
+                showError("El emprendimiento seleccionado no existe.");
+                return;
+            }
+
+            // Load associated units/properties
+            const unitsRes = await fetch(`/api/properties?development_id=${devId}&limit=50`);
+            if (unitsRes.ok) {
+                const unitsData = await unitsRes.json();
+                unitsList = unitsData.objects || [];
+            }
+
+            populateDevelopment(developmentData, unitsList);
+
+            skeletonLoader.classList.add('hidden');
+            realContent.classList.remove('hidden');
+        } catch (err) {
+            console.error(err);
+            showError("Error de comunicación al consultar el proxy de Tokko Broker.");
+        }
+    }
+
+    function showError(msg) {
+        errorMessage.innerText = msg;
+        skeletonLoader.classList.add('hidden');
+        errorContainer.classList.remove('hidden');
+    }
+
+    function populateDevelopment(dev, units) {
+        // Document Title
+        document.title = `${dev.name} | MUV Emprendimientos`;
+
+        // Hero info
+        document.getElementById('dev-name').innerText = dev.name;
+        document.getElementById('dev-status').innerText = dev.construction_status || "Premium";
+        document.getElementById('dev-header-desc').innerText = dev.description ? dev.description.slice(0, 140) + '...' : '';
+
+        // Description
+        document.getElementById('dev-description').innerHTML = dev.description
+            ? dev.description.replace(/\n/g, '<br>')
+            : '<p class="italic">No hay descripción disponible para este desarrollo.</p>';
+
+        // Overview stats (mock fallback or real if parsed from description/custom fields)
+        document.getElementById('stat-floors').innerText = "14";
+        document.getElementById('stat-units').innerText = units.length > 0 ? units.length : "S/D";
+        document.getElementById('stat-delivery').innerText = "2026";
+        document.getElementById('stat-amenities').innerText = "900m²";
+
+        // Hero image
+        if (dev.photos && dev.photos.length > 0) {
+            document.getElementById('dev-hero-img').src = dev.photos[0].image;
+        }
+
+        // Map box iframe
+        const address = dev.location ? dev.location.name : "Capital Federal";
+        document.getElementById('dev-address').innerText = address;
+        document.getElementById('dev-zone').innerText = dev.location ? dev.location.full_location.split('|').slice(-2).join(', ') : '';
+        
+        const mapBox = document.getElementById('dev-map-box');
+        mapBox.innerHTML = `
+            <iframe 
+                class="w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700" 
+                src="https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                allowfullscreen 
+                loading="lazy">
+            </iframe>
+        `;
+
+        // Load units grid / table
+        renderUnits(units);
+
+        // Load Calculator base price
+        if (units.length > 0) {
+            // Find first available unit with a price
+            const pricedUnit = units.find(u => {
+                const price = getPropertyPriceNumber(u);
+                return price > 1;
+            });
+            if (pricedUnit) {
+                selectCalculatorUnit(pricedUnit);
+            } else {
+                selectDefaultCalculator();
+            }
+        } else {
+            selectDefaultCalculator();
+        }
+
+        // Project photos grid
+        const photosGrid = document.getElementById('dev-photos-grid');
+        if (dev.photos && dev.photos.length > 0) {
+            photosGrid.innerHTML = dev.photos.map(p => `
+                <div class="aspect-[4/5] overflow-hidden rounded bg-surface-container border border-outline-variant/20 relative group">
+                    <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" src="${p.image}" loading="lazy">
+                </div>
+            `).join('');
+        } else {
+            // Placeholder images
+            photosGrid.innerHTML = `
+                <div class="col-span-3 text-center py-12 text-secondary text-body-md">Detalles visuales adicionales no disponibles.</div>
+            `;
+        }
+    }
+
+    function getPropertyPriceNumber(prop) {
+        const op = prop.operations && prop.operations[0];
+        const pr = op && op.prices && op.prices[0];
+        return pr ? pr.price : 0;
+    }
+
+    function selectCalculatorUnit(unit) {
+        activeCalculatorPrice = getPropertyPriceNumber(unit);
+        activeUnitName = `Unidad ${unit.reference_code || unit.id}`;
+        document.getElementById('calc-selected-unit-label').innerText = `FINANCIACIÓN: ${activeUnitName} (USD ${activeCalculatorPrice.toLocaleString('es-AR')})`;
+        calculateFinancing();
+    }
+
+    function selectDefaultCalculator() {
+        activeCalculatorPrice = 280000; // General default
+        activeUnitName = "Unidad Estándar";
+        document.getElementById('calc-selected-unit-label').innerText = `FINANCIACIÓN: ${activeUnitName} (USD ${activeCalculatorPrice.toLocaleString('es-AR')})`;
+        calculateFinancing();
+    }
+
+    function renderUnits(units) {
+        const body = document.getElementById('units-table-body');
+        if (!units || units.length === 0) {
+            body.innerHTML = `
+                <tr>
+                    <td colspan="7" class="p-8 text-center text-secondary font-medium">No hay unidades disponibles en este momento.</td>
+                </tr>
+            `;
+            return;
+        }
+
+        body.innerHTML = units.map(u => {
+            const mainOp = u.operations && u.operations[0];
+            const opType = mainOp ? mainOp.operation_type : 'Venta';
+            const price = getPropertyPriceNumber(u);
+            const priceText = price > 1 ? `USD ${price.toLocaleString('es-AR')}` : 'Consulte';
+            const size = u.total_surface > 0 ? `${parseInt(u.total_surface)} m²` : (u.covered_surface > 0 ? `${parseInt(u.covered_surface)} m²` : 'S/D');
+            const rooms = u.room_amount || 1;
+            const status = price > 1 ? 'Disponible' : 'Reservado';
+            const statusColor = price > 1 ? 'bg-green-500 text-pure-white' : 'bg-amber-500 text-pure-white';
+
+            return `
+                <tr onclick="onSelectUnit(${u.id}, ${price})" class="hover:bg-surface-container-lowest transition-colors duration-200 cursor-pointer">
+                    <td class="p-6 font-headline-md text-[18px] text-primary">${u.reference_code || u.id}</td>
+                    <td class="p-6 font-body-md text-slate-blue truncate max-w-xs">${u.address || 'Ubicación Interna'}</td>
+                    <td class="p-6 font-body-md text-slate-blue">${rooms} Ambientes</td>
+                    <td class="p-6 font-body-md text-slate-blue">${size}</td>
+                    <td class="p-6 font-headline-md text-[18px] text-primary text-right">${priceText}</td>
+                    <td class="p-6 text-center">
+                        <span class="px-3 py-1 ${statusColor} font-label-sm text-[11px] uppercase tracking-wider rounded-full">${status}</span>
+                    </td>
+                    <td class="p-6 text-right">
+                        <a href="/property/${u.id}" class="material-symbols-outlined text-refined-gold hover:scale-110 transition-transform">arrow_forward</a>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function onSelectUnit(id, price) {
+        const unit = unitsList.find(u => u.id == id);
+        if (unit) {
+            selectCalculatorUnit(unit);
+            // Scroll to calculator
+            document.getElementById('financing-calculator-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function applyFilters() {
+        const roomFilter = document.getElementById('filter-rooms').value;
+        const sortFilter = document.getElementById('sort-price').value;
+
+        let filtered = [...unitsList];
+
+        if (roomFilter) {
+            filtered = filtered.filter(u => {
+                if (roomFilter === "4") {
+                    return (u.room_amount || 1) >= 4;
+                }
+                return (u.room_amount || 1) == parseInt(roomFilter);
+            });
+        }
+
+        filtered.sort((a, b) => {
+            const priceA = getPropertyPriceNumber(a);
+            const priceB = getPropertyPriceNumber(b);
+            if (sortFilter === "asc") {
+                return priceA - priceB;
+            } else {
+                return priceB - priceA;
+            }
+        });
+
+        renderUnits(filtered);
+    }
+
+    // Calculator values
+    const advSlider = document.getElementById('advance-slider');
+    const instSlider = document.getElementById('installments-slider');
+    const advVal = document.getElementById('advance-val');
+    const instVal = document.getElementById('installments-val');
+
+    function calculateFinancing() {
+        const pct = parseInt(advSlider.value);
+        const months = parseInt(instSlider.value);
+
+        advVal.innerText = pct + '%';
+        instVal.innerText = months;
+
+        const advanceAmount = activeCalculatorPrice * (pct / 100);
+        const balance = activeCalculatorPrice - advanceAmount;
+        const monthlyPayment = balance / months;
+
+        document.getElementById('advance-calc-display').innerText = `${pct}% = USD ${Math.round(advanceAmount).toLocaleString('es-AR')}`;
+        document.getElementById('installments-calc-display').innerText = `Saldo USD ${Math.round(balance).toLocaleString('es-AR')} en ${months} meses`;
+        
+        document.getElementById('calc-monthly-payment').innerHTML = `USD ${Math.round(monthlyPayment).toLocaleString('es-AR')}<span class="text-label-lg text-pure-white/40 ml-2">+ CAC</span>`;
+    }
+
+    advSlider.addEventListener('input', calculateFinancing);
+    instSlider.addEventListener('input', calculateFinancing);
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', loadDevelopmentDetails);
+</script>
+</body>
+</html>

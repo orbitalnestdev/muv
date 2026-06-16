@@ -1,0 +1,46 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  isDarkHero?: boolean;
+}
+
+const { 
+  title, 
+  description = "MUV Propiedades | Especialistas en propiedades premium y emprendimientos exclusivos en las mejores zonas de Buenos Aires.", 
+  isDarkHero = false 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden relative">
+    <!-- Header/Navbar -->
+    <Header isDarkHero={isDarkHero} />
+    
+    <!-- Page Main Content Slot -->
+    <slot />
+    
+    <!-- Footer -->
+    <Footer />
+</body>
+</html>
