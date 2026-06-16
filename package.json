@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "node ./dist/server/entry.mjs",
+    "start:static": "node server.js",
     "build": "astro build",
     "preview": "astro preview"
   },
