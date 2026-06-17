@@ -107,8 +107,8 @@ const fullLocationText = location?.full_location ? location.full_location.split(
         </div>
 
         <!-- Project Overview Section -->
-        <section class="py-24 px-margin-desktop bg-surface-container-lowest text-left">
-            <div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+        <section class="py-24 bg-surface-container-lowest text-left">
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter">
                 <div class="lg:col-span-8 space-y-6">
                     <h2 class="font-headline-lg text-2xl md:text-3xl text-primary border-l-4 border-refined-gold pl-6 font-semibold">Detalles del Emprendimiento</h2>
                     <div class="space-y-6 text-slate-blue font-body-lg leading-relaxed text-sm md:text-base whitespace-pre-line">
@@ -158,8 +158,8 @@ const fullLocationText = location?.full_location ? location.full_location.split(
         </section>
 
         <!-- Available Units (Properties Table) -->
-        <section class="py-24 px-margin-mobile md:px-margin-desktop bg-off-white">
-            <div class="max-w-container-max mx-auto">
+        <section class="py-24 bg-off-white">
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-12 gap-4 text-left">
                     <div>
                         <h2 class="font-headline-lg text-2xl md:text-3xl text-primary font-bold">Unidades Disponibles</h2>
@@ -230,7 +230,7 @@ const fullLocationText = location?.full_location ? location.full_location.split(
                                           data-price={sortPriceVal}
                                           data-rooms={rooms}
                                         >
-                                            <td class="p-6 font-sans text-sm text-slate-blue">{name} {u.reference_code || u.id}, {addressText}</td>
+                                            <td class="p-6 font-sans text-sm text-slate-blue">{u.address ? `${u.address} ${u.reference_code || u.id}` : `${name.split(' - ')[0]} ${u.reference_code || u.id}`}</td>
                                             <td class="p-6 font-sans text-sm text-slate-blue">{rooms}</td>
                                             <td class="p-6 font-sans text-sm text-slate-blue">{bedrooms}</td>
                                             <td class="p-6 font-sans text-sm text-slate-blue">{coveredSize}</td>
@@ -249,8 +249,8 @@ const fullLocationText = location?.full_location ? location.full_location.split(
         </section>
 
         <!-- Project Photos Gallery -->
-        <section class="py-24 px-margin-desktop bg-surface-container-low">
-            <div class="max-w-container-max mx-auto text-left">
+        <section class="py-24 bg-surface-container-low">
+            <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-left">
                 <h2 class="font-headline-lg text-2xl md:text-3xl text-primary font-bold mb-12">Detalles del Proyecto</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="dev-photos-grid">
                     {photos.length > 0 ? (
