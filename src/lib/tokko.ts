@@ -370,8 +370,8 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
   
   let result = [...propertiesCatalog];
 
-  // Exclude units belonging to developments by default, unless searching for a specific development's units
-  if (!filters.development_id) {
+  // Exclude units belonging to developments by default, unless searching for a specific development's units or show_all is true
+  if (!filters.development_id && !filters.show_all) {
     result = result.filter(p => !p.development);
   }
 
@@ -404,14 +404,31 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
     result = result.filter(p => p.development?.id === devId);
   }
 
+  const opId = filters.operation_id ? Number(filters.operation_id) : null;
+  const currencyFilter = filters.currency ? filters.currency.toUpperCase() : '';
+
   if (filters.price_min) {
     const pMin = Number(filters.price_min);
-    result = result.filter(p => p.operations?.some(op => op.prices?.some(pr => pr.price >= pMin)));
+    result = result.filter(p => p.operations?.some(op => 
+      (!opId || op.operation_id === opId) && op.prices?.some(pr => 
+        (!currencyFilter || pr.currency === currencyFilter) && pr.price >= pMin
+      )
+    ));
   }
 
   if (filters.price_max) {
     const pMax = Number(filters.price_max);
-    result = result.filter(p => p.operations?.some(op => op.prices?.some(pr => pr.price <= pMax)));
+    result = result.filter(p => p.operations?.some(op => 
+      (!opId || op.operation_id === opId) && op.prices?.some(pr => 
+        (!currencyFilter || pr.currency === currencyFilter) && pr.price <= pMax
+      )
+    ));
+  }
+
+  if (filters.currency) {
+    result = result.filter(p => p.operations?.some(op => 
+      (!opId || op.operation_id === opId) && op.prices?.some(pr => pr.currency === currencyFilter)
+    ));
   }
 
   if (filters.rooms) {

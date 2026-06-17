@@ -2,7 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { getProperties } from '../lib/tokko';
 
-// Fetch all properties to initialize on the server side
+// Fetch all properties to initialize on the server side, excluding development units
 const { properties } = await getProperties();
 ---
 
@@ -64,162 +64,267 @@ const { properties } = await getProperties();
     <!-- Right Column: Sidebar Filters & Horizontal Properties List -->
     <section id="list-section" class="w-full lg:w-1/2 flex flex-col bg-surface border-t lg:border-t-0 lg:border-l border-outline-variant/30 shrink-0">
       
-      <!-- Top Filters Container -->
-      <div class="bg-pure-white border-b border-outline-variant/30 p-5 shrink-0 z-10 shadow-sm space-y-4">
-        <!-- Row 1: Keyword Text Box -->
-        <div class="relative">
+      <!-- Top Filters Container with horizontal pills -->
+      <div class="bg-pure-white border-b border-outline-variant/30 px-5 py-4 shrink-0 z-20 shadow-sm relative select-none">
+        
+        <!-- Row 1: Keyword Search Bar with Ajax -->
+        <div class="relative flex items-center mb-4">
+          <span class="material-symbols-outlined text-secondary/50 absolute left-4 pointer-events-none">search</span>
           <input 
             type="text" 
             id="filter-keyword" 
-            placeholder="Palabra clave..." 
-            class="w-full px-4 py-2.5 text-sm rounded border border-outline-variant/40 focus:border-refined-gold focus:outline-none bg-surface/30 font-body-md transition-all duration-300" 
+            placeholder="Buscar por dirección, título o descripción..." 
+            class="w-full pl-11 pr-10 py-2.5 text-sm rounded-xl border border-outline-variant/40 focus:border-refined-gold focus:outline-none bg-surface/30 font-body-md transition-all duration-300" 
           />
+          <button 
+            type="button" 
+            id="btn-clear-keyword" 
+            class="absolute right-4 text-secondary/40 hover:text-secondary hidden"
+            aria-label="Limpiar búsqueda"
+          >
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
         </div>
 
-        <!-- Row 2: Select Filters Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <!-- Operation Type -->
-          <div class="relative flex items-center">
-            <select id="filter-operation" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Operación</option>
-              <option value="1">Venta</option>
-              <option value="2">Alquiler</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Neighborhood -->
-          <div class="relative flex items-center">
-            <select id="filter-barrio" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Todos los barrios</option>
-              <option value="belgrano">Belgrano</option>
-              <option value="colegiales">Colegiales</option>
-              <option value="palermo">Palermo</option>
-              <option value="puerto madero">Puerto Madero</option>
-              <option value="recoleta">Recoleta</option>
-              <option value="san telmo">San Telmo</option>
-              <option value="villa urquiza">Villa Urquiza</option>
-              <option value="nunez">Núñez</option>
-              <option value="once">Once</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Property Type -->
-          <div class="relative flex items-center">
-            <select id="filter-type" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Tipo de propiedad</option>
-              <option value="2">Departamento</option>
-              <option value="3">Casa</option>
-              <option value="4">PH</option>
-              <option value="7">Local</option>
-              <option value="8">Oficina</option>
-              <option value="10">Terreno</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Bedrooms -->
-          <div class="relative flex items-center">
-            <select id="filter-bedrooms" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Dormitorios</option>
-              <option value="1">1 Dormitorio</option>
-              <option value="2">2 Dormitorios</option>
-              <option value="3">3 Dormitorios</option>
-              <option value="4">4+ Dormitorios</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Rooms -->
-          <div class="relative flex items-center">
-            <select id="filter-rooms" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Ambientes</option>
-              <option value="1">1 Ambiente</option>
-              <option value="2">2 Ambientes</option>
-              <option value="3">3 Ambientes</option>
-              <option value="4">4+ Ambientes</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Bathrooms -->
-          <div class="relative flex items-center">
-            <select id="filter-bathrooms" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Baños</option>
-              <option value="1">1 Baño</option>
-              <option value="2">2 Baños</option>
-              <option value="3">3+ Baños</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Garage -->
-          <div class="relative flex items-center">
-            <select id="filter-garage" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Garaje</option>
-              <option value="0">Sin Cochera</option>
-              <option value="1">1 Cochera</option>
-              <option value="2">2+ Cocheras</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-          <!-- Currency -->
-          <div class="relative flex items-center">
-            <select id="filter-currency" class="w-full pl-3 pr-8 py-2 text-xs font-bold rounded border border-outline-variant/40 bg-pure-white text-secondary focus:outline-none focus:border-refined-gold uppercase tracking-wider tracking-widest cursor-pointer appearance-none !bg-none font-sans">
-              <option value="">Moneda</option>
-              <option value="USD">USD ($)</option>
-              <option value="ARS">ARS ($)</option>
-            </select>
-            <span class="material-symbols-outlined text-[16px] text-refined-gold absolute right-2.5 pointer-events-none">expand_more</span>
-          </div>
-        </div>
-
-        <!-- Row 3: Price Slider & Action Buttons -->
-        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 pt-2">
-          <!-- Price Range Slider Container -->
-          <div class="flex-grow space-y-1.5 text-left">
-            <div class="text-[10px] font-bold text-[#747878] uppercase tracking-widest">
-              Rango de precios: <span id="price-range-label" class="text-primary font-bold">USD200 - USD2.500.000</span>
+        <!-- Row 2: Filter Pills Row -->
+        <div class="flex flex-wrap items-center gap-2" id="filter-pills-row">
+          
+          <!-- Pill: Operación -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-operation">
+              <span id="pill-label-operation">Operación</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-operation" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5">
+              <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
+              <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">Venta</button>
+              <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">Alquiler</button>
             </div>
-            
-            <!-- Double Range Slider -->
-            <div class="relative w-full h-6 flex items-center select-none slider-wrapper">
-              <div class="absolute w-full h-[5px] bg-[#e2e8f0] rounded pointer-events-none"></div>
-              <div id="slider-track" class="absolute h-[5px] bg-[#C5A880] rounded pointer-events-none" style="left: 0%; right: 0%;"></div>
+          </div>
+
+          <!-- Pill: Barrio (Promoted to main next to Propiedad) -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-barrio">
+              <span id="pill-label-barrio">Barrio</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-barrio" class="filter-dropdown absolute top-full left-0 mt-2 w-64 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3">
+              <div class="max-h-60 overflow-y-auto space-y-2 scrollbar-thin" id="barrio-options-container">
+                <!-- Dynamically populated checkboxes -->
+              </div>
+              <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
+                <button type="button" class="btn-clear-barrio text-[10px] font-bold text-secondary hover:text-primary transition-colors">Limpiar</button>
+                <button type="button" class="btn-apply-barrio bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pill: Propiedad -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-type">
+              <span id="pill-label-type">Propiedad</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-type" class="filter-dropdown absolute top-full left-0 mt-2 w-56 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3">
+              <div class="space-y-2">
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Departamento" value="2">
+                  <span>Departamento</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Casa" value="3">
+                  <span>Casa</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="PH" value="4">
+                  <span>PH</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Local" value="7">
+                  <span>Local</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Oficina" value="8">
+                  <span>Oficina</span>
+                </label>
+                <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+                  <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Terreno" value="10">
+                  <span>Terreno</span>
+                </label>
+              </div>
+              <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
+                <button type="button" class="btn-clear-type text-[10px] font-bold text-secondary hover:text-primary transition-colors">Limpiar</button>
+                <button type="button" class="btn-apply-type bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pill: Presupuesto (Precio) -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-price">
+              <span id="pill-label-price">Presupuesto</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-price" class="filter-dropdown absolute top-full left-0 mt-2 w-72 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4">
+              <!-- Currency Selector buttons -->
+              <div class="space-y-1.5">
+                <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Moneda</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-primary text-pure-white border-primary" data-val="USD">USD</button>
+                  <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-pure-white text-secondary border-outline-variant/50 hover:border-refined-gold" data-val="ARS">ARS</button>
+                </div>
+              </div>
+              <!-- Price Slider range label -->
+              <div class="space-y-1.5">
+                <div class="text-[9px] font-bold text-[#747878] uppercase tracking-widest flex justify-between">
+                  <span>Rango:</span>
+                  <span id="price-range-label" class="text-primary font-bold">USD 200 - USD 2.500.000</span>
+                </div>
+                
+                <!-- Double Range Slider track -->
+                <div class="relative w-full h-6 flex items-center slider-wrapper pt-1">
+                  <div class="absolute w-full h-[4px] bg-[#e2e8f0] rounded"></div>
+                  <div id="slider-track" class="absolute h-[4px] bg-[#C5A880] rounded" style="left: 0%; right: 0%;"></div>
+                  
+                  <input 
+                    type="range" 
+                    id="slider-min" 
+                    min="200" 
+                    max="2500000" 
+                    step="500" 
+                    value="200" 
+                    class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
+                    style="z-index: 2;"
+                  />
+                  <input 
+                    type="range" 
+                    id="slider-max" 
+                    min="200" 
+                    max="2500000" 
+                    step="500" 
+                    value="2500000" 
+                    class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
+                    style="z-index: 2;"
+                  />
+                </div>
+              </div>
+              <div class="border-t border-outline-variant/20 pt-2 flex justify-end">
+                <button type="button" class="btn-apply-price bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pill: Ambientes -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-rooms">
+              <span id="pill-label-rooms">Ambientes</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-rooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5">
+              <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
+              <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Ambiente</button>
+              <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Ambientes</button>
+              <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="3">3 Ambientes</button>
+              <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="4">4+ Ambientes</button>
+            </div>
+          </div>
+
+          <!-- Pill: Dormitorios -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-bedrooms">
+              <span id="pill-label-bedrooms">Dormitorios</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-bedrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5">
+              <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
+              <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Dormitorio</button>
+              <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Dormitorios</button>
+              <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="3">3 Dormitorios</button>
+              <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="4">4+ Dormitorios</button>
+            </div>
+          </div>
+
+          <!-- Pill: Baños -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-bathrooms">
+              <span id="pill-label-bathrooms">Baños</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-bathrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5">
+              <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
+              <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Baño</button>
+              <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Baños</button>
+              <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="3">3+ Baños</button>
+            </div>
+          </div>
+
+          <!-- Pill: Cochera -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-garage">
+              <span id="pill-label-garage">Cochera</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+            </button>
+            <div id="dropdown-garage" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5">
+              <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
+              <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="0">Sin Cochera</button>
+              <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Cochera</button>
+              <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2+ Cocheras</button>
+            </div>
+          </div>
+
+          <!-- Pill: Más filtros (with dynamic amenities and age/surface) -->
+          <div class="relative filter-pill-wrapper">
+            <button type="button" id="btn-more-filters" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-more">
+              <span id="pill-label-surface">Superficie / Más</span>
+              <span class="material-symbols-outlined text-[16px] text-refined-gold">tune</span>
+            </button>
+            <div id="dropdown-more" class="filter-dropdown absolute top-full right-0 mt-2 w-[340px] sm:w-[420px] bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin">
               
-              <input 
-                type="range" 
-                id="slider-min" 
-                min="200" 
-                max="2500000" 
-                step="500" 
-                value="200" 
-                class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
-                style="z-index: 2;"
-              />
-              <input 
-                type="range" 
-                id="slider-max" 
-                min="200" 
-                max="2500000" 
-                step="500" 
-                value="2500000" 
-                class="absolute w-full pointer-events-auto appearance-none bg-transparent h-2 outline-none cursor-pointer" 
-                style="z-index: 2;"
-              />
+              <!-- Superficie -->
+              <div class="space-y-2">
+                <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Superficie (m²)</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <input type="number" id="filter-surface-min" placeholder="Mínimo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-refined-gold focus:outline-none font-semibold bg-surface/30" />
+                  <input type="number" id="filter-surface-max" placeholder="Máximo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-refined-gold focus:outline-none font-semibold bg-surface/30" />
+                </div>
+              </div>
+
+              <!-- Antigüedad -->
+              <div class="space-y-2">
+                <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Antigüedad</label>
+                <div class="flex flex-wrap gap-1.5">
+                  <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="a-estrenar">A estrenar</button>
+                  <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-5-anos">Hasta 5 años</button>
+                  <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-10-anos">Hasta 10 años</button>
+                  <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-20-anos">Hasta 20 años</button>
+                  <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="mas-de-20-anos">Más de 20 años</button>
+                </div>
+              </div>
+
+              <!-- Características (DYNAMICAL checklists loaded from active Tokko list) -->
+              <div class="space-y-2 border-t border-outline-variant/15 pt-3">
+                <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Características / Amenities</label>
+                <div class="grid grid-cols-2 gap-x-3 gap-y-2 max-h-48 overflow-y-auto pr-1 scrollbar-thin" id="dynamic-tags-container">
+                  <!-- Injected via Client-side JS -->
+                </div>
+              </div>
+
+              <div class="border-t border-outline-variant/20 pt-3 flex justify-between items-center">
+                <button type="button" id="btn-clear-more" class="text-xs font-bold uppercase tracking-wider text-secondary hover:text-primary transition-colors">Limpiar</button>
+                <button type="button" id="btn-apply-more" class="bg-primary text-pure-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-xl transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+              </div>
+
             </div>
           </div>
 
-          <!-- Buttons -->
-          <div class="flex gap-2 shrink-0">
-            <button 
-              id="btn-submit-search" 
-              class="flex-grow md:flex-grow-0 bg-primary hover:bg-refined-gold text-pure-white text-xs font-bold uppercase tracking-widest px-8 py-2.5 rounded-xl shadow-sm transition-all duration-300 active:scale-95"
-            >
-              Buscar
-            </button>
-            <button 
-              id="btn-clear-search" 
-              class="bg-pure-white border border-outline-variant/60 text-secondary text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded hover:bg-surface-container-high transition-all active:scale-97"
-            >
-              Limpiar
-            </button>
-          </div>
+          <!-- General reset filters button -->
+          <button 
+            id="btn-clear-search" 
+            class="hidden text-xs font-bold uppercase tracking-widest text-[#9c27b0] hover:text-primary px-3 py-2 transition-all"
+          >
+            Limpiar Filtros
+          </button>
+
         </div>
       </div>
 
@@ -318,6 +423,34 @@ const { properties } = await getProperties();
     background: #ffffff !important;
   }
 
+  /* Filter pills arrow rotation */
+  .filter-pill span.material-symbols-outlined {
+    transition: transform 0.2s ease;
+  }
+  
+  /* Hide scrollbar for more filters popover and barrio dropdown */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
   /* Mobile Split toggling states */
   @media (max-width: 1023px) {
     .mobile-map-active #map-section {
@@ -343,25 +476,75 @@ const { properties } = await getProperties();
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-  // Avoid TS compile complaints for Leaflet
   declare const L: any;
 
-  // Retrieve initial properties cache from container data-attribute
   const container = document.getElementById('map-page-container');
   const rawProperties = container ? JSON.parse(container.dataset.properties || '[]') : [];
 
-  // Map variables
   let map: any = null;
   let activeMarkers: any[] = [];
   let currentMarkerIndex = -1;
   let currentTileLayer: any = null;
 
-  // Infinite scroll variables
   let allFilteredProperties: any[] = [];
   let displayedPropertiesCount = 0;
   const BATCH_SIZE = 10;
 
-  // Google Maps Tiles urls loaded directly inside Leaflet (Stable, no JS API Key errors)
+  const filterState = {
+    keyword: '',
+    operation: '',
+    types: [] as string[],
+    currency: 'USD',
+    priceMin: 200,
+    priceMax: 2500000,
+    rooms: '',
+    bedrooms: '',
+    bathrooms: '',
+    garage: '',
+    surfaceMin: null as number | null,
+    surfaceMax: null as number | null,
+    moreToggles: [] as string[],
+    barrios: [] as string[]
+  };
+
+  const tagTranslations: { [key: string]: { label: string, icon: string } } = {
+    'pool': { label: 'Pileta', icon: 'pool' },
+    'outdoor swiming pool': { label: 'Pileta', icon: 'pool' },
+    'gym': { label: 'Gimnasio', icon: 'fitness_center' },
+    'sum': { label: 'SUM', icon: 'groups' },
+    'barbecue': { label: 'Parrilla', icon: 'outdoor_grill' },
+    'barbecue area': { label: 'Parrilla', icon: 'outdoor_grill' },
+    'communal bbq area': { label: 'Parrilla', icon: 'outdoor_grill' },
+    'individual grill in the apartment': { label: 'Parrilla individual', icon: 'outdoor_grill' },
+    'solarium': { label: 'Solarium', icon: 'wb_sunny' },
+    'sauna': { label: 'Sauna', icon: 'spa' },
+    'spa': { label: 'Spa', icon: 'spa' },
+    'security': { label: 'Seguridad', icon: 'security' },
+    '24 hour security': { label: 'Seguridad 24h', icon: 'security' },
+    'access control': { label: 'Control de acceso', icon: 'security' },
+    'cctv': { label: 'Cámaras CCTV', icon: 'videocam' },
+    'balcony': { label: 'Balcón', icon: 'balcony' },
+    'terrace': { label: 'Terraza', icon: 'layers' },
+    'play room': { label: 'Playroom', icon: 'sports_esports' },
+    'game room': { label: 'Sala de juegos', icon: 'sports_esports' },
+    'children\'s playroom': { label: 'Playroom infantil', icon: 'sports_esports' },
+    'laundry': { label: 'Lavadero', icon: 'local_laundry_service' },
+    'laundry room': { label: 'Lavadero', icon: 'local_laundry_service' },
+    'garden': { label: 'Jardín', icon: 'yard' },
+    'green areas': { label: 'Áreas verdes', icon: 'yard' },
+    'air conditioner': { label: 'Aire Acondicionado', icon: 'ac_unit' },
+    'individual air conditioner': { label: 'Aire Acondicionado', icon: 'ac_unit' },
+    'heating': { label: 'Calefacción', icon: 'thermostat' },
+    'central heating': { label: 'Calefacción central', icon: 'thermostat' },
+    'work able': { label: 'Apto Profesional', icon: 'business' },
+    'apto profesional': { label: 'Apto Profesional', icon: 'business' },
+    'pets allowed': { label: 'Acepta Mascotas', icon: 'pets' },
+    'luminous': { label: 'Luminoso', icon: 'wb_sunny' },
+    'category': { label: 'Categoría', icon: 'star' },
+    'view': { label: 'Vista', icon: 'visibility' },
+    'river view': { label: 'Vista al río', icon: 'tsunami' }
+  };
+
   const layers = {
     calle: 'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
     satelite: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
@@ -374,147 +557,90 @@ const { properties } = await getProperties();
     terreno: '&copy; Google Maps'
   };
 
-  // Custom marker isotype pin generator based on property type ID
-  function createPinHTML(typeId: number) {
+  function createPinHTML(typeId: number, count: number = 1) {
     const pinColor = '#C5A059';
-    const strokeColor = '#FFFFFF';
-    
+    const darkColor = '#121212';
     let path = '';
-    // Departamento (2)
     if (typeId === 2) {
-      path = `<path d="M12,10h8v11h-8z M14,12h2v1.5h-2z M17,12h2v1.5h-2z M14,15h2v1.5h-2z M17,15h2v1.5h-2z M14,18h2v1.5h-2z M17,18h2v1.5h-2z" fill="${pinColor}" />`;
-    }
-    // Casa (3) or PH (4)
-    else if (typeId === 3 || typeId === 4) {
-      path = `<path d="M16,10 L10,14.5 L11.5,14.5 L11.5,21 L20.5,21 L20.5,14.5 L22,14.5 Z" fill="${pinColor}"/>`;
-    }
-    // Office (8)
-    else if (typeId === 8) {
-      path = `<path d="M19,13h-1.5v-1c0-.5-.4-1-1-1h-1c-.5 0-1 .4-1 1v1H13c-.5 0-1 .4-1 1v5c0 .5.4 1 1 1h6c.5 0 1-.4 1-1v-5c0-.5-.4-1-1-1zm-4-1h2v1h-2v-1z" fill="${pinColor}" />`;
-    }
-    // Local (7)
-    else if (typeId === 7) {
-      path = `<path d="M9.5,11.5v1l1,3v5h11v-5l1-3v-1h-13zm3,8h-2v-3h2v3zm4,0h-2v-3h2v3zm4-4h-10l-.6-2h11.2l-.6 2z" fill="${pinColor}" />`;
-    }
-    // Default (Terreno, etc.)
-    else {
-      path = `<circle cx="16" cy="15.5" r="3.5" fill="${pinColor}" />`;
+      path = `<path d="M12,11h8v10h-8z M14,13h2v1.5h-2z M17,13h2v1.5h-2z M14,16h2v1.5h-2z M17,16h2v1.5h-2z M14,19h2v1.5h-2z M17,19h2v1.5h-2z" fill="${darkColor}" />`;
+    } else if (typeId === 3 || typeId === 4) {
+      path = `<path d="M16,11 L10,15.5 L11.5,15.5 L11.5,22 L20.5,22 L20.5,15.5 L22,15.5 Z" fill="${darkColor}"/>`;
+    } else if (typeId === 8) {
+      path = `<path d="M19,14h-1.5v-1c0-.5-.4-1-1-1h-1c-.5 0-1 .4-1 1v1H13c-.5 0-1 .4-1 1v5c0 .5.4 1 1 1h6c.5 0 1-.4 1-1v-5c0-.5-.4-1-1-1zm-4-1h2v1h-2v-1z" fill="${darkColor}" />`;
+    } else if (typeId === 7) {
+      path = `<path d="M9.5,12.5v1l1,3v5h11v-5l1-3v-1h-13zm3,8h-2v-3h2v3zm4,0h-2v-3h2v3zm4-4h-10l-.6-2h11.2l-.6 2z" fill="${darkColor}" />`;
+    } else {
+      path = `<circle cx="16" cy="16.5" r="3.5" fill="${darkColor}" />`;
     }
 
     return `
       <div class="relative w-8 h-10 select-none pointer-events-none leaflet-pin-container">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40">
-          <!-- Teardrop pin tail pointing down -->
-          <path d="M16,2 C8.3,2 2,8.3 2,16 C2,25.8 16,38 16,38 C16,38 30,25.8 30,16 C30,8.3 23.7,2 16,2 Z" fill="${pinColor}" stroke="${strokeColor}" stroke-width="1.5" />
-          <!-- Inner circular white badge -->
-          <circle cx="16" cy="15.5" r="7.5" fill="#FFFFFF" />
-          <!-- Property type icon -->
-          ${path}
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="38" viewBox="0 0 32 38">
+          <defs>
+            <filter id="pin-shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <g filter="url(#pin-shadow)">
+            <path d="M16 4 C9.4 4 4 9.4 4 16 c0 10 12 22 12 22 s12-12 12-22 c0-6.6-5.4-12-12-12 z" fill="#FFFFFF" stroke="${pinColor}" stroke-width="2.2" />
+            ${path}
+          </g>
         </svg>
+        ${count > 1 ? `
+          <div class="absolute -top-1.5 -right-1.5 bg-[#121212] text-white border border-white text-[9px] font-bold rounded-full w-[18.5px] h-[18.5px] flex items-center justify-center shadow-md z-10 leading-none">
+            ${count}
+          </div>
+        ` : ''}
       </div>
     `.trim();
   }
 
-  // Init leaflet Map
   function initMap() {
     if (typeof L === 'undefined') {
       setTimeout(initMap, 100);
       return;
     }
-
-    // Default coordinates: Buenos Aires center
     const defaultCoords = [-34.580, -58.420];
-    const defaultZoom = 13;
+    const defaultZoom = 14;
+    map = L.map('map', { zoomControl: false, attributionControl: true }).setView(defaultCoords, defaultZoom);
+    currentTileLayer = L.tileLayer(layers.calle, { attribution: layersAttribution.calle }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // Build map inside element with disabled default zoom position to style controls manually
-    map = L.map('map', {
-      zoomControl: false,
-      attributionControl: true
-    }).setView(defaultCoords, defaultZoom);
-
-    // Apply default Google Maps street tiles
-    currentTileLayer = L.tileLayer(layers.calle, {
-      attribution: layersAttribution.calle
-    }).addTo(map);
-
-    // Re-position and style zoom control at bottom right instead of top left
-    L.control.zoom({
-      position: 'bottomright'
-    }).addTo(map);
-
-    // Fade out map loader
     const loader = document.getElementById('map-loader');
     if (loader) {
       loader.style.opacity = '0';
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 500);
+      setTimeout(() => { loader.style.display = 'none'; }, 500);
     }
-
-    // Handle initial sizing to guarantee grey tiles never show
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 150);
-
-    // Initial render call
+    setTimeout(() => { map.invalidateSize(); }, 150);
     filterAndRender();
   }
 
-  // Get filtered properties
   function getFilteredProperties() {
-    const keyword = (document.getElementById('filter-keyword') as HTMLInputElement)?.value.toLowerCase() || '';
-    const operation = (document.getElementById('filter-operation') as HTMLSelectElement)?.value || '';
-    const barrio = (document.getElementById('filter-barrio') as HTMLSelectElement)?.value || '';
-    const type = (document.getElementById('filter-type') as HTMLSelectElement)?.value || '';
-    const bedrooms = (document.getElementById('filter-bedrooms') as HTMLSelectElement)?.value || '';
-    const rooms = (document.getElementById('filter-rooms') as HTMLSelectElement)?.value || '';
-    const bathrooms = (document.getElementById('filter-bathrooms') as HTMLSelectElement)?.value || '';
-    const garage = (document.getElementById('filter-garage') as HTMLSelectElement)?.value || '';
-    const currency = (document.getElementById('filter-currency') as HTMLSelectElement)?.value || '';
-    const priceMin = parseInt((document.getElementById('slider-min') as HTMLInputElement)?.value || '200');
-    const priceMax = parseInt((document.getElementById('slider-max') as HTMLInputElement)?.value || '2500000');
-
     return rawProperties.filter((p: any) => {
-      // Keyword filter
-      if (keyword) {
-        const titleMatch = p.publication_title?.toLowerCase().includes(keyword);
-        const descMatch = p.description?.toLowerCase().includes(keyword);
-        const addrMatch = p.address?.toLowerCase().includes(keyword);
+      if (filterState.keyword) {
+        const kw = filterState.keyword.toLowerCase();
+        const titleMatch = p.publication_title?.toLowerCase().includes(kw);
+        const descMatch = p.description?.toLowerCase().includes(kw);
+        const addrMatch = p.address?.toLowerCase().includes(kw);
         if (!titleMatch && !descMatch && !addrMatch) return false;
       }
 
-      // Operation filter
-      if (operation) {
-        const opId = parseInt(operation);
-        const hasOp = p.operations?.some((op: any) => op.operation_id === opId);
-        if (!hasOp) return false;
+      if (filterState.operation) {
+        const opId = parseInt(filterState.operation);
+        if (!p.operations?.some((op: any) => op.operation_id === opId)) return false;
       }
 
-      // Barrio filter
-      if (barrio) {
-        const hasBarrio = p.location?.name?.toLowerCase().includes(barrio);
-        if (!hasBarrio) return false;
+      if (filterState.barrios.length > 0) {
+        const propBarrio = p.location?.name?.toLowerCase().trim();
+        if (!propBarrio || !filterState.barrios.includes(propBarrio)) return false;
       }
 
-      // Property Type filter
-      if (type) {
-        const typeId = parseInt(type);
-        if (p.type?.id !== typeId) return false;
+      if (filterState.types.length > 0) {
+        if (!filterState.types.includes(p.type?.id?.toString())) return false;
       }
 
-      // Bedrooms filter
-      if (bedrooms) {
-        const bedsVal = parseInt(bedrooms);
-        if (bedsVal === 4) {
-          if ((p.suite_amount || 0) < 4) return false;
-        } else if (p.suite_amount !== bedsVal) {
-          return false;
-        }
-      }
-
-      // Rooms filter
-      if (rooms) {
-        const roomsVal = parseInt(rooms);
+      if (filterState.rooms) {
+        const roomsVal = parseInt(filterState.rooms);
         if (roomsVal === 4) {
           if ((p.room_amount || 0) < 4) return false;
         } else if (p.room_amount !== roomsVal) {
@@ -522,9 +648,17 @@ const { properties } = await getProperties();
         }
       }
 
-      // Bathrooms filter
-      if (bathrooms) {
-        const bathVal = parseInt(bathrooms);
+      if (filterState.bedrooms) {
+        const bedsVal = parseInt(filterState.bedrooms);
+        if (bedsVal === 4) {
+          if ((p.suite_amount || 0) < 4) return false;
+        } else if (p.suite_amount !== bedsVal) {
+          return false;
+        }
+      }
+
+      if (filterState.bathrooms) {
+        const bathVal = parseInt(filterState.bathrooms);
         const totalBaths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
         if (bathVal === 3) {
           if (totalBaths < 3) return false;
@@ -533,9 +667,8 @@ const { properties } = await getProperties();
         }
       }
 
-      // Garage filter
-      if (garage) {
-        const garageVal = parseInt(garage);
+      if (filterState.garage) {
+        const garageVal = parseInt(filterState.garage);
         if (garageVal === 2) {
           if ((p.parking_lot_amount || 0) < 2) return false;
         } else if (p.parking_lot_amount !== garageVal) {
@@ -543,42 +676,89 @@ const { properties } = await getProperties();
         }
       }
 
-      // Currency filter & Price range checks
-      const opObj = p.operations?.[0];
-      const priceObj = opObj?.prices?.[0];
-      if (priceObj) {
-        if (currency && priceObj.currency !== currency) return false;
-        if (priceObj.price < priceMin || priceObj.price > priceMax) return false;
+      if (filterState.surfaceMin !== null || filterState.surfaceMax !== null) {
+        const totalSurf = parseFloat(p.total_surface || p.covered_surface || p.surface || '0');
+        if (filterState.surfaceMin !== null && totalSurf < filterState.surfaceMin) return false;
+        if (filterState.surfaceMax !== null && totalSurf > filterState.surfaceMax) return false;
+      }
+
+      const opId = filterState.operation ? parseInt(filterState.operation) : null;
+      let priceObj = null;
+      if (opId) {
+        priceObj = p.operations?.find((op: any) => op.operation_id === opId)?.prices?.[0];
       } else {
-        // Fallback for listings without pricing structure
-        if (priceMin > 200) return false;
+        priceObj = p.operations?.[0]?.prices?.[0];
+      }
+
+      if (priceObj) {
+        if (filterState.currency && priceObj.currency !== filterState.currency) return false;
+        if (priceObj.price < filterState.priceMin || priceObj.price > filterState.priceMax) return false;
+      } else {
+        if (filterState.priceMin > 200) return false;
+      }
+
+      if (filterState.moreToggles.length > 0) {
+        const propTags = (p.tags || []).map((t: any) => t.name.toLowerCase());
+        const age = p.age !== undefined && p.age !== null ? parseInt(p.age) : null;
+        for (const toggle of filterState.moreToggles) {
+          let matched = false;
+          if (toggle === 'apto-credito') {
+            matched = propTags.some(t => t.includes('crédito') || t.includes('credito') || t.includes('financed') || t.includes('credit'));
+          } else if (toggle === 'apto-profesional') {
+            matched = propTags.some(t => t.includes('profesional') || t.includes('professional') || t.includes('work able') || t.includes('office'));
+          } else if (toggle === 'a-estrenar') {
+            matched = (age === 0) || propTags.some(t => t.includes('estrenar') || t.includes('nuevo') || t.includes('brand new') || t.includes('under construction'));
+          } else if (toggle === 'hasta-5-anos') {
+            matched = (age !== null && age <= 5) || propTags.some(t => t.includes('5 años') || t.includes('5 years') || t.includes('recent') || t.includes('reciente'));
+          } else if (toggle === 'hasta-10-anos') {
+            matched = (age !== null && age <= 10) || propTags.some(t => t.includes('10 años') || t.includes('10 years'));
+          } else if (toggle === 'hasta-20-anos') {
+            matched = (age !== null && age <= 20) || propTags.some(t => t.includes('20 años') || t.includes('20 years'));
+          } else if (toggle === 'mas-de-20-anos') {
+            matched = (age !== null && age > 20) || propTags.some(t => t.includes('antiguo') || t.includes('old') || t.includes('classic') || t.includes('más de 20') || t.includes('more than 20'));
+          } else {
+            matched = propTags.some(t => t === toggle || t.includes(toggle));
+          }
+          if (!matched) return false;
+        }
       }
 
       return true;
     });
   }
 
-  // Filter properties and update UI (List and Map markers)
   function filterAndRender() {
     if (!map) return;
-
+    updatePillLabels();
     const filtered = getFilteredProperties();
 
-    // 1. Clear Map markers
     activeMarkers.forEach(marker => map.removeLayer(marker));
     activeMarkers = [];
     currentMarkerIndex = -1;
 
-    // 2. Render Markers on Map
-    const bounds = L.latLngBounds([]);
-    let hasCoords = false;
-
+    const groups: { [key: string]: any[] } = {};
     filtered.forEach((p: any) => {
       const lat = parseFloat(p.geo_lat);
       const lng = parseFloat(p.geo_long);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        const key = `${lat.toFixed(5)},${lng.toFixed(5)}`;
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(p);
+      }
+    });
+
+    const bounds = L.latLngBounds([]);
+    let hasCoords = false;
+
+    Object.keys(groups).forEach(key => {
+      const groupProps = groups[key];
+      const count = groupProps.length;
+      const firstProp = groupProps[0];
+      const lat = parseFloat(firstProp.geo_lat);
+      const lng = parseFloat(firstProp.geo_long);
 
       if (!isNaN(lat) && !isNaN(lng)) {
-        const pinHtml = createPinHTML(p.type?.id);
+        const pinHtml = createPinHTML(firstProp.type?.id, count);
         const customIcon = L.divIcon({
           html: pinHtml,
           className: 'custom-map-marker',
@@ -587,94 +767,98 @@ const { properties } = await getProperties();
           popupAnchor: [0, -35]
         });
 
-        // Set prices string
-        const op = p.operations?.[0];
-        const price = op?.prices?.[0];
-        const priceStr = price 
-          ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` 
-          : 'Consultar';
+        let popupContent = '';
+        if (count === 1) {
+          const p = firstProp;
+          const op = p.operations?.[0];
+          const price = op?.prices?.[0];
+          const priceStr = price ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` : 'Consultar';
+          const thumb = p.photos?.[0]?.thumb || p.photos?.[0]?.image || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80';
+          let opTypeLabel = op ? op.operation_type.toUpperCase() : 'VENTA';
+          if (opTypeLabel.includes('RENT') || opTypeLabel.includes('ALQ')) opTypeLabel = 'ALQUILER';
 
-        const thumb = p.photos?.[0]?.thumb || p.photos?.[0]?.image || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80';
+          const beds = p.suite_amount || 0;
+          const rooms = p.room_amount || 0;
+          const baths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
+          const cocheras = p.parking_lot_amount || 0;
+          const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
 
-        // Badges classes & labels
-        let opTypeLabel = op ? op.operation_type.toUpperCase() : 'VENTA';
-        if (opTypeLabel.includes('RENT') || opTypeLabel.includes('ALQ')) {
-          opTypeLabel = 'ALQUILER';
-        }
+          const specs = [];
+          if (beds > 0) specs.push({ value: beds, icon: 'bed' });
+          if (rooms > 0) specs.push({ value: rooms, icon: 'door' });
+          if (baths > 0) specs.push({ value: baths, icon: 'bath' });
+          if (cocheras > 0) specs.push({ value: cocheras, icon: 'car' });
+          if (parseFloat(surfaceVal) > 0) specs.push({ value: parseFloat(surfaceVal).toFixed(0), icon: 'ruler' });
 
-        // Specs sync for popup
-        const beds = p.suite_amount || 0;
-        const rooms = p.room_amount || 0;
-        const baths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
-        const cocheras = p.parking_lot_amount || 0;
-        const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
+          const popupSpecsHtml = specs.map(spec => {
+            let iconSvg = '';
+            if (spec.icon === 'door') {
+              iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1" /><circle cx="8" cy="12" r="0.75" fill="currentColor" /></svg>`;
+            } else if (spec.icon === 'bed') {
+              iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 10V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" /><path d="M12 4v6" /><path d="M5 14h14" /></svg>`;
+            } else if (spec.icon === 'bath') {
+              iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-9a4 4 0 0 1 4-4h7" /><path d="M14 7h3l1 3H13z" fill="currentColor" fill-opacity="0.15" /><path d="M14 12v2M15.5 12v3M17 12v2" /></svg>`;
+            } else if (spec.icon === 'car') {
+              iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14 L8 9h8l2 5" /><rect x="4" y="14" width="16" height="5" rx="1" /><circle cx="7" cy="16.5" r="0.75" fill="currentColor" /><circle cx="17" cy="16.5" r="0.75" fill="currentColor" /><path d="M6 19v2M18 19v2" /></svg>`;
+            } else if (spec.icon === 'ruler') {
+              iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
+            }
+            return `<div class="flex items-center gap-1 shrink-0">${iconSvg}<span class="text-[11px] font-semibold text-[#191c1d]">${spec.value}${spec.icon === 'ruler' ? ' m²' : ''}</span></div>`;
+          }).join('');
 
-        const specs = [];
-        if (beds > 0) specs.push({ value: beds, icon: 'bed' });
-        if (rooms > 0) specs.push({ value: rooms, icon: 'door' });
-        if (baths > 0) specs.push({ value: baths, icon: 'bath' });
-        if (cocheras > 0) specs.push({ value: cocheras, icon: 'car' });
-        if (parseFloat(surfaceVal) > 0) specs.push({ value: parseFloat(surfaceVal).toFixed(0), icon: 'ruler' });
-
-        const popupSpecsHtml = specs.map((spec) => {
-          let iconSvg = '';
-          if (spec.icon === 'door') {
-            iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1" /><circle cx="8" cy="12" r="0.75" fill="currentColor" /></svg>`;
-          } else if (spec.icon === 'bed') {
-            iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 10V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" /><path d="M12 4v6" /><path d="M5 14h14" /></svg>`;
-          } else if (spec.icon === 'bath') {
-            iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-9a4 4 0 0 1 4-4h7" /><path d="M14 7h3l1 3H13z" fill="currentColor" fill-opacity="0.15" /><path d="M14 12v2M15.5 12v3M17 12v2" /></svg>`;
-          } else if (spec.icon === 'car') {
-            iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14 L8 9h8l2 5" /><rect x="4" y="14" width="16" height="5" rx="1" /><circle cx="7" cy="16.5" r="0.75" fill="currentColor" /><circle cx="17" cy="16.5" r="0.75" fill="currentColor" /><path d="M6 19v2M18 19v2" /></svg>`;
-          } else if (spec.icon === 'ruler') {
-            iconSvg = `<svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
-          }
-
-          return `
-            <div class="flex items-center gap-1 shrink-0">
-              ${iconSvg}
-              <span class="text-[11px] font-semibold text-[#191c1d]">${spec.value}${spec.icon === 'ruler' ? ' M2' : ''}</span>
+          popupContent = `
+            <div class="font-body-md select-none">
+              <div class="relative w-full h-[130px] overflow-hidden bg-gray-100 rounded-t-md">
+                <img src="${thumb}" class="w-full h-full object-cover" alt="" />
+                <div class="absolute top-2.5 left-2.5 flex gap-1.5 select-none items-center">
+                  <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2.5 py-0.5 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">${opTypeLabel}</span>
+                  <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2.5 py-0.5 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">DISPONIBLE</span>
+                </div>
+              </div>
+              <div class="p-4 bg-pure-white rounded-b-md text-left space-y-2">
+                <span class="text-sm font-bold text-primary block leading-none select-text">${priceStr}</span>
+                <span class="text-[11px] text-secondary font-medium block leading-tight truncate select-text">${p.address || p.publication_title}</span>
+                <span class="text-[9px] text-[#888888] font-bold block uppercase tracking-wider select-text">${(p.location?.name || '').toUpperCase()}</span>
+                <div class="border-t border-outline-variant/15 pt-2 flex flex-wrap items-center gap-3 text-[#191c1d] select-none leading-none">
+                  ${popupSpecsHtml}
+                </div>
+                <a href="/property/${p.id}/" class="mt-3 block w-full bg-black hover:bg-refined-gold text-pure-white hover:text-primary text-center text-[9px] font-bold uppercase tracking-widest py-2 rounded transition-colors duration-200">VER DETALLES</a>
+              </div>
             </div>
           `;
-        }).join('');
+        } else {
+          const itemsHtml = groupProps.map((p: any) => {
+            const op = p.operations?.[0];
+            const price = op?.prices?.[0];
+            const priceStr = price ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` : 'Consultar';
+            const thumb = p.photos?.[0]?.thumb || p.photos?.[0]?.image || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80';
+            return `
+              <div class="flex items-center gap-3 p-2 hover:bg-surface rounded-lg transition-colors border border-outline-variant/10">
+                <img src="${thumb}" class="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+                <div class="min-w-0 flex-grow text-left">
+                  <div class="text-[10px] font-bold text-[#888888] uppercase tracking-wider leading-none">${p.type?.name || 'Propiedad'}</div>
+                  <div class="text-[11px] font-semibold text-secondary truncate mt-0.5 leading-tight">${p.address || p.publication_title}</div>
+                  <div class="text-xs font-bold text-primary mt-1 leading-none">${priceStr}</div>
+                </div>
+                <a href="/property/${p.id}/" class="bg-black text-pure-white text-[9px] font-bold uppercase px-2.5 py-1.5 rounded hover:bg-refined-gold hover:text-primary transition-colors flex-shrink-0">Ver</a>
+              </div>
+            `;
+          }).join('');
 
-        // Custom premium popup content
-        const popupContent = `
-          <div class="font-body-md select-none">
-            <div class="relative w-full h-[130px] overflow-hidden bg-gray-100 rounded-t-md">
-              <img src="${thumb}" class="w-full h-full object-cover" alt="" />
-              <div class="absolute top-2.5 left-2.5 flex gap-1.5 select-none items-center">
-                <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2.5 py-0.5 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">
-                  ${opTypeLabel}
-                </span>
-                <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2.5 py-0.5 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">
-                  DISPONIBLE
-                </span>
+          popupContent = `
+            <div class="font-body-md p-3 bg-pure-white rounded-md text-left space-y-3 w-[280px]">
+              <div class="text-[9px] font-bold text-[#888888] uppercase tracking-widest leading-none border-b border-outline-variant/20 pb-2">
+                ${count} Propiedades en esta ubicación
+              </div>
+              <div class="space-y-2 max-h-[200px] overflow-y-auto pr-1 scrollbar-thin">
+                ${itemsHtml}
               </div>
             </div>
-            <div class="p-4 bg-pure-white rounded-b-md text-left space-y-2">
-              <span class="text-sm font-bold text-primary block leading-none select-text">${priceStr}</span>
-              <span class="text-[11px] text-secondary font-medium block leading-tight truncate select-text">${p.address || p.publication_title}</span>
-              <span class="text-[9px] text-[#888888] font-bold block uppercase tracking-wider select-text">${(p.location?.name || '').toUpperCase()}</span>
-              
-              <!-- Specs Row synchronized with listing -->
-              <div class="border-t border-outline-variant/15 pt-2 flex flex-wrap items-center gap-3 text-[#191c1d] select-none leading-none">
-                ${popupSpecsHtml}
-              </div>
+          `;
+        }
 
-              <a href="/property/${p.id}/" class="mt-3 block w-full bg-black hover:bg-refined-gold text-pure-white hover:text-primary text-center text-[9px] font-bold uppercase tracking-widest py-2 rounded transition-colors duration-200">
-                VER DETALLES
-              </a>
-            </div>
-          </div>
-        `;
-
-        const marker = L.marker([lat, lng], { icon: customIcon })
-          .bindPopup(popupContent)
-          .addTo(map);
-
-        // Track marker property ID to link with sidebar card selections
-        marker.propertyId = p.id;
+        const marker = L.marker([lat, lng], { icon: customIcon }).bindPopup(popupContent).addTo(map);
+        marker.propertyIds = groupProps.map(p => p.id);
         activeMarkers.push(marker);
 
         bounds.extend([lat, lng]);
@@ -682,12 +866,10 @@ const { properties } = await getProperties();
       }
     });
 
-    // Fit map bounds if markers are populated
     if (hasCoords && activeMarkers.length > 0) {
       map.fitBounds(bounds, { padding: [50, 50] });
     }
 
-    // 3. Render List of horizontal property cards in sidebar via progressive infinite scroll
     allFilteredProperties = filtered;
     displayedPropertiesCount = 0;
     const listContainer = document.getElementById('properties-list');
@@ -697,14 +879,24 @@ const { properties } = await getProperties();
     }
     loadNextBatch();
 
-    // 4. Update listings counter
     const counterEl = document.getElementById('map-listings-counter');
     if (counterEl) {
       counterEl.textContent = `Mostrando ${filtered.length} de ${rawProperties.length} propiedades`;
     }
+
+    const isFiltered = filterState.keyword || filterState.operation || filterState.types.length > 0 ||
+                       filterState.rooms || filterState.bedrooms || filterState.bathrooms || filterState.garage ||
+                       filterState.surfaceMin !== null || filterState.surfaceMax !== null ||
+                       filterState.moreToggles.length > 0 || filterState.barrios.length > 0 ||
+                       filterState.priceMin > 200 || filterState.priceMax < 2500000;
+    
+    const clearBtn = document.getElementById('btn-clear-search');
+    if (clearBtn) {
+      if (isFiltered) clearBtn.classList.remove('hidden');
+      else clearBtn.classList.add('hidden');
+    }
   }
 
-  // Load next batch of properties progressively (infinite scroll pagination)
   function loadNextBatch() {
     const listContainer = document.getElementById('properties-list');
     if (!listContainer) return;
@@ -717,12 +909,7 @@ const { properties } = await getProperties();
             <p class="font-headline-md text-base text-secondary font-bold">No encontramos ningún resultado</p>
             <p class="font-body-md text-xs text-secondary/60">Probá ajustando los filtros de búsqueda</p>
           </div>
-          <button 
-            id="btn-no-results-reset"
-            class="bg-primary text-pure-white text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-xl transition-all duration-200 hover:bg-[#C5A880] active:scale-95 shadow-sm"
-          >
-            Restablecer Filtros
-          </button>
+          <button id="btn-no-results-reset" class="bg-primary text-pure-white text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-xl transition-all duration-200 hover:bg-[#C5A880] active:scale-95 shadow-sm">Restablecer Filtros</button>
         </div>
       `;
       document.getElementById('btn-no-results-reset')?.addEventListener('click', () => {
@@ -733,27 +920,18 @@ const { properties } = await getProperties();
 
     const start = displayedPropertiesCount;
     const end = Math.min(start + BATCH_SIZE, allFilteredProperties.length);
-
-    if (start >= allFilteredProperties.length) return; // All loaded
+    if (start >= allFilteredProperties.length) return;
 
     const nextBatch = allFilteredProperties.slice(start, end);
     let html = '';
 
     nextBatch.forEach((p: any) => {
-      // Pricing format
       const op = p.operations?.[0];
       const price = op?.prices?.[0];
-      const priceText = price 
-        ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` 
-        : 'Consultar';
-
-      // Badges classes & labels
+      const priceText = price ? `${price.currency}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` : 'Consultar';
       let opTypeLabel = op ? op.operation_type.toUpperCase() : 'VENTA';
-      if (opTypeLabel.includes('RENT') || opTypeLabel.includes('ALQ')) {
-        opTypeLabel = 'ALQUILER';
-      }
+      if (opTypeLabel.includes('RENT') || opTypeLabel.includes('ALQ')) opTypeLabel = 'ALQUILER';
 
-      // Specs variables
       const beds = p.suite_amount || 0;
       const rooms = p.room_amount || 0;
       const baths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
@@ -763,7 +941,6 @@ const { properties } = await getProperties();
       const photos = p.photos || [];
       const imageList = photos.length > 0 ? photos.map((ph: any) => ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
 
-      // Specs collection - EXACT sync with /buscar (beds, rooms, baths, cocheras, surface)
       const specs = [];
       if (beds > 0) specs.push({ value: beds, label: beds === 1 ? 'Dormitorio' : 'Dormitorios', icon: 'bed' });
       if (rooms > 0) specs.push({ value: rooms, label: rooms === 1 ? 'Ambiente' : 'Ambientes', icon: 'door' });
@@ -785,41 +962,27 @@ const { properties } = await getProperties();
           iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
         }
 
-        const isFirst = index === 0;
         const isLast = index === specs.length - 1;
-        const paddingClass = isFirst ? 'pr-3.5' : isLast ? 'pl-3.5' : 'px-3.5';
+        const paddingClass = index === 0 ? 'pr-3.5' : isLast ? 'pl-3.5' : 'px-3.5';
         const borderClass = isLast ? '' : 'border-r border-outline-variant/25';
-
         return `
           <div class="${paddingClass} ${borderClass} flex flex-col items-start shrink-0">
             <div class="flex items-center gap-1.5 font-bold text-[14px] text-primary">
               <span>${spec.value}</span>
               ${iconSvg}
             </div>
-            <span class="text-[9.5px] text-[#888888] font-medium mt-0.5 block leading-none">
-              ${spec.label}
-            </span>
+            <span class="text-[9.5px] text-[#888888] font-medium mt-0.5 block leading-none">${spec.label}</span>
           </div>
         `;
       }).join('');
 
       html += `
-        <div 
-          class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[180px]"
-          data-id="${p.id}"
-          data-photos='${JSON.stringify(imageList)}'
-          data-lat="${p.geo_lat || ''}"
-          data-lng="${p.geo_long || ''}"
-        >
-          <!-- Left: Image Slider -->
+        <div class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[180px]" data-id="${p.id}" data-photos='${JSON.stringify(imageList)}' data-lat="${p.geo_lat || ''}" data-lng="${p.geo_long || ''}">
           <div class="relative w-full sm:w-[240px] h-[160px] sm:h-full overflow-hidden shrink-0 bg-gray-100 select-none">
-            <!-- MUV Watermark on image top left -->
             <div class="absolute top-3.5 left-3.5 z-10 select-none pointer-events-none opacity-40">
               <div class="text-[12px] font-bold text-pure-white uppercase tracking-[0.2em] leading-none">MUV</div>
               <div class="text-[6px] font-bold text-pure-white uppercase tracking-[0.25em] leading-none mt-1">Propiedades</div>
             </div>
-
-            <!-- Left / Right Carousel Navigation -->
             ${imageList.length > 1 ? `
               <button class="row-carousel-btn row-btn-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/75 hover:text-white hover:scale-110 transition-all opacity-0 group-hover:opacity-100" aria-label="Anterior">
                 <span class="material-symbols-outlined text-[28px] font-light">chevron_left</span>
@@ -828,8 +991,6 @@ const { properties } = await getProperties();
                 <span class="material-symbols-outlined text-[28px] font-light">chevron_right</span>
               </button>
             ` : ''}
-
-            <!-- Card Bottom Right Overlays (Zoom & Save/Add) -->
             <div class="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
               <button class="row-zoom-btn w-7 h-7 bg-[#121212]/60 hover:bg-[#C5A880] border border-white/10 rounded flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 active:scale-95 pointer-events-auto" aria-label="Zoom">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -840,57 +1001,28 @@ const { properties } = await getProperties();
                 <span class="material-symbols-outlined text-[16px]">add_circle</span>
               </button>
             </div>
-
-            <!-- Anchor Image -->
             <a href="/property/${p.id}/" class="block w-full h-full">
-              <img 
-                src="${imageList[0]}" 
-                class="row-carousel-img w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" 
-                loading="lazy" 
-                alt="${p.publication_title}" 
-              />
+              <img src="${imageList[0]}" class="row-carousel-img w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" loading="lazy" alt="${p.publication_title}" />
             </a>
           </div>
-
-          <!-- Right: Details body -->
           <div class="flex flex-col justify-between p-4 flex-grow text-left relative min-w-0 font-sans">
-            <!-- Price and Operation type row (Matching mockup reference layout) -->
             <div class="flex justify-between items-center w-full">
               <div class="flex gap-1.5 select-none items-center">
-                <span class="bg-[#4A4A4A] text-pure-white px-2.5 py-1 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">
-                  ${opTypeLabel}
-                </span>
-                <span class="bg-[#4A4A4A] text-pure-white px-2.5 py-1 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">
-                  DISPONIBLE
-                </span>
+                <span class="bg-[#4A4A4A] text-pure-white px-2.5 py-1 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">${opTypeLabel}</span>
+                <span class="bg-[#4A4A4A] text-pure-white px-2.5 py-1 text-[8.5px] font-bold tracking-wider uppercase rounded-md leading-none">DISPONIBLE</span>
               </div>
-              <span class="font-sans text-[16px] font-bold text-[#191c1d] leading-none shrink-0 select-text">
-                ${priceText}
-              </span>
+              <span class="font-sans text-[16px] font-bold text-[#191c1d] leading-none shrink-0 select-text">${priceText}</span>
             </div>
-
-            <!-- Title: address or publication title -->
             <h3 class="font-sans text-[16px] font-medium text-[#191c1d] leading-tight truncate mt-2 max-w-full">
-              <a href="/property/${p.id}/" class="hover:text-refined-gold transition-colors">
-                ${p.address || p.publication_title}
-              </a>
+              <a href="/property/${p.id}/" class="hover:text-refined-gold transition-colors">${p.address || p.publication_title}</a>
             </h3>
-
-            <!-- Neighborhood/Location row (Casing matched, only Barrio name with outlined SVG icon) -->
             <div class="flex items-center gap-1 text-[#888888] text-[12px] font-medium mt-1 select-text">
               <svg class="w-3.5 h-3.5 text-[#888888] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
               <span>${p.location?.name || ''}</span>
             </div>
-
-            <!-- Property Type row -->
-            <span class="font-sans text-[10px] font-bold text-[#191c1d] uppercase tracking-widest block mt-2">
-              ${p.type?.name ? p.type.name.toUpperCase() : 'DEPARTAMENTO'}
-            </span>
-
-            <!-- Specs Grid Row (Matching divided mockup columns) -->
+            <span class="font-sans text-[10px] font-bold text-[#191c1d] uppercase tracking-widest block mt-2">${p.type?.name ? p.type.name.toUpperCase() : 'DEPARTAMENTO'}</span>
             <div class="border-t border-outline-variant/15 pt-3.5 mt-3.5 flex items-center text-[#191c1d] select-none leading-none overflow-x-auto whitespace-nowrap scrollbar-hide">
               ${specsHtml}
             </div>
@@ -899,29 +1031,19 @@ const { properties } = await getProperties();
       `;
     });
 
-    // Append batch elements directly
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     while (tempDiv.firstChild) {
       listContainer.appendChild(tempDiv.firstChild);
     }
-
     displayedPropertiesCount = end;
-
-    // Attach card listeners
     attachCardListeners();
   }
 
-  // Attach carousel and focus event listeners to horizontal sidebar cards
   function attachCardListeners() {
-    const cards = document.querySelectorAll('.property-row-card');
-
-    cards.forEach((card: any) => {
-      // 1. Carousel controls inside cards
+    document.querySelectorAll('.property-row-card').forEach((card: any) => {
       let photos: string[] = [];
-      try {
-        photos = JSON.parse(card.dataset.photos || '[]');
-      } catch(e) {}
+      try { photos = JSON.parse(card.dataset.photos || '[]'); } catch(e) {}
       let currentIdx = 0;
 
       const imgElement = card.querySelector('.row-carousel-img') as HTMLImageElement;
@@ -932,16 +1054,14 @@ const { properties } = await getProperties();
       if (imgElement && photos.length > 0) {
         if (prevBtn) {
           prevBtn.addEventListener('click', (e: Event) => {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             currentIdx = (currentIdx - 1 + photos.length) % photos.length;
             imgElement.src = photos[currentIdx];
           });
         }
         if (nextBtn) {
           nextBtn.addEventListener('click', (e: Event) => {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(); e.stopPropagation();
             currentIdx = (currentIdx + 1) % photos.length;
             imgElement.src = photos[currentIdx];
           });
@@ -950,17 +1070,12 @@ const { properties } = await getProperties();
 
       if (zoomBtn) {
         zoomBtn.addEventListener('click', (e: Event) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // Opens page details
-          const id = card.dataset.id;
-          window.location.href = `/property/${id}/`;
+          e.preventDefault(); e.stopPropagation();
+          window.location.href = `/property/${card.dataset.id}/`;
         });
       }
 
-      // 2. Click card to pan map marker & open popup
       card.addEventListener('click', (e: Event) => {
-        // Prevent click if clicking anchors/buttons inside card
         const target = e.target as HTMLElement;
         if (target.closest('a') || target.closest('button')) return;
 
@@ -969,70 +1084,52 @@ const { properties } = await getProperties();
         const lng = parseFloat(card.dataset.lng);
 
         if (!isNaN(lat) && !isNaN(lng) && map) {
-          map.setView([lat, lng], 16);
-
-          // Find corresponding marker and trigger open popup
-          const matchedMarker = activeMarkers.find(marker => marker.propertyId === propertyId);
+          map.setView([lat, lng], 17);
+          const matchedMarker = activeMarkers.find(marker => marker.propertyIds && marker.propertyIds.includes(propertyId));
           if (matchedMarker) {
             matchedMarker.openPopup();
-            // Sync index
             currentMarkerIndex = activeMarkers.indexOf(matchedMarker);
           }
         }
       });
 
-      // 3. Hover card to open map marker popup & highlight marker (highly synced interactive UX)
       card.addEventListener('mouseenter', () => {
         const propertyId = parseInt(card.dataset.id);
-        const matchedMarker = activeMarkers.find(marker => marker.propertyId === propertyId);
+        const matchedMarker = activeMarkers.find(marker => marker.propertyIds && marker.propertyIds.includes(propertyId));
         if (matchedMarker && map) {
           matchedMarker.openPopup();
-          const el = matchedMarker.getElement();
-          if (el) {
-            el.classList.add('marker-highlight');
-          }
+          matchedMarker.getElement()?.classList.add('marker-highlight');
         }
       });
 
       card.addEventListener('mouseleave', () => {
         const propertyId = parseInt(card.dataset.id);
-        const matchedMarker = activeMarkers.find(marker => marker.propertyId === propertyId);
-        if (matchedMarker) {
-          const el = matchedMarker.getElement();
-          if (el) {
-            el.classList.remove('marker-highlight');
-          }
-        }
+        const matchedMarker = activeMarkers.find(marker => marker.propertyIds && marker.propertyIds.includes(propertyId));
+        matchedMarker?.getElement()?.classList.remove('marker-highlight');
       });
     });
   }
 
-  // Navigate through marker overlays
   function navigateMarkers(direction: 'next' | 'prev') {
     if (activeMarkers.length === 0 || !map) return;
-
     if (direction === 'next') {
       currentMarkerIndex = (currentMarkerIndex + 1) % activeMarkers.length;
     } else {
       currentMarkerIndex = (currentMarkerIndex - 1 + activeMarkers.length) % activeMarkers.length;
     }
-
     const marker = activeMarkers[currentMarkerIndex];
-    map.setView(marker.getLatLng(), 16);
+    map.setView(marker.getLatLng(), 17);
     marker.openPopup();
 
-    // Scroll corresponding card in sidebar into view
-    const propertyId = marker.propertyId;
+    const propertyId = marker.propertyIds[0];
     const cardEl = document.querySelector(`.property-row-card[data-id="${propertyId}"]`);
     if (cardEl) {
       cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      // Temporary luxury highlight effect
       cardEl.classList.add('bg-refined-gold/10');
       setTimeout(() => cardEl.classList.remove('bg-refined-gold/10'), 1500);
     }
   }
 
-  // Double Range Slider logic
   function initDoubleSlider() {
     const sliderMin = document.getElementById('slider-min') as HTMLInputElement;
     const sliderMax = document.getElementById('slider-max') as HTMLInputElement;
@@ -1042,12 +1139,12 @@ const { properties } = await getProperties();
 
     if (!sliderMin || !sliderMax || !track || !label) return;
 
-    function updateSlider(this: HTMLInputElement) {
+    function updateSlider(this: any) {
       let minVal = parseInt(sliderMin.value);
       let maxVal = parseInt(sliderMax.value);
+      const isRent = filterState.operation === '2';
+      const minGap = isRent ? 100 : 50000;
 
-      // Prevent overlap crossing (maintain gap of at least 50000)
-      const minGap = 50000;
       if (maxVal - minVal < minGap) {
         if (this === sliderMin) {
           sliderMin.value = (maxVal - minGap).toString();
@@ -1058,15 +1155,16 @@ const { properties } = await getProperties();
         }
       }
 
-      // Calculate percentage positions
       const minPercent = ((minVal - parseInt(sliderMin.min)) / (parseInt(sliderMin.max) - parseInt(sliderMin.min))) * 100;
       const maxPercent = ((maxVal - parseInt(sliderMax.min)) / (parseInt(sliderMax.max) - parseInt(sliderMax.min))) * 100;
 
       track.style.left = minPercent + '%';
       track.style.right = (100 - maxPercent) + '%';
 
-      // Update text display
-      label.textContent = `USD ${new Intl.NumberFormat('es-AR').format(minVal)} - USD ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+      const symbol = filterState.currency === 'ARS' ? '$' : 'USD';
+      label.textContent = `${symbol} ${new Intl.NumberFormat('es-AR').format(minVal)} - ${symbol} ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+      filterState.priceMin = minVal;
+      filterState.priceMax = maxVal;
     }
 
     sliderMin.addEventListener('input', updateSlider);
@@ -1074,7 +1172,6 @@ const { properties } = await getProperties();
     sliderMin.addEventListener('change', () => filterAndRender());
     sliderMax.addEventListener('change', () => filterAndRender());
 
-    // Swap z-indexes dynamically depending on mouse coordinate proximity to thumb handles
     if (wrapper) {
       wrapper.addEventListener('mousemove', (e: any) => {
         const rect = wrapper.getBoundingClientRect();
@@ -1096,134 +1193,484 @@ const { properties } = await getProperties();
       });
     }
     
-    // Set initial
     updateSlider.call(sliderMin);
   }
 
-  // Map layer switching selector
+  function adjustPriceSliderRange() {
+    const sliderMin = document.getElementById('slider-min') as HTMLInputElement;
+    const sliderMax = document.getElementById('slider-max') as HTMLInputElement;
+    if (!sliderMin || !sliderMax) return;
+    
+    const isRent = filterState.operation === '2';
+    const defaultMin = isRent ? '200' : '50000';
+    const defaultMax = isRent ? '5000' : '2500000';
+    const sliderStep = isRent ? '100' : '50000';
+
+    sliderMin.min = defaultMin;
+    sliderMin.max = defaultMax;
+    sliderMin.step = sliderStep;
+    sliderMax.min = defaultMin;
+    sliderMax.max = defaultMax;
+    sliderMax.step = sliderStep;
+
+    sliderMin.value = defaultMin;
+    sliderMax.value = defaultMax;
+
+    sliderMin.dispatchEvent(new Event('input'));
+  }
+
   function initLayerSelect() {
     const select = document.getElementById('map-layer-select') as HTMLSelectElement;
     if (!select || !map) return;
-
     select.addEventListener('change', () => {
       const selected = select.value as keyof typeof layers;
-      
-      if (currentTileLayer) {
-        map.removeLayer(currentTileLayer);
-      }
-      
-      currentTileLayer = L.tileLayer(layers[selected], {
-        attribution: layersAttribution[selected]
-      }).addTo(map);
+      if (currentTileLayer) map.removeLayer(currentTileLayer);
+      currentTileLayer = L.tileLayer(layers[selected], { attribution: layersAttribution[selected] }).addTo(map);
     });
   }
 
-  // Full screen toggle helper
   function initFullscreen() {
     const btn = document.getElementById('btn-fullscreen-map');
     const mapEl = document.getElementById('map');
     if (!btn || !mapEl) return;
-
     btn.addEventListener('click', () => {
       if (!document.fullscreenElement) {
         mapEl.requestFullscreen().then(() => {
           setTimeout(() => map.invalidateSize(), 200);
-        }).catch(err => {
-          console.error("Fullscreen failed", err);
-        });
+        }).catch(err => { console.error(err); });
       } else {
         document.exitFullscreen();
       }
     });
-
     document.addEventListener('fullscreenchange', () => {
-      if (map) {
-        setTimeout(() => map.invalidateSize(), 200);
-      }
+      if (map) setTimeout(() => map.invalidateSize(), 200);
     });
   }
 
-  // Debounce helper
+  function initBarriosDropdown() {
+    const barrioContainer = document.getElementById('barrio-options-container');
+    if (!barrioContainer) return;
+    
+    const barrios = new Set<string>();
+    rawProperties.forEach((p: any) => {
+      if (p.location?.name) {
+        barrios.add(p.location.name.trim());
+      }
+    });
+    
+    const sortedBarrios = Array.from(barrios).sort((a, b) => a.localeCompare(b, 'es'));
+    let html = '';
+    sortedBarrios.forEach(b => {
+      html += `
+        <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
+          <input type="checkbox" class="filter-barrio-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" value="${b.toLowerCase()}" data-name="${b}">
+          <span>${b}</span>
+        </label>
+      `;
+    });
+    barrioContainer.innerHTML = html;
+  }
+
+  function initDynamicTags() {
+    const tagsContainer = document.getElementById('dynamic-tags-container');
+    if (!tagsContainer) return;
+
+    const allTags = new Set<string>();
+    rawProperties.forEach((p: any) => {
+      if (p.tags) {
+        p.tags.forEach((t: any) => {
+          if (t.name) allTags.add(t.name.trim());
+        });
+      }
+    });
+
+    const blacklistPattern = /(unidad|disponible|available|unit|water|electricity|gas|pavement|sewage|paved|access|intercom|phone|internet|wifi|cable|lighting)/i;
+    const filteredTags = Array.from(allTags).filter(tag => !blacklistPattern.test(tag));
+    
+    const mappedTags = filteredTags.map(tag => {
+      const lowerTag = tag.toLowerCase();
+      const translation = tagTranslations[lowerTag] || { label: tag, icon: 'tag' };
+      return { raw: tag, lower: lowerTag, label: translation.label, icon: translation.icon };
+    }).sort((a, b) => a.label.localeCompare(b, 'es'));
+
+    let html = '';
+    mappedTags.forEach(item => {
+      html += `
+        <button type="button" class="btn-more-toggle flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="${item.lower}">
+          <span class="material-symbols-outlined text-[14px]">${item.icon}</span>
+          <span>${item.label}</span>
+        </button>
+      `;
+    });
+    tagsContainer.innerHTML = html;
+  }
+
+  function attachDynamicTagListeners() {
+    const btnMoreToggles = document.querySelectorAll('.btn-more-toggle');
+    btnMoreToggles.forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-key') || '';
+        const idx = filterState.moreToggles.indexOf(key);
+        if (idx > -1) {
+          filterState.moreToggles.splice(idx, 1);
+          btn.classList.remove('bg-[#C5A059]/10', 'border-[#C5A059]', 'text-[#121212]', 'font-bold');
+          btn.classList.add('bg-pure-white', 'border-outline-variant/50', 'text-secondary');
+        } else {
+          filterState.moreToggles.push(key);
+          btn.classList.add('bg-[#C5A059]/10', 'border-[#C5A059]', 'text-[#121212]', 'font-bold');
+          btn.classList.remove('bg-pure-white', 'border-outline-variant/50', 'text-secondary');
+        }
+      });
+    });
+  }
+
+  function updatePillLabels() {
+    const opLabel = document.getElementById('pill-label-operation');
+    if (opLabel) {
+      opLabel.textContent = filterState.operation === '' ? 'Operación' : (filterState.operation === '1' ? 'Venta' : 'Alquiler');
+    }
+
+    const barrioLabel = document.getElementById('pill-label-barrio');
+    if (barrioLabel) {
+      if (filterState.barrios.length === 0) {
+        barrioLabel.textContent = 'Barrio';
+      } else if (filterState.barrios.length === 1) {
+        const chk = document.querySelector(`.filter-barrio-chk[value="${filterState.barrios[0]}"]`) as HTMLInputElement;
+        barrioLabel.textContent = chk ? chk.dataset.name : filterState.barrios[0];
+      } else {
+        const firstChk = document.querySelector(`.filter-barrio-chk[value="${filterState.barrios[0]}"]`) as HTMLInputElement;
+        const firstName = firstChk ? firstChk.dataset.name : filterState.barrios[0];
+        barrioLabel.textContent = `${firstName} +${filterState.barrios.length - 1}`;
+      }
+    }
+
+    const typeLabel = document.getElementById('pill-label-type');
+    if (typeLabel) {
+      if (filterState.types.length === 0) {
+        typeLabel.textContent = 'Propiedad';
+      } else if (filterState.types.length === 1) {
+        const chk = document.querySelector(`.filter-type-chk[value="${filterState.types[0]}"]`) as HTMLInputElement;
+        typeLabel.textContent = chk ? chk.dataset.name : filterState.types[0];
+      } else {
+        const firstChk = document.querySelector(`.filter-type-chk[value="${filterState.types[0]}"]`) as HTMLInputElement;
+        const firstName = firstChk ? firstChk.dataset.name : filterState.types[0];
+        typeLabel.textContent = `${firstName} +${filterState.types.length - 1}`;
+      }
+    }
+
+    const roomsLabel = document.getElementById('pill-label-rooms');
+    if (roomsLabel) {
+      roomsLabel.textContent = filterState.rooms ? `${filterState.rooms} Amb.` : 'Ambientes';
+    }
+
+    const bedsLabel = document.getElementById('pill-label-bedrooms');
+    if (bedsLabel) {
+      bedsLabel.textContent = filterState.bedrooms ? `${filterState.bedrooms} Dorm.` : 'Dormitorios';
+    }
+
+    const bathsLabel = document.getElementById('pill-label-bathrooms');
+    if (bathsLabel) {
+      bathsLabel.textContent = filterState.bathrooms ? `${filterState.bathrooms} Baños` : 'Baños';
+    }
+
+    const garageLabel = document.getElementById('pill-label-garage');
+    if (garageLabel) {
+      if (!filterState.garage) {
+        garageLabel.textContent = 'Cochera';
+      } else if (filterState.garage === '0') {
+        garageLabel.textContent = 'Sin Cochera';
+      } else if (filterState.garage === '1') {
+        garageLabel.textContent = '1 Cochera';
+      } else {
+        garageLabel.textContent = '2+ Cocheras';
+      }
+    }
+
+    const surfaceLabel = document.getElementById('pill-label-surface');
+    if (surfaceLabel) {
+      if (filterState.surfaceMin === null && filterState.surfaceMax === null) {
+        surfaceLabel.textContent = 'Superficie / Más';
+      } else if (filterState.surfaceMin !== null && filterState.surfaceMax !== null) {
+        surfaceLabel.textContent = `${filterState.surfaceMin}-${filterState.surfaceMax} m²`;
+      } else if (filterState.surfaceMin !== null) {
+        surfaceLabel.textContent = `> ${filterState.surfaceMin} m²`;
+      } else {
+        surfaceLabel.textContent = `< ${filterState.surfaceMax} m²`;
+      }
+    }
+  }
+
   function debounce(func: any, wait: number) {
     let timeout: any;
-    return function(...args: any[]) {
+    return function(this: any, ...args: any[]) {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
   }
 
-  // DOM listeners hooks on page load
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialise map
     initMap();
-
-    // 2. Initialise sliders
     initDoubleSlider();
-
-    // 3. Map type switcher
     initLayerSelect();
-
-    // 4. Zoom Fullscreen toggle
     initFullscreen();
+    initBarriosDropdown();
+    initDynamicTags();
+    attachDynamicTagListeners();
 
-    // 5. Connect navigation buttons next/prev markers
+    const pills = document.querySelectorAll('.filter-pill');
+    pills.forEach((pill: any) => {
+      pill.addEventListener('click', (e: Event) => {
+        e.stopPropagation();
+        const dropdownId = pill.getAttribute('data-dropdown');
+        const dropdown = document.getElementById(dropdownId);
+        const isHidden = dropdown?.classList.contains('hidden');
+        document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.add('hidden'));
+        document.querySelectorAll('.filter-pill span.material-symbols-outlined').forEach(arrow => arrow.classList.remove('rotate-180'));
+        if (isHidden && dropdown) {
+          dropdown.classList.remove('hidden');
+          pill.querySelector('span.material-symbols-outlined')?.classList.add('rotate-180');
+        }
+      });
+    });
+
+    document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
+      dropdown.addEventListener('click', (e) => { e.stopPropagation(); });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.add('hidden'));
+      document.querySelectorAll('.filter-pill span.material-symbols-outlined').forEach(arrow => arrow.classList.remove('rotate-180'));
+    });
+
+    document.querySelectorAll('.btn-select-op').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        filterState.operation = btn.getAttribute('data-val') || '';
+        document.querySelectorAll('.btn-select-op').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+        if (filterState.operation) btn.classList.add('bg-primary/10', 'text-primary');
+        btn.closest('.filter-dropdown')?.classList.add('hidden');
+        btn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+        adjustPriceSliderRange();
+        filterAndRender();
+      });
+    });
+
+    const applyBarrioBtn = document.querySelector('.btn-apply-barrio');
+    const clearBarrioBtn = document.querySelector('.btn-clear-barrio');
+    applyBarrioBtn?.addEventListener('click', () => {
+      const selected: string[] = [];
+      document.querySelectorAll('.filter-barrio-chk:checked').forEach((chk: any) => {
+        selected.push(chk.value);
+      });
+      filterState.barrios = selected;
+      applyBarrioBtn.closest('.filter-dropdown')?.classList.add('hidden');
+      applyBarrioBtn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+    clearBarrioBtn?.addEventListener('click', () => {
+      document.querySelectorAll('.filter-barrio-chk').forEach((chk: any) => { chk.checked = false; });
+      filterState.barrios = [];
+      clearBarrioBtn.closest('.filter-dropdown')?.classList.add('hidden');
+      clearBarrioBtn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+
+    const applyTypeBtn = document.querySelector('.btn-apply-type');
+    const clearTypeBtn = document.querySelector('.btn-clear-type');
+    applyTypeBtn?.addEventListener('click', () => {
+      const selected: string[] = [];
+      document.querySelectorAll('.filter-type-chk:checked').forEach((chk: any) => { selected.push(chk.value); });
+      filterState.types = selected;
+      applyTypeBtn.closest('.filter-dropdown')?.classList.add('hidden');
+      applyTypeBtn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+    clearTypeBtn?.addEventListener('click', () => {
+      document.querySelectorAll('.filter-type-chk').forEach((chk: any) => { chk.checked = false; });
+      filterState.types = [];
+      clearTypeBtn.closest('.filter-dropdown')?.classList.add('hidden');
+      clearTypeBtn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+
+    document.querySelectorAll('.btn-currency-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.btn-currency-toggle').forEach(b => {
+          b.classList.remove('bg-primary', 'text-pure-white');
+          b.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50', 'hover:border-refined-gold');
+        });
+        btn.classList.add('bg-primary', 'text-pure-white');
+        btn.classList.remove('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
+        filterState.currency = btn.getAttribute('data-val') || 'USD';
+        adjustPriceSliderRange();
+        filterAndRender();
+      });
+    });
+
+    document.querySelector('.btn-apply-price')?.addEventListener('click', (e: any) => {
+      e.target.closest('.filter-dropdown')?.classList.add('hidden');
+      e.target.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+
+    document.querySelectorAll('.btn-select-rooms').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        filterState.rooms = btn.getAttribute('data-val') || '';
+        document.querySelectorAll('.btn-select-rooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+        if (filterState.rooms) btn.classList.add('bg-primary/10', 'text-primary');
+        btn.closest('.filter-dropdown')?.classList.add('hidden');
+        btn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+        filterAndRender();
+      });
+    });
+
+    document.querySelectorAll('.btn-select-bedrooms').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        filterState.bedrooms = btn.getAttribute('data-val') || '';
+        document.querySelectorAll('.btn-select-bedrooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+        if (filterState.bedrooms) btn.classList.add('bg-primary/10', 'text-primary');
+        btn.closest('.filter-dropdown')?.classList.add('hidden');
+        btn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+        filterAndRender();
+      });
+    });
+
+    document.querySelectorAll('.btn-select-bathrooms').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        filterState.bathrooms = btn.getAttribute('data-val') || '';
+        document.querySelectorAll('.btn-select-bathrooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+        if (filterState.bathrooms) btn.classList.add('bg-primary/10', 'text-primary');
+        btn.closest('.filter-dropdown')?.classList.add('hidden');
+        btn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+        filterAndRender();
+      });
+    });
+
+    document.querySelectorAll('.btn-select-garage').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        filterState.garage = btn.getAttribute('data-val') || '';
+        document.querySelectorAll('.btn-select-garage').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+        if (filterState.garage) btn.classList.add('bg-primary/10', 'text-primary');
+        btn.closest('.filter-dropdown')?.classList.add('hidden');
+        btn.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+        filterAndRender();
+      });
+    });
+
+    const surfaceMinInput = document.getElementById('filter-surface-min') as HTMLInputElement;
+    const surfaceMaxInput = document.getElementById('filter-surface-max') as HTMLInputElement;
+    surfaceMinInput?.addEventListener('input', () => { filterState.surfaceMin = surfaceMinInput.value ? parseFloat(surfaceMinInput.value) : null; });
+    surfaceMaxInput?.addEventListener('input', () => { filterState.surfaceMax = surfaceMaxInput.value ? parseFloat(surfaceMaxInput.value) : null; });
+
+    document.getElementById('btn-apply-more')?.addEventListener('click', (e: any) => {
+      e.target.closest('.filter-dropdown')?.classList.add('hidden');
+      e.target.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+
+    document.getElementById('btn-clear-more')?.addEventListener('click', (e: any) => {
+      filterState.surfaceMin = null;
+      filterState.surfaceMax = null;
+      if (surfaceMinInput) surfaceMinInput.value = '';
+      if (surfaceMaxInput) surfaceMaxInput.value = '';
+      filterState.moreToggles = [];
+      document.querySelectorAll('.btn-more-toggle').forEach((btn: any) => {
+        btn.classList.remove('bg-[#C5A059]/10', 'border-[#C5A059]', 'text-[#121212]', 'font-bold');
+        btn.classList.add('bg-pure-white', 'border-outline-variant/50', 'text-secondary');
+      });
+      e.target.closest('.filter-dropdown')?.classList.add('hidden');
+      e.target.closest('.filter-pill-wrapper')?.querySelector('.filter-pill span.material-symbols-outlined')?.classList.remove('rotate-180');
+      filterAndRender();
+    });
+
+    const keywordInput = document.getElementById('filter-keyword') as HTMLInputElement;
+    const clearKeywordBtn = document.getElementById('btn-clear-keyword');
+    if (keywordInput) {
+      keywordInput.addEventListener('input', debounce(() => {
+        filterState.keyword = keywordInput.value;
+        if (clearKeywordBtn) {
+          if (keywordInput.value) clearKeywordBtn.classList.remove('hidden');
+          else clearKeywordBtn.classList.add('hidden');
+        }
+        filterAndRender();
+      }, 300));
+    }
+    if (clearKeywordBtn && keywordInput) {
+      clearKeywordBtn.addEventListener('click', () => {
+        keywordInput.value = '';
+        filterState.keyword = '';
+        clearKeywordBtn.classList.add('hidden');
+        filterAndRender();
+      });
+    }
+
     document.getElementById('btn-next-marker')?.addEventListener('click', () => navigateMarkers('next'));
     document.getElementById('btn-prev-marker')?.addEventListener('click', () => navigateMarkers('prev'));
 
-    // 6. Connect query search and clear buttons
-    document.getElementById('btn-submit-search')?.addEventListener('click', () => {
-      filterAndRender();
-    });
-
     document.getElementById('btn-clear-search')?.addEventListener('click', () => {
-      // Clear values
-      (document.getElementById('filter-keyword') as HTMLInputElement).value = '';
-      (document.getElementById('filter-operation') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-barrio') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-type') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-bedrooms') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-rooms') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-bathrooms') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-garage') as HTMLSelectElement).value = '';
-      (document.getElementById('filter-currency') as HTMLSelectElement).value = '';
-      
+      if (keywordInput) keywordInput.value = '';
+      filterState.keyword = '';
+      clearKeywordBtn?.classList.add('hidden');
+
+      filterState.operation = '';
+      document.querySelectorAll('.btn-select-op').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+
+      filterState.barrios = [];
+      document.querySelectorAll('.filter-barrio-chk').forEach((chk: any) => { chk.checked = false; });
+
+      filterState.types = [];
+      document.querySelectorAll('.filter-type-chk').forEach((chk: any) => { chk.checked = false; });
+
+      filterState.currency = 'USD';
+      document.querySelectorAll('.btn-currency-toggle').forEach(b => {
+        b.classList.remove('bg-primary', 'text-pure-white');
+        b.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50', 'hover:border-refined-gold');
+      });
+      document.querySelector('.btn-currency-toggle[data-val="USD"]')?.classList.add('bg-primary', 'text-pure-white');
+
       const sliderMin = document.getElementById('slider-min') as HTMLInputElement;
       const sliderMax = document.getElementById('slider-max') as HTMLInputElement;
       if (sliderMin && sliderMax) {
-        sliderMin.value = sliderMin.min;
-        sliderMax.value = sliderMax.max;
-        // trigger update slider track position
-        sliderMin.dispatchEvent(new Event('input'));
+        sliderMin.value = '200';
+        sliderMax.value = '2500000';
       }
+      adjustPriceSliderRange();
+
+      filterState.rooms = '';
+      document.querySelectorAll('.btn-select-rooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+
+      filterState.bedrooms = '';
+      document.querySelectorAll('.btn-select-bedrooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+
+      filterState.bathrooms = '';
+      document.querySelectorAll('.btn-select-bathrooms').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+
+      filterState.garage = '';
+      document.querySelectorAll('.btn-select-garage').forEach(b => b.classList.remove('bg-primary/10', 'text-primary'));
+
+      filterState.surfaceMin = null;
+      filterState.surfaceMax = null;
+      if (surfaceMinInput) surfaceMinInput.value = '';
+      if (surfaceMaxInput) surfaceMaxInput.value = '';
+
+      filterState.moreToggles = [];
+      document.querySelectorAll('.btn-more-toggle').forEach((btn: any) => {
+        btn.classList.remove('bg-[#C5A059]/10', 'border-[#C5A059]', 'text-[#121212]', 'font-bold');
+        btn.classList.add('bg-pure-white', 'border-outline-variant/50', 'text-secondary');
+      });
 
       filterAndRender();
     });
 
-    // Auto trigger filtering on filters selection change (optimizing UX)
-    const selectFilters = document.querySelectorAll('select');
-    selectFilters.forEach(select => {
-      select.addEventListener('change', () => filterAndRender());
-    });
-
-    // Debounced real-time filter search on keyword text box type input
-    const keywordInput = document.getElementById('filter-keyword');
-    if (keywordInput) {
-      keywordInput.addEventListener('input', debounce(filterAndRender, 250));
-    }
-
-    // Infinite Scroll detection hook on window scroll
     window.addEventListener('scroll', () => {
       if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200)) {
         loadNextBatch();
       }
     });
 
-    // Mobile toggle view button click handler
     const toggleBtn = document.getElementById('btn-mobile-view-toggle');
     const mainContainer = document.getElementById('map-page-main');
     const toggleIcon = document.getElementById('toggle-view-icon');
     const toggleText = document.getElementById('toggle-view-text');
-    
     if (toggleBtn && mainContainer && toggleIcon && toggleText) {
       toggleBtn.addEventListener('click', () => {
         if (mainContainer.classList.contains('mobile-list-active')) {
@@ -1231,9 +1678,7 @@ const { properties } = await getProperties();
           mainContainer.classList.add('mobile-map-active');
           toggleIcon.textContent = 'list';
           toggleText.textContent = 'Ver Lista';
-          if (map) {
-            setTimeout(() => map.invalidateSize(), 150);
-          }
+          if (map) setTimeout(() => map.invalidateSize(), 150);
         } else {
           mainContainer.classList.remove('mobile-map-active');
           mainContainer.classList.add('mobile-list-active');
@@ -1243,11 +1688,6 @@ const { properties } = await getProperties();
       });
     }
 
-    // Keep map sizes always synchronized and resized properly
-    window.addEventListener('resize', () => {
-      if (map) {
-        map.invalidateSize();
-      }
-    });
+    window.addEventListener('resize', () => { if (map) map.invalidateSize(); });
   });
 </script>
