@@ -19,30 +19,34 @@ const { isDarkHero = false } = Astro.props;
         <a href="/" class="flex items-center gap-4">
             <img 
               id="logo-img" 
-              alt="MUV Propiedades Logo" 
+              alt="MUV Propiedades Icon" 
               class:list={[
                 "h-9 w-auto object-contain transition-all duration-300",
                 isDarkHero ? "brightness-0 invert" : "brightness-0"
               ]}
-              src={isDarkHero ? "/assets/imgi_75_MUV-WEB_LOGO-2.png" : "/assets/iso_muv.png"}
+              src="/assets/iso_muv.png"
             />
         </a>
         <div class="hidden md:flex items-center space-x-8">
-            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar?operation_id=1">Venta</a>
-            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar?operation_id=2">Alquiler</a>
-            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/mapa">Mapa</a>
-            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/quienes-somos">Quienes Somos</a>
-            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/contacto">Contacto</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar/?operation_id=1">Venta</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/emprendimientos/">Emprendimientos</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/tasaciones/">Tasaciones</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/quienes-somos/">Quienes Somos</a>
+            <a class="font-label-lg text-label-lg uppercase hover:text-refined-gold transition-colors" href="/contacto/">Contacto</a>
             <a 
-              href="/contacto" 
+              href="https://wa.me/5491122862000" 
+              target="_blank" 
+              rel="noopener noreferrer"
               class:list={[
-                "px-6 py-2 rounded font-label-lg text-label-lg transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs",
+                "flex items-center gap-1.5 px-5 py-2 rounded font-label-lg text-label-lg transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs font-bold",
                 isDarkHero 
                   ? "bg-pure-white text-primary hover:bg-refined-gold hover:text-pure-white"
                   : "bg-primary text-pure-white hover:bg-refined-gold hover:text-primary"
               ]}
             >
-                Vender
+                <span class="material-symbols-outlined text-[18px]">call</span>
+                <span>11 2286 2000</span>
             </a>
         </div>
         <div class="md:hidden">
@@ -66,13 +70,20 @@ const { isDarkHero = false } = Astro.props;
             <span class="font-headline-md text-primary font-bold">MUV</span>
             <span class="material-symbols-outlined cursor-pointer text-primary" id="menu-close">close</span>
         </div>
-        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar?operation_id=1">Venta</a>
-        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar?operation_id=2">Alquiler</a>
-        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/mapa">Mapa</a>
-        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/quienes-somos">Quienes Somos</a>
-        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/contacto">Contacto</a>
-        <a href="/contacto" class="bg-primary text-pure-white px-6 py-3 rounded text-center uppercase font-label-lg text-label-lg tracking-wider text-xs">
-            Vender
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=1">Venta</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/emprendimientos/">Emprendimientos</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/tasaciones/">Tasaciones</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/quienes-somos/">Quienes Somos</a>
+        <a class="font-label-lg text-label-lg uppercase text-secondary hover:text-primary transition-colors" href="/contacto/">Contacto</a>
+        <a 
+          href="https://wa.me/5491122862000" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="bg-primary text-pure-white px-6 py-3 rounded text-center uppercase font-label-lg text-label-lg tracking-wider text-xs flex items-center justify-center gap-2"
+        >
+            <span class="material-symbols-outlined text-[18px]">call</span>
+            <span>11 2286 2000</span>
         </a>
     </div>
 </div>
@@ -83,11 +94,9 @@ const { isDarkHero = false } = Astro.props;
     const logoImg = document.getElementById('logo-img');
     if (logoImg) {
       if (window.scrollY > 50) {
-        logoImg.src = "/assets/iso_muv.png";
         logoImg.classList.add('brightness-0');
         logoImg.classList.remove('invert');
       } else {
-        logoImg.src = "/assets/imgi_75_MUV-WEB_LOGO-2.png";
         logoImg.classList.add('brightness-0', 'invert');
       }
     }
@@ -101,7 +110,6 @@ const { isDarkHero = false } = Astro.props;
         if (window.scrollY > 50) {
             topNav.classList.add('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
             topNav.classList.remove('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
-            logoImg.src = "/assets/iso_muv.png";
             logoImg.classList.add('brightness-0');
             logoImg.classList.remove('invert');
             if (menuToggle) {
@@ -111,7 +119,6 @@ const { isDarkHero = false } = Astro.props;
         } else {
             topNav.classList.add('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
             topNav.classList.remove('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
-            logoImg.src = "/assets/imgi_75_MUV-WEB_LOGO-2.png";
             logoImg.classList.add('brightness-0', 'invert');
             if (menuToggle) {
               menuToggle.classList.remove('text-primary');

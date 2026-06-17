@@ -69,7 +69,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 <!-- Search Container -->
                 <form 
                   id="hero-search-form" 
-                  action="/buscar" 
+                  action="/buscar/" 
                   method="GET" 
                   class="bg-pure-white shadow-2xl rounded-2xl rounded-tl-none p-4 md:px-6 md:py-4 border border-outline-variant/25 text-left relative z-25"
                 >
@@ -287,7 +287,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </div>
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
-                <a href="/buscar?q=Belgrano" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Belgrano" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Belgrano" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -304,7 +304,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 3: Palermo -->
-                <a href="/buscar?q=Palermo" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Palermo" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Palermo" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -321,7 +321,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 4: Recoleta -->
-                <a href="/buscar?q=Recoleta" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Recoleta" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Recoleta" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -338,7 +338,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 5: Puerto Madero -->
-                <a href="/buscar?q=Puerto%20Madero" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Puerto%20Madero" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Puerto Madero" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -355,7 +355,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 6: Villa Urquiza -->
-                <a href="/buscar?q=Villa%20Urquiza" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Villa%20Urquiza" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Villa Urquiza" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -372,7 +372,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 7: Colegiales -->
-                <a href="/buscar?q=Colegiales" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Colegiales" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Colegiales" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -389,7 +389,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 8: Núñez -->
-                <a href="/buscar?q=Núñez" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/buscar/?q=Núñez" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Núñez" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -639,7 +639,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
       const value = btn.getAttribute('data-value');
       if (value === 'emprendimientos') {
         if (opInput) opInput.disabled = true;
-        if (searchForm) searchForm.action = '/listado-emprendimientos';
+        if (searchForm) searchForm.action = '/emprendimientos/';
         if (propTypeSelect) propTypeSelect.disabled = true;
         if (segmentPropType) segmentPropType.classList.add('opacity-40', 'pointer-events-none');
       } else {
@@ -647,7 +647,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
           opInput.disabled = false;
           opInput.value = value || '1';
         }
-        if (searchForm) searchForm.action = '/buscar';
+        if (searchForm) searchForm.action = '/buscar/';
         if (propTypeSelect) propTypeSelect.disabled = false;
         if (segmentPropType) segmentPropType.classList.remove('opacity-40', 'pointer-events-none');
       }

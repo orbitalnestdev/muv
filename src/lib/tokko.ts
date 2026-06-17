@@ -491,6 +491,44 @@ export async function getDevelopmentById(id: number | string): Promise<Developme
 }
 
 export async function getPropertiesByDevelopmentId(devId: number | string): Promise<Property[]> {
-  await ensureCatalogLoaded();
-  return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
+  if (!TOKKO_API_KEY) {
+    await ensureCatalogLoaded();
+    return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
+  }
+
+  try {
+    const limit = 100;
+    let offset = 0;
+    let fetchedAll = false;
+    let results: Property[] = [];
+    
+    while (!fetchedAll) {
+      const response = await axios.get('https://www.tokkobroker.com/api/v1/property/', {
+        params: {
+          key: TOKKO_API_KEY,
+          format: 'json',
+          development__id: Number(devId),
+          limit,
+          offset
+        }
+      });
+      
+      const data = response.data;
+      if (data && data.objects && data.objects.length > 0) {
+        results = results.concat(data.objects);
+        offset += limit;
+        if (results.length >= data.meta.total_count || data.objects.length < limit) {
+          fetchedAll = true;
+        }
+      } else {
+        fetchedAll = true;
+      }
+    }
+    return results;
+  } catch (err: any) {
+    console.error(`Error fetching properties for development ${devId}:`, err.message);
+    await ensureCatalogLoaded();
+    return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
+  }
 }
+

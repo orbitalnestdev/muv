@@ -120,7 +120,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         </button>
 
         <!-- Image Link -->
-        <a href={`/propiedades/${id}`} class="block w-full h-full">
+        <a href={`/property/${id}/`} class="block w-full h-full">
             <img 
               class="carousel-img card-img w-full h-full object-cover" 
               loading="lazy" 
@@ -138,7 +138,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
 
             <!-- Title / Address -->
             <h3 class="font-headline text-sm md:text-base text-primary font-bold leading-snug truncate max-w-full">
-                <a href={`/propiedades/${id}`} class="hover:text-refined-gold transition-colors">
+                <a href={`/property/${id}/`} class="hover:text-refined-gold transition-colors">
                   {address || publication_title}
                 </a>
             </h3>

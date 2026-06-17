@@ -1,0 +1,476 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import { getPropertyById, getProperties } from '../../lib/tokko';
+
+const { id } = Astro.params;
+
+// Fetch property data at request-time (SSR)
+const property = await getPropertyById(Number(id));
+
+// Handle missing property state
+if (!property) {
+  return Astro.redirect('/buscar/');
+}
+
+const {
+  publication_title,
+  address,
+  description,
+  bathroom_amount,
+  room_amount,
+  suite_amount, // bedrooms
+  total_surface,
+  covered_surface,
+  surface,
+  parking_lot_amount,
+  is_starred_on_web,
+  operations,
+  location,
+  photos = [],
+  tags = [],
+  expenses,
+  toilet_amount,
+  age,
+  orientation
+} = property;
+
+// Format Price
+const op = operations?.[0];
+const price = op?.prices?.[0];
+const priceText = price 
+  ? `${price.currency} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` 
+  : 'Consultar';
+
+// Format Expensas Text (mockup layout: "+ USD 45.000 Expensas")
+const expensesText = expenses && Number(expenses) > 0 
+  ? `+ USD ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(expenses)} Expensas` 
+  : '';
+
+// Format Badges
+let badgeText = 'VENTA';
+let badgeClass = 'bg-[#C5A880]';
+
+if (is_starred_on_web) {
+  badgeText = 'DESTACADO';
+  badgeClass = 'bg-[#C5A059]';
+} else if (op) {
+  const opType = op.operation_type.toUpperCase();
+  if (opType.includes('ALQ') || opType.includes('RENT')) {
+    badgeText = 'ALQUILER';
+    badgeClass = 'bg-black';
+  } else if (opType.includes('TEMP')) {
+    badgeText = 'TEMPORARIO';
+    badgeClass = 'bg-black';
+  }
+}
+
+// Format Specs
+const beds = suite_amount || 0;
+const baths = (bathroom_amount || 0) + (toilet_amount || 0);
+const rooms = room_amount || 0;
+const garage = parking_lot_amount || 0;
+const totalSurface = total_surface || covered_surface || surface || '0';
+
+const photosList = photos.length > 0 ? photos.map(p => p.image) : [];
+
+// Categorize tags/amenities into Services and Amenities lists
+const serviceKeywords = ['agua', 'luz', 'gas', 'cloaca', 'internet', 'electricidad', 'pavimento', 'desague', 'telefono', 'cable', 'corriente', 'servicio'];
+const serviciosTags = tags.filter(tag => 
+  serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+);
+const amenitiesTags = tags.filter(tag => 
+  !serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+);
+
+// Fallbacks if lists are empty (mockup list content matching screenshot)
+const defaultServices = [
+  { name: 'Agua Corriente' },
+  { name: 'Cloaca' },
+  { name: 'Gas Natural' },
+  { name: 'Internet' },
+  { name: 'Electricidad' },
+  { name: 'Pavimento' }
+];
+const defaultAmenities = [
+  { name: 'Piscina' },
+  { name: 'Gimnasio' },
+  { name: 'SUM' },
+  { name: 'Parrilla' },
+  { name: 'Seguridad 24hs' },
+  { name: 'Solarium' }
+];
+
+// Fetch 2 similar properties for the bottom section (matches mockup 2 cards layout)
+const { properties: allProps } = await getProperties();
+const similarProperties = allProps
+  .filter(p => p.id !== Number(id))
+  .slice(0, 2);
+
+// JSON-LD structured data for Real Estate Listings SEO
+const schemaJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "name": publication_title,
+  "description": description,
+  "datePosted": new Date().toISOString(),
+  "offers": {
+    "@type": "Offer",
+    "price": price?.price || "0",
+    "priceCurrency": price?.currency || "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": address,
+    "addressLocality": location?.name || "Buenos Aires",
+    "addressCountry": "AR"
+  }
+};
+
+// Compute technical specs details
+const hasAC = tags.some(t => t.name.toLowerCase().includes('aire') || t.name.toLowerCase().includes('split')) || description.toLowerCase().includes('aire acondicionado') || description.toLowerCase().includes('split') ? 'Sí' : 'No';
+const hasAguaCaliente = tags.some(t => t.name.toLowerCase().includes('agua caliente') || t.name.toLowerCase().includes('caldera') || t.name.toLowerCase().includes('termotanque')) || description.toLowerCase().includes('agua caliente') || description.toLowerCase().includes('termotanque') ? 'Sí' : 'No';
+const hasBaulera = tags.some(t => t.name.toLowerCase().includes('baulera')) || description.toLowerCase().includes('baulera') ? 'Sí' : 'No';
+const isAptoComercial = tags.some(t => t.name.toLowerCase().includes('comercial') || t.name.toLowerCase().includes('apto profesional')) || description.toLowerCase().includes('apto comercial') || description.toLowerCase().includes('apto profesional') ? 'Sí' : 'No';
+const isLuminoso = tags.some(t => t.name.toLowerCase().includes('luminoso') || t.name.toLowerCase().includes('vista')) || description.toLowerCase().includes('luminoso') || description.toLowerCase().includes('vista abierta') ? 'Sí' : 'No';
+const hasAscensor = tags.some(t => t.name.toLowerCase().includes('ascensor') || t.name.toLowerCase().includes('elevador')) || description.toLowerCase().includes('ascensor') ? 'Sí' : 'No';
+const semiSurface = property.semiroofed_surface ? `${Number(property.semiroofed_surface).toFixed(2)} M2` : '0.00 M2';
+const uncoveredSurface = property.unroofed_surface ? `${Number(property.unroofed_surface).toFixed(2)} M2` : '0.00 M2';
+const totalM2Text = totalSurface ? `${Number(totalSurface).toFixed(2)} M2` : '0.00 M2';
+const coveredM2Text = covered_surface ? `${Number(covered_surface).toFixed(2)} M2` : totalM2Text;
+---
+
+<MainLayout 
+  title={`${publication_title} | MUV Propiedades`} 
+  description={`${publication_title} - ${priceText}. ${description.substring(0, 150)}...`}
+  isDarkHero={false}
+>
+    <!-- Inject Schema JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaJsonLd)} slot="head" />
+
+    <main class="pt-24 min-h-[70vh] bg-surface select-none pb-24">
+        
+        <!-- Breadcrumbs & Share/Fav Bar -->
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="flex justify-between items-center py-6 border-b border-outline-variant/15 mb-6">
+                <nav class="flex items-center space-x-2 text-label-sm font-label-sm text-secondary text-left font-sans">
+                    <a class="hover:text-primary transition-colors font-semibold" href="/">Inicio</a>
+                    <span class="text-secondary/60 text-xs font-bold font-sans">&gt;</span>
+                    <a class="hover:text-primary transition-colors font-semibold" href="/buscar/">Residenciales</a>
+                    <span class="text-secondary/60 text-xs font-bold font-sans">&gt;</span>
+                    <span class="text-on-surface truncate font-semibold">{address || publication_title}</span>
+                </nav>
+                <div class="flex gap-2">
+                    <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:text-refined-gold hover:border-refined-gold transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir propiedad">
+                        <span class="material-symbols-outlined text-[20px]">share</span>
+                    </button>
+                    <button id="btn-favorite" data-id={id} class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:text-[#e056fd] hover:border-[#e056fd] transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Agregar a Favoritos">
+                        <span class="material-symbols-outlined text-[20px]">favorite</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title, Address & Price Header -->
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 text-left font-sans">
+                <div class="space-y-2.5">
+                    <h1 class="font-headline text-3xl md:text-4xl text-primary font-bold leading-tight tracking-tight">
+                        {address || publication_title}
+                    </h1>
+                    
+                    <p class="text-secondary flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                        <span class="material-symbols-outlined text-refined-gold text-[16px]">location_on</span>
+                        <span>{address} {location?.name ? `, ${location.name}` : ''}</span>
+                    </p>
+                    
+                    <div class="flex flex-wrap items-center gap-2 pt-1 select-none">
+                        <span class="bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                            {badgeText}
+                        </span>
+                        {is_starred_on_web && (
+                            <span class="bg-black/10 text-black border border-black/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                                DESTACADO
+                            </span>
+                        )}
+                    </div>
+                </div>
+                
+                <div class="text-left md:text-right shrink-0 pt-2 md:pt-0">
+                    <span class="font-headline text-3xl md:text-4xl font-bold text-primary block leading-none">{priceText}</span>
+                    {expensesText && (
+                        <span class="text-xs font-semibold text-secondary/80 tracking-wide font-sans mt-2 block">{expensesText}</span>
+                    )}
+                </div>
+            </div>
+        </div>
+
+        <!-- High-Quality Image Gallery Grid (Mockup 3-photo grid inside Gallery component) -->
+        <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-6 select-none">
+            <Gallery photos={photosList} title={publication_title} />
+        </section>
+
+        <!-- Horizontal Specs Bar (Mockup Style) -->
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-12">
+            <div class="bg-pure-white border border-outline-variant/30 rounded-xl shadow-sm grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-outline-variant/30 text-center py-6 select-none font-sans">
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">apartment</span>
+                    <span class="text-sm font-bold text-primary mt-1">{property.type?.name || 'Departamento'}</span>
+                </div>
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">meeting_room</span>
+                    <span class="text-sm font-bold text-primary mt-1">{rooms} {rooms === 1 ? 'ambiente' : 'ambientes'}</span>
+                </div>
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bed</span>
+                    <span class="text-sm font-bold text-primary mt-1">{beds} {beds === 1 ? 'dormitorio' : 'dormitorios'}</span>
+                </div>
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bathtub</span>
+                    <span class="text-sm font-bold text-primary mt-1">{baths} {baths === 1 ? 'baño' : 'baños'}</span>
+                </div>
+                <div class="flex flex-col py-2 md:py-0 col-span-2 md:col-span-1 border-t md:border-t-0 items-center justify-center">
+                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">square_foot</span>
+                    <span class="text-sm font-bold text-primary mt-1">{totalSurface} M2 de Sup. Total</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full-Width Stacked Sections -->
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop space-y-16">
+            
+            <!-- Description -->
+            <section class="space-y-4 font-sans text-left">
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Propiedad</h3>
+                <p class="font-body text-[15px] text-[#545F72] leading-relaxed whitespace-pre-line">
+                    {description}
+                </p>
+            </section>
+
+            <!-- Ubicación -->
+            <section class="space-y-6 font-sans text-left">
+                <div class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
+                    <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Ubicación</h3>
+                    <a 
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address || location?.name || 'Buenos Aires')}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      class="bg-black text-pure-white hover:bg-[#C5A059] transition-colors px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 cursor-pointer"
+                    >
+                        <span class="material-symbols-outlined text-[16px]">map</span>
+                        <span>Abrir en Google Maps</span>
+                    </a>
+                </div>
+                
+                <p class="text-[#747878] font-bold text-sm uppercase tracking-wide">
+                    {address} {location?.name ? `, ${location.name}` : ''}
+                </p>
+                
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
+                        Excelente Ubicación
+                    </span>
+                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
+                        Acceso a Transportes
+                    </span>
+                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
+                        Zona Residencial
+                    </span>
+                </div>
+
+                <div class="relative w-full h-[400px] rounded-xl overflow-hidden border border-outline-variant/35 bg-surface-container shadow-sm mt-4">
+                    <iframe 
+                      class="w-full h-full border-0 brightness-[0.98] contrast-[1.02]" 
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(address || location?.name || 'Buenos Aires')}&t=&z=14&ie=UTF8&iwloc=&output=embed`} 
+                      loading="lazy" 
+                      allowfullscreen
+                    ></iframe>
+                </div>
+            </section>
+
+            <!-- Detalles (Technical specs box - Blue mockup style) -->
+            <section class="space-y-6 font-sans text-left">
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Detalles</h3>
+                
+                <div class="bg-[#F4F9FF] border border-[#CCE2FF] rounded-xl p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-5 text-sm font-semibold">
+                        <!-- Col 1 -->
+                        <div class="space-y-4">
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Aire Acondicionado</span>
+                                <span class="text-primary font-bold">{hasAC}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Superficie cubierta</span>
+                                <span class="text-primary font-bold">{coveredM2Text}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Agua Caliente</span>
+                                <span class="text-primary font-bold">{hasAguaCaliente}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Baños</span>
+                                <span class="text-primary font-bold">{baths}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Cantidad Dormitorios</span>
+                                <span class="text-primary font-bold">{beds}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Superficie total</span>
+                                <span class="text-primary font-bold">{totalM2Text}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Superficie semicubierta</span>
+                                <span class="text-primary font-bold">{semiSurface}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Superficie descubierta adicional</span>
+                                <span class="text-primary font-bold">{uncoveredSurface}</span>
+                            </div>
+                        </div>
+                        <!-- Col 2 -->
+                        <div class="space-y-4">
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Baulera</span>
+                                <span class="text-primary font-bold">{hasBaulera}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Total construido</span>
+                                <span class="text-primary font-bold">{totalM2Text}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Ascensores</span>
+                                <span class="text-primary font-bold">{hasAscensor}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Apto Comercial</span>
+                                <span class="text-primary font-bold">{isAptoComercial}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Luminoso / buena vista</span>
+                                <span class="text-primary font-bold">{isLuminoso}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Buen estado general</span>
+                                <span class="text-primary font-bold">{property.property_condition || 'Excelente'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                                <span class="text-secondary/80">Superficie descubierta</span>
+                                <span class="text-primary font-bold">{uncoveredSurface}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Characteristics & Amenities -->
+            <section class="space-y-6 font-sans text-left">
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características & Amenities</h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    {(tags.length > 0 ? tags : defaultServices.concat(defaultAmenities)).map((t) => (
+                        <div class="flex items-center gap-2.5 text-secondary text-sm font-semibold py-1">
+                            <span class="text-refined-gold font-bold text-[16px]">✓</span>
+                            <span>{t.name}</span>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            <!-- Contact/Inquiry Lead Section (Centered Full-Width style) -->
+            <section class="pt-8 border-t border-outline-variant/10 text-left">
+                <div class="max-w-2xl mx-auto">
+                    <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider mb-6 text-center">Consultar por esta Propiedad</h3>
+                    <LeadForm propertyId={Number(id)} propertyTitle={publication_title} />
+                </div>
+            </section>
+
+            <!-- Similar Properties Section (Mockup 2-column cards layout) -->
+            {similarProperties.length > 0 && (
+                <section class="py-12 border-t border-outline-variant/10 select-none">
+                    <div class="flex justify-between items-end mb-10">
+                        <div class="text-left space-y-1.5 font-sans">
+                            <span class="text-refined-gold font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
+                            <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Propiedades Similares</h2>
+                        </div>
+                        <a href="/buscar/" class="text-xs font-bold font-sans text-secondary hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-widest">
+                            <span>Ver todas</span>
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                        </a>
+                    </div>
+
+                    <!-- 2 card grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {similarProperties.map((prop) => (
+                            <PropertyCard property={prop} />
+                        ))}
+                    </div>
+                </section>
+            )}
+        </div>
+
+        <!-- Floating WhatsApp Contact CTA Button -->
+        <a 
+          href={`https://wa.me/5491122862000?text=Hola,%20me%20interesa%20la%20propiedad%20${encodeURIComponent(publication_title)}%20(ID:%20${id})%20que%20vi%20en%20el%20sitio%20web.`} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-pure-white px-6 py-4 rounded-full font-sans text-xs font-bold uppercase tracking-widest shadow-lg hover:bg-[#20ba5a] active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+        >
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.982L2 22l5.233-1.371a9.994 9.994 0 004.78 1.218h.004c5.502 0 9.981-4.479 9.982-9.985A9.97 9.97 0 0012.012 2zm5.72 14.158c-.249.704-1.444 1.353-1.996 1.412-.5.053-1.15.084-3.355-.785-2.82-1.11-4.636-3.977-4.777-4.163-.14-.186-1.139-1.517-1.139-2.89 0-1.373.72-2.048 1.002-2.33.282-.282.61-.353.812-.353h.582c.186 0 .436-.07.68.517.25.597.854 2.083.928 2.235.074.152.124.33.023.533-.1.203-.152.33-.3.504-.15.172-.315.386-.45.517-.15.148-.306.31-.132.61.173.3.77 1.27 1.657 2.059.81.71 1.488.93 1.698 1.037.21.107.33.09.454-.052.124-.144.53-.618.67-.83.14-.21.282-.178.477-.107.195.07 1.24.585 1.455.693.215.108.358.162.41.25.05.09.05.518-.2.1.222zm0 0"/>
+            </svg>
+            <span>Enviar WhatsApp</span>
+        </a>
+    </main>
+
+    <script is:inline>
+      // Micro-interactions for sharing and liking
+      const shareBtn = document.getElementById('btn-share');
+      shareBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(window.location.href);
+        alert('¡Enlace de la propiedad copiado al portapapeles!');
+      });
+
+      const favBtn = document.getElementById('btn-favorite');
+      const propertyId = favBtn?.dataset.id || '';
+      if (favBtn) {
+        const icon = favBtn.querySelector('.material-symbols-outlined');
+        const favKey = `muv_fav_${propertyId}`;
+        let isSaved = localStorage.getItem(favKey) === 'true';
+        
+        const updateFavStyle = () => {
+          if (icon) {
+            if (isSaved) {
+              icon.classList.add('filled-icon');
+              favBtn.style.color = '#e056fd';
+              favBtn.style.borderColor = '#e056fd';
+            } else {
+              icon.classList.remove('filled-icon');
+              favBtn.style.color = '';
+              favBtn.style.borderColor = '';
+            }
+          }
+        };
+        
+        updateFavStyle();
+        
+        favBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          isSaved = !isSaved;
+          localStorage.setItem(favKey, isSaved ? 'true' : 'false');
+          updateFavStyle();
+        });
+      }
+    </script>
+</MainLayout>
+
+<style is:global>
+  .filled-icon {
+    font-variation-settings: 'FILL' 1 !important;
+  }
+</style>

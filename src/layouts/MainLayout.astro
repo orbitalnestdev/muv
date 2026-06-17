@@ -31,9 +31,30 @@ const {
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body class="bg-background text-on-background font-body-md overflow-x-hidden relative">
+    <!-- Premium Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-[#121212] z-[99999] flex items-center justify-center opacity-100" style="transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div class="relative flex flex-col items-center">
+            <!-- Spinner and Logo Group -->
+            <div class="relative w-24 h-24 flex items-center justify-center">
+                <!-- Outer elegant spinning golden ring -->
+                <div class="absolute inset-0 rounded-full border border-[#C5A059]/20 border-t-[#C5A059] animate-spin-slow"></div>
+                
+                <!-- Inner isotype logo with pulse scaling -->
+                <img 
+                  src="/assets/iso_muv.png" 
+                  alt="MUV Preloader" 
+                  class="w-10 h-10 object-contain brightness-0 invert animate-pulse-slow relative z-10"
+                />
+            </div>
+            
+            <!-- Elegant lowercase logo text below -->
+            <span class="text-white/40 font-headline-md font-bold tracking-[0.25em] text-[10px] uppercase mt-6 select-none animate-fade-in-delayed">muv</span>
+        </div>
+    </div>
+
     <!-- Header/Navbar -->
     <Header isDarkHero={isDarkHero} />
     
@@ -42,5 +63,66 @@ const {
     
     <!-- Footer -->
     <Footer />
+
+    <script is:inline>
+      (function() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          // Disable body scroll initially
+          document.body.style.overflow = 'hidden';
+          
+          const minLoadingTime = 900; 
+          const startTime = Date.now();
+          
+          const fadeOutPreloader = () => {
+            const elapsedTime = Date.now() - startTime;
+            const delay = Math.max(0, minLoadingTime - elapsedTime);
+            
+            setTimeout(() => {
+              preloader.style.opacity = '0';
+              preloader.style.pointerEvents = 'none';
+              document.body.style.overflow = '';
+              
+              setTimeout(() => {
+                preloader.remove();
+              }, 700);
+            }, delay);
+          };
+          
+          if (document.readyState === 'complete') {
+            fadeOutPreloader();
+          } else {
+            window.addEventListener('load', fadeOutPreloader);
+            // Backup fallback timeout
+            setTimeout(fadeOutPreloader, 4000);
+          }
+        }
+      })();
+    </script>
 </body>
 </html>
+
+<style is:global>
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes pulseSlow {
+    0%, 100% { transform: scale(0.92); opacity: 0.85; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+  @keyframes preloaderFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-spin-slow {
+    animation: spinSlow 1.6s linear infinite;
+  }
+  .animate-pulse-slow {
+    animation: pulseSlow 2s ease-in-out infinite;
+  }
+  .animate-fade-in-delayed {
+    opacity: 0;
+    animation: preloaderFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+</style>

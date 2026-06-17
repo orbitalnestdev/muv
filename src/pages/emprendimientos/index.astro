@@ -1,0 +1,100 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getDevelopments } from '../../lib/tokko';
+
+// Fetch developments on the server side
+const { developments } = await getDevelopments();
+---
+
+<MainLayout title="Emprendimientos | MUV Propiedades" isDarkHero={false}>
+  <main class="bg-pure-white min-h-screen">
+    <!-- Header Section with Watermark -->
+    <section class="relative bg-black pt-32 pb-16 overflow-hidden flex items-center min-h-[220px]">
+      <!-- Watermark M logo -->
+      <div class="absolute right-0 top-0 h-full w-1/2 opacity-15 pointer-events-none select-none">
+        <img 
+          src="/assets/iso_muv.png" 
+          alt="Watermark" 
+          class="h-[140%] w-auto object-contain absolute right-[-10%] top-[-20%] brightness-0 invert"
+        />
+      </div>
+      
+      <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full text-left">
+        <h1 class="font-display-lg text-3xl md:text-4xl text-pure-white leading-tight font-medium tracking-tight">
+          Emprendimientos
+        </h1>
+      </div>
+    </section>
+
+    <!-- Subheader Invitation Text -->
+    <section class="py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-left">
+      <div class="space-y-2">
+        <h2 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+          Invertí hoy en los proyectos que definen el futuro
+        </h2>
+        <p class="font-body-md text-secondary text-sm">
+          Hacé clic en cualquier proyecto para ver sus detalles o asesorarte.
+        </p>
+      </div>
+    </section>
+
+    <!-- Developments 2-Column Grid -->
+    <section class="pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="developments-grid">
+        {developments.map((dev) => {
+          const status = typeof dev.construction_status === 'string' ? dev.construction_status : 'DESTACADO';
+          const locationName = dev.location ? dev.location.name : 'Buenos Aires';
+          const imageSrc = dev.photos && dev.photos.length > 0 ? dev.photos[0].image : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+          const shortDesc = dev.description ? dev.description.slice(0, 100) + '...' : 'Desarrollo de diseño exclusivo y terminaciones premium.';
+          const tagBadge = status.toLowerCase().includes('terminado') ? 'VENTA' : 'PREVENTA';
+
+          return (
+            <a 
+              href={`/emprendimientos/${dev.id}/`}
+              class="group relative block aspect-[16/10] overflow-hidden rounded-xl bg-slate-900 shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer"
+            >
+              <!-- Background Image with Zoom -->
+              <img 
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
+                src={imageSrc} 
+                alt={`Emprendimiento ${dev.name}`}
+                loading="lazy"
+              />
+              
+              <!-- Card Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40 z-10 transition-opacity duration-300 group-hover:opacity-90"></div>
+
+              <!-- Top Badges -->
+              <div class="absolute top-5 left-5 right-5 z-20 flex justify-between items-center pointer-events-none">
+                <!-- Status Badge (Green) -->
+                <span class="bg-[#7CB342] text-pure-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
+                  {status}
+                </span>
+                <!-- Tag Badge (Dark) -->
+                <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
+                  {tagBadge}
+                </span>
+              </div>
+
+              <!-- Bottom Overlay Details -->
+              <div class="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end text-pure-white">
+                <div class="space-y-1.5 max-w-[85%] text-left">
+                  <h3 class="font-headline-md text-base md:text-lg font-bold leading-tight">
+                    {dev.name} — {locationName}
+                  </h3>
+                  <p class="font-body-md text-xs md:text-sm text-pure-white/80 line-clamp-2 leading-relaxed">
+                    {shortDesc}
+                  </p>
+                </div>
+                <!-- Diagonal Link Arrow -->
+                <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all duration-300 shrink-0">
+                  <span class="material-symbols-outlined text-[20px] text-pure-white">arrow_outward</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  </main>
+</MainLayout>
