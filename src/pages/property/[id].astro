@@ -417,7 +417,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address || location?.name || 'Buenos Aires')}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          class="bg-black text-pure-white hover:bg-[#C5A059] transition-colors px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer flex-1 sm:flex-initial"
+                          class="bg-black text-pure-white hover:bg-neutral-800 transition-colors px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer flex-1 sm:flex-initial"
                         >
                             <span class="material-symbols-outlined text-[16px]">map</span>
                             <span>Abrir en Google Maps</span>
@@ -478,7 +478,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                                 ></iframe>
                             ) : (
                                 <div class="w-full h-full bg-[#1C1B1B] text-pure-white flex flex-col items-center justify-center p-8 text-center select-none">
-                                    <span class="material-symbols-outlined text-[48px] text-[#C5A059] mb-4">streetview</span>
+                                    <span class="material-symbols-outlined text-[48px] text-white/60 mb-4">streetview</span>
                                     <h4 class="font-sans font-semibold text-lg text-[#FFFFFF] mb-2">Vista de calle 360° disponible</h4>
                                     <p class="text-xs text-[#E1E3E4]/80 max-w-sm mb-6 leading-relaxed">
                                         Explora la zona de la propiedad de forma interactiva en Google Maps.
@@ -487,7 +487,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                                       href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${geo_lat},${geo_long}`} 
                                       target="_blank" 
                                       rel="noopener noreferrer" 
-                                      class="bg-[#C5A059] text-[#1C1B1B] hover:opacity-90 font-sans font-bold px-8 py-3.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-md transition-all active:scale-[0.98]"
+                                      class="bg-pure-white text-[#1C1B1B] hover:bg-pure-white/90 font-sans font-bold px-8 py-3.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-md transition-all active:scale-[0.98]"
                                     >
                                         <span class="material-symbols-outlined text-[16px]">open_in_new</span>
                                         <span>Abrir Street View</span>
