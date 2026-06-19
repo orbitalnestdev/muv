@@ -391,7 +391,7 @@ const amenitiesList = [
 
   if (sliderMin && sliderMax && track && label && minValHidden && maxValHidden && inputMin && inputMax) {
     const updateSliderFromControls = (minVal: number, maxVal: number, triggerSource: 'slider' | 'input') => {
-      const minGap = 25000;
+      const minGap = parseInt(sliderMin.step) || 25000;
       
       if (maxVal - minVal < minGap) {
         if (triggerSource === 'slider') {
@@ -405,8 +405,10 @@ const amenitiesList = [
       }
 
       // Constrain within min/max bounds
-      minVal = Math.max(50000, Math.min(2500000, minVal));
-      maxVal = Math.max(50000, Math.min(2500000, maxVal));
+      const minLimit = parseInt(sliderMin.min) || 200;
+      const maxLimit = parseInt(sliderMax.max) || 2500000;
+      minVal = Math.max(minLimit, Math.min(maxLimit, minVal));
+      maxVal = Math.max(minLimit, Math.min(maxLimit, maxVal));
 
       if (triggerSource === 'input') {
         sliderMin.value = minVal.toString();
@@ -432,7 +434,7 @@ const amenitiesList = [
     const handleSliderInput = function(this: any) {
       let minVal = parseInt(sliderMin.value);
       let maxVal = parseInt(sliderMax.value);
-      const minGap = 25000;
+      const minGap = parseInt(sliderMin.step) || 25000;
 
       if (maxVal - minVal < minGap) {
         if (this === sliderMin) {
@@ -454,8 +456,10 @@ const amenitiesList = [
 
     // Manual inputs change event (fires when leaving input or hitting enter)
     const handleManualInputChange = () => {
-      let minVal = parseInt(inputMin.value) || 50000;
-      let maxVal = parseInt(inputMax.value) || 2500000;
+      const minLimit = parseInt(sliderMin.min) || 200;
+      const maxLimit = parseInt(sliderMax.max) || 2500000;
+      let minVal = parseInt(inputMin.value) || minLimit;
+      let maxVal = parseInt(inputMax.value) || maxLimit;
       
       if (minVal > maxVal) {
         // Swap values if min is larger than max
