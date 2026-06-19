@@ -3,11 +3,15 @@ const url = Astro.url;
 const operationId = url.searchParams.get('operation_id') || '';
 const propertyTypeId = url.searchParams.get('property_type_id') || '';
 
-// Define dynamic ranges based on operation type
+const currency = url.searchParams.get('currency') || 'USD';
+
+// Define dynamic ranges based on operation type and currency
 const isRent = operationId === '2';
-const defaultMin = isRent ? '200' : '50000';
-const defaultMax = isRent ? '5000' : '2000000';
-const sliderStep = isRent ? '100' : '25000';
+const isArs = currency === 'ARS';
+
+const defaultMin = isRent ? (isArs ? '5000' : '200') : (isArs ? '500000' : '50000');
+const defaultMax = isRent ? (isArs ? '250000' : '5000') : (isArs ? '50000000' : '2000000');
+const sliderStep = isRent ? (isArs ? '5000' : '100') : (isArs ? '100000' : '25000');
 
 const priceMin = url.searchParams.get('price_min') || defaultMin;
 const priceMax = url.searchParams.get('price_max') || defaultMax;
@@ -118,10 +122,42 @@ const amenitiesList = [
 
     <!-- 4. Rango de Precio (Slick Double Slider + Manual Sincronizados) -->
     <div class="space-y-3">
-        <div class="flex justify-between items-center">
-            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest">Presupuesto (USD)</label>
+        <!-- Moneda Toggle -->
+        <div class="space-y-1.5 select-none">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Moneda</label>
+            <div class="grid grid-cols-2 gap-2">
+                <button 
+                  type="button" 
+                  data-val="USD" 
+                  class:list={[
+                    "btn-currency py-1.5 px-3 border rounded text-xs font-bold uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
+                    currency === 'ARS' 
+                      ? "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold" 
+                      : "bg-primary text-pure-white border-primary"
+                  ]}
+                >
+                    USD
+                </button>
+                <button 
+                  type="button" 
+                  data-val="ARS" 
+                  class:list={[
+                    "btn-currency py-1.5 px-3 border rounded text-xs font-bold uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
+                    currency === 'ARS' 
+                      ? "bg-primary text-pure-white border-primary" 
+                      : "bg-pure-white text-slate-blue border-outline-variant/50 hover:border-refined-gold"
+                  ]}
+                >
+                    ARS
+                </button>
+            </div>
+            <input type="hidden" name="currency" id="val-currency" value={currency} />
+        </div>
+
+        <div class="flex justify-between items-center pt-1.5">
+            <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest">Presupuesto</label>
             <span class="text-xs font-bold text-primary font-sans" id="price-range-label">
-                USD {new Intl.NumberFormat('es-AR').format(Number(priceMin))} - USD {new Intl.NumberFormat('es-AR').format(Number(priceMax))}
+                {currency} {new Intl.NumberFormat('es-AR').format(Number(priceMin))} - {currency} {new Intl.NumberFormat('es-AR').format(Number(priceMax))}
             </span>
         </div>
         
@@ -159,26 +195,30 @@ const amenitiesList = [
             <div class="space-y-1">
                 <span class="text-[9px] font-bold text-slate-blue/60 uppercase tracking-wider block">Mínimo</span>
                 <div class="relative flex items-center">
-                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">$</span>
+                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">
+                        {currency === 'ARS' ? '$' : 'U$S'}
+                    </span>
                     <input 
                       type="number" 
                       id="input-price-min" 
                       placeholder="Mínimo" 
                       value={priceMin}
-                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-7 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
+                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-11 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
                     />
                 </div>
             </div>
             <div class="space-y-1">
                 <span class="text-[9px] font-bold text-slate-blue/60 uppercase tracking-wider block">Máximo</span>
                 <div class="relative flex items-center">
-                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">$</span>
+                    <span class="absolute left-3 text-xs text-[#858383] font-semibold font-sans">
+                        {currency === 'ARS' ? '$' : 'U$S'}
+                    </span>
                     <input 
                       type="number" 
                       id="input-price-max" 
                       placeholder="Máximo" 
                       value={priceMax}
-                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-7 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
+                      class="w-full bg-[#f3f4f5] border border-outline-variant/30 pl-11 pr-3 py-2 rounded text-xs text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none font-bold font-sans"
                     />
                 </div>
             </div>
@@ -508,6 +548,47 @@ const amenitiesList = [
       window.location.href = '/search-results/';
     });
   }
+
+  // Currency selectors
+  document.querySelectorAll('.btn-currency').forEach((btn: any) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-currency').forEach((b: any) => {
+        b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
+        b.classList.add('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      });
+      btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+      btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+      
+      const valInput = document.getElementById('val-currency') as HTMLInputElement;
+      if (valInput) {
+        valInput.value = btn.dataset.val || 'USD';
+        
+        // Dynamic slider range adjustments on currency toggle
+        const isRent = (document.getElementById('val-operation-id') as HTMLInputElement)?.value === '2';
+        const isArs = btn.dataset.val === 'ARS';
+        
+        const sliderMin = document.getElementById('slider-min') as HTMLInputElement | null;
+        const sliderMax = document.getElementById('slider-max') as HTMLInputElement | null;
+        if (sliderMin && sliderMax) {
+          const defaultMinPrice = isRent ? (isArs ? '5000' : '200') : (isArs ? '500000' : '50000');
+          const defaultMaxPrice = isRent ? (isArs ? '250000' : '5000') : (isArs ? '50000000' : '2000000');
+          const stepVal = isRent ? (isArs ? '5000' : '100') : (isArs ? '100000' : '25000');
+
+          sliderMin.min = defaultMinPrice;
+          sliderMin.max = defaultMaxPrice;
+          sliderMin.step = stepVal;
+          sliderMax.min = defaultMinPrice;
+          sliderMax.max = defaultMaxPrice;
+          sliderMax.step = stepVal;
+          
+          sliderMin.value = defaultMinPrice;
+          sliderMax.value = defaultMaxPrice;
+        }
+
+        submitForm();
+      }
+    });
+  });
 </script>
 
 <style is:global>

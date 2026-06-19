@@ -178,28 +178,41 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                   class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-left mt-3 relative z-20"
                   style="max-height: 0px;"
                 >
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 bg-pure-white shadow-2xl rounded-2xl border border-outline-variant/20 font-sans">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 p-5 bg-pure-white shadow-2xl rounded-2xl border border-outline-variant/20 font-sans">
                         <!-- Precio Min -->
                         <div class="flex flex-col space-y-1">
-                            <label class="text-[#747878] font-bold text-[9px] uppercase tracking-wider">Precio Mínimo (USD)</label>
+                            <label class="text-[#747878] font-bold text-[9px] uppercase tracking-wider">Precio Mínimo</label>
                             <input 
                               type="number" 
                               name="price_min" 
                               id="filter-price-min" 
                               placeholder="Sin mínimo" 
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
                             />
                         </div>
                         <!-- Precio Max -->
                         <div class="flex flex-col space-y-1">
-                            <label class="text-[#747878] font-bold text-[9px] uppercase tracking-wider">Precio Máximo (USD)</label>
+                            <label class="text-[#747878] font-bold text-[9px] uppercase tracking-wider">Precio Máximo</label>
                             <input 
                               type="number" 
                               name="price_max" 
                               id="filter-price-max" 
                               placeholder="Sin máximo" 
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
                             />
+                        </div>
+                        <!-- Moneda -->
+                        <div class="flex flex-col space-y-1">
+                            <label class="text-[#747878] font-bold text-[9px] uppercase tracking-wider">Moneda</label>
+                            <select 
+                              name="currency" 
+                              id="filter-currency" 
+                              aria-label="Moneda"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
+                            >
+                                <option value="USD">USD</option>
+                                <option value="ARS">ARS</option>
+                            </select>
                         </div>
                         <!-- Ambientes -->
                         <div class="flex flex-col space-y-1">
@@ -208,7 +221,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="rooms" 
                               id="filter-rooms" 
                               aria-label="Ambientes"
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
                             >
                                 <option value="">Cualquiera</option>
                                 <option value="1">1 Ambiente</option>
@@ -224,7 +237,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="bedrooms" 
                               id="filter-bedrooms" 
                               aria-label="Dormitorios"
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
                             >
                                 <option value="">Cualquiera</option>
                                 <option value="1">1 Dormitorio</option>
