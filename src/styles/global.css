@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        border-top: none !important;
+    }
     body {
         @apply bg-background text-on-background font-body-md overflow-x-hidden relative;
     }

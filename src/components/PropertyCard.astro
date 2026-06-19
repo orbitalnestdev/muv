@@ -282,7 +282,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
   .list-view-active .property-card {
     flex-direction: row !important;
     min-height: 200px !important;
-    height: auto !important;
+    height: 200px !important;
   }
   @media (max-width: 640px) {
     .list-view-active .property-card {
@@ -293,13 +293,14 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
   }
   .list-view-active .card-carousel-container {
     width: 300px !important;
-    height: 100% !important;
-    aspect-ratio: auto !important;
+    height: 200px !important;
+    aspect-ratio: 3/2 !important;
     flex-shrink: 0 !important;
   }
   @media (max-width: 640px) {
     .list-view-active .card-carousel-container {
       width: 100% !important;
+      height: auto !important;
       aspect-ratio: 3/2 !important;
     }
   }

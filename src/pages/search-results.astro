@@ -744,6 +744,15 @@ function getLayoutUrl(newView: string) {
     const setViewLayout = (layout: 'grid' | 'list') => {
       if (!gridContainer || !gridOuter || !gridBtn || !listBtn) return;
       
+      // Update hidden form view parameter to preserve state on filter submit
+      const viewInput = document.getElementById('val-view') as HTMLInputElement | null;
+      if (viewInput) viewInput.value = layout;
+
+      // Update URL search parameters without reloading the page
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('view', layout);
+      window.history.replaceState({}, '', currentUrl.pathname + currentUrl.search);
+      
       if (layout === 'list') {
         gridContainer.classList.remove('grid-cols-1', 'md:grid-cols-2', 'gap-8');
         gridContainer.classList.add('grid-cols-1', 'gap-6');
@@ -1027,11 +1036,13 @@ function getLayoutUrl(newView: string) {
             }
           }
           if (filterState.keyword) {
-            const kw = filterState.keyword.toLowerCase();
-            const titleMatch = p.publication_title?.toLowerCase().includes(kw);
-            const descMatch = p.description?.toLowerCase().includes(kw);
-            const addrMatch = p.address?.toLowerCase().includes(kw);
-            if (!titleMatch && !descMatch && !addrMatch) return false;
+            const clientNormalize = (str: string) => (str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+            const kw = clientNormalize(filterState.keyword);
+            const titleMatch = clientNormalize(p.publication_title).includes(kw);
+            const descMatch = clientNormalize(p.description).includes(kw);
+            const addrMatch = clientNormalize(p.address).includes(kw);
+            const locationMatch = p.location?.name && clientNormalize(p.location.name).includes(kw);
+            if (!titleMatch && !descMatch && !addrMatch && !locationMatch) return false;
           }
 
           if (filterState.operation) {
@@ -1845,8 +1856,13 @@ function getLayoutUrl(newView: string) {
 
         const locParams = urlParams.getAll('location');
         if (locParams.length > 0) {
+          const clientNormalize = (str: string) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
           locParams.forEach(loc => {
-            const chk = document.querySelector(`.filter-barrio-chk[data-name="${loc}"]`) as HTMLInputElement;
+            const normalizedLoc = clientNormalize(loc);
+            const chk = Array.from(document.querySelectorAll('.filter-barrio-chk')).find((c: any) => 
+              clientNormalize(c.dataset.name || '') === normalizedLoc || 
+              clientNormalize(c.value || '') === normalizedLoc
+            ) as HTMLInputElement | undefined;
             if (chk) {
               chk.checked = true;
               filterState.barrios.push(chk.value);

@@ -11,7 +11,8 @@ if (starredProperties.length === 0) {
 }
 
 // Neighborhood properties counts helper (query catalog counts or fallback to mockup counts)
-const getCount = (name: string) => properties.filter(p => p.location?.name?.toLowerCase().includes(name.toLowerCase())).length;
+const normalizeString = (str: string) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+const getCount = (name: string) => properties.filter(p => p.location?.name && normalizeString(p.location.name).includes(normalizeString(name))).length;
 
 const countRecoleta = getCount('Recoleta') || 13;
 const countBelgrano = getCount('Belgrano') || 118;

@@ -20,6 +20,7 @@ const bedrooms = url.searchParams.get('bedrooms') || '';
 const query = url.searchParams.get('q') || '';
 const location = url.searchParams.get('location') || '';
 const activeAmenities = url.searchParams.getAll('amenities') || [];
+const view = url.searchParams.get('view') || '';
 
 // Key amenities for real estate
 const amenitiesList = [
@@ -32,9 +33,14 @@ const amenitiesList = [
   'Balcón',
   'Apto Profesional'
 ];
+
+const norm = (str: string) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+const normLoc = location ? norm(location) : '';
+const isSelectedLocation = (val: string) => norm(val) === normLoc;
 ---
 
 <form method="GET" action="/search-results/" class="space-y-6 w-full" id="filters-form">
+    {view && <input type="hidden" name="view" id="val-view" value={view} />}
     <!-- 1. Tipo de Operación -->
     <div class="space-y-2">
         <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Operación</label>
@@ -89,13 +95,13 @@ const amenitiesList = [
               class="w-full bg-[#f3f4f5] border border-outline-variant/30 px-4 py-3 rounded text-sm text-primary focus:ring-1 focus:ring-refined-gold focus:outline-none appearance-none !bg-none cursor-pointer pr-10 font-bold"
             >
                 <option value="">Todos los barrios</option>
-                <option value="Belgrano" selected={location === 'Belgrano'}>Belgrano</option>
-                <option value="Palermo" selected={location === 'Palermo'}>Palermo</option>
-                <option value="Recoleta" selected={location === 'Recoleta'}>Recoleta</option>
-                <option value="Colegiales" selected={location === 'Colegiales'}>Colegiales</option>
-                <option value="Núñez" selected={location === 'Núñez'}>Núñez</option>
-                <option value="Puerto Madero" selected={location === 'Puerto Madero'}>Puerto Madero</option>
-                <option value="Villa Urquiza" selected={location === 'Villa Urquiza'}>Villa Urquiza</option>
+                <option value="Belgrano" selected={isSelectedLocation('Belgrano')}>Belgrano</option>
+                <option value="Palermo" selected={isSelectedLocation('Palermo')}>Palermo</option>
+                <option value="Recoleta" selected={isSelectedLocation('Recoleta')}>Recoleta</option>
+                <option value="Colegiales" selected={isSelectedLocation('Colegiales')}>Colegiales</option>
+                <option value="Núñez" selected={isSelectedLocation('Núñez')}>Núñez</option>
+                <option value="Puerto Madero" selected={isSelectedLocation('Puerto Madero')}>Puerto Madero</option>
+                <option value="Villa Urquiza" selected={isSelectedLocation('Villa Urquiza')}>Villa Urquiza</option>
             </select>
             <span class="material-symbols-outlined text-[18px] text-refined-gold absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">unfold_more</span>
         </div>
@@ -545,7 +551,8 @@ const amenitiesList = [
   const clearBtn = document.getElementById('btn-clear');
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
-      window.location.href = '/search-results/';
+      const valView = (document.getElementById('val-view') as HTMLInputElement | null)?.value || '';
+      window.location.href = '/search-results/' + (valView ? `?view=${valView}` : '');
     });
   }
 

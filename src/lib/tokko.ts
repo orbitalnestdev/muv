@@ -364,6 +364,14 @@ export async function createLead(payload: LeadPayload) {
   return submitInquiry(payload);
 }
 
+const normalizeString = (str: string): string => {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+};
+
 // Getters (in-memory filtering and sorting queries)
 export async function getProperties(filters: any = {}): Promise<{ properties: Property[], total: number }> {
   await ensureCatalogLoaded();
@@ -376,17 +384,18 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
   }
 
   if (filters.q) {
-    const query = filters.q.toLowerCase();
+    const query = normalizeString(filters.q);
     result = result.filter(p => 
-      (p.publication_title && p.publication_title.toLowerCase().includes(query)) ||
-      (p.address && p.address.toLowerCase().includes(query)) ||
-      (p.description && p.description.toLowerCase().includes(query))
+      (p.publication_title && normalizeString(p.publication_title).includes(query)) ||
+      (p.address && normalizeString(p.address).includes(query)) ||
+      (p.description && normalizeString(p.description).includes(query)) ||
+      (p.location?.name && normalizeString(p.location.name).includes(query))
     );
   }
 
   if (filters.location) {
-    const loc = filters.location.toLowerCase();
-    result = result.filter(p => p.location?.name?.toLowerCase().includes(loc));
+    const loc = normalizeString(filters.location);
+    result = result.filter(p => p.location?.name && normalizeString(p.location.name).includes(loc));
   }
 
   if (filters.operation_id) {
@@ -491,8 +500,8 @@ export async function getDevelopments(filters: any = {}): Promise<{ developments
   let result = [...developmentsCatalog];
 
   if (filters.location) {
-    const loc = filters.location.toLowerCase();
-    result = result.filter(d => d.location?.name?.toLowerCase().includes(loc));
+    const loc = normalizeString(filters.location);
+    result = result.filter(d => d.location?.name && normalizeString(d.location.name).includes(loc));
   }
 
   if (filters.status) {

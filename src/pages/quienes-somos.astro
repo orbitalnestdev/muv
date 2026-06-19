@@ -5,13 +5,13 @@ import MainLayout from '../layouts/MainLayout.astro';
 <MainLayout title="Quiénes Somos | MUV Propiedades" isDarkHero={false}>
   <main class="bg-pure-white">
     <!-- Hero Section: Header with M Isotype Watermark -->
-    <section class="relative bg-black pt-32 pb-16 overflow-hidden flex items-center min-h-[200px]">
+    <section class="relative bg-black h-[250px] pt-20 overflow-hidden flex items-center">
       <!-- Watermark M logo -->
-      <div class="absolute right-0 top-0 h-full w-1/2 opacity-15 pointer-events-none select-none">
+      <div class="absolute right-0 top-20 h-[calc(100%-5rem)] w-1/2 opacity-20 pointer-events-none select-none">
         <img 
           src="/assets/iso_muv.png" 
           alt="Watermark" 
-          class="absolute top-1/2 -translate-y-1/2 right-6 md:right-16 h-[65%] w-auto object-contain brightness-0 invert"
+          class="absolute bottom-0 right-6 md:right-16 h-full w-auto object-contain brightness-0 invert"
         />
       </div>
       
@@ -28,10 +28,10 @@ import MainLayout from '../layouts/MainLayout.astro';
         <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary tracking-tight">
           Somos MUV
         </h2>
-        <p class="font-body-lg text-secondary text-sm md:text-base leading-relaxed max-w-4xl">
+        <p class="font-sans font-[300] text-secondary text-sm md:text-base leading-relaxed w-full">
           Acompañamos a las personas en decisiones importantes: comprar, vender o alquilar una propiedad. Nuestro enfoque es claro, cercano y profesional, para que cada operación sea simple y confiable.
         </p>
-        <p class="font-body-lg text-secondary text-sm md:text-base leading-relaxed max-w-4xl">
+        <p class="font-sans font-[300] text-secondary text-sm md:text-base leading-relaxed w-full">
           Contamos también con un área especializada en emprendimientos y oportunidades de inversión, donde brindamos asesoramiento estratégico para potenciar el capital con proyectos sólidos y bien planificados.
         </p>
       </div>
@@ -43,18 +43,18 @@ import MainLayout from '../layouts/MainLayout.astro';
         <!-- Left: Misión & Visión text -->
         <div class="space-y-8">
           <div class="space-y-3">
-            <h3 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+            <h3 class="font-sans font-[300] text-xl md:text-2xl text-primary tracking-tight">
               Misión
             </h3>
-            <p class="font-body-md text-secondary text-xs md:text-sm leading-relaxed">
+            <p class="font-sans font-[300] text-secondary text-xs md:text-sm leading-relaxed">
               Brindar un servicio profesional y responsable de intermediación en la compra, venta y alquiler de inmuebles, atendiendo y comprendiendo las necesidades específicas de cada cliente y aportando valor a las inversiones inmobiliarias.
             </p>
           </div>
           <div class="space-y-3">
-            <h3 class="font-headline-lg text-xl md:text-2xl text-primary font-semibold">
+            <h3 class="font-sans font-[300] text-xl md:text-2xl text-primary tracking-tight">
               Visión
             </h3>
-            <p class="font-body-md text-secondary text-xs md:text-sm leading-relaxed">
+            <p class="font-sans font-[300] text-secondary text-xs md:text-sm leading-relaxed">
               Ser una empresa referente en servicios inmobiliarios, reconocida por su profesionalismo, atención personalizada y capacidad de generar valor en cada operación.
             </p>
           </div>

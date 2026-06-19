@@ -8,37 +8,37 @@ const { photos = [], title } = Astro.props;
 const totalPhotos = photos.length;
 ---
 
-<div class="w-full h-auto md:h-[600px] select-none" id="gallery-container" data-photos={JSON.stringify(photos)}>
+<div class="w-full h-auto md:h-[500px] max-h-[500px] select-none" id="gallery-container" data-photos={JSON.stringify(photos)}>
     {totalPhotos === 0 ? (
         <div class="w-full h-full bg-surface-container-high rounded-lg flex items-center justify-center text-secondary">
             <span class="material-symbols-outlined text-[64px] mb-2">image_not_supported</span>
             <span class="font-label-lg">No hay imágenes disponibles</span>
         </div>
     ) : totalPhotos === 1 ? (
-        <div class="w-full h-full rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="0">
+        <div class="w-full aspect-[3/2] md:aspect-auto md:h-full rounded-lg overflow-hidden cursor-pointer zoom-trigger min-h-0" data-index="0">
             <img src={photos[0]} alt={title} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
         </div>
     ) : totalPhotos === 2 ? (
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
-            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="0">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full min-h-0">
+            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="0">
                 <img src={photos[0]} alt={`${title} - Foto 1`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
             </div>
-            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger" data-index="1">
+            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
                 <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
             </div>
         </div>
     ) : (
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-full">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-full min-h-0">
             <!-- Big Image Left -->
-            <div class="md:col-span-8 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[400px] md:h-full" data-index="0">
+            <div class="md:col-span-8 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="0">
                 <img src={photos[0]} alt={`${title} - Principal`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
             </div>
             <!-- Two Small Images Right -->
-            <div class="md:col-span-4 flex flex-col gap-4 h-full">
-                <div class="flex-1 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[200px] md:h-[290px]" data-index="1">
+            <div class="md:col-span-4 flex flex-col md:grid md:grid-rows-2 gap-4 md:h-full min-h-0">
+                <div class="rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
                     <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                 </div>
-                <div class="flex-1 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger h-[200px] md:h-[290px]" data-index="2">
+                <div class="rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="2">
                     <img src={photos[2]} alt={`${title} - Foto 3`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                     {totalPhotos > 3 && (
                         <div class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center text-pure-white font-headline font-bold text-sm pointer-events-none transition-all duration-300 group-hover:bg-black/65">
@@ -55,6 +55,7 @@ const totalPhotos = photos.length;
         </div>
     )}
 </div>
+
 
 <!-- Fullscreen Lightbox Modal -->
 <div id="lightbox-modal" class="fixed inset-0 z-[100] flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none bg-black/95 opacity-0 pointer-events-none transition-all duration-300 ease-in-out">
