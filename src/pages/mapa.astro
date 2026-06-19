@@ -67,6 +67,38 @@ const { properties } = await getProperties();
       <!-- Top Filters Container with horizontal pills -->
       <div class="bg-pure-white border-b border-outline-variant/30 px-5 py-4 shrink-0 z-20 shadow-sm relative select-none">
         
+        <!-- Row 0: Title and Layout Switcher -->
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-outline-variant/15">
+          <h1 id="map-page-title" class="font-sans text-xs md:text-sm font-bold text-primary tracking-wider uppercase">
+            Mapa de Propiedades
+          </h1>
+          <div class="flex items-center gap-1 bg-surface-container-low border border-outline-variant/30 rounded-lg p-0.5 select-none">
+              <a 
+                href="/buscar/" 
+                id="btn-map-layout-grid" 
+                class="w-8 h-8 rounded-md flex items-center justify-center transition-all text-secondary hover:text-primary" 
+                aria-label="Vista cuadrícula"
+              >
+                  <span class="material-symbols-outlined text-[18px]">grid_view</span>
+              </a>
+              <a 
+                href="/buscar/" 
+                id="btn-map-layout-list" 
+                class="w-8 h-8 rounded-md flex items-center justify-center transition-all text-secondary hover:text-primary" 
+                aria-label="Vista lista"
+              >
+                  <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+              </a>
+              <button 
+                type="button" 
+                class="w-8 h-8 rounded-md flex items-center justify-center transition-all bg-primary text-pure-white cursor-default" 
+                aria-label="Vista mapa"
+              >
+                  <span class="material-symbols-outlined text-[18px]">map</span>
+              </button>
+          </div>
+        </div>
+
         <!-- Row 1: Keyword Search Bar with Ajax -->
         <div class="relative flex items-center mb-4">
           <span class="material-symbols-outlined text-secondary/50 absolute left-4 pointer-events-none">search</span>
@@ -895,6 +927,7 @@ const { properties } = await getProperties();
       if (isFiltered) clearBtn.classList.remove('hidden');
       else clearBtn.classList.add('hidden');
     }
+    updateSearchLinks();
   }
 
   function loadNextBatch() {
@@ -1400,6 +1433,58 @@ const { properties } = await getProperties();
     }
   }
 
+  function updateSearchLinks() {
+    const params = new URLSearchParams();
+    if (filterState.keyword) params.set('q', filterState.keyword);
+    if (filterState.operation) params.set('operation_id', filterState.operation);
+    if (filterState.types.length > 0) params.set('property_type_id', filterState.types.join(','));
+    if (filterState.currency) params.set('currency', filterState.currency);
+    
+    // Check if price is different from default operation bounds
+    const isRent = filterState.operation === '2';
+    const defaultMin = isRent ? 200 : 50000;
+    const defaultMax = isRent ? 5000 : 2500000;
+    if (filterState.priceMin !== defaultMin) params.set('price_min', filterState.priceMin.toString());
+    if (filterState.priceMax !== defaultMax) params.set('price_max', filterState.priceMax.toString());
+    
+    if (filterState.rooms) params.set('rooms', filterState.rooms);
+    if (filterState.bedrooms) params.set('bedrooms', filterState.bedrooms);
+    if (filterState.barrios.length > 0) params.set('location', filterState.barrios.join(','));
+    
+    filterState.moreToggles.forEach(toggle => {
+      params.append('amenities', toggle);
+    });
+
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    
+    // Update layout switchers on map page
+    const gridBtn = document.getElementById('btn-map-layout-grid') as HTMLAnchorElement | null;
+    const listBtn = document.getElementById('btn-map-layout-list') as HTMLAnchorElement | null;
+    if (gridBtn) gridBtn.href = `/buscar/${queryString}`;
+    if (listBtn) listBtn.href = `/buscar/${queryString}`;
+
+    // Update the browser URL without reloading the page
+    const newUrl = window.location.pathname + queryString;
+    window.history.replaceState({ path: newUrl }, '', newUrl);
+
+    // Also update dynamic title in the right column header
+    const titleEl = document.getElementById('map-page-title');
+    if (titleEl) {
+      let titleText = 'Propiedades Residenciales';
+      if (filterState.operation === '1') {
+        titleText = 'Propiedades en Venta';
+      } else if (filterState.operation === '2') {
+        titleText = 'Propiedades en Alquiler';
+      }
+      if (filterState.barrios.length > 0) {
+        const capBarrios = filterState.barrios.map(b => b.charAt(0).toUpperCase() + b.slice(1));
+        titleText += ` en ${capBarrios.join(', ')}`;
+      }
+      titleEl.textContent = titleText;
+      document.title = titleText + " | MUV Propiedades";
+    }
+  }
+
   function debounce(func: any, wait: number) {
     let timeout: any;
     return function(this: any, ...args: any[]) {
@@ -1408,13 +1493,125 @@ const { properties } = await getProperties();
     };
   }
 
+  function parseUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // 1. Operation
+    const opParam = urlParams.get('operation_id') || urlParams.get('operation');
+    if (opParam) {
+      filterState.operation = opParam;
+      document.querySelectorAll('.btn-select-op').forEach((btn: any) => {
+        const btnVal = btn.getAttribute('data-val') || '';
+        if (btnVal === opParam) {
+          btn.classList.add('bg-primary/10', 'text-primary');
+        } else {
+          btn.classList.remove('bg-primary/10', 'text-primary');
+        }
+      });
+      // Adjust min/max bounds based on operation
+      const sliderMin = document.getElementById('slider-min') as HTMLInputElement | null;
+      const sliderMax = document.getElementById('slider-max') as HTMLInputElement | null;
+      if (sliderMin && sliderMax) {
+        const isRent = opParam === '2';
+        const defaultMin = isRent ? '200' : '50000';
+        const defaultMax = isRent ? '5000' : '2500000';
+        const sliderStep = isRent ? '100' : '50000';
+
+        sliderMin.min = defaultMin;
+        sliderMin.max = defaultMax;
+        sliderMin.step = sliderStep;
+        sliderMax.min = defaultMin;
+        sliderMax.max = defaultMax;
+        sliderMax.step = sliderStep;
+
+        sliderMin.value = defaultMin;
+        sliderMax.value = defaultMax;
+      }
+    }
+
+    // 2. Keyword
+    const qParam = urlParams.get('q') || urlParams.get('keyword');
+    if (qParam) {
+      filterState.keyword = qParam;
+      const keywordInput = document.getElementById('filter-keyword') as HTMLInputElement | null;
+      if (keywordInput) {
+        keywordInput.value = qParam;
+        document.getElementById('btn-clear-keyword')?.classList.remove('hidden');
+      }
+    }
+
+    // 3. Location / Barrio
+    const locParam = urlParams.get('location') || urlParams.get('barrio');
+    if (locParam) {
+      const barrios = locParam.split(',').map(s => s.trim().toLowerCase());
+      filterState.barrios = barrios;
+      // Mark checkboxes as checked
+      barrios.forEach(b => {
+        const chk = document.querySelector(`.filter-barrio-chk[value="${b}"]`) as HTMLInputElement | null;
+        if (chk) chk.checked = true;
+      });
+    }
+
+    // 4. Property Type
+    const typeParam = urlParams.get('property_type_id') || urlParams.get('property_type');
+    if (typeParam) {
+      const types = typeParam.split(',').map(s => s.trim());
+      filterState.types = types;
+      types.forEach(t => {
+        const chk = document.querySelector(`.filter-type-chk[value="${t}"]`) as HTMLInputElement | null;
+        if (chk) chk.checked = true;
+      });
+    }
+
+    // 5. Price Min / Max
+    const priceMinParam = urlParams.get('price_min');
+    if (priceMinParam) {
+      filterState.priceMin = parseFloat(priceMinParam);
+      const sliderMin = document.getElementById('slider-min') as HTMLInputElement | null;
+      if (sliderMin) sliderMin.value = priceMinParam;
+    }
+    const priceMaxParam = urlParams.get('price_max');
+    if (priceMaxParam) {
+      filterState.priceMax = parseFloat(priceMaxParam);
+      const sliderMax = document.getElementById('slider-max') as HTMLInputElement | null;
+      if (sliderMax) sliderMax.value = priceMaxParam;
+    }
+
+    // 6. Rooms
+    const roomsParam = urlParams.get('rooms');
+    if (roomsParam) {
+      filterState.rooms = roomsParam;
+      document.querySelectorAll('.btn-select-rooms').forEach((btn: any) => {
+        if (btn.getAttribute('data-val') === roomsParam) {
+          btn.classList.add('bg-primary/10', 'text-primary');
+        } else {
+          btn.classList.remove('bg-primary/10', 'text-primary');
+        }
+      });
+    }
+
+    // 7. Bedrooms
+    const bedsParam = urlParams.get('bedrooms');
+    if (bedsParam) {
+      filterState.bedrooms = bedsParam;
+      document.querySelectorAll('.btn-select-bedrooms').forEach((btn: any) => {
+        if (btn.getAttribute('data-val') === bedsParam) {
+          btn.classList.add('bg-primary/10', 'text-primary');
+        } else {
+          btn.classList.remove('bg-primary/10', 'text-primary');
+        }
+      });
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    initBarriosDropdown();
+    initDynamicTags();
+    parseUrlParams();
     initMap();
     initDoubleSlider();
     initLayerSelect();
     initFullscreen();
-    initBarriosDropdown();
-    initDynamicTags();
     attachDynamicTagListeners();
 
     const pills = document.querySelectorAll('.filter-pill');
@@ -1441,6 +1638,20 @@ const { properties } = await getProperties();
       document.querySelectorAll('.filter-dropdown').forEach(d => d.classList.add('hidden'));
       document.querySelectorAll('.filter-pill span.material-symbols-outlined').forEach(arrow => arrow.classList.remove('rotate-180'));
     });
+
+    // Layout switcher preference saving
+    const gridLayoutBtn = document.getElementById('btn-map-layout-grid');
+    const listLayoutBtn = document.getElementById('btn-map-layout-list');
+    if (gridLayoutBtn) {
+      gridLayoutBtn.addEventListener('click', () => {
+        localStorage.setItem('muv-search-layout', 'grid');
+      });
+    }
+    if (listLayoutBtn) {
+      listLayoutBtn.addEventListener('click', () => {
+        localStorage.setItem('muv-search-layout', 'list');
+      });
+    }
 
     document.querySelectorAll('.btn-select-op').forEach((btn: any) => {
       btn.addEventListener('click', () => {

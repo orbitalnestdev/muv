@@ -137,16 +137,16 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         <div class="space-y-2">
 
             <!-- Title / Address -->
-            <h3 class="font-headline text-sm md:text-base text-primary font-bold leading-snug truncate max-w-full">
+            <h3 class="font-sans font-[400] md:text-[16px] text-[15px] text-primary leading-snug truncate max-w-full">
                 <a href={`/property/${id}/`} class="hover:text-refined-gold transition-colors">
                   {address || publication_title}
                 </a>
             </h3>
 
             <!-- Location pin + neighborhood -->
-            <div class="flex items-center gap-1 text-[#747878] text-xs font-semibold select-none leading-none">
+            <div class="flex items-center gap-1 text-[#747878] text-[13px] font-[300] font-sans select-none leading-none">
                 <span class="material-symbols-outlined text-[16px] text-[#747878] select-none pointer-events-none">location_on</span>
-                <span class="font-sans leading-none">{property.location?.name || 'Buenos Aires'}</span>
+                <span class="font-sans font-[300] text-[13px] leading-none">{property.location?.name || 'Buenos Aires'}</span>
             </div>
 
             <!-- Property type -->
@@ -155,7 +155,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
             </span>
 
             <!-- Price -->
-            <span class="font-headline text-lg text-primary font-bold block leading-none pt-0.5">{priceText}</span>
+            <span class="font-sans font-[700] text-[16px] text-primary block leading-none pt-0.5">{priceText}</span>
         </div>
         
         <!-- Specs row matching reference exactly (No capsules, raw gray outline SVGs and numbers) -->

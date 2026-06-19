@@ -11,8 +11,8 @@ const { isDarkHero = false } = Astro.props;
   class:list={[
     "fixed top-0 w-full z-50 transition-all duration-300",
     isDarkHero 
-      ? "bg-transparent py-6 text-pure-white border-b border-white/10" 
-      : "bg-surface/90 backdrop-blur-nav py-4 text-primary shadow-md border-b border-outline-variant/30"
+      ? "bg-transparent py-6 text-pure-white" 
+      : "bg-surface/90 backdrop-blur-nav py-4 text-primary shadow-md"
   ]}
 >
     <div class="flex justify-between items-center px-margin-desktop max-w-container-max mx-auto">
@@ -28,19 +28,19 @@ const { isDarkHero = false } = Astro.props;
             />
         </a>
         <div class="hidden md:flex items-center space-x-3 lg:space-x-5 xl:space-x-7">
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=1">Venta</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/emprendimientos/">Emprendimientos</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/mapa/">Mapa</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/tasaciones/">Tasaciones</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/quienes-somos/">Quienes Somos</a>
-            <a class="text-label-lg font-medium normal-case hover:text-refined-gold transition-colors" href="/contacto/">Contacto</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=1">Venta</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/emprendimientos/">Emprendimientos</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/mapa/">Mapa</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/tasaciones/">Tasaciones</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/quienes-somos/">Quienes Somos</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/contacto/">Contacto</a>
             <a 
               href="https://wa.me/5491122862000" 
               target="_blank" 
               rel="noopener noreferrer"
               class:list={[
-                "flex items-center gap-1.5 px-4 lg:px-5 py-2 rounded font-label-lg text-label-lg transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs font-bold",
+                "flex items-center gap-1.5 px-4 lg:px-5 py-2 rounded font-sans text-[15px] font-[500] transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs",
                 isDarkHero 
                   ? "bg-pure-white text-primary hover:bg-refined-gold hover:text-pure-white"
                   : "bg-primary text-pure-white hover:bg-refined-gold hover:text-primary"
@@ -71,13 +71,13 @@ const { isDarkHero = false } = Astro.props;
             <span class="font-headline-md text-primary font-bold">MUV</span>
             <span class="material-symbols-outlined cursor-pointer text-primary" id="menu-close">close</span>
         </div>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=1">Venta</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/emprendimientos/">Emprendimientos</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/mapa/">Mapa</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/tasaciones/">Tasaciones</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/quienes-somos/">Quienes Somos</a>
-        <a class="text-label-lg font-medium normal-case text-secondary hover:text-primary transition-colors" href="/contacto/">Contacto</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=1">Venta</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/emprendimientos/">Emprendimientos</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/mapa/">Mapa</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/tasaciones/">Tasaciones</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/quienes-somos/">Quienes Somos</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/contacto/">Contacto</a>
         <a 
           href="https://wa.me/5491122862000" 
           target="_blank" 
@@ -110,8 +110,8 @@ const { isDarkHero = false } = Astro.props;
         if (!topNav || !logoImg) return;
         
         if (window.scrollY > 50) {
-            topNav.classList.add('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
-            topNav.classList.remove('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
+            topNav.classList.add('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md');
+            topNav.classList.remove('bg-transparent', 'py-6', 'text-pure-white');
             logoImg.classList.add('brightness-0');
             logoImg.classList.remove('invert');
             if (menuToggle) {
@@ -119,8 +119,8 @@ const { isDarkHero = false } = Astro.props;
               menuToggle.classList.add('text-primary');
             }
         } else {
-            topNav.classList.add('bg-transparent', 'py-6', 'text-pure-white', 'border-b', 'border-white/10');
-            topNav.classList.remove('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md', 'border-b', 'border-outline-variant/30');
+            topNav.classList.add('bg-transparent', 'py-6', 'text-pure-white');
+            topNav.classList.remove('bg-surface/90', 'backdrop-blur-nav', 'py-4', 'text-primary', 'shadow-md');
             logoImg.classList.add('brightness-0', 'invert');
             if (menuToggle) {
               menuToggle.classList.remove('text-primary');
