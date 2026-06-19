@@ -1,4 +1,6 @@
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 const TOKKO_API_KEY = import.meta.env.TOKKO_API_KEY || process.env.TOKKO_API_KEY || '';
 
@@ -192,6 +194,46 @@ let isInitialized = false;
 let initialFetchPromise: Promise<void> | null = null;
 let refreshInterval: NodeJS.Timeout | null = null;
 
+// Disk Cache Configuration
+const CACHE_DIR = path.join(process.cwd(), '.cache');
+const CACHE_FILE = path.join(CACHE_DIR, 'tokko-cache.json');
+
+// Helper to load cache from disk
+function loadCacheFromDisk(): boolean {
+  try {
+    if (fs.existsSync(CACHE_FILE)) {
+      const data = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'));
+      if (data && Array.isArray(data.properties) && Array.isArray(data.developments)) {
+        propertiesCatalog = data.properties;
+        developmentsCatalog = data.developments;
+        isInitialized = true;
+        console.log(`[Tokko Disk Cache] Loaded ${propertiesCatalog.length} properties and ${developmentsCatalog.length} developments from disk cache.`);
+        return true;
+      }
+    }
+  } catch (err: any) {
+    console.error("[Tokko Disk Cache] Failed to read disk cache:", err.message);
+  }
+  return false;
+}
+
+// Helper to save cache to disk
+function saveCacheToDisk(): void {
+  try {
+    if (!fs.existsSync(CACHE_DIR)) {
+      fs.mkdirSync(CACHE_DIR, { recursive: true });
+    }
+    fs.writeFileSync(CACHE_FILE, JSON.stringify({
+      properties: propertiesCatalog,
+      developments: developmentsCatalog,
+      updatedAt: new Date().toISOString()
+    }, null, 2), 'utf-8');
+    console.log("[Tokko Disk Cache] Catalog cached successfully on disk.");
+  } catch (err: any) {
+    console.error("[Tokko Disk Cache] Failed to write cache to disk:", err.message);
+  }
+}
+
 // Helper query function for Tokko Broker REST API
 async function fetchTokko(endpoint: string, params: any = {}) {
   if (!TOKKO_API_KEY) {
@@ -236,30 +278,53 @@ async function refreshCatalog() {
   let newProperties: Property[] = [];
   try {
     const limit = 100;
-    let offset = 0;
-    let fetchedAll = false;
-    while (!fetchedAll) {
-      const data = await fetchTokko('https://www.tokkobroker.com/api/v1/property/search/', {
-        limit,
-        offset,
-        data: JSON.stringify({
-          current_localization_id: 0,
-          current_localization_type: "country",
-          price_from: 0,
-          price_to: 99999999,
-          operation_types: [],
-          property_types: [],
-          filters: []
-        })
-      });
-      if (data && data.objects && data.objects.length > 0) {
-        newProperties = newProperties.concat(data.objects);
-        offset += limit;
-        if (newProperties.length >= data.meta.total_count || data.objects.length < limit) {
-          fetchedAll = true;
+    console.log("[Tokko API] Fetching first page of properties...");
+    const firstPageData = await fetchTokko('https://www.tokkobroker.com/api/v1/property/search/', {
+      limit,
+      offset: 0,
+      data: JSON.stringify({
+        current_localization_id: 0,
+        current_localization_type: "country",
+        price_from: 0,
+        price_to: 99999999,
+        operation_types: [],
+        property_types: [],
+        filters: []
+      })
+    });
+
+    if (firstPageData && firstPageData.objects) {
+      newProperties = newProperties.concat(firstPageData.objects);
+      const totalCount = firstPageData.meta?.total_count || 0;
+      console.log(`[Tokko API] First page of properties loaded. Total properties on server: ${totalCount}`);
+      
+      if (totalCount > limit) {
+        const remainingPromises = [];
+        for (let offset = limit; offset < totalCount; offset += limit) {
+          console.log(`[Tokko API] Queueing parallel properties fetch for offset ${offset}...`);
+          remainingPromises.push(
+            fetchTokko('https://www.tokkobroker.com/api/v1/property/search/', {
+              limit,
+              offset,
+              data: JSON.stringify({
+                current_localization_id: 0,
+                current_localization_type: "country",
+                price_from: 0,
+                price_to: 99999999,
+                operation_types: [],
+                property_types: [],
+                filters: []
+              })
+            })
+          );
         }
-      } else {
-        fetchedAll = true;
+        
+        const remainingResults = await Promise.all(remainingPromises);
+        remainingResults.forEach(data => {
+          if (data && data.objects) {
+            newProperties = newProperties.concat(data.objects);
+          }
+        });
       }
     }
   } catch (err: any) {
@@ -270,21 +335,34 @@ async function refreshCatalog() {
   let newDevelopments: Development[] = [];
   try {
     const limit = 100;
-    let offset = 0;
-    let fetchedAll = false;
-    while (!fetchedAll) {
-      const data = await fetchTokko('https://www.tokkobroker.com/api/v1/development/', {
-        limit,
-        offset
-      });
-      if (data && data.objects && data.objects.length > 0) {
-        newDevelopments = newDevelopments.concat(data.objects);
-        offset += limit;
-        if (newDevelopments.length >= data.meta.total_count || data.objects.length < limit) {
-          fetchedAll = true;
+    console.log("[Tokko API] Fetching first page of developments...");
+    const firstPageData = await fetchTokko('https://www.tokkobroker.com/api/v1/development/', {
+      limit,
+      offset: 0
+    });
+
+    if (firstPageData && firstPageData.objects) {
+      newDevelopments = newDevelopments.concat(firstPageData.objects);
+      const totalCount = firstPageData.meta?.total_count || 0;
+      console.log(`[Tokko API] First page of developments loaded. Total developments on server: ${totalCount}`);
+
+      if (totalCount > limit) {
+        const remainingPromises = [];
+        for (let offset = limit; offset < totalCount; offset += limit) {
+          console.log(`[Tokko API] Queueing parallel developments fetch for offset ${offset}...`);
+          remainingPromises.push(
+            fetchTokko('https://www.tokkobroker.com/api/v1/development/', {
+              limit,
+              offset
+            })
+          );
         }
-      } else {
-        fetchedAll = true;
+        const remainingResults = await Promise.all(remainingPromises);
+        remainingResults.forEach(data => {
+          if (data && data.objects) {
+            newDevelopments = newDevelopments.concat(data.objects);
+          }
+        });
       }
     }
   } catch (err: any) {
@@ -299,6 +377,7 @@ async function refreshCatalog() {
     developmentsCatalog = newDevelopments;
   }
 
+  saveCacheToDisk();
   startRefreshInterval();
 }
 
@@ -307,8 +386,26 @@ export async function ensureCatalogLoaded(): Promise<void> {
   if (isInitialized) return;
   if (initialFetchPromise) return initialFetchPromise;
 
+  // Try to load from disk first. If we succeed, we mark isInitialized = true,
+  // and trigger the background refresh asynchronously without blocking!
+  const loadedFromDisk = loadCacheFromDisk();
+
+  if (loadedFromDisk) {
+    // Disk cache loaded. Trigger refresh catalog in background without awaiting it.
+    // This makes the page load INSTANTLY.
+    (async () => {
+      try {
+        console.log("[Tokko RAM Store] Triggering background refresh after disk cache load...");
+        await refreshCatalog();
+      } catch (err: any) {
+        console.error("[Tokko RAM Store] Background refresh failed:", err.message);
+      }
+    })();
+    return;
+  }
+
   initialFetchPromise = (async () => {
-    console.log("[Tokko RAM Store] Initializing properties catalog...");
+    console.log("[Tokko RAM Store] Initializing properties catalog from API (blocking)...");
     try {
       await refreshCatalog();
       console.log(`[Tokko RAM Store] Initialization complete. Catalog contains ${propertiesCatalog.length} properties.`);
@@ -319,6 +416,7 @@ export async function ensureCatalogLoaded(): Promise<void> {
       startRefreshInterval();
     } finally {
       isInitialized = true;
+      initialFetchPromise = null;
     }
   })();
 
