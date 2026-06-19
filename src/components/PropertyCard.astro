@@ -267,11 +267,13 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
   /* Support horizontal list view layout dynamically */
   .list-view-active .property-card {
     flex-direction: row !important;
-    height: 200px !important;
+    min-height: 200px !important;
+    height: auto !important;
   }
   @media (max-width: 640px) {
     .list-view-active .property-card {
       flex-direction: column !important;
+      min-height: 0 !important;
       height: auto !important;
     }
   }
@@ -291,6 +293,10 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
     text-align: left !important;
     justify-content: space-between !important;
     flex-grow: 1 !important;
+  }
+  /* Left-align any center-justified flex rows inside the details box in list view */
+  .list-view-active .property-card .p-5 .flex {
+    justify-content: flex-start !important;
   }
   .list-view-active .property-card .border-t {
     justify-content: flex-start !important;

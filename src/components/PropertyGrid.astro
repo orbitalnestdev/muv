@@ -10,6 +10,9 @@ interface Props {
 
 const { properties, currentPage, totalPages } = Astro.props;
 
+const url = Astro.url;
+const view = url.searchParams.get('view') || 'grid';
+
 // Generate clean query URL relative path
 const canonicalUrl = Astro.url;
 function getPageLink(pageNumber: number) {
@@ -19,7 +22,7 @@ function getPageLink(pageNumber: number) {
 }
 ---
 
-<div class="space-y-12 w-full" id="property-grid-outer">
+<div class:list={["space-y-12 w-full", view === 'list' && "list-view-active"]} id="property-grid-outer">
     {properties.length === 0 ? (
         <div class="text-center py-20 bg-pure-white border border-outline-variant/30 rounded-lg shadow-sm w-full">
             <span class="material-symbols-outlined text-[64px] text-secondary/40 mb-4">search_off</span>
@@ -27,7 +30,13 @@ function getPageLink(pageNumber: number) {
             <p class="font-body-md text-secondary">No encontramos propiedades que coincidan con tus filtros.</p>
         </div>
     ) : (
-        <div id="property-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full transition-all duration-350">
+        <div 
+          id="property-grid-container" 
+          class:list={[
+            "grid w-full transition-all duration-350",
+            view === 'list' ? "grid-cols-1 gap-6" : "grid-cols-1 md:grid-cols-2 gap-8"
+          ]}
+        >
             {properties.map((prop) => (
                 <PropertyCard property={prop} />
             ))}

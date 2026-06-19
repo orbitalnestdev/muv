@@ -147,7 +147,10 @@ function getLayoutUrl(newView: string) {
                                 <button 
                                   type="button" 
                                   id="btn-layout-grid" 
-                                  class="w-8 h-8 rounded-md flex items-center justify-center transition-all bg-primary text-pure-white" 
+                                  class:list={[
+                                    "w-8 h-8 rounded-md flex items-center justify-center transition-all",
+                                    view === 'list' ? "text-secondary hover:text-primary" : "bg-primary text-pure-white"
+                                  ]}
                                   aria-label="Vista cuadrícula"
                                 >
                                     <span class="material-symbols-outlined text-[18px]">grid_view</span>
@@ -155,7 +158,10 @@ function getLayoutUrl(newView: string) {
                                 <button 
                                   type="button" 
                                   id="btn-layout-list" 
-                                  class="w-8 h-8 rounded-md flex items-center justify-center transition-all text-secondary hover:text-primary" 
+                                  class:list={[
+                                    "w-8 h-8 rounded-md flex items-center justify-center transition-all",
+                                    view === 'list' ? "bg-primary text-pure-white" : "text-secondary hover:text-primary"
+                                  ]}
                                   aria-label="Vista lista"
                                 >
                                     <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
