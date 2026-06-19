@@ -28,7 +28,7 @@ export interface Property {
   }>;
   location: { id: number; name: string; full_location: string };
   photos: Array<{ image: string; thumb: string }>;
-  tags: Array<{ name: string }>;
+  tags: Array<{ name: string; type?: number; id?: number }>;
   geo_lat?: string;
   geo_long?: string;
 }
@@ -40,6 +40,10 @@ export interface Development {
   construction_status: string;
   location: { name: string; full_location: string };
   photos: Array<{ image: string }>;
+  address?: string;
+  fake_address?: string;
+  geo_lat?: string;
+  geo_long?: string;
 }
 
 export interface LeadPayload {
@@ -546,6 +550,32 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
   if (filters.bedrooms) {
     const b = Number(filters.bedrooms);
     result = result.filter(p => p.suite_amount === b);
+  }
+
+  if (filters.bathrooms) {
+    const b = Number(filters.bathrooms);
+    result = result.filter(p => p.bathroom_amount === b || (b === 4 && (p.bathroom_amount || 0) >= 4));
+  }
+
+  if (filters.garage) {
+    const g = Number(filters.garage);
+    result = result.filter(p => p.parking_lot_amount === g || (g === 4 && (p.parking_lot_amount || 0) >= 4));
+  }
+
+  if (filters.surface_min) {
+    const sMin = Number(filters.surface_min);
+    result = result.filter(p => {
+      const surf = parseFloat(p.covered_surface || p.surface || '0');
+      return surf >= sMin;
+    });
+  }
+
+  if (filters.surface_max) {
+    const sMax = Number(filters.surface_max);
+    result = result.filter(p => {
+      const surf = parseFloat(p.covered_surface || p.surface || '0');
+      return surf > 0 && surf <= sMax;
+    });
   }
 
   if (filters.amenities) {

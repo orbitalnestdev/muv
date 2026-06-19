@@ -71,9 +71,11 @@ const { developments } = await getDevelopments();
                   {status}
                 </span>
                 <!-- Tag Badge (Dark) -->
-                <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
-                  {tagBadge}
-                </span>
+                {tagBadge !== 'PREVENTA' && (
+                  <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
+                    {tagBadge}
+                  </span>
+                )}
               </div>
 
               <!-- Bottom Overlay Details -->
@@ -87,7 +89,7 @@ const { developments } = await getDevelopments();
                   </p>
                 </div>
                 <!-- Diagonal Link Arrow -->
-                <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all duration-300 shrink-0">
+                <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all duration-300 shrink-0">
                   <span class="material-symbols-outlined text-[20px] text-pure-white">arrow_outward</span>
                 </div>
               </div>

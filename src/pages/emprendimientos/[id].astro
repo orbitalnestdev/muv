@@ -23,11 +23,12 @@ const {
   description,
   construction_status,
   location,
-  photos = []
+  photos = [],
+  address
 } = development;
 
 const statusText = construction_status || "PREMIUM";
-const addressText = location?.name || "Buenos Aires";
+const addressText = address || location?.name || "Buenos Aires";
 const fullLocationText = location?.full_location ? location.full_location.split('|').slice(-2).join(', ') : '';
 
 const photosList = photos.length > 0 ? photos.map(p => p.image) : [];
@@ -67,14 +68,78 @@ const defaultAmenities = [
   { name: 'Laundry' }
 ];
 
+const tagTranslations: Record<string, string> = {
+  'Pool': 'Piscina',
+  'Gym': 'Gimnasio',
+  'Barbecue': 'Parrilla',
+  'Security': 'Seguridad',
+  'SUM': 'SUM',
+  'Balcony': 'Balcón',
+  'Professional Use': 'Apto Profesional',
+  'Solarium': 'Solarium',
+  'Laundry': 'Laundry',
+  'Playground': 'Juegos Infantiles',
+  'Green Space': 'Espacio Verde',
+  'Terrace': 'Terraza',
+  'Parking': 'Cochera',
+  'Garage': 'Cochera',
+  'Air Conditioning': 'Aire Acondicionado',
+  'Heating': 'Calefacción',
+  'Elevator': 'Ascensor',
+  'Sauna': 'Sauna',
+  'Jacuzzi': 'Jacuzzi',
+  'Security 24hs': 'Seguridad 24hs',
+  'Cocheras': 'Cocheras',
+  'Quincho': 'Quincho',
+  'Gymnasium': 'Gimnasio',
+  'Swimming Pool': 'Piscina',
+  'Water': 'Agua Corriente',
+  'Sewer': 'Cloaca',
+  'Gas': 'Gas Natural',
+  'Electricity': 'Electricidad',
+  'Internet': 'Internet',
+  'Cable TV': 'Cable',
+  'Phone Line': 'Línea Telefónica',
+  'Pavement': 'Pavimento',
+  'Storage': 'Baulera',
+  'Locker Room': 'Vestuario',
+  'Disabled Access': 'Acceso Discapacitados',
+  'Solarium Area': 'Solarium',
+  'Grill': 'Parrilla',
+};
+
+const translateTag = (name: string): string => {
+  return tagTranslations[name] || tagTranslations[name.trim()] || name;
+};
+
 const allTagsMap = new Map();
 units.forEach(u => {
   u.tags?.forEach(tag => {
-    allTagsMap.set(tag.id || tag.name, tag.name);
+    const translated = translateTag(tag.name);
+    allTagsMap.set(tag.id || tag.name, translated);
   });
 });
 const uniqueTags = Array.from(allTagsMap.values()).map(name => ({ name }));
-const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
+
+const serviceKeywords = ['agua', 'luz', 'gas', 'cloaca', 'internet', 'electricidad', 'pavimento', 'desague', 'telefono', 'cable', 'corriente', 'servicio'];
+const serviciosTags = uniqueTags.filter(tag => 
+  serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+);
+const amenitiesTags = uniqueTags.filter(tag => 
+  !serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+);
+
+const defaultServices = [
+  { name: 'Agua Corriente' },
+  { name: 'Cloaca' },
+  { name: 'Gas Natural' },
+  { name: 'Internet' },
+  { name: 'Electricidad' },
+  { name: 'Pavimento' }
+];
+
+const finalServicios = uniqueTags.length > 0 ? serviciosTags : defaultServices;
+const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
 ---
 
 <MainLayout 
@@ -88,38 +153,36 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
         <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
             <div class="flex justify-between items-center py-3 border-b border-outline-variant/15 mb-4">
                 <nav class="flex items-center text-[12px] text-secondary text-left font-sans font-[300] tracking-wide select-none">
-                    <a class="hover:text-refined-gold transition-colors" href="/">Inicio</a>
-                    <span class="text-secondary/40 mx-2.5">/</span>
-                    <a class="hover:text-refined-gold transition-colors" href="/emprendimientos/">Emprendimientos</a>
-                    <span class="text-secondary/40 mx-2.5">/</span>
+                    <a class="hover:text-primary transition-colors flex items-center" href="/">
+                        <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                        Home
+                    </a>
+                    <span class="text-secondary/40 mx-2">&gt;</span>
+                    <a class="hover:text-primary transition-colors" href="/emprendimientos/">Edificio</a>
+                    <span class="text-secondary/40 mx-2">&gt;</span>
                     <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{name}</span>
                 </nav>
                 <div class="flex gap-2">
-                    <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:text-refined-gold hover:border-refined-gold transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir emprendimiento">
+                    <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-pure-white hover:border-primary transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir emprendimiento">
                         <span class="material-symbols-outlined text-[20px]">share</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Title, Address & Status/Price Header -->
+        <!-- Title, Badges & Status/Price Header -->
         <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-5">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 text-left font-sans">
-                <div class="space-y-2.5">
-                    <h1 class="font-sans font-[400] md:text-[30px] text-2xl text-primary leading-tight tracking-tight">
+                <div class="space-y-2">
+                    <h1 class="font-sans font-[300] md:text-[36px] text-2xl text-primary leading-tight tracking-tight">
                         {name}
                     </h1>
                     
-                    <p class="text-secondary flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
-                        <span class="material-symbols-outlined text-refined-gold text-[16px]">location_on</span>
-                        <span>{addressText} {fullLocationText ? `, ${fullLocationText}` : ''}</span>
-                    </p>
-                    
                     <div class="flex flex-wrap items-center gap-2 pt-1 select-none">
-                        <span class="bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                        <span class="bg-[#7CB342] text-pure-white px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-full">
                             {statusText}
                         </span>
-                        <span class="bg-black/10 text-black border border-black/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                        <span class="bg-[#545F72] text-pure-white px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-full">
                             EMPRENDIMIENTO
                         </span>
                     </div>
@@ -144,35 +207,35 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
             <div class="bg-pure-white border border-outline-variant/30 rounded-xl shadow-sm flex flex-wrap justify-center items-center gap-x-6 md:gap-x-12 gap-y-4 py-6 px-4 select-none font-sans font-[300]">
                 <!-- Item 1: Tipo de Ficha -->
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">domain</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">domain</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">Emprendimiento</span>
                 </div>
                 
                 <!-- Item 2: Estado de Obra -->
                 <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">construction</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">construction</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">{statusText}</span>
                 </div>
                 
                 <!-- Item 3: Cantidad de Unidades -->
                 <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">view_cozy</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">view_cozy</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">{units.length} {units.length === 1 ? 'unidad' : 'unidades'}</span>
                 </div>
                 
                 <!-- Item 4: Pisos -->
                 <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">layers</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">layers</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">12 Pisos</span>
                 </div>
                 
                 <!-- Item 5: Amenities -->
                 <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">pool</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">pool</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">980 m² Amenities</span>
                 </div>
             </div>
@@ -194,7 +257,7 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
                 <div class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
                     <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Ubicación</h3>
                     <a 
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText)}`} 
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText + (location?.name ? ', ' + location.name : '') + ', Buenos Aires')}`} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       class="bg-black text-pure-white hover:bg-[#C5A059] transition-colors px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 cursor-pointer"
@@ -203,64 +266,157 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
                         <span>Abrir en Google Maps</span>
                     </a>
                 </div>
-                
-                <p class="text-[#747878] font-bold text-sm uppercase tracking-wide">
-                    {addressText} {fullLocationText ? `, ${fullLocationText}` : ''}
-                </p>
-                
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Excelente Ubicación
-                    </span>
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Acceso a Transportes
-                    </span>
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Zona de Crecimiento
-                    </span>
-                </div>
 
                 <div class="relative w-full h-[400px] rounded-xl overflow-hidden border border-outline-variant/35 bg-surface-container shadow-sm mt-4">
                     <iframe 
                       class="w-full h-full border-0 brightness-[0.98] contrast-[1.02]" 
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(addressText)}&t=&z=14&ie=UTF8&iwloc=&output=embed`} 
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(addressText + (location?.name ? ', ' + location.name : '') + ', Buenos Aires')}&t=&z=14&ie=UTF8&iwloc=&output=embed`} 
                       loading="lazy" 
                       allowfullscreen
                     ></iframe>
                 </div>
             </section>
 
-            <!-- Unidades Disponibles (Table) -->
+            <!-- Unidades Disponibles (Table/Cards) -->
             <section class="space-y-6 font-sans text-left">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-end border-b border-outline-variant/10 pb-3 gap-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-outline-variant/10 pb-3 gap-4">
                     <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Unidades Disponibles</h3>
-                    <div class="flex flex-wrap gap-4 select-none">
-                        <select id="filter-rooms" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none">
+                    <div class="flex flex-wrap items-center gap-4 select-none">
+                        <!-- View Toggle -->
+                        <div class="flex items-center bg-surface-container-low/40 border border-outline-variant/20 p-1 rounded-lg">
+                          <button id="view-cards-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer" title="Vista Tarjetas">
+                            <span class="material-symbols-outlined text-[16px]">view_list</span>
+                            <span class="hidden sm:inline">Tarjetas</span>
+                          </button>
+                          <button id="view-table-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer" title="Vista Tabla">
+                            <span class="material-symbols-outlined text-[16px]">table_rows</span>
+                            <span class="hidden sm:inline">Tabla</span>
+                          </button>
+                        </div>
+
+                        <select id="filter-rooms" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none">
                             <option value="">Todos los ambientes</option>
                             <option value="1">1 Ambiente</option>
                             <option value="2">2 Ambientes</option>
                             <option value="3">3 Ambientes</option>
                             <option value="4">4+ Ambientes</option>
                         </select>
-                        <select id="sort-price" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none">
+                        <select id="sort-price" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none">
                             <option value="asc">Precio: Menor a Mayor</option>
                             <option value="desc">Precio: Mayor a Menor</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="overflow-x-auto bg-pure-white rounded-xl border border-outline-variant/20 shadow-sm mt-4">
+                <!-- Vista de Tarjetas (Principal) -->
+                <div id="units-cards-wrapper" class="w-full">
+                    {units.length === 0 ? (
+                        <div class="p-8 text-center text-secondary font-[300] bg-pure-white rounded-xl border border-outline-variant/20 shadow-sm mt-4">
+                            No hay unidades disponibles en este momento.
+                        </div>
+                    ) : (
+                        <div class="max-h-[500px] overflow-y-auto pr-2 custom-scrollbar mt-4">
+                            <div class="space-y-4" id="units-cards-container">
+                                {units.map(u => {
+                                    const ventaOp = u.operations?.find(op => op.operation_type.toLowerCase() === 'venta');
+                                    const ventaPrice = ventaOp?.prices?.[0];
+                                    const ventaVal = ventaPrice?.price || 0;
+                                    const ventaText = ventaVal > 0 
+                                      ? `${ventaPrice.currency || 'USD'} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(ventaVal)}` 
+                                      : '-';
+
+                                    const alquilerOp = u.operations?.find(op => op.operation_type.toLowerCase() === 'alquiler');
+                                    const alquilerPrice = alquilerOp?.prices?.[0];
+                                    const alquilerVal = alquilerPrice?.price || 0;
+                                    const alquilerText = alquilerVal > 0 
+                                      ? `${alquilerPrice.currency || 'USD'} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(alquilerVal)}` 
+                                      : '-';
+
+                                    const rooms = u.room_amount || 1;
+                                    const baths = (u.bathroom_amount || 0) + (u.toilet_amount || 0) || 1;
+                                    
+                                    const unitPhoto = u.photos && u.photos.length > 0 
+                                      ? u.photos[0].image 
+                                      : (photosList.length > 0 ? photosList[0] : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80');
+
+                                    const opText = ventaVal > 0 ? 'Venta' : 'Alquiler';
+                                    const priceDisplay = ventaVal > 0 ? ventaText : alquilerText;
+                                    const sortPriceVal = ventaVal > 0 ? ventaVal : alquilerVal;
+
+                                    const unitTitle = u.publication_title || `${u.address || address || name.split(' - ')[0]}${u.floor || u.apartment_door ? ' ' + [u.floor, u.apartment_door].filter(Boolean).join('-') : ''} (${rooms} Amb)`;
+                                    
+                                    return (
+                                        <div 
+                                          class="unit-card border border-outline-variant/30 rounded-2xl bg-pure-white p-4 shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-300 flex items-center justify-between gap-4 cursor-pointer"
+                                          data-id={u.id}
+                                          data-price={sortPriceVal}
+                                          data-rooms={rooms}
+                                        >
+                                            <div class="flex items-center gap-4 flex-1 min-w-0">
+                                                <!-- Left: Image -->
+                                                <div class="w-24 h-16 sm:w-32 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-surface-container shadow-sm border border-outline-variant/10">
+                                                    <img 
+                                                      class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                                                      src={unitPhoto} 
+                                                      alt={unitTitle}
+                                                      loading="lazy"
+                                                    />
+                                                </div>
+                                                
+                                                <!-- Middle: Details -->
+                                                <div class="flex-1 min-w-0 text-left space-y-1">
+                                                    <p class="text-[11px] text-secondary/60 uppercase tracking-wider font-semibold font-sans truncate">
+                                                        {u.reference_code || `MUV${u.id}`} | {u.type?.name || 'Departamento'}
+                                                    </p>
+                                                    <h4 class="font-sans font-bold text-sm sm:text-base text-primary truncate leading-snug">
+                                                        {unitTitle}
+                                                    </h4>
+                                                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-secondary/80 font-sans pt-0.5">
+                                                        <div class="flex items-center gap-1">
+                                                            <span class="material-symbols-outlined text-[15px] text-secondary/50">meeting_room</span>
+                                                            <span>{rooms} {rooms === 1 ? 'ambiente' : 'ambientes'}</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-1">
+                                                            <span class="material-symbols-outlined text-[15px] text-secondary/50">bathtub</span>
+                                                            <span>{baths} {baths === 1 ? 'baño' : 'baños'}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Right: Separator and Price -->
+                                            <div class="flex items-center shrink-0">
+                                                <div class="h-12 w-[1px] bg-outline-variant/20 mx-2 sm:mx-4 hidden sm:block"></div>
+                                                <div class="flex flex-col items-end justify-center min-w-[100px] sm:min-w-[120px] text-right space-y-1 font-sans">
+                                                    <span class="bg-surface-container-low border border-outline-variant/25 text-secondary text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full select-none">
+                                                        {opText}
+                                                    </span>
+                                                    <span class="text-sm sm:text-base font-bold text-primary font-headline block leading-tight">
+                                                        {priceDisplay}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <!-- Vista de Tabla (Secundaria) -->
+                <div id="units-table-wrapper" class="overflow-auto max-h-[500px] bg-pure-white rounded-xl border border-outline-variant/20 shadow-sm mt-4 hidden custom-scrollbar">
                     <table class="w-full border-collapse text-left">
-                        <thead>
+                        <thead class="sticky top-0 z-10 bg-pure-white shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
                             <tr class="border-b border-outline-variant/15 text-left bg-surface-container-low/20">
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Dirección</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Ambientes</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Dormitorios</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Superficie Cubierta</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Superficie Total</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Cochera</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Venta</th>
-                                <th class="p-6 font-sans text-xs text-primary font-bold uppercase tracking-wider">Alquiler</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Dirección</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Ambientes</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Dormitorios</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Superficie Cubierta</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Superficie Total</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Cochera</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Venta</th>
+                                <th class="p-6 font-sans text-[15px] font-bold text-primary">Alquiler</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-outline-variant/15 font-sans font-[300] text-slate-blue/80" id="units-table-body">
@@ -294,19 +450,19 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
 
                                     return (
                                         <tr 
-                                          class="unit-row hover:bg-surface-container-lowest transition-colors duration-200 cursor-pointer"
+                                          class="unit-row odd:bg-pure-white even:bg-surface-container-low/50 hover:bg-surface-container-high/70 transition-colors duration-200 cursor-pointer"
                                           data-id={u.id}
                                           data-price={sortPriceVal}
                                           data-rooms={rooms}
                                         >
-                                            <td class="p-6 text-xs lg:text-[15px] font-sans font-[300] text-primary">{u.address ? `${u.address}${u.location?.name ? `, ${u.location.name}` : ''}` : `${name.split(' - ')[0]}${u.location?.name ? `, ${u.location.name}` : ''}`}</td>
-                                            <td class="p-6 text-sm">{rooms}</td>
-                                            <td class="p-6 text-sm">{bedrooms}</td>
-                                            <td class="p-6 text-sm">{coveredSize}</td>
-                                            <td class="p-6 text-sm">{totalSize}</td>
-                                            <td class="p-6 text-sm">{hasParking}</td>
-                                            <td class="p-6 text-sm text-primary font-medium">{ventaText}</td>
-                                            <td class="p-6 text-sm text-primary font-medium">{alquilerText}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-primary">{u.address ? `${u.address}${u.location?.name ? `, ${u.location.name}` : ''}` : `${name.split(' - ')[0]}${u.location?.name ? `, ${u.location.name}` : ''}`}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{rooms}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{bedrooms}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{coveredSize}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{totalSize}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{hasParking}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-primary">{ventaText}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-primary">{alquilerText}</td>
                                         </tr>
                                     );
                                 })
@@ -353,18 +509,39 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
 
             <!-- Characteristics & Amenities -->
             <section class="space-y-6 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Amenities del Proyecto</h3>
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características</h3>
                 
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    {tagsToDisplay.map((t) => (
-                        <div class="flex items-center gap-2.5 text-secondary text-sm font-semibold py-1">
-                            <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span>{t.name}</span>
+                {finalServicios.length > 0 && (
+                    <div class="space-y-3">
+                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Servicios</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+                            {finalServicios.map((t) => (
+                                <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
+                                    <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{t.name}</span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                )}
+
+                {finalAmenities.length > 0 && (
+                    <div class="space-y-3 pt-2">
+                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Adicionales</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+                            {finalAmenities.map((t) => (
+                                <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
+                                    <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{t.name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </section>
 
             <!-- Contact/Inquiry Lead Section (Centered Full-Width style) -->
@@ -380,7 +557,7 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
                 <section class="py-12 border-t border-outline-variant/10 select-none">
                     <div class="flex justify-between items-end mb-10">
                         <div class="text-left space-y-1.5 font-sans">
-                            <span class="text-refined-gold font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
+                            <span class="text-secondary font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
                             <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Otros Emprendimientos</h2>
                         </div>
                         <a href="/emprendimientos/" class="text-xs font-bold font-sans text-secondary hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-widest">
@@ -419,9 +596,11 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
                                     <span class="bg-[#7CB342] text-pure-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
                                       {status}
                                     </span>
-                                    <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
-                                      {tagBadge}
-                                    </span>
+                                    {tagBadge !== 'PREVENTA' && (
+                                      <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
+                                        {tagBadge}
+                                      </span>
+                                    )}
                                   </div>
 
                                   <!-- Bottom Overlay Details -->
@@ -434,7 +613,7 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
                                         {shortDesc}
                                       </p>
                                     </div>
-                                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all duration-300 shrink-0">
+                                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all duration-300 shrink-0">
                                       <span class="material-symbols-outlined text-[20px] text-pure-white">arrow_outward</span>
                                     </div>
                                   </div>
@@ -490,55 +669,142 @@ const tagsToDisplay = uniqueTags.length > 0 ? uniqueTags : defaultAmenities;
         });
       }
 
-      // Redirect unit row clicks to individual property page
-      document.querySelectorAll('.unit-row').forEach(row => {
-        row.addEventListener('click', (e) => {
+      // View Toggle
+      const viewCardsBtn = document.getElementById('view-cards-btn');
+      const viewTableBtn = document.getElementById('view-table-btn');
+      const cardsWrapper = document.getElementById('units-cards-wrapper');
+      const tableWrapper = document.getElementById('units-table-wrapper');
+
+      let currentView = localStorage.getItem('muv_units_view') || 'cards';
+
+      function updateView() {
+        if (currentView === 'cards') {
+          cardsWrapper?.classList.remove('hidden');
+          tableWrapper?.classList.add('hidden');
+          
+          viewCardsBtn?.classList.remove('bg-pure-white', 'border', 'border-outline-variant/35', 'text-secondary', 'hover:text-primary');
+          viewCardsBtn?.classList.add('bg-black', 'text-pure-white');
+          
+          viewTableBtn?.classList.remove('bg-black', 'text-pure-white');
+          viewTableBtn?.classList.add('bg-pure-white', 'border', 'border-outline-variant/35', 'text-secondary', 'hover:text-primary');
+        } else {
+          tableWrapper?.classList.remove('hidden');
+          cardsWrapper?.classList.add('hidden');
+          
+          viewTableBtn?.classList.remove('bg-pure-white', 'border', 'border-outline-variant/35', 'text-secondary', 'hover:text-primary');
+          viewTableBtn?.classList.add('bg-black', 'text-pure-white');
+          
+          viewCardsBtn?.classList.remove('bg-black', 'text-pure-white');
+          viewCardsBtn?.classList.add('bg-pure-white', 'border', 'border-outline-variant/35', 'text-secondary', 'hover:text-primary');
+        }
+      }
+
+      viewCardsBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentView = 'cards';
+        localStorage.setItem('muv_units_view', 'cards');
+        updateView();
+      });
+
+      viewTableBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentView = 'table';
+        localStorage.setItem('muv_units_view', 'table');
+        updateView();
+      });
+
+      // Call initially
+      updateView();
+
+      // Redirect unit card/row clicks to individual property page
+      document.querySelectorAll('.unit-row, .unit-card').forEach(el => {
+        el.addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
-          const unitId = row.getAttribute('data-id');
+          const unitId = el.getAttribute('data-id');
           if (unitId) {
             window.location.href = `/property/${unitId}/`;
           }
         });
       });
 
-      // Table filtering and sorting
+      // Table and Cards filtering and sorting in sync
       const filterRooms = document.getElementById('filter-rooms');
       const sortPrice = document.getElementById('sort-price');
       const tableBody = document.getElementById('units-table-body');
+      const cardsContainer = document.getElementById('units-cards-container');
 
-      function filterAndSortTable() {
-        if (!tableBody) return;
+      function filterAndSortUnits() {
         const roomVal = filterRooms?.value || '';
         const sortVal = sortPrice?.value || 'asc';
-        const rows = Array.from(tableBody.querySelectorAll('.unit-row'));
 
-        rows.forEach(row => {
-          const rooms = row.getAttribute('data-rooms') || '';
-          const matchRooms = !roomVal || rooms === roomVal || (roomVal === '4' && parseInt(rooms) >= 4);
+        // Filter and sort Table rows
+        if (tableBody) {
+          const rows = Array.from(tableBody.querySelectorAll('.unit-row'));
+          rows.forEach(row => {
+            const rooms = row.getAttribute('data-rooms') || '';
+            const matchRooms = !roomVal || rooms === roomVal || (roomVal === '4' && parseInt(rooms) >= 4);
+            if (matchRooms) {
+              row.classList.remove('hidden');
+            } else {
+              row.classList.add('hidden');
+            }
+          });
 
-          if (matchRooms) {
-            row.classList.remove('hidden');
-          } else {
-            row.classList.add('hidden');
-          }
-        });
+          const sortedRows = rows.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price') || '0');
+            const priceB = parseFloat(b.getAttribute('data-price') || '0');
+            return sortVal === 'asc' ? priceA - priceB : priceB - priceA;
+          });
 
-        const sorted = rows.sort((a, b) => {
-          const priceA = parseFloat(a.getAttribute('data-price') || '0');
-          const priceB = parseFloat(b.getAttribute('data-price') || '0');
-          return sortVal === 'asc' ? priceA - priceB : priceB - priceA;
-        });
+          sortedRows.forEach(row => tableBody.appendChild(row));
+        }
 
-        sorted.forEach(row => tableBody.appendChild(row));
+        // Filter and sort Cards
+        if (cardsContainer) {
+          const cards = Array.from(cardsContainer.querySelectorAll('.unit-card'));
+          cards.forEach(card => {
+            const rooms = card.getAttribute('data-rooms') || '';
+            const matchRooms = !roomVal || rooms === roomVal || (roomVal === '4' && parseInt(rooms) >= 4);
+            if (matchRooms) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          const sortedCards = cards.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price') || '0');
+            const priceB = parseFloat(b.getAttribute('data-price') || '0');
+            return sortVal === 'asc' ? priceA - priceB : priceB - priceA;
+          });
+
+          sortedCards.forEach(card => cardsContainer.appendChild(card));
+        }
       }
 
-      filterRooms?.addEventListener('change', filterAndSortTable);
-      sortPrice?.addEventListener('change', filterAndSortTable);
+      filterRooms?.addEventListener('change', filterAndSortUnits);
+      sortPrice?.addEventListener('change', filterAndSortUnits);
     </script>
 </MainLayout>
 
 <style is:global>
   .filled-icon {
     font-variation-settings: 'FILL' 1 !important;
+  }
+  
+  /* Custom premium scrollbar styling */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
   }
 </style>

@@ -41,6 +41,70 @@ const {
   geo_long
 } = property;
 
+const tagTranslations: Record<string, string> = {
+  'Pool': 'Piscina',
+  'Gym': 'Gimnasio',
+  'Barbecue': 'Parrilla',
+  'Security': 'Seguridad',
+  'SUM': 'SUM',
+  'Balcony': 'Balcón',
+  'Professional Use': 'Apto Profesional',
+  'Solarium': 'Solarium',
+  'Laundry': 'Laundry',
+  'Playground': 'Juegos Infantiles',
+  'Green Space': 'Espacio Verde',
+  'Terrace': 'Terraza',
+  'Parking': 'Cochera',
+  'Garage': 'Cochera',
+  'Air Conditioning': 'Aire Acondicionado',
+  'Heating': 'Calefacción',
+  'Elevator': 'Ascensor',
+  'Sauna': 'Sauna',
+  'Jacuzzi': 'Jacuzzi',
+  'Security 24hs': 'Seguridad 24hs',
+  'Cocheras': 'Cocheras',
+  'Quincho': 'Quincho',
+  'Gymnasium': 'Gimnasio',
+  'Swimming Pool': 'Piscina',
+  'Water': 'Agua Corriente',
+  'Sewer': 'Cloaca',
+  'Gas': 'Gas Natural',
+  'Electricity': 'Electricidad',
+  'Internet': 'Internet',
+  'Cable TV': 'Cable',
+  'Phone Line': 'Línea Telefónica',
+  'Pavement': 'Pavimento',
+  'Storage': 'Baulera',
+  'Locker Room': 'Vestuario',
+  'Disabled Access': 'Acceso Discapacitados',
+  'Solarium Area': 'Solarium',
+  'Grill': 'Parrilla',
+  'Kitchen': 'Cocina',
+  'Cocina': 'Cocina',
+  'Office': 'Oficina',
+  'Basement': 'Sótano',
+  'Toilet': 'Toilette',
+  'Toilette': 'Toilette',
+  'Playroom': 'Playroom',
+  'Living Room': 'Living',
+  'Dining Room': 'Comedor',
+  'Suite': 'Dormitorio en suite',
+  'Dressing Room': 'Vestidor',
+  'Desk': 'Escritorio',
+  'Patio': 'Patio',
+  'Garden': 'Jardín',
+  'Yard': 'Patio/Jardín',
+  'Attic': 'Altillo',
+  'Service quarters': 'Dependencia de servicio',
+  'Hall': 'Hall',
+  'Gallery': 'Galería',
+  'Backyard': 'Jardín trasero'
+};
+
+const translateTag = (name: string): string => {
+  return tagTranslations[name] || tagTranslations[name.trim()] || name;
+};
+
 // Check if coordinates exist and are valid (not '0' or empty)
 const hasCoords = geo_lat && geo_long && String(geo_lat).trim() !== '0' && String(geo_long).trim() !== '0' && String(geo_lat).trim() !== '' && String(geo_long).trim() !== '';
 
@@ -88,13 +152,25 @@ const totalSurface = total_surface || covered_surface || surface || '0';
 
 const photosList = photos.length > 0 ? photos.map(p => p.image) : [];
 
-// Categorize tags/amenities into Services and Amenities lists
-const serviceKeywords = ['agua', 'luz', 'gas', 'cloaca', 'internet', 'electricidad', 'pavimento', 'desague', 'telefono', 'cable', 'corriente', 'servicio'];
+// Categorize tags/amenities into Services, Spaces (Ambientes), and Amenities lists
+const serviceKeywords = ['agua', 'luz', 'gas', 'cloaca', 'internet', 'electricidad', 'pavimento', 'desague', 'telefono', 'cable', 'corriente', 'servicio', 'wifi', 'teléfono'];
+const ambienteKeywords = [
+  'cocina', 'oficina', 'sótano', 'toilette', 'balcón', 'balcon', 'comedor', 'dormitorio', 'suite', 'lavadero', 'laundry', 'terraza', 'vestidor', 'living', 'playroom', 'dependencia', 'hall', 'galería', 'galeria', 'escritorio', 'patio', 'jardín', 'jardin', 'altillo', 'sotano', 'baño', 'baños', 'toilette', 'kitchen', 'basement', 'yard'
+];
+
 const serviciosTags = tags.filter(tag => 
-  serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+  tag.type === 1 || serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
 );
-const amenitiesTags = tags.filter(tag => 
-  !serviceKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+
+// Prevent duplicate counting
+const remainingTags = tags.filter(tag => !serviciosTags.some(s => s.name === tag.name));
+
+const ambientesTags = remainingTags.filter(tag =>
+  tag.type === 2 || ambienteKeywords.some(keyword => tag.name.toLowerCase().includes(keyword))
+);
+
+const amenitiesTags = remainingTags.filter(tag => 
+  !ambientesTags.some(a => a.name === tag.name)
 );
 
 // Fallbacks if lists are empty (mockup list content matching screenshot)
@@ -106,6 +182,13 @@ const defaultServices = [
   { name: 'Electricidad' },
   { name: 'Pavimento' }
 ];
+const defaultAmbientes = [
+  { name: 'Cocina' },
+  { name: 'Living' },
+  { name: 'Comedor' },
+  { name: 'Balcón' },
+  { name: 'Toilette' }
+];
 const defaultAmenities = [
   { name: 'Piscina' },
   { name: 'Gimnasio' },
@@ -114,6 +197,10 @@ const defaultAmenities = [
   { name: 'Seguridad 24hs' },
   { name: 'Solarium' }
 ];
+
+const finalServicios = tags.length > 0 ? serviciosTags : defaultServices;
+const finalAmbientes = tags.length > 0 ? ambientesTags : defaultAmbientes;
+const finalAmenities = tags.length > 0 ? amenitiesTags : defaultAmenities;
 
 // Fetch 2 similar properties for the bottom section (matches mockup 2 cards layout)
 const { properties: allProps } = await getProperties();
@@ -192,14 +279,21 @@ const expensesFormatted = expenses && Number(expenses) > 0
         <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
             <div class="flex justify-between items-center py-3 border-b border-outline-variant/15 mb-4">
                 <nav class="flex items-center text-[12px] text-secondary text-left font-sans font-[300] tracking-wide select-none">
-                    <a class="hover:text-refined-gold transition-colors" href="/">Inicio</a>
-                    <span class="text-secondary/40 mx-2.5">/</span>
-                    <a class="hover:text-refined-gold transition-colors" href="/search-results/">Propiedades</a>
-                    <span class="text-secondary/40 mx-2.5">/</span>
-                    <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{address || publication_title}</span>
+                    <a href="javascript:history.back()" class="hover:text-primary transition-colors flex items-center mr-4 border-r border-outline-variant/30 pr-4">
+                        <span class="material-symbols-outlined text-[16px] mr-1">chevron_left</span>
+                        Volver
+                    </a>
+                    <a class="hover:text-primary transition-colors flex items-center" href="/">
+                        <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                        Home
+                    </a>
+                    <span class="text-secondary/40 mx-2">&gt;</span>
+                    <a class="hover:text-primary transition-colors" href="/search-results/">{property.type?.name || 'Propiedad'}</a>
+                    <span class="text-secondary/40 mx-2">&gt;</span>
+                    <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{location?.name || address || publication_title}</span>
                 </nav>
                 <div class="flex gap-2">
-                    <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:text-refined-gold hover:border-refined-gold transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir propiedad">
+                    <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-pure-white hover:border-primary transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir propiedad">
                         <span class="material-symbols-outlined text-[20px]">share</span>
                     </button>
                 </div>
@@ -214,17 +308,20 @@ const expensesFormatted = expenses && Number(expenses) > 0
                         {address || publication_title}
                     </h1>
                     
-                    <p class="text-secondary flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
-                        <span class="material-symbols-outlined text-refined-gold text-[16px]">location_on</span>
-                        <span>{address} {location?.name ? `, ${location.name}` : ''}</span>
+                    <p class="font-sans font-[300] text-[15px] leading-[25px] text-[#636363] flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[#636363] text-[16px]">location_on</span>
+                        <span>{location?.full_location ? location.full_location.split('|').map(x => x.trim()).reverse().join(' | ') : (location?.name ? `${location.name} | Capital Federal | Argentina` : address)}</span>
                     </p>
                     
-                    <div class="flex flex-wrap items-center gap-2 pt-1 select-none">
-                        <span class="bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                    <div class="flex flex-wrap items-center gap-2 pt-1 select-none font-sans">
+                        <span class="bg-[#595959] text-[#e4e8ea] px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase rounded-md shadow-sm">
                             {badgeText}
                         </span>
+                        <span class="bg-[#595959] text-[#e4e8ea] px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase rounded-md shadow-sm">
+                            DISPONIBLE
+                        </span>
                         {is_starred_on_web && (
-                            <span class="bg-black/10 text-black border border-black/20 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                            <span class="bg-[#595959] text-[#e4e8ea] px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase rounded-md shadow-sm">
                                 DESTACADO
                             </span>
                         )}
@@ -250,7 +347,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
             <div class="bg-pure-white border border-outline-variant/30 rounded-xl shadow-sm flex flex-wrap justify-center items-center gap-x-6 md:gap-x-12 gap-y-4 py-6 px-4 select-none font-sans font-[300]">
                 <!-- Item 1: Tipo de Propiedad -->
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">apartment</span>
+                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">apartment</span>
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">{property.type?.name || 'Departamento'}</span>
                 </div>
                 
@@ -259,7 +356,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                   <>
                     <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                     <div class="flex flex-col items-center justify-center min-w-[100px]">
-                        <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">meeting_room</span>
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">meeting_room</span>
                         <span class="text-sm text-primary mt-1 whitespace-nowrap">{rooms} {rooms === 1 ? 'ambiente' : 'ambientes'}</span>
                     </div>
                   </>
@@ -270,7 +367,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                   <>
                     <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                     <div class="flex flex-col items-center justify-center min-w-[100px]">
-                        <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bed</span>
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">bed</span>
                         <span class="text-sm text-primary mt-1 whitespace-nowrap">{beds} {beds === 1 ? 'dormitorio' : 'dormitorios'}</span>
                     </div>
                   </>
@@ -281,7 +378,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                   <>
                     <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                     <div class="flex flex-col items-center justify-center min-w-[100px]">
-                        <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bathtub</span>
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">bathtub</span>
                         <span class="text-sm text-primary mt-1 whitespace-nowrap">{baths} {baths === 1 ? 'baño' : 'baños'}</span>
                     </div>
                   </>
@@ -292,7 +389,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                   <>
                     <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                     <div class="flex flex-col items-center justify-center min-w-[100px]">
-                        <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">square_foot</span>
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">square_foot</span>
                         <span class="text-sm text-primary mt-1 whitespace-nowrap">{formatSurface(totalSurface)} Sup. Total</span>
                     </div>
                   </>
@@ -338,22 +435,8 @@ const expensesFormatted = expenses && Number(expenses) > 0
                         )}
                     </div>
                 </div>
-                
-                <p class="text-[#747878] font-bold text-sm uppercase tracking-wide">
-                    {address} {location?.name ? `, ${location.name}` : ''}
-                </p>
-                
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Excelente Ubicación
-                    </span>
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Acceso a Transportes
-                    </span>
-                    <span class="bg-[#F3F4F5] border border-outline-variant/35 text-[#545F72] px-4 py-2 text-[10px] font-bold tracking-widest uppercase rounded-full">
-                        Zona Residencial
-                    </span>
-                </div>
+
+
 
                 {hasCoords && (
                     <div class="flex gap-2 mt-4 select-none">
@@ -580,18 +663,55 @@ const expensesFormatted = expenses && Number(expenses) > 0
 
             <!-- Characteristics & Amenities -->
             <section class="space-y-6 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características & Amenities</h3>
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características</h3>
                 
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    {(tags.length > 0 ? tags : defaultServices.concat(defaultAmenities)).map((t) => (
-                        <div class="flex items-center gap-2.5 text-secondary text-sm font-semibold py-1">
-                            <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span>{t.name}</span>
+                {finalAmbientes.length > 0 && (
+                    <div class="space-y-3">
+                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Ambientes</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+                            {finalAmbientes.map((t) => (
+                                <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
+                                    <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{translateTag(t.name)}</span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                )}
+
+                {finalServicios.length > 0 && (
+                    <div class="space-y-3 pt-2">
+                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Servicios</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+                            {finalServicios.map((t) => (
+                                <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
+                                    <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{translateTag(t.name)}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {finalAmenities.length > 0 && (
+                    <div class="space-y-3 pt-2">
+                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Adicionales</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
+                            {finalAmenities.map((t) => (
+                                <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
+                                    <svg class="w-[18px] h-[18px] text-secondary/60 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>{translateTag(t.name)}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </section>
 
             <!-- Contact/Inquiry Lead Section (Centered Full-Width style) -->
@@ -607,7 +727,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
                 <section class="py-12 border-t border-outline-variant/10 select-none">
                     <div class="flex justify-between items-end mb-10">
                         <div class="text-left space-y-1.5 font-sans">
-                            <span class="text-refined-gold font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
+                            <span class="text-secondary font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
                             <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Propiedades Similares</h2>
                         </div>
                         <a href="/search-results/" class="text-xs font-bold font-sans text-secondary hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-widest">
@@ -713,11 +833,38 @@ const expensesFormatted = expenses && Number(expenses) > 0
           mapView.classList.remove('animate-fade-in');
         });
       }
+
+      // Floating inquiry button scroll behavior
+      const floatBtn = document.getElementById('btn-floating-inquiry');
+      floatBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const leadForm = document.getElementById('lead-form');
+        if (leadForm) {
+          leadForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => {
+            const nameInput = document.getElementById('lead-name');
+            nameInput?.focus();
+          }, 600);
+        }
+      });
     </script>
+
+    <!-- Floating Inquiry Button -->
+    <button 
+      id="btn-floating-inquiry" 
+      class="fixed bottom-6 right-6 z-50 bg-primary text-pure-white px-5 py-3 rounded-full shadow-2xl hover:bg-black/90 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer border border-white/10 select-none"
+      aria-label="Consultar por esta propiedad"
+    >
+        <span class="material-symbols-outlined text-[20px]">mail</span>
+        <span class="text-xs font-bold uppercase tracking-wider">Consultar</span>
+    </button>
 </MainLayout>
 
 <style is:global>
   .filled-icon {
     font-variation-settings: 'FILL' 1 !important;
+  }
+  #btn-global-whatsapp {
+    display: none !important;
   }
 </style>

@@ -17,6 +17,10 @@ const priceMax = url.searchParams.get('price_max') || '';
 const currency = url.searchParams.get('currency') || '';
 const rooms = url.searchParams.get('rooms') || '';
 const bedrooms = url.searchParams.get('bedrooms') || '';
+const bathrooms = url.searchParams.get('bathrooms') || '';
+const garage = url.searchParams.get('garage') || '';
+const surfaceMin = url.searchParams.get('surface_min') || '';
+const surfaceMax = url.searchParams.get('surface_max') || '';
 const amenities = url.searchParams.getAll('amenities') || [];
 const currentPage = Number(url.searchParams.get('page') || '1');
 
@@ -33,6 +37,10 @@ const { properties, total } = await getProperties({
   currency,
   rooms,
   bedrooms,
+  bathrooms,
+  garage,
+  surface_min: surfaceMin,
+  surface_max: surfaceMax,
   amenities
 });
 
@@ -68,6 +76,10 @@ if (priceMax && priceMax !== defaultMaxPrice) activeChips.push({ key: 'price_max
 if (currency) activeChips.push({ key: 'currency', label: `Moneda: ${currency}` });
 if (rooms) activeChips.push({ key: 'rooms', label: `${rooms} Ambientes` });
 if (bedrooms) activeChips.push({ key: 'bedrooms', label: `${bedrooms} Dormitorios` });
+if (bathrooms) activeChips.push({ key: 'bathrooms', label: `${bathrooms} Baños` });
+if (garage) activeChips.push({ key: 'garage', label: `${garage} Cocheras` });
+if (surfaceMin) activeChips.push({ key: 'surface_min', label: `Sup. Mín: ${surfaceMin} m²` });
+if (surfaceMax) activeChips.push({ key: 'surface_max', label: `Sup. Máx: ${surfaceMax} m²` });
 
 if (Array.isArray(amenities)) {
   amenities.forEach(am => {
@@ -109,14 +121,14 @@ function getLayoutUrl(newView: string) {
             <!-- Page Banner Header -->
             <div class="text-left space-y-2">
                 <h1 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-tight tracking-tight">{pageTitle}</h1>
-                <div class="w-12 h-[3px] bg-refined-gold"></div>
+                <div class="w-12 h-[3px] bg-[#121212]"></div>
             </div>
 
             <!-- Main Split Layout -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
                 
                 <!-- Desktop Sidebar Filters -->
-                <aside class="hidden lg:block lg:col-span-4 bg-pure-white p-6 border border-outline-variant/30 rounded-lg shadow-sm sticky top-28">
+                <aside class="hidden lg:block lg:col-span-3 bg-pure-white p-6 border border-outline-variant/30 rounded-lg shadow-sm sticky top-28">
                     <h2 class="font-headline-md text-sm text-primary font-bold mb-4 uppercase tracking-wider">Filtros de búsqueda</h2>
                     <SearchFilters />
                 </aside>
@@ -134,7 +146,7 @@ function getLayoutUrl(newView: string) {
                 </div>
 
                 <!-- Properties List Column -->
-                <div class="lg:col-span-8 space-y-6">
+                <div class="lg:col-span-9 space-y-6">
                     
                     <!-- Search summary, layout toggle and active chips row -->
                     <div class="flex flex-col gap-4 w-full">
@@ -228,7 +240,7 @@ function getLayoutUrl(newView: string) {
       <section id="map-section" class="w-full lg:w-1/2 lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] h-[35vh] relative shrink-0">
         <!-- Map Loader Overlay -->
         <div id="map-loader" class="absolute inset-0 bg-pure-white z-[2000] flex flex-col items-center justify-center transition-opacity duration-500">
-          <div class="w-10 h-10 border-2 border-refined-gold border-t-transparent rounded-full animate-spin"></div>
+          <div class="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
           <p class="mt-4 font-sans text-xs font-bold uppercase tracking-widest text-primary">Cargando mapa interactivo...</p>
         </div>
         <div id="map" class="w-full h-full"></div>
@@ -238,7 +250,7 @@ function getLayoutUrl(newView: string) {
           id="btn-search-here" 
           class="absolute top-20 left-1/2 -translate-x-1/2 z-[1000] bg-pure-white text-primary border border-outline-variant/50 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-md hover:bg-surface transition-all active:scale-95 hidden items-center gap-1.5 cursor-pointer font-sans"
         >
-          <span class="material-symbols-outlined text-[16px] text-refined-gold select-none pointer-events-none">refresh</span>
+          <span class="material-symbols-outlined text-[16px] text-primary select-none pointer-events-none">refresh</span>
           Buscar en esta zona
         </button>
 
@@ -326,7 +338,7 @@ function getLayoutUrl(newView: string) {
               type="text" 
               id="filter-keyword" 
               placeholder="Buscar por dirección, título o descripción..." 
-              class="w-full pl-11 pr-10 py-2.5 text-sm rounded-xl border border-outline-variant/40 focus:border-refined-gold focus:outline-none bg-surface/30 font-sans transition-all duration-300" 
+              class="w-full pl-11 pr-10 py-2.5 text-sm rounded-xl border border-outline-variant/40 focus:border-primary focus:outline-none bg-surface/30 font-sans transition-all duration-300" 
             />
             <button 
               type="button" 
@@ -343,9 +355,9 @@ function getLayoutUrl(newView: string) {
             
             <!-- Pill: Operación -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-operation">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-operation">
                 <span id="pill-label-operation">Operación</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-operation" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
@@ -356,72 +368,72 @@ function getLayoutUrl(newView: string) {
 
             <!-- Pill: Barrio -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-barrio">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-barrio">
                 <span id="pill-label-barrio">Barrio</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-barrio" class="filter-dropdown absolute top-full left-0 mt-2 w-64 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
                 <div class="max-h-60 overflow-y-auto space-y-2 scrollbar-thin" id="barrio-options-container">
                 </div>
                 <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
                   <button type="button" class="btn-clear-barrio text-[10px] font-bold text-secondary hover:text-primary transition-colors">Limpiar</button>
-                  <button type="button" class="btn-apply-barrio bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+                  <button type="button" class="btn-apply-barrio bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-[#121212] hover:text-pure-white active:scale-95">Aplicar</button>
                 </div>
               </div>
             </div>
 
             <!-- Pill: Propiedad -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-type">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-type">
                 <span id="pill-label-type">Propiedad</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-type" class="filter-dropdown absolute top-full left-0 mt-2 w-56 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
                 <div class="space-y-2">
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Departamento" value="2">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Departamento" value="2">
                     <span>Departamento</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Casa" value="3">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Casa" value="3">
                     <span>Casa</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="PH" value="4">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="PH" value="4">
                     <span>PH</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Local" value="7">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Local" value="7">
                     <span>Local</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Oficina" value="8">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Oficina" value="8">
                     <span>Oficina</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" data-name="Terreno" value="10">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Terreno" value="10">
                     <span>Terreno</span>
                   </label>
                 </div>
                 <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
                   <button type="button" class="btn-clear-type text-[10px] font-bold text-secondary hover:text-primary transition-colors">Limpiar</button>
-                  <button type="button" class="btn-apply-type bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+                  <button type="button" class="btn-apply-type bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-[#121212] hover:text-pure-white active:scale-95">Aplicar</button>
                 </div>
               </div>
             </div>
 
             <!-- Pill: Presupuesto -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-price">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-price">
                 <span id="pill-label-price">Presupuesto</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-price" class="filter-dropdown absolute top-full left-0 mt-2 w-72 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 animate-fade-in">
                 <div class="space-y-1.5">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Moneda</label>
                   <div class="grid grid-cols-2 gap-2">
                     <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-primary text-pure-white border-primary" data-val="USD">USD</button>
-                    <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-pure-white text-secondary border-outline-variant/50 hover:border-refined-gold" data-val="ARS">ARS</button>
+                    <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-pure-white text-secondary border-outline-variant/50 hover:border-primary" data-val="ARS">ARS</button>
                   </div>
                 </div>
                 <div class="space-y-1.5">
@@ -432,7 +444,7 @@ function getLayoutUrl(newView: string) {
                   
                   <div class="relative w-full h-6 flex items-center slider-wrapper pt-1">
                     <div class="absolute w-full h-[4px] bg-[#e2e8f0] rounded"></div>
-                    <div id="slider-track" class="absolute h-[4px] bg-[#C5A880] rounded" style="left: 0%; right: 0%;"></div>
+                    <div id="slider-track" class="absolute h-[4px] bg-primary rounded" style="left: 0%; right: 0%;"></div>
                     
                     <input 
                       type="range" 
@@ -459,16 +471,16 @@ function getLayoutUrl(newView: string) {
                   </div>
                 </div>
                 <div class="border-t border-outline-variant/20 pt-2 flex justify-end">
-                  <button type="button" class="btn-apply-price bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+                  <button type="button" class="btn-apply-price bg-primary text-pure-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg transition-all hover:bg-[#121212] hover:text-pure-white active:scale-95">Aplicar</button>
                 </div>
               </div>
             </div>
 
             <!-- Pill: Ambientes -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-rooms">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-rooms">
                 <span id="pill-label-rooms">Ambientes</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-rooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
@@ -481,9 +493,9 @@ function getLayoutUrl(newView: string) {
 
             <!-- Pill: Dormitorios -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-bedrooms">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-bedrooms">
                 <span id="pill-label-bedrooms">Dormitorios</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-bedrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
@@ -496,9 +508,9 @@ function getLayoutUrl(newView: string) {
 
             <!-- Pill: Baños -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-bathrooms">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-bathrooms">
                 <span id="pill-label-bathrooms">Baños</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-bathrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
@@ -510,9 +522,9 @@ function getLayoutUrl(newView: string) {
 
             <!-- Pill: Cochera -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-garage">
+              <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-garage">
                 <span id="pill-label-garage">Cochera</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">expand_more</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-garage" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
@@ -524,36 +536,36 @@ function getLayoutUrl(newView: string) {
 
             <!-- Pill: Más filtros -->
             <div class="relative filter-pill-wrapper">
-              <button type="button" id="btn-more-filters" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-refined-gold transition-all duration-200" data-dropdown="dropdown-more">
+              <button type="button" id="btn-more-filters" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-more">
                 <span id="pill-label-surface">Superficie / Más</span>
-                <span class="material-symbols-outlined text-[16px] text-refined-gold">tune</span>
+                <span class="material-symbols-outlined text-[16px] text-primary">tune</span>
               </button>
               <div id="dropdown-more" class="filter-dropdown absolute top-full right-0 mt-2 w-[340px] sm:w-[420px] bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin animate-fade-in">
                 <div class="space-y-2">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Superficie (m²)</label>
                   <div class="grid grid-cols-2 gap-2">
-                    <input type="number" id="filter-surface-min" placeholder="Mínimo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-refined-gold focus:outline-none font-semibold bg-surface/30" />
-                    <input type="number" id="filter-surface-max" placeholder="Máximo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-refined-gold focus:outline-none font-semibold bg-surface/30" />
+                    <input type="number" id="filter-surface-min" placeholder="Mínimo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-primary focus:outline-none font-semibold bg-surface/30" />
+                    <input type="number" id="filter-surface-max" placeholder="Máximo" class="w-full px-3 py-1.5 text-xs rounded border border-outline-variant/40 focus:border-primary focus:outline-none font-semibold bg-surface/30" />
                   </div>
                 </div>
                 <div class="space-y-2">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Antigüedad</label>
                   <div class="flex flex-wrap gap-1.5">
-                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="a-estrenar">A estrenar</button>
-                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-5-anos">Hasta 5 años</button>
-                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-10-anos">Hasta 10 años</button>
-                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="hasta-20-anos">Hasta 20 años</button>
-                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="mas-de-20-anos">Más de 20 años</button>
+                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="a-estrenar">A estrenar</button>
+                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="hasta-5-anos">Hasta 5 años</button>
+                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="hasta-10-anos">Hasta 10 años</button>
+                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="hasta-20-anos">Hasta 20 años</button>
+                    <button type="button" class="btn-more-toggle px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="mas-de-20-anos">Más de 20 años</button>
                   </div>
                 </div>
                 <div class="space-y-2 border-t border-outline-variant/15 pt-3">
-                  <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Características / Amenities</label>
+                  <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Características</label>
                   <div class="grid grid-cols-2 gap-x-3 gap-y-2 max-h-48 overflow-y-auto pr-1 scrollbar-thin" id="dynamic-tags-container">
                   </div>
                 </div>
                 <div class="border-t border-outline-variant/20 pt-3 flex justify-between items-center">
                   <button type="button" id="btn-clear-more" class="text-xs font-bold uppercase tracking-wider text-secondary hover:text-primary transition-colors">Limpiar</button>
-                  <button type="button" id="btn-apply-more" class="bg-primary text-pure-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-xl transition-all hover:bg-refined-gold active:scale-95">Aplicar</button>
+                  <button type="button" id="btn-apply-more" class="bg-primary text-pure-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-xl transition-all hover:bg-[#121212] hover:text-pure-white active:scale-95">Aplicar</button>
                 </div>
               </div>
             </div>
@@ -1245,7 +1257,7 @@ function getLayoutUrl(newView: string) {
                     <div class="border-t border-outline-variant/15 pt-2 flex flex-wrap items-center gap-3 text-[#191c1d] select-none leading-none">
                       ${popupSpecsHtml}
                     </div>
-                    <a href="/property/${p.id}/" class="mt-3 block w-full bg-black hover:bg-refined-gold text-pure-white hover:text-primary text-center text-[9px] font-bold uppercase tracking-widest py-2 rounded transition-colors duration-200 font-sans">VER DETALLES</a>
+                    <a href="/property/${p.id}/" class="mt-3 block w-full bg-black hover:bg-[#121212] text-pure-white hover:text-pure-white text-center text-[9px] font-bold uppercase tracking-widest py-2 rounded transition-colors duration-200 font-sans">VER DETALLES</a>
                   </div>
                 </div>
               `;
@@ -1263,7 +1275,7 @@ function getLayoutUrl(newView: string) {
                       <div class="text-[11px] font-semibold text-secondary truncate mt-0.5 leading-tight">${p.address || p.publication_title}</div>
                       <div class="text-xs font-bold text-primary mt-1 leading-none">${priceStr}</div>
                     </div>
-                    <a href="/property/${p.id}/" class="bg-black text-pure-white text-[9px] font-bold uppercase px-2.5 py-1.5 rounded hover:bg-refined-gold hover:text-primary transition-colors flex-shrink-0 font-sans">Ver</a>
+                    <a href="/property/${p.id}/" class="bg-black text-pure-white text-[9px] font-bold uppercase px-2.5 py-1.5 rounded hover:bg-[#121212] hover:text-pure-white transition-colors flex-shrink-0 font-sans">Ver</a>
                   </div>
                 `;
               }).join('');
@@ -1425,12 +1437,12 @@ function getLayoutUrl(newView: string) {
                   </button>
                 ` : ''}
                 <div class="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
-                  <button class="row-zoom-btn w-7 h-7 bg-[#121212]/60 hover:bg-[#C5A880] border border-white/10 rounded flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 active:scale-95 pointer-events-auto" aria-label="Zoom">
+                  <button class="row-zoom-btn w-7 h-7 bg-[#121212]/60 hover:bg-primary border border-white/10 rounded flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 active:scale-95 pointer-events-auto" aria-label="Zoom">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
                     </svg>
                   </button>
-                  <button class="row-save-btn w-7 h-7 bg-[#121212]/60 hover:bg-[#C5A880] border border-white/10 rounded flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 active:scale-95 pointer-events-auto" aria-label="Guardar">
+                  <button class="row-save-btn w-7 h-7 bg-[#121212]/60 hover:bg-primary border border-white/10 rounded flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100 active:scale-95 pointer-events-auto" aria-label="Guardar">
                     <span class="material-symbols-outlined text-[16px]">add_circle</span>
                   </button>
                 </div>
@@ -1447,7 +1459,7 @@ function getLayoutUrl(newView: string) {
                   <span class="font-sans text-[16px] font-bold text-[#191c1d] leading-none shrink-0 select-text">${priceText}</span>
                 </div>
                 <h3 class="font-sans text-[16px] font-medium text-[#191c1d] leading-tight truncate mt-2 max-w-full">
-                  <a href="/property/${p.id}/" class="hover:text-refined-gold transition-colors">${p.address || p.publication_title}</a>
+                  <a href="/property/${p.id}/" class="hover:text-primary transition-colors">${p.address || p.publication_title}</a>
                 </h3>
                 <div class="flex items-center gap-1 text-[#888888] text-[12px] font-medium mt-1 select-text">
                   <svg class="w-3.5 h-3.5 text-[#888888] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1563,8 +1575,8 @@ function getLayoutUrl(newView: string) {
         const cardEl = document.querySelector(`.property-row-card[data-id="${propertyId}"]`);
         if (cardEl) {
           cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          cardEl.classList.add('bg-refined-gold/10');
-          setTimeout(() => cardEl.classList.remove('bg-refined-gold/10'), 1500);
+          cardEl.classList.add('bg-primary/10');
+          setTimeout(() => cardEl.classList.remove('bg-primary/10'), 1500);
         }
       }
 
@@ -1701,7 +1713,7 @@ function getLayoutUrl(newView: string) {
         sortedBarrios.forEach(b => {
           html += `
             <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-              <input type="checkbox" class="filter-barrio-chk rounded border-outline-variant/50 text-refined-gold focus:ring-refined-gold w-4 h-4" value="${b.toLowerCase()}" data-name="${b}">
+              <input type="checkbox" class="filter-barrio-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" value="${b.toLowerCase()}" data-name="${b}">
               <span>${b}</span>
             </label>
           `;
@@ -1734,7 +1746,7 @@ function getLayoutUrl(newView: string) {
         let html = '';
         mappedTags.forEach(item => {
           html += `
-            <button type="button" class="btn-more-toggle flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-refined-gold" data-key="${item.lower}">
+            <button type="button" class="btn-more-toggle flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/50 text-[10px] font-semibold text-secondary bg-pure-white transition-all hover:border-primary" data-key="${item.lower}">
               <span class="material-symbols-outlined text-[14px]">${item.icon}</span>
               <span>${item.label}</span>
             </button>

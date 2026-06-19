@@ -118,11 +118,20 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                                 >
                                     <option value="">Todos los barrios</option>
                                     <option value="Belgrano">Belgrano</option>
-                                    <option value="Palermo">Palermo</option>
-                                    <option value="Recoleta">Recoleta</option>
                                     <option value="Colegiales">Colegiales</option>
-                                    <option value="Núñez">Núñez</option>
+                                    <option value="Flores">Flores</option>
+                                    <option value="Microcentro">Microcentro</option>
+                                    <option value="Nuñez">Núñez</option>
+                                    <option value="Once">Once</option>
+                                    <option value="Palermo">Palermo</option>
+                                    <option value="Palermo Hollywood">Palermo Hollywood</option>
+                                    <option value="Palermo Soho">Palermo Soho</option>
+                                    <option value="Palermo Chico">Palermo Chico</option>
+                                    <option value="Palermo Nuevo">Palermo Nuevo</option>
                                     <option value="Puerto Madero">Puerto Madero</option>
+                                    <option value="Recoleta">Recoleta</option>
+                                    <option value="San Telmo">San Telmo</option>
+                                    <option value="Villa Crespo">Villa Crespo</option>
                                     <option value="Villa Urquiza">Villa Urquiza</option>
                                 </select>
                                 <span class="material-symbols-outlined text-[16px] text-[#747878] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
@@ -146,7 +155,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     <div class="w-full md:w-auto p-0.5 flex-shrink-0">
                         <button 
                           type="submit" 
-                          class="w-full md:w-auto bg-primary text-pure-white hover:bg-refined-gold hover:text-primary px-8 py-3.5 rounded-full transition-all duration-300 font-sans text-xs font-bold uppercase tracking-wider text-center shadow-md hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                          class="w-full md:w-auto bg-primary text-pure-white hover:bg-black/90 hover:text-pure-white px-8 py-3.5 rounded-full transition-all duration-300 font-sans text-xs font-bold uppercase tracking-wider text-center shadow-md hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             <span class="material-symbols-outlined text-[16px]">search</span>
                             <span>Buscar</span>
@@ -188,7 +197,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="price_min" 
                               id="filter-price-min" 
                               placeholder="Sin mínimo" 
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
                             />
                         </div>
                         <!-- Precio Max -->
@@ -199,7 +208,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="price_max" 
                               id="filter-price-max" 
                               placeholder="Sin máximo" 
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-xs text-primary placeholder:text-outline/40 font-semibold"
                             />
                         </div>
                         <!-- Moneda -->
@@ -209,7 +218,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="currency" 
                               id="filter-currency" 
                               aria-label="Moneda"
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-xs text-primary cursor-pointer font-bold"
                             >
                                 <option value="USD">USD</option>
                                 <option value="ARS">ARS</option>
@@ -222,7 +231,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="rooms" 
                               id="filter-rooms" 
                               aria-label="Ambientes"
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-xs text-primary cursor-pointer font-bold"
                             >
                                 <option value="">Cualquiera</option>
                                 <option value="1">1 Ambiente</option>
@@ -238,7 +247,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                               name="bedrooms" 
                               id="filter-bedrooms" 
                               aria-label="Dormitorios"
-                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-xs text-primary cursor-pointer font-bold"
+                              class="border border-outline-variant/35 bg-pure-white rounded-lg p-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-xs text-primary cursor-pointer font-bold"
                             >
                                 <option value="">Cualquiera</option>
                                 <option value="1">1 Dormitorio</option>
@@ -256,7 +265,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
         <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center pointer-events-none select-none opacity-80 animate-fade-in delay-700">
             <span class="text-[10px] font-sans font-[300] tracking-[0.2em] uppercase text-white/50 mb-2">Scroll</span>
             <div class="w-5 h-9 border border-white/30 rounded-full flex justify-center py-1.5">
-                <div class="w-1.5 h-1.5 bg-refined-gold rounded-full animate-scroll-wheel"></div>
+                <div class="w-1.5 h-1.5 bg-primary rounded-full animate-scroll-wheel"></div>
             </div>
         </div>
     </section>
@@ -308,14 +317,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 <!-- Cell 1: Heading Description Block -->
                 <div class="flex flex-col justify-center gap-4 py-6 text-left pr-4">
                     <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-tight">Residenciales</h2>
-                    <div class="w-12 h-[3px] bg-refined-gold"></div>
+                    <div class="w-12 h-[3px] bg-[#121212]"></div>
                     <p class="font-body-md text-secondary leading-relaxed text-sm">
                         Encontrá tu propiedad ideal en los mejores barrios de la ciudad de Buenos Aires.
                     </p>
                 </div>
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
-                <a href="/search-results/?q=Belgrano" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Belgrano" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -325,14 +334,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
-                            <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
+                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 3: Palermo -->
-                <a href="/search-results/?q=Palermo" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/palermo/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Palermo" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -342,14 +351,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 4: Recoleta -->
-                <a href="/search-results/?q=Recoleta" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/recoleta/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Recoleta" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -359,14 +368,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 5: Puerto Madero -->
-                <a href="/search-results/?q=Puerto%20Madero" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/puerto-madero/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Puerto Madero" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -376,14 +385,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 6: Villa Urquiza -->
-                <a href="/search-results/?q=Villa%20Urquiza" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/villa-urquiza/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Villa Urquiza" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -393,14 +402,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 7: Colegiales -->
-                <a href="/search-results/?q=Colegiales" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/colegiales/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Colegiales" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -410,14 +419,14 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
                 </a>
 
                 <!-- Cell 8: Núñez -->
-                <a href="/search-results/?q=Núñez" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/nunez/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Núñez" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -427,7 +436,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     </div>
                     <div class="flex justify-between items-center text-pure-white pt-4">
                         <span class="text-[10px] tracking-widest font-bold font-sans">VER PROPIEDADES</span>
-                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-refined-gold group-hover:border-refined-gold group-hover:text-primary transition-all">
+                        <div class="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-pure-white transition-all">
                             <span class="material-symbols-outlined text-[16px] text-white">arrow_forward</span>
                         </div>
                     </div>
@@ -454,7 +463,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     />
                 </div>
                 <!-- Glow background -->
-                <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-refined-gold/10 -z-10 rounded-full blur-3xl transition-all duration-700 group-hover:bg-refined-gold/20 group-hover:scale-110"></div>
+                <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-black/5 -z-10 rounded-full blur-3xl transition-all duration-700 group-hover:bg-black/10 group-hover:scale-110"></div>
             </div>
             
             <!-- Description -->
@@ -463,7 +472,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 <p class="font-body-lg text-secondary leading-relaxed">
                     Somos MUV, una inmobiliaria nacida en 2010 a partir de la amistad y el trabajo en equipo. Desde nuestros inicios, construimos una forma de hacer inmobiliaria basada en el compromiso, la integridad y el profesionalismo.
                 </p>
-                <a href="/quienes-somos" class="bg-primary text-pure-white hover:bg-refined-gold hover:text-primary px-8 py-3.5 font-medium rounded-xl transition-all duration-300 inline-block text-center shadow-[0_4px_14px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] text-[14px]">
+                <a href="/quienes-somos/" class="bg-primary text-pure-white hover:bg-black/90 hover:text-pure-white px-8 py-3.5 font-medium rounded-xl transition-all duration-300 inline-block text-center shadow-[0_4px_14px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] text-[14px]">
                     Ver más sobre nosotros
                 </a>
             </div>
@@ -542,7 +551,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     
                     <!-- Leer más -->
                     <div class="pt-3">
-                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-refined-gold hover:underline font-semibold font-sans">Leer más</a>
+                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-primary hover:underline font-semibold font-sans">Leer más</a>
                     </div>
                 </div>
 
@@ -593,7 +602,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                     
                     <!-- Leer más -->
                     <div class="pt-3">
-                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-refined-gold hover:underline font-semibold font-sans">Leer más</a>
+                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-primary hover:underline font-semibold font-sans">Leer más</a>
                     </div>
                 </div>
 

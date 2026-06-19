@@ -27,7 +27,7 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
             <h4 class="font-headline text-[15px] font-bold text-primary leading-tight">MUV Propiedades</h4>
             <p class="text-[11px] text-secondary font-medium">Real Estate Premium</p>
             <!-- 5 Gold Stars Rating -->
-            <div class="flex gap-0.5 text-refined-gold">
+            <div class="flex gap-0.5 text-primary">
                 <span class="material-symbols-outlined text-[14px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
                 <span class="material-symbols-outlined text-[14px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
                 <span class="material-symbols-outlined text-[14px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
@@ -50,7 +50,7 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
               id="lead-name" 
               required 
               placeholder="Ingresa tu nombre"
-              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-refined-gold focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
+              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-primary focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
             />
         </div>
 
@@ -62,7 +62,7 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
               id="lead-email" 
               required 
               placeholder="tu@email.com"
-              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-refined-gold focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
+              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-primary focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
             />
         </div>
 
@@ -74,7 +74,7 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
               id="lead-phone" 
               required 
               placeholder="Ingresa tu teléfono"
-              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-refined-gold focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
+              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-primary focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
             />
         </div>
 
@@ -85,19 +85,20 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
               id="lead-message" 
               rows="3" 
               placeholder="Estoy interesado en esta propiedad..."
-              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-refined-gold focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none resize-none"
+              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-primary focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none resize-none"
             >Estoy interesado en esta propiedad...</textarea>
         </div>
 
         <!-- Sticky Form Buttons Stack -->
-        <div class="space-y-2.5 pt-3">
-            <!-- Submit (Agendar Visita) -->
+        <div class="space-y-3 pt-3">
+            <!-- Submit (Consultar por esta Propiedad) -->
             <button 
               type="submit" 
               id="btn-submit-lead"
-              class="w-full bg-primary text-pure-white py-3.5 rounded font-headline text-xs font-bold uppercase tracking-wider hover:bg-black/90 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              class="w-full bg-primary text-pure-white py-4 rounded-xl font-sans text-sm font-semibold uppercase tracking-wider hover:bg-black/90 hover:shadow-lg transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
-                <span>Agendar Visita</span>
+                <span class="material-symbols-outlined text-[18px]">mail</span>
+                <span>Consultar por esta Propiedad</span>
             </button>
 
             <!-- WhatsApp Link -->
@@ -105,19 +106,19 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="w-full bg-[#25D366] text-pure-white py-3.5 rounded-full font-sans text-[15px] font-[500] hover:bg-[#22c35e] transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2.5 text-center shadow-[0_8px_20px_rgba(37,211,102,0.25)] border-0 cursor-pointer"
+              class="w-full bg-[#25D366] text-pure-white py-4 rounded-xl font-sans text-sm font-semibold uppercase tracking-wider hover:bg-[#22c35e] hover:shadow-lg transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2.5 text-center shadow-[0_4px_12px_rgba(37,211,102,0.2)] border-0 cursor-pointer"
             >
-              <!-- Phone Icon -->
+              <!-- Official WhatsApp Icon -->
               <svg class="w-4 h-4 text-pure-white fill-current" viewBox="0 0 24 24">
-                <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-2.2 2.2a15.045 15.045 0 01-6.59-6.59l2.2-2.21a.96.96 0 00.25-1A11.56 11.56 0 018.77 4c0-.55-.45-1-1-1H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.72 21 20.01 21c.71 0 .99-.58.99-1.18v-3.44c0-.55-.45-1-1-.99z" />
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.458L0 24zm6.224-3.826l.446.265c1.504.893 3.179 1.363 4.901 1.364h.005c5.485 0 9.948-4.463 9.952-9.953.002-2.66-.1032-5.158-2.92-6.977a9.181 9.181 0 00-6.98-2.92c-5.491 0-9.954 4.465-9.959 9.956-.002 1.777.464 3.51 1.349 5.042l.295.513-.996 3.636 3.72-.975zm11.187-5.328c-.287-.144-1.702-.84-1.965-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-1.359-.68-2.335-1.113-3.238-2.667-.238-.41.238-.38.68-.763.108-.093.216-.216.324-.324.108-.108.144-.18.216-.324.072-.144.036-.264-.018-.372-.054-.108-.456-1.104-.624-1.512-.164-.396-.344-.344-.472-.352l-.4-.008c-.264 0-.696.096-.984.408-.288.312-1.104 1.08-1.104 2.64 0 1.56 1.128 3.072 1.284 3.288.156.216 2.22 3.392 5.378 4.756.752.325 1.339.519 1.796.665.756.24 1.444.207 1.988.126.607-.09 1.702-.696 1.944-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.216-.552-.36z" />
               </svg>
-              <span>Consultar propiedad</span>
+              <span>Contactar por WhatsApp</span>
             </a>
 
             <!-- Solicitar Tasacion -->
             <a 
-              href="/contacto"
-              class="w-full border border-black/85 text-primary py-3 rounded font-headline text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 text-center"
+              href="/contacto/"
+              class="w-full border border-black/85 text-primary py-3.5 rounded-xl font-sans text-xs font-semibold uppercase tracking-wider hover:bg-slate-50 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 text-center cursor-pointer"
             >
               <span>Solicitar Tasación</span>
             </a>

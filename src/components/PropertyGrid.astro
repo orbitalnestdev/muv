@@ -75,7 +75,7 @@ const pageNumbers = getVisiblePages(currentPage, totalPages);
             <p class="font-body-md text-secondary mb-6">No encontramos propiedades que coincidan con tus filtros.</p>
             <a 
               href="/search-results/" 
-              class="bg-primary text-pure-white hover:bg-refined-gold hover:text-primary px-6 py-3 rounded-full transition-all duration-300 font-sans text-xs font-bold uppercase tracking-wider shadow-md hover:scale-[1.02] active:scale-[0.98]"
+              class="bg-primary text-pure-white hover:bg-neutral-800 hover:text-pure-white px-6 py-3 rounded-full transition-all duration-300 font-sans text-xs font-bold uppercase tracking-wider shadow-md hover:scale-[1.02] active:scale-[0.98]"
             >
               Limpiar todos los filtros
             </a>
@@ -100,7 +100,7 @@ const pageNumbers = getVisiblePages(currentPage, totalPages);
             {currentPage > 1 ? (
                 <a 
                   href={getPageLink(currentPage - 1)} 
-                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-[#C5A880] hover:text-pure-white transition-all active:scale-95 shadow-sm"
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-primary hover:text-pure-white transition-all active:scale-95 shadow-sm"
                   aria-label="Página anterior"
                 >
                     <span class="material-symbols-outlined text-[20px]">chevron_left</span>
@@ -133,7 +133,7 @@ const pageNumbers = getVisiblePages(currentPage, totalPages);
                     ) : (
                         <a 
                           href={getPageLink(num)} 
-                          class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-[#C5A880] hover:text-pure-white font-sans text-xs font-semibold transition-all active:scale-95 shadow-sm"
+                          class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-primary hover:text-pure-white font-sans text-xs font-semibold transition-all active:scale-95 shadow-sm"
                         >
                             {num}
                         </a>
@@ -144,7 +144,7 @@ const pageNumbers = getVisiblePages(currentPage, totalPages);
             {currentPage < totalPages ? (
                 <a 
                   href={getPageLink(currentPage + 1)} 
-                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-[#C5A880] hover:text-pure-white transition-all active:scale-95 shadow-sm"
+                  class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/50 text-primary hover:bg-primary hover:text-pure-white transition-all active:scale-95 shadow-sm"
                   aria-label="Página siguiente"
                 >
                     <span class="material-symbols-outlined text-[20px]">chevron_right</span>
