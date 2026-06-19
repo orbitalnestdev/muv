@@ -26,13 +26,13 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
 <MainLayout title="MUV Propiedades | Real Estate Premium" isDarkHero={true}>
     <!-- Hero Section -->
-    <section class="relative h-[65vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
+    <section class="relative h-[75vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
         <!-- Static background image from assets -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black/45 hero-overlay z-10"></div>
             <img 
               alt="MUV Propiedades Hero Background" 
-              class="w-full h-full object-cover animate-ken-burns" 
+              class="w-full h-full object-cover object-top origin-top animate-ken-burns" 
               src="/assets/hero.webp" 
             />
         </div>
@@ -42,15 +42,15 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 <h1 class="font-sans text-[48px] md:text-[68px] font-[300] tracking-normal text-white lowercase leading-none mb-1">
                     muv propiedades
                 </h1>
-                <p class="font-sans text-sm md:text-lg font-[300] text-white/95 max-w-2xl mx-auto">
+                <p class="font-sans text-sm md:text-lg font-[300] text-white/95 max-w-5xl mx-auto">
                     Encontrá tu propiedad ideal en los mejores barrios de la ciudad de Buenos Aires.
                 </p>
             </div>
             
             <!-- Tabbed Segmented Search Widget (Upgraded to match mockup reference) -->
             <div class="space-y-0 max-w-5xl mx-auto font-sans">
-                <!-- Center/Left-Aligned Tabs Selector -->
-                <div class="flex gap-1 justify-center md:justify-start -mb-[1px] relative z-10 px-4">
+                <!-- Centered Tabs Selector -->
+                <div class="flex gap-1 justify-center -mb-[1px] relative z-10 px-4">
                     <button 
                       type="button" 
                       class="tab-btn px-6 py-2.5 rounded-t-xl font-sans text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-pure-white text-primary border-t border-x border-outline-variant/30"
@@ -77,7 +77,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 <!-- Search Container -->
                 <form 
                   id="hero-search-form" 
-                  action="/buscar/" 
+                  action="/search-results/" 
                   method="GET" 
                   class="bg-pure-white shadow-2xl rounded-3xl md:rounded-full p-2 md:pl-6 md:pr-3 md:py-2.5 border border-outline-variant/25 text-left relative z-25 flex flex-col md:flex-row items-center gap-2"
                 >
@@ -237,10 +237,18 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </div>
             </div>
         </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center pointer-events-none select-none opacity-80 animate-fade-in delay-700">
+            <span class="text-[10px] font-sans font-[300] tracking-[0.2em] uppercase text-white/50 mb-2">Scroll</span>
+            <div class="w-5 h-9 border border-white/30 rounded-full flex justify-center py-1.5">
+                <div class="w-1.5 h-1.5 bg-refined-gold rounded-full animate-scroll-wheel"></div>
+            </div>
+        </div>
     </section>
 
     <!-- Destacados Horizontal Carousel Section -->
-    <section class="py-24 bg-surface relative overflow-hidden">
+    <section class="py-24 bg-surface relative overflow-hidden reveal">
         <div class="px-margin-desktop max-w-container-max mx-auto flex justify-between items-end mb-12">
             <div class="space-y-3">
                 <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-none">Propiedades Destacadas</h2>
@@ -275,7 +283,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
     </section>
 
     <!-- Residenciales Neighborhood Bento Grid Section -->
-    <section class="py-24 bg-surface-container-low/30 relative overflow-hidden">
+    <section class="py-24 bg-surface-container-low/30 relative overflow-hidden reveal">
         <!-- Large Monogram Watermark Image on the bottom-right background (Matches reference screenshot) -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[70%] max-w-[600px] opacity-[0.06] block">
             <img src="/assets/iso_muv.png" alt="M Monogram Watermark" class="w-full h-auto brightness-0" />
@@ -293,7 +301,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </div>
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
-                <a href="/buscar/?q=Belgrano" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Belgrano" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Belgrano" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -310,7 +318,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 3: Palermo -->
-                <a href="/buscar/?q=Palermo" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Palermo" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Palermo" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -327,7 +335,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 4: Recoleta -->
-                <a href="/buscar/?q=Recoleta" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Recoleta" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Recoleta" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -344,7 +352,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 5: Puerto Madero -->
-                <a href="/buscar/?q=Puerto%20Madero" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Puerto%20Madero" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Puerto Madero" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -361,7 +369,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 6: Villa Urquiza -->
-                <a href="/buscar/?q=Villa%20Urquiza" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Villa%20Urquiza" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Villa Urquiza" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -378,7 +386,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 7: Colegiales -->
-                <a href="/buscar/?q=Colegiales" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Colegiales" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Colegiales" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -395,7 +403,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
                 </a>
 
                 <!-- Cell 8: Núñez -->
-                <a href="/buscar/?q=Núñez" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
+                <a href="/search-results/?q=Núñez" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Núñez" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -415,7 +423,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
     </section>
 
     <!-- About Section ("Quienes somos") -->
-    <section class="py-24 bg-surface-container-lowest overflow-hidden">
+    <section class="py-24 bg-surface-container-lowest overflow-hidden reveal">
         <div class="px-margin-desktop max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-20">
             <!-- Team Image Container with Custom Interaction -->
             <div class="w-full lg:w-1/2 relative team-image-container group">
@@ -449,80 +457,182 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
     </section>
 
     <!-- Google Reviews Section -->
-    <section class="py-20 bg-surface">
-        <div class="px-margin-desktop max-w-container-max mx-auto">
+    <section class="py-20 bg-surface relative overflow-hidden select-none reveal">
+        <div class="px-margin-desktop max-w-container-max mx-auto relative">
             <div class="text-center mb-16">
-                <span class="text-refined-gold font-label-lg uppercase tracking-[0.2em] mb-1 block">Experiencias Reales</span>
-                <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary">Google Reviews</h2>
+                <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary font-semibold">Google Reviews</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Review 1 -->
-                <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-left">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
-                            <img src="https://static.tokkobroker.com/static/img/user.png" alt="Ariel" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+            
+            <!-- Slider navigation buttons centered vertically on sides -->
+            <button 
+              id="reviews-prev" 
+              class="absolute left-[-22px] top-[60%] -translate-y-1/2 w-11 h-11 rounded-full border border-outline-variant bg-pure-white text-primary flex items-center justify-center hover:bg-primary hover:text-pure-white hover:border-primary transition-all active:scale-95 shadow-md z-30 cursor-pointer"
+              aria-label="Anterior opinión"
+            >
+                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <button 
+              id="reviews-next" 
+              class="absolute right-[-22px] top-[60%] -translate-y-1/2 w-11 h-11 rounded-full border border-outline-variant bg-pure-white text-primary flex items-center justify-center hover:bg-primary hover:text-pure-white hover:border-primary transition-all active:scale-95 shadow-md z-30 cursor-pointer"
+              aria-label="Siguiente opinión"
+            >
+                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+
+            <!-- Horizontal Scroll Container -->
+            <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide flex gap-6 pb-6 snap-x snap-mandatory" id="reviews-carousel-container">
+                <!-- Card 1 -->
+                <div class="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] shrink-0 min-w-[285px] md:min-w-[320px] snap-start bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 text-left relative flex flex-col justify-between h-[280px]">
+                    <div>
+                        <!-- Top header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80" alt="Alan Baquero" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+                                </div>
+                                <div>
+                                    <h4 class="font-headline text-[15px] font-bold text-primary">Alan Baquero</h4>
+                                    <p class="text-[10px] text-secondary font-medium mt-0.5">hace 9 meses</p>
+                                </div>
+                            </div>
+                            <!-- Google Logo -->
+                            <div class="shrink-0">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.38-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-headline-md text-[15px] text-primary">Ariel Rossi</h4>
-                            <p class="text-[10px] text-secondary">Hace 2 meses</p>
+                        
+                        <!-- Stars and Verified -->
+                        <div class="flex items-center gap-1.5 mb-4">
+                            <div class="flex gap-0.5 text-[#FBBC05]">
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-[#1A73E8]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
                         </div>
+                        
+                        <!-- Text -->
+                        <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                            Excelente atención y acompañamiento. Lionel y Valentina fueron muy cordiales y nos guiaron en toda la parte administrativa....
+                        </p>
                     </div>
-                    <div class="flex gap-1 mb-4 text-[#C5A059]">
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                    
+                    <!-- Leer más -->
+                    <div class="pt-3">
+                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-refined-gold hover:underline font-semibold font-sans">Leer más</a>
                     </div>
-                    <p class="font-body-md text-secondary text-xs leading-relaxed italic">
-                        "Excelente atención de todo el equipo de MUV. Lograron vender mi departamento en Belgrano en un tiempo récord y con total transparencia en la operación."
-                    </p>
-                </div>
-                
-                <!-- Review 2 -->
-                <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-left">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
-                            <img src="https://static.tokkobroker.com/static/img/user.png" alt="Laura" class="w-full h-full object-cover" loading="lazy" decoding="async" />
-                        </div>
-                        <div>
-                            <h4 class="font-headline-md text-[15px] text-primary">Laura Valenzuela</h4>
-                            <p class="text-[10px] text-secondary">Hace 3 semanas</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-1 mb-4 text-[#C5A059]">
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                    </div>
-                    <p class="font-body-md text-secondary text-xs leading-relaxed italic">
-                        "Los elegimos para alquilar nuestro local comercial. El proceso fue rápido y nos brindaron asesoría jurídica muy clara. Súper profesionales."
-                    </p>
                 </div>
 
-                <!-- Review 3 -->
-                <div class="bg-pure-white p-8 border border-outline-variant/30 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-left">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
-                            <img src="https://static.tokkobroker.com/static/img/user.png" alt="Tomás" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+                <!-- Card 2 -->
+                <div class="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] shrink-0 min-w-[285px] md:min-w-[320px] snap-start bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 text-left relative flex flex-col justify-between h-[280px]">
+                    <div>
+                        <!-- Top header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&h=100&q=80" alt="Juano Actis" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+                                </div>
+                                <div>
+                                    <h4 class="font-headline text-[15px] font-bold text-primary">Juano Actis</h4>
+                                    <p class="text-[10px] text-secondary font-medium mt-0.5">hace 9 meses</p>
+                                </div>
+                            </div>
+                            <!-- Google Logo -->
+                            <div class="shrink-0">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.38-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-headline-md text-[15px] text-primary">Tomás Ocampo</h4>
-                            <p class="text-[10px] text-secondary">Hace 1 mes</p>
+                        
+                        <!-- Stars and Verified -->
+                        <div class="flex items-center gap-1.5 mb-4">
+                            <div class="flex gap-0.5 text-[#FBBC05]">
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-[#1A73E8]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
                         </div>
+                        
+                        <!-- Text -->
+                        <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                            Recomiendo encarecidamente a Valentina por su profesionalismo, amabilidad y apoyo durante la compra de mi departamento. Su enfoque...
+                        </p>
                     </div>
-                    <div class="flex gap-1 mb-4 text-[#C5A059]">
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
-                        <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                    
+                    <!-- Leer más -->
+                    <div class="pt-3">
+                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-refined-gold hover:underline font-semibold font-sans">Leer más</a>
                     </div>
-                    <p class="font-body-md text-secondary text-xs leading-relaxed italic">
-                        "Muy recomendables. Nos ayudaron a encontrar un departamento premium en pozo que se adaptaba justo a nuestro plan de inversión familiar."
-                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] shrink-0 min-w-[285px] md:min-w-[320px] snap-start bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 text-left relative flex flex-col justify-between h-[280px]">
+                    <div>
+                        <!-- Top header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <!-- Initials avatar -->
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8C6239] text-pure-white font-bold text-sm font-sans shrink-0">
+                                    R
+                                </div>
+                                <div>
+                                    <h4 class="font-headline text-[15px] font-bold text-primary">Rosana Soria</h4>
+                                    <p class="text-[10px] text-secondary font-medium mt-0.5">hace 12 meses</p>
+                                </div>
+                            </div>
+                            <!-- Google Logo -->
+                            <div class="shrink-0">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.38-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Stars and Verified -->
+                        <div class="flex items-center gap-1.5 mb-4">
+                            <div class="flex gap-0.5 text-[#FBBC05]">
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                                <span class="material-symbols-outlined text-[16px] fill-[1]" style="font-variation-settings: 'FILL' 1">star</span>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-[#1A73E8]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        
+                        <!-- Text -->
+                        <p class="font-body-md text-secondary text-xs leading-relaxed italic">
+                            Excelente atención y profesionalismo. Desde el primer contacto, el equipo de la inmobiliaria fue muy amable y resolvió todas mis dudas con rapidez. Me...
+                        </p>
+                    </div>
+                    
+                    <!-- Leer más -->
+                    <div class="pt-3">
+                        <a href="https://maps.app.goo.gl/r5j6gMuvP7" target="_blank" rel="noopener noreferrer" class="text-[10px] text-secondary/70 hover:text-refined-gold hover:underline font-semibold font-sans">Leer más</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -653,7 +763,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
           opInput.disabled = false;
           opInput.value = value || '1';
         }
-        if (searchForm) searchForm.action = '/buscar/';
+        if (searchForm) searchForm.action = '/search-results/';
         if (propTypeSelect) propTypeSelect.disabled = false;
         if (segmentPropType) segmentPropType.classList.remove('opacity-40', 'pointer-events-none');
       }
@@ -740,4 +850,43 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
       }, 5000);
     });
   }
+
+  // Reviews Carousel logic
+  const reviewsContainer = document.getElementById('reviews-carousel-container');
+  const reviewsPrevBtn = document.getElementById('reviews-prev');
+  const reviewsNextBtn = document.getElementById('reviews-next');
+
+  if (reviewsContainer) {
+    const getCardWidth = () => {
+      const card = reviewsContainer.querySelector('.snap-start');
+      return card ? card.clientWidth : 320;
+    };
+    const gap = 24; // gap-6 is 24px
+
+    reviewsNextBtn?.addEventListener('click', () => {
+      const cardWidth = getCardWidth();
+      reviewsContainer.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+    });
+
+    reviewsPrevBtn?.addEventListener('click', () => {
+      const cardWidth = getCardWidth();
+      reviewsContainer.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+    });
+  }
+
+  // Reveal on scroll logic
+  const revealElements = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -60px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
 </script>

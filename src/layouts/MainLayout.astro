@@ -66,6 +66,51 @@ const {
     <!-- Footer -->
     <Footer />
 
+    <!-- WhatsApp Floating Button -->
+    <button 
+      id="btn-global-whatsapp" 
+      class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-pure-white p-4 rounded-full shadow-lg hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer border-0 outline-none"
+      aria-label="Contactar por WhatsApp"
+    >
+        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.982L2 22l5.233-1.371a9.994 9.994 0 004.78 1.218h.004c5.502 0 9.981-4.479 9.982-9.985A9.97 9.97 0 0012.012 2zm5.72 14.158c-.249.704-1.444 1.353-1.996 1.412-.5.053-1.15.084-3.355-.785-2.82-1.11-4.636-3.977-4.777-4.163-.14-.186-1.139-1.517-1.139-2.89 0-1.373.72-2.048 1.002-2.33.282-.282.61-.353.812-.353h.582c.186 0 .436-.07.68.517.25.597.854 2.083.928 2.235.074.152.124.33.023.533-.1.203-.152.33-.3.504-.15.172-.315.386-.45.517-.15.148-.306.31-.132.61.173.3.77 1.27 1.657 2.059.81.71 1.488.93 1.698 1.037.21.107.33.09.454-.052.124-.144.53-.618.67-.83.14-.21.282-.178.477-.107.195.07 1.24.585 1.455.693.215.108.358.162.41.25.05.09.05.518-.2.1.222zm0 0"/>
+        </svg>
+    </button>
+
+    <!-- WhatsApp Modal Dialog -->
+    <dialog id="whatsapp-dialog" closedby="any" class="fixed inset-0 m-auto max-w-sm w-[90%] h-fit bg-pure-white rounded-2xl shadow-2xl border border-outline-variant/30 overflow-hidden outline-none p-0 select-none z-[9999]" aria-labelledby="whatsapp-title">
+        <div class="flex justify-between items-center px-6 py-4 bg-[#25D366] text-pure-white">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.982L2 22l5.233-1.371a9.994 9.994 0 004.78 1.218h.004c5.502 0 9.981-4.479 9.982-9.985A9.97 9.97 0 0012.012 2zm5.72 14.158c-.249.704-1.444 1.353-1.996 1.412-.5.053-1.15.084-3.355-.785-2.82-1.11-4.636-3.977-4.777-4.163-.14-.186-1.139-1.517-1.139-2.89 0-1.373.72-2.048 1.002-2.33.282-.282.61-.353.812-.353h.582c.186 0 .436-.07.68.517.25.597.854 2.083.928 2.235.074.152.124.33.023.533-.1.203-.152.33-.3.504-.15.172-.315.386-.45.517-.15.148-.306.31-.132.61.173.3.77 1.27 1.657 2.059.81.71 1.488.93 1.698 1.037.21.107.33.09.454-.052.124-.144.53-.618.67-.83.14-.21.282-.178.477-.107.195.07 1.24.585 1.455.693.215.108.358.162.41.25.05.09.05.518-.2.1.222zm0 0"/>
+                </svg>
+                <h3 id="whatsapp-title" class="font-sans font-bold text-base">Iniciar conversación</h3>
+            </div>
+            <button type="button" id="whatsapp-close" class="text-pure-white hover:text-white/80 transition-colors cursor-pointer border-0 bg-transparent flex items-center justify-center outline-none" aria-label="Cerrar modal">
+                <span class="material-symbols-outlined text-[22px]">close</span>
+            </button>
+        </div>
+        <form id="whatsapp-form" class="p-6 space-y-4">
+            <div class="space-y-1.5 text-left">
+                <label for="whatsapp-user-name" class="block text-xs font-bold text-secondary uppercase tracking-wider font-sans">Por favor, ingresá tu nombre:</label>
+                <input 
+                  type="text" 
+                  id="whatsapp-user-name" 
+                  required 
+                  placeholder="Tu nombre completo" 
+                  class="w-full border border-outline-variant/35 bg-pure-white rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-refined-gold focus:border-refined-gold outline-none text-sm text-primary placeholder:text-outline/40 font-sans"
+                />
+            </div>
+            <button 
+              type="submit" 
+              class="w-full bg-[#25D366] text-pure-white hover:bg-[#20ba5a] py-3.5 rounded-lg font-sans text-xs font-bold uppercase tracking-wider transition-all duration-300 text-center shadow-md flex items-center justify-center gap-2 cursor-pointer border-0 outline-none hover:scale-[1.01] active:scale-[0.99]"
+            >
+                <span>Continuar a WhatsApp</span>
+                <span class="material-symbols-outlined text-[16px]">send</span>
+            </button>
+        </form>
+    </dialog>
+
     <script is:inline>
       (function() {
         const preloader = document.getElementById('preloader');
@@ -100,6 +145,68 @@ const {
           }
         }
       })();
+
+      // WhatsApp global click & submit script
+      (function() {
+        const btn = document.getElementById('btn-global-whatsapp');
+        const dialog = document.getElementById('whatsapp-dialog');
+        const closeBtn = document.getElementById('whatsapp-close');
+        const form = document.getElementById('whatsapp-form');
+        const nameInput = document.getElementById('whatsapp-user-name');
+
+        if (!btn || !dialog) return;
+
+        btn.addEventListener('click', () => {
+          dialog.showModal();
+          setTimeout(() => {
+            if (nameInput) nameInput.focus();
+          }, 100);
+        });
+
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            dialog.close();
+          });
+        }
+
+        if (form) {
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameVal = nameInput ? nameInput.value.trim() : '';
+            if (!nameVal) return;
+
+            let text = `Hola! Soy ${nameVal}. Quisiera hacer una consulta sobre propiedades.`;
+            const pageInfo = document.getElementById('whatsapp-page-info');
+            if (pageInfo) {
+              const title = pageInfo.dataset.title || '';
+              const id = pageInfo.dataset.id || '';
+              text = `Hola, me interesa la propiedad ${title} (ID: ${id}) que vi en el sitio web. Mi nombre es ${nameVal}.`;
+            }
+
+            const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+            dialog.close();
+            if (nameInput) nameInput.value = '';
+          });
+        }
+
+        // Fallback for click outside (light-dismiss) on Safari or older browsers
+        if (!('closedBy' in HTMLDialogElement.prototype)) {
+          dialog.addEventListener('click', (event) => {
+            if (event.target !== dialog) return;
+            const rect = dialog.getBoundingClientRect();
+            const isDialogContent = (
+              rect.top <= event.clientY &&
+              event.clientY <= rect.top + rect.height &&
+              rect.left <= event.clientX &&
+              event.clientX <= rect.left + rect.width
+            );
+            if (!isDialogContent) {
+              dialog.close();
+            }
+          });
+        }
+      })();
     </script>
 </body>
 </html>
@@ -131,5 +238,21 @@ const {
   }
   .animate-luxury-breathe {
     animation: luxuryBreathe 2.5s ease-in-out infinite;
+  }
+
+  /* dialog styling & animations */
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
+  dialog[open] {
+    animation: dialogFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  @keyframes dialogFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
   }
 </style>

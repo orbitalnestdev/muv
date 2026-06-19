@@ -219,3 +219,54 @@
     animation: kenBurns 24s ease-in-out infinite;
 }
 
+/* Premium Reveal Scroll Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Micro transition delay for bento elements */
+.reveal-delay-100 { transition-delay: 100ms; }
+.reveal-delay-200 { transition-delay: 200ms; }
+.reveal-delay-300 { transition-delay: 300ms; }
+.reveal-delay-400 { transition-delay: 400ms; }
+
+/* Smooth nav link hover underline matching boutique look */
+.nav-underline-anim {
+    position: relative;
+}
+.nav-underline-anim::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -3px;
+    left: 0;
+    background-color: #C5A059; /* refined-gold */
+    transform-origin: bottom center;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-underline-anim:hover::after {
+    transform: scaleX(1);
+}
+
+@keyframes scrollWheel {
+    0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(6px); opacity: 0.2; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.animate-scroll-wheel {
+    animation: scrollWheel 2.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+
+

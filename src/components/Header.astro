@@ -28,26 +28,18 @@ const { isDarkHero = false } = Astro.props;
             />
         </a>
         <div class="hidden md:flex items-center space-x-3 lg:space-x-5 xl:space-x-7">
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=1">Venta</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/emprendimientos/">Emprendimientos</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/mapa/">Mapa</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/tasaciones/">Tasaciones</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/quienes-somos/">Quienes Somos</a>
-            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors" href="/contacto/">Contacto</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/search-results/?operation_id=1">Venta</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/search-results/?operation_id=2">Alquiler</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/emprendimientos/">Emprendimientos</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/tasaciones/">Tasaciones</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/quienes-somos/">Quienes Somos</a>
+            <a class="font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors nav-underline-anim" href="/contacto/">Contacto</a>
             <a 
-              href="https://wa.me/5491122862000" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class:list={[
-                "flex items-center gap-1.5 px-4 lg:px-5 py-2 rounded font-sans text-[15px] font-[500] transition-all duration-300 active:scale-95 text-center uppercase tracking-wider text-xs",
-                isDarkHero 
-                  ? "bg-pure-white text-primary hover:bg-refined-gold hover:text-pure-white"
-                  : "bg-primary text-pure-white hover:bg-refined-gold hover:text-primary"
-              ]}
+              href="tel:1122862000" 
+              class="flex items-center gap-1.5 font-sans text-[15px] font-[500] normal-case hover:text-refined-gold transition-colors ml-2"
             >
-                <span class="material-symbols-outlined text-[18px]">call</span>
-                <span>11 2286 2000</span>
+                <span class="material-symbols-outlined text-[20px]">phone_in_talk</span>
+                <span>1122862000</span>
             </a>
         </div>
         <div class="md:hidden">
@@ -71,21 +63,18 @@ const { isDarkHero = false } = Astro.props;
             <span class="font-headline-md text-primary font-bold">MUV</span>
             <span class="material-symbols-outlined cursor-pointer text-primary" id="menu-close">close</span>
         </div>
-        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=1">Venta</a>
-        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/buscar/?operation_id=2">Alquiler</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/search-results/?operation_id=1">Venta</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/search-results/?operation_id=2">Alquiler</a>
         <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/emprendimientos/">Emprendimientos</a>
-        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/mapa/">Mapa</a>
         <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/tasaciones/">Tasaciones</a>
-        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/quienes-somos/">Quienes Somos</a>
+        <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/quienes-somos/">Quiénes Somos</a>
         <a class="font-sans text-[15px] font-[500] normal-case text-secondary hover:text-primary transition-colors" href="/contacto/">Contacto</a>
         <a 
-          href="https://wa.me/5491122862000" 
-          target="_blank" 
-          rel="noopener noreferrer"
+          href="tel:1122862000" 
           class="bg-primary text-pure-white px-6 py-3 rounded text-center uppercase font-label-lg text-label-lg tracking-wider text-xs flex items-center justify-center gap-2"
         >
-            <span class="material-symbols-outlined text-[18px]">call</span>
-            <span>11 2286 2000</span>
+            <span class="material-symbols-outlined text-[18px]">phone_in_talk</span>
+            <span>1122862000</span>
         </a>
     </div>
 </div>

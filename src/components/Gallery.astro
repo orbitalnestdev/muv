@@ -8,7 +8,7 @@ const { photos = [], title } = Astro.props;
 const totalPhotos = photos.length;
 ---
 
-<div class="w-full h-[600px] select-none" id="gallery-container" data-photos={JSON.stringify(photos)}>
+<div class="w-full h-auto md:h-[600px] select-none" id="gallery-container" data-photos={JSON.stringify(photos)}>
     {totalPhotos === 0 ? (
         <div class="w-full h-full bg-surface-container-high rounded-lg flex items-center justify-center text-secondary">
             <span class="material-symbols-outlined text-[64px] mb-2">image_not_supported</span>

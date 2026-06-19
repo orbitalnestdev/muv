@@ -74,29 +74,29 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         <!-- Top Right Badges matching mockup screenshot exactly -->
         <div class="absolute top-4 right-4 z-10 flex gap-1.5 select-none">
             {badgeText === 'ALQUILER' ? (
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   ALQUILER
                 </span>
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   DISPONIBLE
                 </span>
             ) : badgeText === 'TEMPORARIO' ? (
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   TEMPORARIO
                 </span>
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   DISPONIBLE
                 </span>
             ) : (
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   DISPONIBLE
                 </span>
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   VENTA
                 </span>
             )}
             {is_starred_on_web && (
-                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-0.5 text-[8.5px] font-bold tracking-widest uppercase rounded-sm font-body-md">
+                <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   DESTACADO
                 </span>
             )}
@@ -132,19 +132,19 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         </a>
     </div>
     
-    <!-- Details Body (Left-aligned details matching mockup references) -->
-    <div class="p-5 flex-grow flex flex-col justify-between space-y-3.5 text-left">
+    <!-- Details Body (Centered details matching mockup references) -->
+    <div class="p-5 flex-grow flex flex-col justify-between space-y-3.5 text-center">
         <div class="space-y-2">
 
             <!-- Title / Address -->
-            <h3 class="font-sans font-[400] md:text-[16px] text-[15px] text-primary leading-snug truncate max-w-full">
+            <h3 class="font-sans font-[400] md:text-[16px] text-[15px] text-primary leading-snug max-w-full">
                 <a href={`/property/${id}/`} class="hover:text-refined-gold transition-colors">
                   {address || publication_title}
                 </a>
             </h3>
 
             <!-- Location pin + neighborhood -->
-            <div class="flex items-center gap-1 text-[#747878] text-[13px] font-[300] font-sans select-none leading-none">
+            <div class="flex items-center justify-center gap-1 text-[#747878] text-[13px] font-[300] font-sans select-none leading-none">
                 <span class="material-symbols-outlined text-[16px] text-[#747878] select-none pointer-events-none">location_on</span>
                 <span class="font-sans font-[300] text-[13px] leading-none">{property.location?.name || 'Buenos Aires'}</span>
             </div>
@@ -159,7 +159,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         </div>
         
         <!-- Specs row matching reference exactly (No capsules, raw gray outline SVGs and numbers) -->
-        <div class="border-t border-outline-variant/15 pt-4 flex flex-wrap justify-start items-center gap-5 text-[#191c1d] select-none font-body-md text-[12px] font-medium leading-none">
+        <div class="border-t border-outline-variant/15 pt-4 flex flex-wrap justify-center items-center gap-5 text-[#191c1d] select-none font-body-md text-[12px] font-medium leading-none">
             {beds > 0 && (
                 <div class="flex items-center gap-1.5" title={`${beds} Dormitorios`}>
                     <!-- Bed SVG -->

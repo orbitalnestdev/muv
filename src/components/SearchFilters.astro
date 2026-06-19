@@ -30,7 +30,7 @@ const amenitiesList = [
 ];
 ---
 
-<form method="GET" action="/buscar/" class="space-y-6 w-full" id="filters-form">
+<form method="GET" action="/search-results/" class="space-y-6 w-full" id="filters-form">
     <!-- 1. Tipo de Operación -->
     <div class="space-y-2">
         <label class="font-headline text-[10px] font-bold text-slate-blue uppercase tracking-widest block">Tipo de Operación</label>
@@ -501,7 +501,7 @@ const amenitiesList = [
   const clearBtn = document.getElementById('btn-clear');
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
-      window.location.href = '/buscar/';
+      window.location.href = '/search-results/';
     });
   }
 </script>
