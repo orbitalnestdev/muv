@@ -55,7 +55,7 @@ const baths = (bathroom_amount || 0) + (toilet_amount || 0);
 const rooms = room_amount || 0;
 const garage = parking_lot_amount || 0;
 const surfaceAmount = total_surface || covered_surface || surface || '0';
-const formattedSurface = Number(surfaceAmount) > 0 ? Number(surfaceAmount).toFixed(2) + ' M2' : '';
+const formattedSurface = Number(surfaceAmount) > 0 ? Math.round(Number(surfaceAmount)) + ' m²' : '';
 
 const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
 ---

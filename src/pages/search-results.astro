@@ -108,7 +108,7 @@ function getLayoutUrl(newView: string) {
             
             <!-- Page Banner Header -->
             <div class="text-left space-y-2">
-                <h1 class="font-headline-xl text-3xl md:text-4xl text-primary font-semibold tracking-tight">{pageTitle}</h1>
+                <h1 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-tight tracking-tight">{pageTitle}</h1>
                 <div class="w-12 h-[3px] bg-refined-gold"></div>
             </div>
 
@@ -1368,7 +1368,7 @@ function getLayoutUrl(newView: string) {
           if (rooms > 0) specs.push({ value: rooms, label: rooms === 1 ? 'Ambiente' : 'Ambientes', icon: 'door' });
           if (baths > 0) specs.push({ value: baths, label: baths === 1 ? 'Baño' : 'Baños', icon: 'bath' });
           if (cocheras > 0) specs.push({ value: cocheras, label: cocheras === 1 ? 'Garage' : 'Garages', icon: 'car' });
-          if (parseFloat(surfaceVal) > 0) specs.push({ value: parseFloat(surfaceVal).toFixed(2), label: 'M2', icon: 'ruler' });
+          if (parseFloat(surfaceVal) > 0) specs.push({ value: Math.round(parseFloat(surfaceVal)), label: 'm²', icon: 'ruler' });
 
           const specsHtml = specs.map((spec, index) => {
             let iconSvg = '';

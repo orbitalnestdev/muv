@@ -57,24 +57,24 @@ const totalPhotos = photos.length;
 </div>
 
 <!-- Fullscreen Lightbox Modal -->
-<div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none">
+<div id="lightbox-modal" class="fixed inset-0 z-[100] flex flex-col justify-between p-4 md:p-8 backdrop-blur-sm select-none bg-black/95 opacity-0 pointer-events-none transition-all duration-300 ease-in-out">
     <!-- Top Bar -->
-    <div class="w-full flex justify-between items-center max-w-7xl mx-auto text-pure-white z-20">
+    <div class="w-full flex justify-between items-center max-w-7xl mx-auto text-pure-white z-25">
         <div class="font-label-lg text-label-lg tracking-wider" id="lightbox-counter">1 / 1</div>
-        <button id="close-lightbox" class="p-2 hover:bg-white/10 rounded-full transition-all active:scale-95 flex items-center justify-center" aria-label="Cerrar vista completa">
+        <button id="close-lightbox" class="p-2 hover:bg-white/10 rounded-full transition-all active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Cerrar vista completa">
             <span class="material-symbols-outlined text-[28px]">close</span>
         </button>
     </div>
 
     <!-- Image Slider Wrapper -->
-    <div class="relative w-full flex items-center justify-center flex-grow z-10">
-        <button id="prev-lightbox" class="absolute left-2 md:left-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center" aria-label="Foto anterior">
+    <div class="relative w-full flex items-center justify-center flex-grow z-20">
+        <button id="prev-lightbox" class="absolute left-2 md:left-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Foto anterior">
             <span class="material-symbols-outlined text-[32px]">chevron_left</span>
         </button>
         
-        <img id="lightbox-img" src="" alt="Vista ampliada" class="max-w-full max-h-[75vh] md:max-h-[80vh] object-contain rounded transition-all duration-300" />
+        <img id="lightbox-img" src="" alt="Vista ampliada" class="max-w-full max-h-[75vh] md:max-h-[80vh] object-contain rounded transform scale-95 transition-all duration-300 ease-out" />
         
-        <button id="next-lightbox" class="absolute right-2 md:right-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center" aria-label="Siguiente foto">
+        <button id="next-lightbox" class="absolute right-2 md:right-4 p-3 bg-black/50 hover:bg-black/80 text-pure-white rounded-full transition-all hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Siguiente foto">
             <span class="material-symbols-outlined text-[32px]">chevron_right</span>
         </button>
     </div>
@@ -100,12 +100,20 @@ const totalPhotos = photos.length;
     function openLightbox(index: number) {
       currentIdx = index;
       updateLightbox();
-      modal?.classList.remove('hidden');
+      modal?.classList.remove('opacity-0', 'pointer-events-none');
+      modal?.classList.add('opacity-100', 'pointer-events-auto');
+      setTimeout(() => {
+        imgElement?.classList.remove('scale-95');
+        imgElement?.classList.add('scale-100');
+      }, 10);
       document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
-      modal?.classList.add('hidden');
+      imgElement?.classList.remove('scale-100');
+      imgElement?.classList.add('scale-95');
+      modal?.classList.remove('opacity-100', 'pointer-events-auto');
+      modal?.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = '';
     }
 
@@ -147,7 +155,7 @@ const totalPhotos = photos.length;
 
     // Keyboard controls
     window.addEventListener('keydown', (e) => {
-      if (modal.classList.contains('hidden')) return;
+      if (modal.classList.contains('opacity-0')) return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') prevImage();
       if (e.key === 'ArrowRight') nextImage();

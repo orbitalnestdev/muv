@@ -34,7 +34,9 @@ const {
   expenses,
   toilet_amount,
   age,
-  orientation
+  orientation,
+  expenses_currency,
+  transaction_requirements
 } = property;
 
 // Format Price
@@ -44,9 +46,10 @@ const priceText = price
   ? `${price.currency} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(price.price)}` 
   : 'Consultar';
 
-// Format Expensas Text (mockup layout: "+ USD 45.000 Expensas")
+// Format Expensas Text
+const expCurrency = expenses_currency || 'ARS';
 const expensesText = expenses && Number(expenses) > 0 
-  ? `+ USD ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(expenses)} Expensas` 
+  ? `+ ${expCurrency === 'ARS' ? '$' : expCurrency} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(expenses)} Expensas` 
   : '';
 
 // Format Badges
@@ -130,6 +133,14 @@ const schemaJsonLd = {
   }
 };
 
+// Helper function to format surface
+function formatSurface(value: string | number | null | undefined): string {
+  if (!value) return '-';
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(num) || num <= 0) return '-';
+  return `${Math.round(num)} m²`;
+}
+
 // Compute technical specs details
 const hasAC = tags.some(t => t.name.toLowerCase().includes('aire') || t.name.toLowerCase().includes('split')) || description.toLowerCase().includes('aire acondicionado') || description.toLowerCase().includes('split') ? 'Sí' : 'No';
 const hasAguaCaliente = tags.some(t => t.name.toLowerCase().includes('agua caliente') || t.name.toLowerCase().includes('caldera') || t.name.toLowerCase().includes('termotanque')) || description.toLowerCase().includes('agua caliente') || description.toLowerCase().includes('termotanque') ? 'Sí' : 'No';
@@ -137,10 +148,10 @@ const hasBaulera = tags.some(t => t.name.toLowerCase().includes('baulera')) || d
 const isAptoComercial = tags.some(t => t.name.toLowerCase().includes('comercial') || t.name.toLowerCase().includes('apto profesional')) || description.toLowerCase().includes('apto comercial') || description.toLowerCase().includes('apto profesional') ? 'Sí' : 'No';
 const isLuminoso = tags.some(t => t.name.toLowerCase().includes('luminoso') || t.name.toLowerCase().includes('vista')) || description.toLowerCase().includes('luminoso') || description.toLowerCase().includes('vista abierta') ? 'Sí' : 'No';
 const hasAscensor = tags.some(t => t.name.toLowerCase().includes('ascensor') || t.name.toLowerCase().includes('elevador')) || description.toLowerCase().includes('ascensor') ? 'Sí' : 'No';
-const semiSurface = property.semiroofed_surface ? `${Number(property.semiroofed_surface).toFixed(2)} M2` : '0.00 M2';
-const uncoveredSurface = property.unroofed_surface ? `${Number(property.unroofed_surface).toFixed(2)} M2` : '0.00 M2';
-const totalM2Text = totalSurface ? `${Number(totalSurface).toFixed(2)} M2` : '0.00 M2';
-const coveredM2Text = covered_surface ? `${Number(covered_surface).toFixed(2)} M2` : totalM2Text;
+
+const expensesFormatted = expenses && Number(expenses) > 0 
+  ? `${expCurrency === 'ARS' ? '$' : expCurrency} ${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(expenses)}` 
+  : 'Sin Expensas';
 ---
 
 <MainLayout 
@@ -215,26 +226,26 @@ const coveredM2Text = covered_surface ? `${Number(covered_surface).toFixed(2)} M
 
         <!-- Horizontal Specs Bar (Mockup Style) -->
         <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-12">
-            <div class="bg-pure-white border border-outline-variant/30 rounded-xl shadow-sm grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-outline-variant/30 text-center py-6 select-none font-sans font-[300]">
-                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+            <div class="bg-pure-white border border-outline-variant/30 rounded-xl shadow-sm grid grid-cols-2 md:grid-cols-5 text-center py-6 select-none font-sans font-[300]">
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center border-r border-b md:border-r md:border-b-0 border-outline-variant/30">
                     <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">apartment</span>
                     <span class="text-sm text-primary mt-1">{property.type?.name || 'Departamento'}</span>
                 </div>
-                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center border-b md:border-r md:border-b-0 border-outline-variant/30">
                     <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">meeting_room</span>
                     <span class="text-sm text-primary mt-1">{rooms} {rooms === 1 ? 'ambiente' : 'ambientes'}</span>
                 </div>
-                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center border-r border-b md:border-r md:border-b-0 border-outline-variant/30">
                     <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bed</span>
                     <span class="text-sm text-primary mt-1">{beds} {beds === 1 ? 'dormitorio' : 'dormitorios'}</span>
                 </div>
-                <div class="flex flex-col py-2 md:py-0 items-center justify-center">
+                <div class="flex flex-col py-2 md:py-0 items-center justify-center border-b md:border-r md:border-b-0 border-outline-variant/30">
                     <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">bathtub</span>
                     <span class="text-sm text-primary mt-1">{baths} {baths === 1 ? 'baño' : 'baños'}</span>
                 </div>
-                <div class="flex flex-col py-2 md:py-0 col-span-2 md:col-span-1 border-t md:border-t-0 items-center justify-center">
+                <div class="flex flex-col py-2 md:py-0 col-span-2 md:col-span-1 items-center justify-center">
                     <span class="material-symbols-outlined text-refined-gold text-[24px] mb-1 select-none pointer-events-none">square_foot</span>
-                    <span class="text-sm text-primary mt-1">{totalSurface} M2 de Sup. Total</span>
+                    <span class="text-sm text-primary mt-1">{formatSurface(totalSurface)} de Sup. Total</span>
                 </div>
             </div>
         </div>
@@ -291,77 +302,137 @@ const coveredM2Text = covered_surface ? `${Number(covered_surface).toFixed(2)} M
                 </div>
             </section>
 
-            <!-- Detalles (Technical specs box - Blue mockup style) -->
-            <section class="space-y-6 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Detalles</h3>
+            <!-- Información general (Technical specs box - Premium neutral style) -->
+            <section class="space-y-8 font-sans text-left">
+                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Información general</h3>
                 
-                <div class="bg-[#F4F9FF] border border-[#CCE2FF] rounded-xl p-8 font-sans font-[300]">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-5 text-sm">
+                <!-- Sub-sección: Operaciones -->
+                <div class="bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl p-8 space-y-4">
+                    <h4 class="font-sans font-bold text-[#191c1d] text-base border-b border-[#E5E7EB] pb-2">Operaciones</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-4 text-sm font-sans font-[300]">
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2 md:border-b-0 md:pb-0">
+                            <span class="text-secondary/80">Crédito</span>
+                            <span class="text-primary font-medium">{property.credit_eligible && property.credit_eligible !== 'No especificado' ? property.credit_eligible : 'No elegible'}</span>
+                        </div>
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2 md:border-b-0 md:pb-0">
+                            <span class="text-secondary/80">Expensas</span>
+                            <span class="text-primary font-medium">{expensesFormatted}</span>
+                        </div>
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2 md:border-b-0 md:pb-0">
+                            <span class="text-secondary/80">Requisitos para alquilar</span>
+                            <span class="text-primary font-medium text-right max-w-[200px] truncate" title={transaction_requirements || 'No especificado'}>{transaction_requirements || 'No especificado'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-sección: Información general -->
+                <div class="bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl p-8 space-y-4">
+                    <h4 class="font-sans font-bold text-[#191c1d] text-base border-b border-[#E5E7EB] pb-2">Detalles de la propiedad</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 text-sm font-sans font-[300]">
                         <!-- Col 1 -->
                         <div class="space-y-4">
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Aire Acondicionado</span>
-                                <span class="text-primary font-medium">{hasAC}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Ambientes</span>
+                                <span class="text-primary font-medium">{room_amount || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Superficie cubierta</span>
-                                <span class="text-primary font-medium">{coveredM2Text}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Dormitorios</span>
+                                <span class="text-primary font-medium">{beds || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Agua Caliente</span>
-                                <span class="text-primary font-medium">{hasAguaCaliente}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Dormitorios en suite</span>
+                                <span class="text-primary font-medium">{property.suite_amount || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
                                 <span class="text-secondary/80">Baños</span>
-                                <span class="text-primary font-medium">{baths}</span>
+                                <span class="text-primary font-medium">{bathroom_amount || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Cantidad Dormitorios</span>
-                                <span class="text-primary font-medium">{beds}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Toilettes</span>
+                                <span class="text-primary font-medium">{toilet_amount || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Superficie total</span>
-                                <span class="text-primary font-medium">{totalM2Text}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Cocheras</span>
+                                <span class="text-primary font-medium">{garage || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Superficie semicubierta</span>
-                                <span class="text-primary font-medium">{semiSurface}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Cocheras cubiertas</span>
+                                <span class="text-primary font-medium">{property.covered_parking_lot || '-'}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Superficie descubierta adicional</span>
-                                <span class="text-primary font-medium">{uncoveredSurface}</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Ascensores</span>
+                                <span class="text-primary font-medium">{hasAscensor}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Disposición</span>
+                                <span class="text-primary font-medium">{property.disposition || 'No especificado'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Orientación</span>
+                                <span class="text-primary font-medium">{orientation || 'Consultar'}</span>
                             </div>
                         </div>
                         <!-- Col 2 -->
                         <div class="space-y-4">
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Antigüedad</span>
+                                <span class="text-primary font-medium">{age && Number(age) > 0 ? `${age} años` : 'A estrenar'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Condición</span>
+                                <span class="text-primary font-medium">{property.property_condition || 'No especificado'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Pisos en el edificio</span>
+                                <span class="text-primary font-medium">{property.floors_amount || '-'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Departamentos por piso</span>
+                                <span class="text-primary font-medium">{property.appartments_per_floor || '-'}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Aire Acondicionado</span>
+                                <span class="text-primary font-medium">{hasAC}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Agua Caliente</span>
+                                <span class="text-primary font-medium">{hasAguaCaliente}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
                                 <span class="text-secondary/80">Baulera</span>
                                 <span class="text-primary font-medium">{hasBaulera}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Total construido</span>
-                                <span class="text-primary font-medium">{totalM2Text}</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Ascensores</span>
-                                <span class="text-primary font-medium">{hasAscensor}</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Apto Comercial</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Apto Profesional / Comercial</span>
                                 <span class="text-primary font-medium">{isAptoComercial}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Luminoso / buena vista</span>
+                            <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                                <span class="text-secondary/80">Luminoso</span>
                                 <span class="text-primary font-medium">{isLuminoso}</span>
                             </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Buen estado general</span>
-                                <span class="text-primary font-medium">{property.property_condition || 'Excelente'}</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#CCE2FF]/40 pb-2">
-                                <span class="text-secondary/80">Superficie descubierta</span>
-                                <span class="text-primary font-medium">{uncoveredSurface}</span>
-                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-sección: Superficies y medidas -->
+                <div class="bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl p-8 space-y-4">
+                    <h4 class="font-sans font-bold text-[#191c1d] text-base border-b border-[#E5E7EB] pb-2">Superficies y medidas</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 text-sm font-sans font-[300]">
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                            <span class="text-secondary/80">Total construido</span>
+                            <span class="text-primary font-medium">{formatSurface(totalSurface)}</span>
+                        </div>
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                            <span class="text-secondary/80">Superficie cubierta</span>
+                            <span class="text-primary font-medium">{formatSurface(covered_surface)}</span>
+                        </div>
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                            <span class="text-secondary/80">Superficie semicubierta</span>
+                            <span class="text-primary font-medium">{formatSurface(property.semiroofed_surface)}</span>
+                        </div>
+                        <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
+                            <span class="text-secondary/80">Superficie descubierta</span>
+                            <span class="text-primary font-medium">{formatSurface(property.unroofed_surface)}</span>
                         </div>
                     </div>
                 </div>
