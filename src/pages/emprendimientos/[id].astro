@@ -20,12 +20,15 @@ const units = [...rawUnits].sort((a, b) => (b.room_amount || 0) - (a.room_amount
 
 const {
   name,
+  publication_title,
   description,
   construction_status,
   location,
   photos = [],
   address
 } = development;
+
+const mainTitle = name;
 
 const statusText = construction_status || "PREMIUM";
 const addressText = address || location?.name || "Buenos Aires";
@@ -187,13 +190,37 @@ const defaultServices = [
 
 const finalServicios = uniqueTags.length > 0 ? serviciosTags : defaultServices;
 const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
+
+// JSON-LD structured data for Real Estate Listing (Developments) SEO
+const schemaJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "name": mainTitle,
+  "description": description,
+  "datePosted": new Date().toISOString(),
+  "offers": minPrice > 0 ? {
+    "@type": "Offer",
+    "price": minPrice,
+    "priceCurrency": minPriceCurrency,
+    "availability": "https://schema.org/InStock"
+  } : undefined,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": addressText,
+    "addressLocality": location?.name || "Buenos Aires",
+    "addressCountry": "AR"
+  }
+};
 ---
 
 <MainLayout 
-  title={`${name} | Emprendimientos | MUV Propiedades`} 
-  description={`${name} - Desarrollo exclusivo en ${addressText}. ${description.substring(0, 150)}...`}
+  title={`${mainTitle} | Emprendimientos | MUV Propiedades`} 
+  description={`${mainTitle} - Desarrollo exclusivo en ${addressText}. ${description.substring(0, 150)}...`}
   isDarkHero={false}
 >
+    <!-- Inject Development Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaJsonLd)} slot="head" />
+
     <main class="pt-24 min-h-[70vh] bg-surface select-none pb-24">
         
         <!-- Breadcrumbs & Share/Fav Bar -->
@@ -207,7 +234,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
                     <span class="text-secondary/40 mx-2">&gt;</span>
                     <a class="hover:text-primary transition-colors" href="/emprendimientos/">Edificio</a>
                     <span class="text-secondary/40 mx-2">&gt;</span>
-                    <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{name}</span>
+                    <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{mainTitle}</span>
                 </nav>
                 <div class="flex gap-2">
                     <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-pure-white hover:border-primary transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir emprendimiento">
@@ -222,7 +249,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 text-left font-sans">
                 <div class="space-y-2">
                     <h1 class="font-sans font-[300] md:text-[36px] text-2xl text-primary leading-tight tracking-tight">
-                        {name}
+                        {mainTitle}
                     </h1>
                     
                     <div class="flex flex-wrap items-center gap-2 pt-1 select-none">
@@ -246,7 +273,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
 
         <!-- High-Quality Image Gallery Grid (Mockup 3-photo grid inside Gallery component) -->
         <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-6 select-none">
-            <Gallery photos={photosList} title={name} />
+            <Gallery photos={photosList} title={mainTitle} />
         </section>
 
         <!-- Horizontal Specs Bar -->
@@ -293,7 +320,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
             
             <!-- Description -->
             <section class="space-y-4 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">El Emprendimiento</h3>
+                <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">El Emprendimiento</h2>
                 <p class="font-body text-[15px] text-[#545F72] leading-relaxed whitespace-pre-line">
                     {description}
                 </p>
@@ -302,7 +329,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
             <!-- Ubicación -->
             <section class="space-y-6 font-sans text-left">
                 <div class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
-                    <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Ubicación</h3>
+                    <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Ubicación</h2>
                     <a 
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText + (location?.name ? ', ' + location.name : '') + ', Buenos Aires')}`} 
                       target="_blank" 
@@ -327,28 +354,28 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
             <!-- Unidades Disponibles (Table/Cards) -->
             <section class="space-y-6 font-sans text-left">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-outline-variant/10 pb-3 gap-4">
-                    <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Unidades Disponibles</h3>
+                    <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Unidades Disponibles</h2>
                     <div class="flex flex-wrap items-center gap-4 select-none">
                         <!-- View Toggle -->
                         <div class="flex items-center bg-surface-container-low/40 border border-outline-variant/20 p-1 rounded-lg">
-                          <button id="view-cards-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer" title="Vista Tarjetas">
+                          <button id="view-cards-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-medium uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer bg-black text-pure-white" title="Vista Tarjetas">
                             <span class="material-symbols-outlined text-[16px]">view_list</span>
                             <span class="hidden sm:inline">Tarjetas</span>
                           </button>
-                          <button id="view-table-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer" title="Vista Tabla">
+                          <button id="view-table-btn" class="flex items-center gap-1 px-3 py-1.5 text-xs font-medium uppercase tracking-wider rounded-md transition-all duration-200 cursor-pointer bg-pure-white border border-outline-variant/35 text-secondary hover:text-primary" title="Vista Tabla">
                             <span class="material-symbols-outlined text-[16px]">table_rows</span>
                             <span class="hidden sm:inline">Tabla</span>
                           </button>
                         </div>
 
-                        <select id="filter-rooms" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                        <select id="filter-rooms" class="border border-outline-variant/45 rounded pl-4 pr-10 py-2 text-xs font-medium text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none cursor-pointer">
                             <option value="">Todos los ambientes</option>
                             <option value="1">1 Ambiente</option>
                             <option value="2">2 Ambientes</option>
                             <option value="3">3 Ambientes</option>
                             <option value="4">4+ Ambientes</option>
                         </select>
-                        <select id="sort-price" class="border border-outline-variant/45 rounded px-4 py-2 text-xs font-semibold text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+                        <select id="sort-price" class="border border-outline-variant/45 rounded pl-4 pr-10 py-2 text-xs font-medium text-slate-blue bg-white focus:ring-1 focus:ring-primary focus:border-primary outline-none cursor-pointer">
                             <option value="asc">Precio: Menor a Mayor</option>
                             <option value="desc">Precio: Mayor a Menor</option>
                         </select>
@@ -521,10 +548,10 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
 
             <!-- Información general / Detalles de emprendimiento -->
             <section class="space-y-8 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Información general</h3>
+                <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Información general</h2>
                 
                 <div class="bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl p-8 space-y-4">
-                    <h4 class="font-sans font-bold text-[#191c1d] text-base border-b border-[#E5E7EB] pb-2">Detalles del Proyecto</h4>
+                    <h3 class="font-sans font-bold text-[#191c1d] text-base border-b border-[#E5E7EB] pb-2">Detalles del Proyecto</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 text-sm font-sans font-[300]">
                         <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
                             <span class="text-secondary/80">Estado de Obra</span>
@@ -556,11 +583,11 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
 
             <!-- Characteristics & Amenities -->
             <section class="space-y-6 font-sans text-left">
-                <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características</h3>
+                <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider border-b border-outline-variant/10 pb-3">Características</h2>
                 
                 {finalServicios.length > 0 && (
                     <div class="space-y-3">
-                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Servicios</h4>
+                        <h3 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Servicios</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
                             {finalServicios.map((t) => (
                                 <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
@@ -576,7 +603,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
 
                 {finalAmenities.length > 0 && (
                     <div class="space-y-3 pt-2">
-                        <h4 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Adicionales</h4>
+                        <h3 class="font-headline text-[14px] font-bold text-primary uppercase tracking-wider">Adicionales</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2">
                             {finalAmenities.map((t) => (
                                 <div class="flex items-center gap-2.5 text-secondary text-[15px] font-[300] py-1">
@@ -594,8 +621,8 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
             <!-- Contact/Inquiry Lead Section (Centered Full-Width style) -->
             <section class="pt-8 border-t border-outline-variant/10 text-left">
                 <div class="max-w-2xl mx-auto">
-                    <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider mb-6 text-center">Consultar por este Emprendimiento</h3>
-                    <LeadForm propertyTitle={name} />
+                    <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider mb-6 text-center">Consultar por este Emprendimiento</h2>
+                    <LeadForm propertyTitle={mainTitle} />
                 </div>
             </section>
 
@@ -605,7 +632,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
                     <div class="flex justify-between items-end mb-10">
                         <div class="text-left space-y-1.5 font-sans">
                             <span class="text-secondary font-bold text-[9px] uppercase tracking-widest">Descubrí Más</span>
-                            <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Otros Emprendimientos</h2>
+                            <h3 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider">Otros Emprendimientos</h3>
                         </div>
                         <a href="/emprendimientos/" class="text-xs font-bold font-sans text-secondary hover:text-primary transition-colors flex items-center gap-1.5 uppercase tracking-widest">
                             <span>Ver todos</span>
@@ -653,9 +680,9 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
                                   <!-- Bottom Overlay Details -->
                                   <div class="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end text-pure-white font-sans">
                                     <div class="space-y-1.5 max-w-[85%] text-left font-sans">
-                                      <h3 class="font-headline-md text-base md:text-lg font-bold leading-tight">
-                                        {dev.name} — {locationName}
-                                      </h3>
+                                      <h4 class="font-headline-md text-base md:text-lg font-bold leading-tight">
+                                        {dev.name}
+                                      </h4>
                                       <p class="font-body-md text-xs md:text-sm text-pure-white/80 line-clamp-2 leading-relaxed">
                                         {shortDesc}
                                       </p>
@@ -673,10 +700,10 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
         </div>
 
         <!-- WhatsApp Property Meta for Global Button -->
-        <div id="whatsapp-page-info" data-title={name} data-id={id} class="hidden"></div>
+        <div id="whatsapp-page-info" data-title={mainTitle} data-id={id} class="hidden"></div>
     </main>
 
-    <script is:inline define:vars={{ id, name }}>
+    <script is:inline define:vars={{ id, name: mainTitle }}>
       // Share button micro-interaction
       const shareBtn = document.getElementById('btn-share');
       shareBtn?.addEventListener('click', (e) => {
@@ -722,7 +749,7 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
       const cardsWrapper = document.getElementById('units-cards-wrapper');
       const tableWrapper = document.getElementById('units-table-wrapper');
 
-      let currentView = localStorage.getItem('muv_units_view') || 'cards';
+      let currentView = 'cards';
 
       function updateView() {
         if (currentView === 'cards') {
@@ -749,14 +776,12 @@ const finalAmenities = uniqueTags.length > 0 ? amenitiesTags : defaultAmenities;
       viewCardsBtn?.addEventListener('click', (e) => {
         e.preventDefault();
         currentView = 'cards';
-        localStorage.setItem('muv_units_view', 'cards');
         updateView();
       });
 
       viewTableBtn?.addEventListener('click', (e) => {
         e.preventDefault();
         currentView = 'table';
-        localStorage.setItem('muv_units_view', 'table');
         updateView();
       });
 

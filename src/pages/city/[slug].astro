@@ -43,7 +43,7 @@ const operationId = url.searchParams.get('operation_id') || '';
 const propertyTypeId = url.searchParams.get('property_type_id') || '';
 const priceMin = url.searchParams.get('price_min') || '';
 const priceMax = url.searchParams.get('price_max') || '';
-const currency = url.searchParams.get('currency') || '';
+const currency = url.searchParams.get('currency') || 'USD';
 const rooms = url.searchParams.get('rooms') || '';
 const bedrooms = url.searchParams.get('bedrooms') || '';
 const bathrooms = url.searchParams.get('bathrooms') || '';
@@ -301,7 +301,7 @@ const priceSymbol = currency === 'ARS' ? '$' : 'USD';
 
 if (priceMin && priceMin !== defaultMinPrice) activeChips.push({ key: 'price_min', label: `Desde ${priceSymbol} ${new Intl.NumberFormat('es-AR').format(Number(priceMin))}` });
 if (priceMax && priceMax !== defaultMaxPrice) activeChips.push({ key: 'price_max', label: `Hasta ${priceSymbol} ${new Intl.NumberFormat('es-AR').format(Number(priceMax))}` });
-if (currency) activeChips.push({ key: 'currency', label: `Moneda: ${currency}` });
+if (url.searchParams.has('currency')) activeChips.push({ key: 'currency', label: `Moneda: ${currency}` });
 if (rooms) activeChips.push({ key: 'rooms', label: `${rooms} Ambientes` });
 if (bedrooms) activeChips.push({ key: 'bedrooms', label: `${bedrooms} Dormitorios` });
 if (bathrooms) activeChips.push({ key: 'bathrooms', label: `${bathrooms} Baños` });
@@ -350,7 +350,11 @@ const phCount = getLocalFilterCount({ property_type_id: '4' });
 const localCount = getLocalFilterCount({ property_type_id: '7' });
 ---
 
-<MainLayout title={`Propiedades en ${locationName} | MUV Propiedades`} isDarkHero={true}>
+<MainLayout 
+  title={`Propiedades en ${locationName} | MUV Propiedades`} 
+  description={`Propiedades exclusivas en venta y alquiler en ${locationName}, Buenos Aires. Ingresá para descubrir departamentos y oficinas premium con MUV Propiedades.`} 
+  isDarkHero={true}
+>
     <!-- Neighborhood Banner Hero -->
     <section class="relative h-[45vh] flex items-center justify-center overflow-hidden">
         <!-- Static background image with Ken Burns animation -->

@@ -20,10 +20,14 @@ const totalPhotos = photos.length;
         </div>
     ) : totalPhotos === 2 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full min-h-0">
-            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="0">
+            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0 relative" data-index="0">
                 <img src={photos[0]} alt={`${title} - Foto 1`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                <div class="absolute bottom-4 right-4 md:hidden bg-[#121212]/80 border border-white/20 text-pure-white px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold select-none pointer-events-none shadow-md backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-[16px] text-white">photo_library</span>
+                    <span>1 / 2</span>
+                </div>
             </div>
-            <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
+            <div class="hidden md:block rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
                 <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
             </div>
         </div>
@@ -32,9 +36,13 @@ const totalPhotos = photos.length;
             <!-- Big Image Left -->
             <div class="md:col-span-8 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="0">
                 <img src={photos[0]} alt={`${title} - Principal`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                <div class="absolute bottom-4 right-4 md:hidden bg-[#121212]/80 border border-white/20 text-pure-white px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold select-none pointer-events-none shadow-md backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-[16px] text-white">photo_library</span>
+                    <span>1 / {totalPhotos}</span>
+                </div>
             </div>
             <!-- Two Small Images Right -->
-            <div class="md:col-span-4 flex flex-col md:grid md:grid-rows-2 gap-4 md:h-full min-h-0">
+            <div class="hidden md:flex md:col-span-4 flex-col md:grid md:grid-rows-2 gap-4 md:h-full min-h-0">
                 <div class="rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
                     <img src={photos[1]} alt={`${title} - Foto 2`} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                 </div>

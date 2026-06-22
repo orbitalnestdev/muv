@@ -72,7 +72,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         <div class="absolute bottom-4 right-4 z-10 text-white/35 font-headline-md font-bold text-lg pointer-events-none tracking-widest lowercase select-none">muv</div>
         
         <!-- Top Right Badges matching mockup screenshot exactly -->
-        <div class="absolute top-4 right-4 z-10 flex gap-1.5 select-none">
+        <div class="absolute top-4 right-4 z-10 flex flex-wrap justify-end gap-1.5 select-none">
             {badgeText === 'ALQUILER' ? (
                 <span class="bg-[#121212]/60 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-[300] leading-[10px] tracking-widest uppercase rounded-sm font-sans">
                   ALQUILER
@@ -120,7 +120,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
         </button>
 
         <!-- Image Link -->
-        <a href={`/property/${id}/`} class="block w-full h-full">
+        <a href={`/property/${id}/`} class="block w-full h-full" data-astro-prefetch>
             <img 
               class="carousel-img card-img w-full h-full object-cover" 
               loading="lazy" 
@@ -138,7 +138,7 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
 
             <!-- Title / Address -->
             <h3 class="font-sans font-[400] md:text-[16px] text-[15px] text-primary leading-snug max-w-full">
-                <a href={`/property/${id}/`} class="hover:text-primary transition-colors">
+                <a href={`/property/${id}/`} class="hover:text-primary transition-colors" data-astro-prefetch>
                   {address || publication_title}
                 </a>
             </h3>

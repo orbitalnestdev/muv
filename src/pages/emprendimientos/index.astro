@@ -6,7 +6,11 @@ import { getDevelopments } from '../../lib/tokko';
 const { developments } = await getDevelopments();
 ---
 
-<MainLayout title="Emprendimientos | MUV Propiedades" isDarkHero={false}>
+<MainLayout 
+  title="Emprendimientos | MUV Propiedades" 
+  description="Descubrí los mejores emprendimientos inmobiliarios y desarrollos exclusivos en pozo, preventa y terminados en las zonas más destacadas de Buenos Aires con MUV Propiedades."
+  isDarkHero={false}
+>
   <main class="bg-pure-white min-h-screen">
     <!-- Header Section with Watermark -->
     <section class="relative bg-black pt-44 pb-20 overflow-hidden flex items-center min-h-[260px]">
@@ -53,15 +57,13 @@ const { developments } = await getDevelopments();
               href={`/emprendimientos/${dev.id}/`}
               class="group relative block aspect-[16/10] overflow-hidden rounded-xl bg-slate-900 shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer"
             >
-              <!-- Background Image with Zoom -->
+              <!-- Photo Background -->
               <img 
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
                 src={imageSrc} 
                 alt={`Emprendimiento ${dev.name}`}
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                 loading="lazy"
               />
-              
-              <!-- Card Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40 z-10 transition-opacity duration-300 group-hover:opacity-90"></div>
 
               <!-- Top Badges -->
@@ -82,7 +84,7 @@ const { developments } = await getDevelopments();
               <div class="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end text-pure-white">
                 <div class="space-y-1.5 max-w-[85%] text-left">
                   <h3 class="font-headline-md text-base md:text-lg font-bold leading-tight">
-                    {dev.name} — {locationName}
+                    {dev.name}
                   </h3>
                   <p class="font-body-md text-xs md:text-sm text-pure-white/80 line-clamp-2 leading-relaxed">
                     {shortDesc}

@@ -3,16 +3,21 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const TOKKO_API_KEY = process.env.TOKKO_API_KEY;
 
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
-// Servir archivos estáticos del frontend
-app.use(express.static(__dirname));
+// Servir archivos estáticos del frontend con caché de 1 año y ETags
+app.use(express.static(__dirname, {
+  maxAge: '1y',
+  etag: true
+}));
 
 // Caché en memoria simple
 const cache = {};

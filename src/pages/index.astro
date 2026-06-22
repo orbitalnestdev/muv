@@ -23,9 +23,44 @@ const countColegiales = getCount('Colegiales') || 7;
 const countNunez = getCount('Núñez') || 82;
 
 const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : 'Propiedades'}`;
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "MUV Propiedades",
+  "url": "https://muvpropiedades.com",
+  "logo": "https://muvpropiedades.com/assets/iso_muv.png",
+  "image": "https://muvpropiedades.com/assets/hero2.png",
+  "description": "Especialistas en propiedades premium y emprendimientos exclusivos en las mejores zonas de Buenos Aires.",
+  "telephone": "+541148054192",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jerónimo Salguero 2686",
+    "addressLocality": "Ciudad Autónoma de Buenos Aires",
+    "postalCode": "C1425",
+    "addressCountry": "AR"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+541148054192",
+    "contactType": "sales",
+    "areaServed": "AR",
+    "availableLanguage": ["Spanish", "English"]
+  },
+  "sameAs": [
+    "https://facebook.com/muvpropiedades",
+    "https://instagram.com/muvpropiedades"
+  ]
+};
 ---
 
-<MainLayout title="MUV Propiedades | Real Estate Premium" isDarkHero={true}>
+<MainLayout 
+  title="MUV Propiedades | Real Estate Premium" 
+  description="MUV Propiedades es una inmobiliaria boutique especializada en venta, alquiler y tasación de propiedades exclusivas y emprendimientos premium en Buenos Aires."
+  isDarkHero={true}
+>
+    <!-- Inject Organization Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} slot="head" />
+    <link rel="preload" as="image" href="/assets/hero2.webp" slot="head" />
     <!-- Hero Section -->
     <section class="relative h-[75vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
         <!-- Static background image from assets -->
@@ -34,7 +69,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
             <img 
               alt="MUV Propiedades Hero Background" 
               class="w-full h-full object-cover object-top origin-top animate-ken-burns" 
-              src="/assets/hero.webp" 
+              src="/assets/hero2.webp" 
             />
         </div>
                <!-- Hero Text and Quick Search -->
@@ -309,7 +344,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
     <section class="py-24 bg-surface-container-low/30 relative overflow-hidden reveal">
         <!-- Large Monogram Watermark Image on the bottom-right background (Matches reference screenshot) -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[70%] max-w-[600px] opacity-[0.06] block">
-            <img src="/assets/iso_muv.png" alt="M Monogram Watermark" class="w-full h-auto brightness-0" />
+            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" />
         </div>
 
         <div class="px-margin-desktop max-w-container-max mx-auto relative z-10">
@@ -325,7 +360,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
                 <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Belgrano" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -342,7 +377,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 3: Palermo -->
                 <a href="/city/palermo/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Palermo" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Casas y departamentos en Palermo, Buenos Aires" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -359,7 +394,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 4: Recoleta -->
                 <a href="/city/recoleta/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Recoleta" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Propiedades residenciales de lujo en Recoleta, CABA" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -376,7 +411,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 5: Puerto Madero -->
                 <a href="/city/puerto-madero/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Puerto Madero" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Departamentos exclusivos y oficinas en Puerto Madero, Buenos Aires" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -393,7 +428,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 6: Villa Urquiza -->
                 <a href="/city/villa-urquiza/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Villa Urquiza" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Emprendimientos y departamentos en Villa Urquiza, CABA" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -410,7 +445,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 7: Colegiales -->
                 <a href="/city/colegiales/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Colegiales" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Venta y alquiler de propiedades en Colegiales, CABA" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -427,7 +462,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
 
                 <!-- Cell 8: Núñez -->
                 <a href="/city/nunez/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Núñez" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Casas y departamentos en venta en barrio Núñez, Buenos Aires" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -665,7 +700,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
     <section class="bg-black py-16 relative overflow-hidden text-center text-pure-white">
         <!-- Monogram Isotype watermark cropped at bottom-right -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[240px] md:w-[320px] opacity-[0.05]">
-            <img src="/assets/iso_muv.png" alt="M Monogram Watermark" class="w-full h-auto brightness-0 invert" />
+            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0 invert" />
         </div>
         
         <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center">
@@ -777,10 +812,7 @@ const formatCount = (count: number) => `${count} ${count === 1 ? 'Propiedad' : '
       
       const value = btn.getAttribute('data-value');
       if (value === 'emprendimientos') {
-        if (opInput) opInput.disabled = true;
-        if (searchForm) searchForm.action = '/emprendimientos/';
-        if (propTypeSelect) propTypeSelect.disabled = true;
-        if (segmentPropType) segmentPropType.classList.add('opacity-40', 'pointer-events-none');
+        window.location.href = '/emprendimientos/';
       } else {
         if (opInput) {
           opInput.disabled = false;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
-const TOKKO_API_KEY = import.meta.env.TOKKO_API_KEY || process.env.TOKKO_API_KEY || '';
+const TOKKO_API_KEY = (typeof process !== 'undefined' && process.env?.TOKKO_API_KEY) || (typeof import.meta !== 'undefined' && import.meta.env?.TOKKO_API_KEY) || '';
 
 // Interfaces
 export interface Property {
@@ -36,6 +36,7 @@ export interface Property {
 export interface Development {
   id: number;
   name: string;
+  publication_title?: string;
   description: string;
   construction_status: string;
   location: { name: string; full_location: string };
@@ -549,12 +550,15 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
 
   if (filters.bedrooms) {
     const b = Number(filters.bedrooms);
-    result = result.filter(p => p.suite_amount === b);
+    result = result.filter(p => p.suite_amount === b || (b === 4 && (p.suite_amount || 0) >= 4));
   }
 
   if (filters.bathrooms) {
     const b = Number(filters.bathrooms);
-    result = result.filter(p => p.bathroom_amount === b || (b === 4 && (p.bathroom_amount || 0) >= 4));
+    result = result.filter(p => {
+      const totalBaths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
+      return totalBaths === b || (b === 4 && totalBaths >= 4);
+    });
   }
 
   if (filters.garage) {
@@ -645,44 +649,13 @@ export async function getDevelopmentById(id: number | string): Promise<Developme
 }
 
 export async function getPropertiesByDevelopmentId(devId: number | string): Promise<Property[]> {
-  if (!TOKKO_API_KEY) {
-    await ensureCatalogLoaded();
-    return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
-  }
+  await ensureCatalogLoaded();
+  return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
+}
 
-  try {
-    const limit = 100;
-    let offset = 0;
-    let fetchedAll = false;
-    let results: Property[] = [];
-    
-    while (!fetchedAll) {
-      const response = await axios.get('https://www.tokkobroker.com/api/v1/property/', {
-        params: {
-          key: TOKKO_API_KEY,
-          format: 'json',
-          development__id: Number(devId),
-          limit,
-          offset
-        }
-      });
-      
-      const data = response.data;
-      if (data && data.objects && data.objects.length > 0) {
-        results = results.concat(data.objects);
-        offset += limit;
-        if (results.length >= data.meta.total_count || data.objects.length < limit) {
-          fetchedAll = true;
-        }
-      } else {
-        fetchedAll = true;
-      }
-    }
-    return results;
-  } catch (err: any) {
-    console.error(`Error fetching properties for development ${devId}:`, err.message);
-    await ensureCatalogLoaded();
-    return propertiesCatalog.filter(p => p.development && p.development.id === Number(devId));
-  }
+// Testing helper to inject mock properties catalog
+export function setPropertiesCatalogForTesting(catalog: any[]): void {
+  propertiesCatalog = catalog;
+  isInitialized = true;
 }
 

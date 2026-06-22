@@ -29,7 +29,7 @@ const actionPath = isBarrioPage ? url.pathname : '/search-results/';
 const operationId = url.searchParams.get('operation_id') || '';
 const propertyTypeId = url.searchParams.get('property_type_id') || '';
 
-const currency = url.searchParams.get('currency') || 'USD';
+const currency = url.searchParams.get('currency') || '';
 
 // Define dynamic ranges based on operation type, currency, and specialized neighborhood settings
 const isRent = operationId === '2';
@@ -188,15 +188,27 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
         <!-- Moneda Toggle -->
         <div class="space-y-1.5 select-none">
             <label class="font-sans text-[11px] font-[500] text-secondary/80 uppercase tracking-widest block">Moneda</label>
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-3 gap-1.5">
+                <button 
+                  type="button" 
+                  data-val="" 
+                  class:list={[
+                    "btn-currency py-1.5 px-2 border rounded text-[10px] font-[400] uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
+                    currency === '' 
+                      ? "bg-primary text-pure-white border-primary font-[500]" 
+                      : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
+                  ]}
+                >
+                    Cualquiera
+                </button>
                 <button 
                   type="button" 
                   data-val="USD" 
                   class:list={[
-                    "btn-currency py-1.5 px-3 border rounded text-[11px] font-[400] uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
-                    currency === 'ARS' 
-                      ? "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary" 
-                      : "bg-primary text-pure-white border-primary font-[500]"
+                    "btn-currency py-1.5 px-2 border rounded text-[10px] font-[400] uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
+                    currency === 'USD' 
+                      ? "bg-primary text-pure-white border-primary font-[500]" 
+                      : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
                   ]}
                 >
                     USD
@@ -205,7 +217,7 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
                   type="button" 
                   data-val="ARS" 
                   class:list={[
-                    "btn-currency py-1.5 px-3 border rounded text-[11px] font-[400] uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
+                    "btn-currency py-1.5 px-2 border rounded text-[10px] font-[400] uppercase tracking-wider text-center transition-all duration-200 cursor-pointer",
                     currency === 'ARS' 
                       ? "bg-primary text-pure-white border-primary font-[500]" 
                       : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
@@ -507,6 +519,13 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
       const valInput = document.getElementById('val-operation-id') as HTMLInputElement;
       if (valInput) {
         valInput.value = btn.dataset.val || '';
+        
+        // Clear custom price bounds when changing operation type
+        const minPriceInput = document.getElementById('val-price-min') as HTMLInputElement | null;
+        const maxPriceInput = document.getElementById('val-price-max') as HTMLInputElement | null;
+        if (minPriceInput) minPriceInput.value = '';
+        if (maxPriceInput) maxPriceInput.value = '';
+        
         submitForm();
       }
     });
@@ -638,6 +657,13 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
     const updateSliderFromControls = (minVal: number, maxVal: number, triggerSource: 'slider' | 'input', isUserAction = false) => {
       const minGap = parseInt(sliderMin.step) || 25000;
       
+      const minLimit = parseInt(sliderMin.min) || 200;
+      const maxLimit = parseInt(sliderMax.max) || 2500000;
+
+      // Constrain within min/max bounds
+      minVal = Math.max(minLimit, Math.min(maxLimit, minVal));
+      maxVal = Math.max(minLimit, Math.min(maxLimit, maxVal));
+
       if (maxVal - minVal < minGap) {
         if (triggerSource === 'slider') {
           // If slider was adjusted, respect boundaries and push the other slider
@@ -648,11 +674,7 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
         }
       }
 
-      // Constrain within min/max bounds
-      const minLimit = parseInt(sliderMin.min) || 200;
-      const maxLimit = parseInt(sliderMax.max) || 2500000;
-      minVal = Math.max(minLimit, Math.min(maxLimit, minVal));
-      maxVal = Math.max(minLimit, Math.min(maxLimit, maxVal));
+      const isMaxLimit = maxVal >= maxLimit;
 
       if (triggerSource === 'input') {
         sliderMin.value = minVal.toString();
@@ -665,7 +687,13 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
           hasMin = true;
         }
         if (isUserAction || hasMax) {
-          inputMax.value = maxVal.toString();
+          if (isMaxLimit) {
+            inputMax.value = '';
+            inputMax.placeholder = 'Sin límite';
+          } else {
+            inputMax.value = maxVal.toString();
+            inputMax.placeholder = 'Máximo';
+          }
           hasMax = true;
         }
       }
@@ -678,9 +706,10 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
 
       const curr = (document.getElementById('val-currency') as HTMLInputElement)?.value || 'USD';
       if (hasMin || hasMax) {
-        label.textContent = `${curr} ${new Intl.NumberFormat('es-AR').format(minVal)} - ${curr} ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+        const maxText = isMaxLimit ? 'Sin límite' : `${curr} ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+        label.textContent = `${curr} ${new Intl.NumberFormat('es-AR').format(minVal)} - ${maxText}`;
         minValHidden.value = minVal.toString();
-        maxValHidden.value = maxVal.toString();
+        maxValHidden.value = isMaxLimit ? '' : maxVal.toString();
       } else {
         label.textContent = 'Cualquier precio';
         minValHidden.value = '';
@@ -717,7 +746,7 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
       const minLimit = parseInt(sliderMin.min) || 200;
       const maxLimit = parseInt(sliderMax.max) || 2500000;
       let minVal = parseInt(inputMin.value) || minLimit;
-      let maxVal = parseInt(inputMax.value) || maxLimit;
+      let maxVal = inputMax.value.trim() ? parseInt(inputMax.value) : maxLimit;
       
       if (minVal > maxVal) {
         const temp = minVal;
@@ -774,16 +803,17 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
         b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
         b.classList.add('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
       });
-      btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
-      btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
       
       const valInput = document.getElementById('val-currency') as HTMLInputElement;
       if (valInput) {
-        valInput.value = btn.dataset.val || 'USD';
+        btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+        btn.classList.remove('bg-pure-white', 'text-slate-blue', 'border-outline-variant/50');
+        valInput.value = btn.dataset.val || '';
         
         // Dynamic slider range adjustments on currency toggle
         const isRent = (document.getElementById('val-operation-id') as HTMLInputElement)?.value === '2';
-        const isArs = btn.dataset.val === 'ARS';
+        const curr = valInput.value;
+        const isArs = curr === 'ARS';
         
         const sliderMin = document.getElementById('slider-min') as HTMLInputElement | null;
         const sliderMax = document.getElementById('slider-max') as HTMLInputElement | null;
@@ -801,7 +831,17 @@ const isSelectedLocation = (val: string) => norm(val) === normLoc;
           
           sliderMin.value = defaultMinPrice;
           sliderMax.value = defaultMaxPrice;
+          
+          // Dispatch input event to sync sliders with manual inputs and hidden values!
+          sliderMin.dispatchEvent(new Event('input'));
+          sliderMax.dispatchEvent(new Event('input'));
         }
+
+        // Clear custom price bounds when currency changes
+        const minPriceInput = document.getElementById('val-price-min') as HTMLInputElement | null;
+        const maxPriceInput = document.getElementById('val-price-max') as HTMLInputElement | null;
+        if (minPriceInput) minPriceInput.value = '';
+        if (maxPriceInput) maxPriceInput.value = '';
 
         submitForm();
       }

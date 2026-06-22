@@ -73,7 +73,7 @@ const priceSymbol = currency === 'ARS' ? '$' : 'USD';
 
 if (priceMin && priceMin !== defaultMinPrice) activeChips.push({ key: 'price_min', label: `Desde ${priceSymbol} ${new Intl.NumberFormat('es-AR').format(Number(priceMin))}` });
 if (priceMax && priceMax !== defaultMaxPrice) activeChips.push({ key: 'price_max', label: `Hasta ${priceSymbol} ${new Intl.NumberFormat('es-AR').format(Number(priceMax))}` });
-if (currency) activeChips.push({ key: 'currency', label: `Moneda: ${currency}` });
+if (url.searchParams.has('currency')) activeChips.push({ key: 'currency', label: `Moneda: ${currency}` });
 if (rooms) activeChips.push({ key: 'rooms', label: `${rooms} Ambientes` });
 if (bedrooms) activeChips.push({ key: 'bedrooms', label: `${bedrooms} Dormitorios` });
 if (bathrooms) activeChips.push({ key: 'bathrooms', label: `${bathrooms} Baños` });
@@ -104,6 +104,17 @@ if (location) {
   seoTitle = `${pageTitle} | MUV Propiedades`;
 }
 
+let seoDescription = "Buscador de propiedades de MUV Propiedades. Encontrá departamentos, casas y oficinas de categoría en las zonas más exclusivas de Buenos Aires.";
+if (operationId === '1') {
+  seoDescription = "Encontrá las mejores propiedades en venta en Buenos Aires. Departamentos, casas y desarrollos de categoría con MUV Propiedades.";
+} else if (operationId === '2') {
+  seoDescription = "Explorá las mejores propiedades en alquiler en Buenos Aires. Departamentos y oficinas premium en alquiler con MUV Propiedades.";
+}
+
+if (location) {
+  seoDescription += ` Disponibles en ${location} y zonas de influencia.`;
+}
+
 // Generate URL preserving other params but changing view
 function getLayoutUrl(newView: string) {
   const newUrl = new URL(url);
@@ -112,7 +123,7 @@ function getLayoutUrl(newView: string) {
 }
 ---
 
-<MainLayout title={seoTitle} isDarkHero={false}>
+<MainLayout title={seoTitle} description={seoDescription} isDarkHero={false}>
   {view === 'grid' || view === 'list' ? (
     <!-- GRID & LIST LAYOUT -->
     <main class="pt-32 min-h-[70vh] bg-surface">
@@ -431,9 +442,43 @@ function getLayoutUrl(newView: string) {
               <div id="dropdown-price" class="filter-dropdown absolute top-full left-0 mt-2 w-72 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 animate-fade-in">
                 <div class="space-y-1.5">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Moneda</label>
-                  <div class="grid grid-cols-2 gap-2">
-                    <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-primary text-pure-white border-primary" data-val="USD">USD</button>
-                    <button type="button" class="btn-currency-toggle py-1.5 px-3 border rounded-lg text-xs font-semibold text-center transition-all bg-pure-white text-secondary border-outline-variant/50 hover:border-primary" data-val="ARS">ARS</button>
+                  <div class="grid grid-cols-3 gap-1.5">
+                    <button 
+                      type="button" 
+                      class:list={[
+                        "btn-currency-toggle py-1.5 px-2 border rounded-lg text-[10px] font-semibold text-center transition-all",
+                        currency === '' 
+                          ? "bg-primary text-pure-white border-primary" 
+                          : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
+                      ]} 
+                      data-val=""
+                    >
+                      Cualquiera
+                    </button>
+                    <button 
+                      type="button" 
+                      class:list={[
+                        "btn-currency-toggle py-1.5 px-2 border rounded-lg text-[10px] font-semibold text-center transition-all",
+                        currency === 'USD' 
+                          ? "bg-primary text-pure-white border-primary" 
+                          : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
+                      ]} 
+                      data-val="USD"
+                    >
+                      USD
+                    </button>
+                    <button 
+                      type="button" 
+                      class:list={[
+                        "btn-currency-toggle py-1.5 px-2 border rounded-lg text-[10px] font-semibold text-center transition-all",
+                        currency === 'ARS' 
+                          ? "bg-primary text-pure-white border-primary" 
+                          : "bg-pure-white text-secondary border-outline-variant/50 hover:border-primary"
+                      ]} 
+                      data-val="ARS"
+                    >
+                      ARS
+                    </button>
                   </div>
                 </div>
                 <div class="space-y-1.5">
@@ -870,13 +915,25 @@ function getLayoutUrl(newView: string) {
       let displayedPropertiesCount = 0;
       const BATCH_SIZE = 10;
 
+      let sliderMin: HTMLInputElement | null = null;
+      let sliderMax: HTMLInputElement | null = null;
+
+      let hasUserFilteredPrice = false;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialOp = urlParams.get('operation_id') || '';
+      const defaultCurrency = urlParams.get('currency') || '';
+      const sliderDefaultCurrency = defaultCurrency || 'USD';
+      const defaultMinPrice = initialOp === '2' ? (sliderDefaultCurrency === 'ARS' ? 5000 : 200) : (sliderDefaultCurrency === 'ARS' ? 500000 : 50000);
+      const defaultMaxPrice = initialOp === '2' ? (sliderDefaultCurrency === 'ARS' ? 250000 : 5000) : (sliderDefaultCurrency === 'ARS' ? 50000000 : 2000000);
+
       const filterState = {
         keyword: '',
         operation: '',
         types: [] as string[],
-        currency: 'USD',
-        priceMin: 200,
-        priceMax: 2500000,
+        currency: defaultCurrency,
+        priceMin: defaultMinPrice,
+        priceMax: defaultMaxPrice,
         rooms: '',
         bedrooms: '',
         bathrooms: '',
@@ -1092,7 +1149,7 @@ function getLayoutUrl(newView: string) {
 
           if (filterState.barrios.length > 0) {
             const propBarrio = p.location?.name?.toLowerCase().trim();
-            if (!propBarrio || !filterState.barrios.includes(propBarrio)) return false;
+            if (!propBarrio || !filterState.barrios.some(b => propBarrio.includes(b))) return false;
           }
 
           if (filterState.types.length > 0) {
@@ -1120,8 +1177,8 @@ function getLayoutUrl(newView: string) {
           if (filterState.bathrooms) {
             const bathVal = parseInt(filterState.bathrooms);
             const totalBaths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
-            if (bathVal === 3) {
-              if (totalBaths < 3) return false;
+            if (bathVal === 4) {
+              if (totalBaths < 4) return false;
             } else if (totalBaths !== bathVal) {
               return false;
             }
@@ -1129,8 +1186,8 @@ function getLayoutUrl(newView: string) {
 
           if (filterState.garage) {
             const garageVal = parseInt(filterState.garage);
-            if (garageVal === 2) {
-              if ((p.parking_lot_amount || 0) < 2) return false;
+            if (garageVal === 4) {
+              if ((p.parking_lot_amount || 0) < 4) return false;
             } else if (p.parking_lot_amount !== garageVal) {
               return false;
             }
@@ -1143,18 +1200,36 @@ function getLayoutUrl(newView: string) {
           }
 
           const opId = filterState.operation ? parseInt(filterState.operation) : null;
+          const currFilter = filterState.currency;
           let priceObj = null;
-          if (opId) {
-            priceObj = p.operations?.find((op: any) => op.operation_id === opId)?.prices?.[0];
-          } else {
-            priceObj = p.operations?.[0]?.prices?.[0];
+          
+          if (p.operations) {
+            const matchedOps = p.operations.filter((op: any) => !opId || op.operation_id === opId);
+            for (const op of matchedOps) {
+              if (op.prices) {
+                const foundPrice = op.prices.find((pr: any) => !currFilter || pr.currency === currFilter);
+                if (foundPrice) {
+                  priceObj = foundPrice;
+                  break;
+                }
+              }
+            }
+            if (!priceObj && matchedOps.length > 0 && matchedOps[0].prices) {
+              priceObj = matchedOps[0].prices[0];
+            }
           }
 
           if (priceObj) {
             if (filterState.currency && priceObj.currency !== filterState.currency) return false;
-            if (priceObj.price < filterState.priceMin || priceObj.price > filterState.priceMax) return false;
+            
+            if (hasUserFilteredPrice) {
+              if (priceObj.price < filterState.priceMin) return false;
+              
+              const maxLimit = sliderMax ? parseInt(sliderMax.max) : (filterState.currency === 'ARS' ? 50000000 : 2000000);
+              if (filterState.priceMax < maxLimit && priceObj.price > filterState.priceMax) return false;
+            }
           } else {
-            if (filterState.priceMin > 200) return false;
+            if (hasUserFilteredPrice && filterState.priceMin > 200) return false;
           }
 
           if (filterState.moreToggles.length > 0) {
@@ -1188,16 +1263,16 @@ function getLayoutUrl(newView: string) {
       }
 
       function filterAndRender() {
-        if (!map) return;
         updatePillLabels();
         const filtered = getFilteredProperties();
 
-        activeMarkers.forEach(marker => map.removeLayer(marker));
-        activeMarkers = [];
-        currentMarkerIndex = -1;
+        if (map) {
+          activeMarkers.forEach(marker => map.removeLayer(marker));
+          activeMarkers = [];
+          currentMarkerIndex = -1;
 
-        const groups: { [key: string]: any[] } = {};
-        filtered.forEach((p: any) => {
+          const groups: { [key: string]: any[] } = {};
+          filtered.forEach((p: any) => {
           const lat = parseFloat(p.geo_lat);
           const lng = parseFloat(p.geo_long);
           if (!isNaN(lat) && !isNaN(lng)) {
@@ -1341,6 +1416,7 @@ function getLayoutUrl(newView: string) {
           const targetZoom = Math.max(13, Math.min(16, map.getBoundsZoom(bounds)));
           map.setView(centroid, targetZoom);
         }
+        }
 
         allFilteredProperties = filtered;
         displayedPropertiesCount = 0;
@@ -1424,15 +1500,15 @@ function getLayoutUrl(newView: string) {
           const specsHtml = specs.map((spec, index) => {
             let iconSvg = '';
             if (spec.icon === 'door') {
-              iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1" /><circle cx="8" cy="12" r="0.75" fill="currentColor" /></svg>`;
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1" /><circle cx="8" cy="12" r="0.75" fill="currentColor" /></svg>`;
             } else if (spec.icon === 'bed') {
-              iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 10V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" /><path d="M12 4v6" /><path d="M5 14h14" /></svg>`;
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 10V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" /><path d="M12 4v6" /><path d="M5 14h14" /></svg>`;
             } else if (spec.icon === 'bath') {
-              iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-9a4 4 0 0 1 4-4h7" /><path d="M14 7h3l1 3H13z" fill="currentColor" fill-opacity="0.15" /><path d="M14 12v2M15.5 12v3M17 12v2" /></svg>`;
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-9a4 4 0 0 1 4-4h7" /><path d="M14 7h3l1 3H13z" fill="currentColor" fill-opacity="0.15" /><path d="M14 12v2M15.5 12v3M17 12v2" /></svg>`;
             } else if (spec.icon === 'car') {
-              iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14 L8 9h8l2 5" /><rect x="4" y="14" width="16" height="5" rx="1" /><circle cx="7" cy="16.5" r="0.75" fill="currentColor" /><circle cx="17" cy="16.5" r="0.75" fill="currentColor" /><path d="M6 19v2M18 19v2" /></svg>`;
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14 L8 9h8l2 5" /><rect x="4" y="14" width="16" height="5" rx="1" /><circle cx="7" cy="16.5" r="0.75" fill="currentColor" /><circle cx="17" cy="16.5" r="0.75" fill="currentColor" /><path d="M6 19v2M18 19v2" /></svg>`;
             } else if (spec.icon === 'ruler') {
-              iconSvg = `<svg class="w-[15px] h-[15px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
             }
 
             const isLast = index === specs.length - 1;
@@ -1440,21 +1516,20 @@ function getLayoutUrl(newView: string) {
             const borderClass = isLast ? '' : 'border-r border-outline-variant/25';
             return `
               <div class="${paddingClass} ${borderClass} flex flex-col items-start shrink-0 font-sans">
-                <div class="flex items-center gap-1.5 font-bold text-[14px] text-primary">
+                <div class="flex items-center gap-1.5 font-normal text-[16px] text-primary">
                   <span>${spec.value}</span>
                   ${iconSvg}
                 </div>
-                <span class="text-[9.5px] text-[#888888] font-medium mt-0.5 block leading-none">${spec.label}</span>
+                <span class="text-[10.5px] text-[#747878] font-[300] mt-0.5 block leading-normal">${spec.label}</span>
               </div>
             `;
           }).join('');
 
           html += `
-            <div class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[180px]" data-id="${p.id}" data-photos='${JSON.stringify(imageList)}' data-lat="${p.geo_lat || ''}" data-lng="${p.geo_long || ''}">
+            <div class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[196px]" data-id="${p.id}" data-photos='${JSON.stringify(imageList)}' data-lat="${p.geo_lat || ''}" data-lng="${p.geo_long || ''}">
               <div class="relative w-full sm:w-[240px] h-[160px] sm:h-full overflow-hidden shrink-0 bg-gray-100 select-none">
                 <div class="absolute top-3.5 left-3.5 z-10 select-none pointer-events-none opacity-40">
                   <div class="text-[12px] font-bold text-pure-white uppercase tracking-[0.2em] leading-none">MUV</div>
-                  <div class="text-[6px] font-bold text-pure-white uppercase tracking-[0.25em] leading-none mt-1">Propiedades</div>
                 </div>
                 ${imageList.length > 1 ? `
                   <button class="row-carousel-btn row-btn-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/75 hover:text-white hover:scale-110 transition-all opacity-0 group-hover:opacity-100" aria-label="Anterior">
@@ -1496,7 +1571,7 @@ function getLayoutUrl(newView: string) {
                   <span>${p.location?.name || ''}</span>
                 </div>
                 <span class="font-sans text-[10px] font-bold text-[#191c1d] uppercase tracking-widest block mt-2">${p.type?.name ? p.type.name.toUpperCase() : 'DEPARTAMENTO'}</span>
-                <div class="border-t border-outline-variant/15 pt-3.5 mt-3.5 flex items-center text-[#191c1d] select-none leading-none overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <div class="border-t border-outline-variant/15 pt-3.5 pb-1.5 mt-3 flex items-center text-[#191c1d] select-none overflow-x-auto whitespace-nowrap scrollbar-hide">
                   ${specsHtml}
                 </div>
               </div>
@@ -1609,8 +1684,8 @@ function getLayoutUrl(newView: string) {
       }
 
       function initDoubleSlider() {
-        const sliderMin = document.getElementById('slider-min') as HTMLInputElement;
-        const sliderMax = document.getElementById('slider-max') as HTMLInputElement;
+        sliderMin = document.getElementById('slider-min') as HTMLInputElement;
+        sliderMax = document.getElementById('slider-max') as HTMLInputElement;
         const track = document.getElementById('slider-track');
         const label = document.getElementById('price-range-label');
         const wrapper = document.querySelector('.slider-wrapper');
@@ -1618,6 +1693,7 @@ function getLayoutUrl(newView: string) {
         if (!sliderMin || !sliderMax || !track || !label) return;
 
         function updateSlider(this: any) {
+          if (!sliderMin || !sliderMax) return;
           let minVal = parseInt(sliderMin.value);
           let maxVal = parseInt(sliderMax.value);
           const isRent = filterState.operation === '2';
@@ -1640,15 +1716,30 @@ function getLayoutUrl(newView: string) {
           track.style.right = (100 - maxPercent) + '%';
 
           const symbol = filterState.currency === 'ARS' ? '$' : 'USD';
-          label.textContent = `${symbol} ${new Intl.NumberFormat('es-AR').format(minVal)} - ${symbol} ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+          const maxLimit = parseInt(sliderMax.max);
+          const isMaxLimit = maxVal >= maxLimit;
+          const maxText = isMaxLimit ? 'Sin límite' : `${symbol} ${new Intl.NumberFormat('es-AR').format(maxVal)}`;
+          label.textContent = `${symbol} ${new Intl.NumberFormat('es-AR').format(minVal)} - ${maxText}`;
           filterState.priceMin = minVal;
           filterState.priceMax = maxVal;
         }
 
-        sliderMin.addEventListener('input', updateSlider);
-        sliderMax.addEventListener('input', updateSlider);
-        sliderMin.addEventListener('change', () => filterAndRender());
-        sliderMax.addEventListener('change', () => filterAndRender());
+        sliderMin.addEventListener('input', () => {
+          hasUserFilteredPrice = true;
+          updateSlider.call(sliderMin);
+        });
+        sliderMax.addEventListener('input', () => {
+          hasUserFilteredPrice = true;
+          updateSlider.call(sliderMax);
+        });
+        sliderMin.addEventListener('change', () => {
+          hasUserFilteredPrice = true;
+          filterAndRender();
+        });
+        sliderMax.addEventListener('change', () => {
+          hasUserFilteredPrice = true;
+          filterAndRender();
+        });
 
         if (wrapper) {
           wrapper.addEventListener('mousemove', (e: any) => {
@@ -1680,9 +1771,11 @@ function getLayoutUrl(newView: string) {
         if (!sliderMin || !sliderMax) return;
         
         const isRent = filterState.operation === '2';
-        const defaultMin = isRent ? '200' : '50000';
-        const defaultMax = isRent ? '5000' : '2500000';
-        const sliderStep = isRent ? '100' : '50000';
+        const isArs = filterState.currency === 'ARS';
+        
+        const defaultMin = isRent ? (isArs ? '5000' : '200') : (isArs ? '500000' : '50000');
+        const defaultMax = isRent ? (isArs ? '250000' : '5000') : (isArs ? '50000000' : '2000000');
+        const sliderStep = isRent ? (isArs ? '5000' : '100') : (isArs ? '100000' : '25000');
 
         sliderMin.min = defaultMin;
         sliderMin.max = defaultMax;
@@ -1839,8 +1932,15 @@ function getLayoutUrl(newView: string) {
         if (filterState.keyword) params.set('q', filterState.keyword);
         if (filterState.operation) params.set('operation_id', filterState.operation);
         if (filterState.currency) params.set('currency', filterState.currency);
-        if (filterState.priceMin > 200) params.set('price_min', filterState.priceMin.toString());
-        if (filterState.priceMax < 2500000) params.set('price_max', filterState.priceMax.toString());
+        
+        if (hasUserFilteredPrice) {
+          params.set('price_min', filterState.priceMin.toString());
+          const maxLimit = sliderMax ? parseInt(sliderMax.max) : (filterState.currency === 'ARS' ? 50000000 : 2000000);
+          if (filterState.priceMax < maxLimit) {
+            params.set('price_max', filterState.priceMax.toString());
+          }
+        }
+
         if (filterState.rooms) params.set('rooms', filterState.rooms);
         if (filterState.bedrooms) params.set('bedrooms', filterState.bedrooms);
         if (filterState.bathrooms) params.set('bathrooms', filterState.bathrooms);
@@ -1863,17 +1963,22 @@ function getLayoutUrl(newView: string) {
 
         if (gridLink) gridLink.href = '/search-results/?view=grid' + (queryStr ? '&' + params.toString() : '');
         if (listLink) listLink.href = '/search-results/?view=list' + (queryStr ? '&' + params.toString() : '');
+
+        // Sync browser address bar URL in map view in real-time
+        const currentUrl = new URL(window.location.href);
+        const view = currentUrl.searchParams.get('view') || 'map';
+        params.set('view', view);
+        window.history.replaceState({}, '', currentUrl.pathname + '?' + params.toString());
       }
 
       // Initialize all triggers
-      document.addEventListener('DOMContentLoaded', () => {
-        initMap();
-        initLayerSelect();
-        initFullscreen();
-        initBarriosDropdown();
-        initDynamicTags();
-        attachDynamicTagListeners();
-        initDoubleSlider();
+      initMap();
+      initLayerSelect();
+      initFullscreen();
+      initBarriosDropdown();
+      initDynamicTags();
+      attachDynamicTagListeners();
+      initDoubleSlider();
 
         // Preset filters from URL params inside map filters
         const qParam = urlParams.get('q');
@@ -1891,7 +1996,20 @@ function getLayoutUrl(newView: string) {
           filterState.operation = opParam;
           const btn = document.querySelector(`.btn-select-op[data-val="${opParam}"]`);
           if (btn) btn.classList.add('bg-primary/10', 'text-primary');
-          adjustPriceSliderRange();
+        }
+
+        const currencyParam = urlParams.get('currency');
+        if (currencyParam) {
+          filterState.currency = currencyParam;
+          document.querySelectorAll('.btn-currency-toggle').forEach(b => {
+            b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
+            b.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
+          });
+          const btn = document.querySelector(`.btn-currency-toggle[data-val="${currencyParam}"]`);
+          if (btn) {
+            btn.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+            btn.classList.remove('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
+          }
         }
 
         const locParams = urlParams.getAll('location');
@@ -1921,29 +2039,25 @@ function getLayoutUrl(newView: string) {
           });
         }
 
+        // Adjust price slider range based on parsed currency and operation type
+        adjustPriceSliderRange();
+
         const priceMinParam = urlParams.get('price_min');
         if (priceMinParam) {
           filterState.priceMin = parseInt(priceMinParam);
-          const sliderMin = document.getElementById('slider-min') as HTMLInputElement;
           if (sliderMin) sliderMin.value = priceMinParam;
+          hasUserFilteredPrice = true;
         }
 
         const priceMaxParam = urlParams.get('price_max');
         if (priceMaxParam) {
           filterState.priceMax = parseInt(priceMaxParam);
-          const sliderMax = document.getElementById('slider-max') as HTMLInputElement;
           if (sliderMax) sliderMax.value = priceMaxParam;
+          hasUserFilteredPrice = true;
         }
 
-        const currencyParam = urlParams.get('currency');
-        if (currencyParam) {
-          filterState.currency = currencyParam;
-          document.querySelectorAll('.btn-currency-toggle').forEach(b => {
-            b.classList.remove('bg-primary', 'text-pure-white');
-            b.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
-          });
-          const btn = document.querySelector(`.btn-currency-toggle[data-val="${currencyParam}"]`);
-          if (btn) btn.classList.add('bg-primary', 'text-pure-white');
+        if (priceMinParam || priceMaxParam) {
+          sliderMin?.dispatchEvent(new Event('input'));
         }
 
         const roomsParam = urlParams.get('rooms');
@@ -2065,11 +2179,14 @@ function getLayoutUrl(newView: string) {
         document.querySelectorAll('.btn-currency-toggle').forEach((b: any) => {
           b.addEventListener('click', () => {
             document.querySelectorAll('.btn-currency-toggle').forEach(btn => {
-              btn.classList.remove('bg-primary', 'text-pure-white');
+              btn.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
               btn.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
             });
-            b.classList.add('bg-primary', 'text-pure-white');
-            filterState.currency = b.dataset.val;
+            
+            b.classList.add('bg-primary', 'text-pure-white', 'border-primary');
+            b.classList.remove('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
+            filterState.currency = b.dataset.val || '';
+            
             adjustPriceSliderRange();
             filterAndRender();
           });
@@ -2201,12 +2318,12 @@ function getLayoutUrl(newView: string) {
           filterState.types = [];
           document.querySelectorAll('.filter-type-chk').forEach((chk: any) => { chk.checked = false; });
 
-          filterState.currency = 'USD';
+          filterState.currency = '';
+          hasUserFilteredPrice = false;
           document.querySelectorAll('.btn-currency-toggle').forEach(b => {
-            b.classList.remove('bg-primary', 'text-pure-white');
+            b.classList.remove('bg-primary', 'text-pure-white', 'border-primary');
             b.classList.add('bg-pure-white', 'text-secondary', 'border-outline-variant/50');
           });
-          document.querySelector('.btn-currency-toggle[data-val="USD"]')?.classList.add('bg-primary', 'text-pure-white');
 
           if (sliderMin && sliderMax) {
             sliderMin.value = '200';
@@ -2250,7 +2367,6 @@ function getLayoutUrl(newView: string) {
         // Prev / Next marker floating buttons
         document.getElementById('btn-prev-marker')?.addEventListener('click', () => navigateMarkers('prev'));
         document.getElementById('btn-next-marker')?.addEventListener('click', () => navigateMarkers('next'));
-      });
     }
 
     // Navigation and toggling elements for Mobile view in Map Layout
