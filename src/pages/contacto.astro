@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
 ---
 
 <MainLayout 
@@ -27,13 +28,13 @@ import MainLayout from '../layouts/MainLayout.astro';
         <!-- Social Media Icons under title -->
         <div class="flex items-center gap-3">
           <!-- Facebook icon (outlined white) -->
-          <a href="https://facebook.com/muvpropiedades" target="_blank" class="text-pure-white/80 hover:text-pure-white transition-colors" aria-label="Facebook">
+          <a href="https://www.facebook.com/muvprop" target="_blank" class="text-pure-white/80 hover:text-pure-white transition-colors" aria-label="Facebook">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
             </svg>
           </a>
           <!-- Instagram icon (outlined white) -->
-          <a href="https://instagram.com/muvpropiedades" target="_blank" class="text-pure-white/80 hover:text-pure-white transition-colors" aria-label="Instagram">
+          <a href="https://www.instagram.com/muvprop" target="_blank" class="text-pure-white/80 hover:text-pure-white transition-colors" aria-label="Instagram">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -99,7 +100,10 @@ import MainLayout from '../layouts/MainLayout.astro';
       </p>
 
       <!-- Rounded form exactly as references -->
-      <form class="space-y-4 text-left">
+      <form id="contact-form" class="space-y-4 text-left">
+        <!-- Status Notification Box -->
+        <div id="form-status" class="hidden p-4 rounded-xl text-xs font-semibold select-none mb-4"></div>
+
         <!-- Input: Nombre -->
         <div>
           <input 
@@ -124,21 +128,15 @@ import MainLayout from '../layouts/MainLayout.astro';
           />
         </div>
 
-        <!-- Input: Teléfono with Argentina Flag prefix -->
-        <div class="relative flex items-center border border-outline-variant/40 rounded-full px-5 py-2.5 focus-within:border-primary transition-all duration-300 bg-transparent">
-          <div class="flex items-center gap-1.5 pr-3.5 border-r border-outline-variant/30 text-sm select-none shrink-0">
-            <span class="text-base leading-none">🇦🇷</span>
-            <span class="text-xs font-semibold text-secondary leading-none">+54</span>
-          </div>
-          <input 
-            type="tel" 
-            id="phone" 
-            name="phone"
-            placeholder="Teléfono" 
-            required
-            class="w-full bg-transparent border-0 outline-none focus:ring-0 text-sm pl-3.5 p-0" 
-          />
-        </div>
+        <!-- Input: Teléfono with country code selector -->
+        <CountryPhoneSelector 
+          phoneId="phone" 
+          countryId="country-code" 
+          placeholder="Teléfono" 
+          required={true}
+          containerClass="border border-outline-variant/40 rounded-full px-5 py-2.5 focus-within:border-primary transition-all duration-300"
+          inputClass="pl-3.5"
+        />
 
         <!-- Input: Mensaje -->
         <div>
@@ -156,13 +154,123 @@ import MainLayout from '../layouts/MainLayout.astro';
         <div class="pt-2">
           <button 
             type="submit" 
-            class="bg-black text-pure-white hover:bg-black/90 px-10 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95"
+            class="bg-black text-pure-white hover:bg-black/90 px-10 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer"
           >
             Enviar
           </button>
         </div>
       </form>
     </section>
+
+    <script>
+      const form = document.getElementById('contact-form') as HTMLFormElement;
+      const statusBox = document.getElementById('form-status');
+      const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      if (form && statusBox && submitBtn) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          // Clear previous states
+          statusBox.className = 'hidden p-4 rounded-xl text-xs font-semibold select-none mb-4';
+          statusBox.innerHTML = '';
+          
+          const name = (form.querySelector('#name') as HTMLInputElement).value;
+          const email = (form.querySelector('#email') as HTMLInputElement).value;
+          const countryCode = (form.querySelector('#country-code') as HTMLSelectElement).value;
+          const phoneVal = (form.querySelector('#phone') as HTMLInputElement).value;
+          const textVal = (form.querySelector('#message') as HTMLTextAreaElement).value;
+
+          // 1. Audit and validate phone number
+          let digits = phoneVal.replace(/\D/g, '');
+          
+          // Strip country code if manually input
+          if (digits.startsWith(countryCode)) {
+            digits = digits.substring(countryCode.length);
+          }
+          // Strip leading 0
+          if (digits.startsWith('0')) {
+            digits = digits.substring(1);
+          }
+
+          if (countryCode === '54') {
+            // Mobile '15' prefix handling (e.g. 11 15... or 341 15...)
+            if (digits.substring(2, 4) === '15') {
+              digits = digits.substring(0, 2) + digits.substring(4);
+            } else if (digits.substring(3, 5) === '15') {
+              digits = digits.substring(0, 3) + digits.substring(5);
+            } else if (digits.substring(4, 6) === '15') {
+              digits = digits.substring(0, 4) + digits.substring(6);
+            }
+
+            // Error if they only typed 15 followed by a number without area code
+            if (digits.startsWith('15')) {
+              statusBox.classList.remove('hidden');
+              statusBox.classList.add('bg-red-100', 'text-red-800');
+              statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>Por favor, incluya el código de área (ej: 11 para Buenos Aires) en lugar del prefijo 15.</span>';
+              return;
+            }
+
+            // Argentine numbers must be exactly 10 digits (or 11 if starting with mobile prefix '9')
+            if (digits.length !== 10 && !(digits.length === 11 && digits.startsWith('9'))) {
+              statusBox.classList.remove('hidden');
+              statusBox.classList.add('bg-red-100', 'text-red-800');
+              statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>El teléfono debe incluir código de área y tener 10 dígitos (ej: 11 2345 6789).</span>';
+              return;
+            }
+          } else {
+            // General international number format validation (6 to 14 digits)
+            if (digits.length < 6 || digits.length > 14) {
+              statusBox.classList.remove('hidden');
+              statusBox.classList.add('bg-red-100', 'text-red-800');
+              statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>Por favor ingrese un número de teléfono válido.</span>';
+              return;
+            }
+          }
+
+          const phone = `+${countryCode} ${digits}`;
+          const text = `[Consulta desde Formulario de Contacto]: ${textVal}`;
+
+          // Toggle pending state
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.innerHTML = 'Enviando...';
+          submitBtn.disabled = true;
+          submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+          try {
+            const response = await fetch('/api/lead', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name, email, phone, text })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              throw new Error(result.error || 'Hubo un error al procesar el contacto.');
+            }
+
+            // Show Success
+            statusBox.classList.remove('hidden');
+            statusBox.classList.add('bg-green-100', 'text-green-800');
+            statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">check_circle</span>Mensaje enviado con éxito. Nos contactaremos a la brevedad.</span>';
+            form.reset();
+          } catch (err: any) {
+            // Show Error
+            statusBox.classList.remove('hidden');
+            statusBox.classList.add('bg-red-100', 'text-red-800');
+            statusBox.innerHTML = `<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>${err.message || 'Error de conexión.'}</span>`;
+          } finally {
+            // Restore button state
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          }
+        });
+      }
+    </script>
 
     <!-- Map Section -->
     <section class="py-8 px-margin-mobile md:px-margin-desktop max-w-[1130px] mx-auto">

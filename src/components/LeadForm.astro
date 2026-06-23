@@ -1,4 +1,6 @@
 ---
+import CountryPhoneSelector from './CountryPhoneSelector.astro';
+
 interface Props {
   propertyId?: number;
   propertyTitle?: string;
@@ -69,12 +71,13 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
         <!-- Phone Input (required by Tokko CRM backend api) -->
         <div class="space-y-1">
             <label for="lead-phone" class="text-secondary font-bold text-[9px] uppercase tracking-widest block">Teléfono / WhatsApp</label>
-            <input 
-              type="tel" 
-              id="lead-phone" 
-              required 
-              placeholder="Ingresa tu teléfono"
-              class="w-full bg-transparent border-0 border-b border-[#E5E2E1] focus:border-primary focus:ring-0 px-0 py-2 text-[13.5px] text-primary placeholder:text-outline/40 focus:outline-none"
+            <CountryPhoneSelector 
+              phoneId="lead-phone" 
+              countryId="country-code" 
+              placeholder="Teléfono" 
+              required={true}
+              containerClass="border-b border-[#E5E2E1] focus-within:border-primary transition-all duration-300"
+              inputClass="pl-2.5 pb-2 pt-1 text-[13.5px]"
             />
         </div>
 
@@ -182,9 +185,59 @@ const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
       
       const name = (document.getElementById('lead-name') as HTMLInputElement).value;
       const email = (document.getElementById('lead-email') as HTMLInputElement).value;
-      const phone = (document.getElementById('lead-phone') as HTMLInputElement).value;
+      const countryCode = (form.querySelector('#country-code') as HTMLSelectElement).value;
+      const phoneVal = (document.getElementById('lead-phone') as HTMLInputElement).value;
       const text = (document.getElementById('lead-message') as HTMLTextAreaElement).value;
       const propertyId = form.dataset.propertyId ? Number(form.dataset.propertyId) : undefined;
+
+      // 1. Audit and validate phone number
+      let digits = phoneVal.replace(/\D/g, '');
+      
+      // Strip country code if manually input
+      if (digits.startsWith(countryCode)) {
+        digits = digits.substring(countryCode.length);
+      }
+      // Strip leading 0
+      if (digits.startsWith('0')) {
+        digits = digits.substring(1);
+      }
+
+      if (countryCode === '54') {
+        // Mobile '15' prefix handling (e.g. 11 15... or 341 15...)
+        if (digits.substring(2, 4) === '15') {
+          digits = digits.substring(0, 2) + digits.substring(4);
+        } else if (digits.substring(3, 5) === '15') {
+          digits = digits.substring(0, 3) + digits.substring(5);
+        } else if (digits.substring(4, 6) === '15') {
+          digits = digits.substring(0, 4) + digits.substring(6);
+        }
+
+        // Error if they only typed 15 followed by a number without area code
+        if (digits.startsWith('15')) {
+          statusBox.classList.remove('hidden');
+          statusBox.classList.add('bg-red-100', 'text-red-800');
+          statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>Por favor, incluya el código de área (ej: 11 para Buenos Aires) en lugar del prefijo 15.</span>';
+          return;
+        }
+
+        // Argentine numbers must be exactly 10 digits (or 11 if starting with mobile prefix '9')
+        if (digits.length !== 10 && !(digits.length === 11 && digits.startsWith('9'))) {
+          statusBox.classList.remove('hidden');
+          statusBox.classList.add('bg-red-100', 'text-red-800');
+          statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>El teléfono debe incluir código de área y tener 10 dígitos (ej: 11 2345 6789).</span>';
+          return;
+        }
+      } else {
+        // General international number format validation (6 to 14 digits)
+        if (digits.length < 6 || digits.length > 14) {
+          statusBox.classList.remove('hidden');
+          statusBox.classList.add('bg-red-100', 'text-red-800');
+          statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">error</span>Por favor ingrese un número de teléfono válido.</span>';
+          return;
+        }
+      }
+
+      const phone = `+${countryCode} ${digits}`;
 
       // Toggle pending state
       const originalBtnText = submitBtn.innerHTML;

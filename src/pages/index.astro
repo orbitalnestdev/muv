@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PropertyCard from '../components/PropertyCard.astro';
-import { getProperties } from '../lib/tokko';
+import { getProperties, getDevelopments } from '../lib/tokko';
 
 // Fetch properties for the featured carousel (starred, max 12 items)
 const { properties } = await getProperties();
@@ -9,6 +9,110 @@ let starredProperties = properties.filter(p => p.is_starred_on_web).slice(0, 12)
 if (starredProperties.length === 0) {
   starredProperties = properties.slice(0, 12);
 }
+
+// Fetch developments
+const { developments } = await getDevelopments();
+
+// Clean and format developments for homepage carousel matching design requirements
+const homeDevelopments = developments.map(d => {
+  const devId = Number(d.id);
+  
+  const configMap: Record<number, { name: string; badges: string[]; showDestacado: boolean; subtitle: string }> = {
+    52973: {
+      name: "DOME Green Soho",
+      badges: ["UNIDAD"],
+      showDestacado: true,
+      subtitle: "EDIFICIO"
+    },
+    60364: {
+      name: "Cerviño Palermo Boulevard – Palermo Chico",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: true,
+      subtitle: "EDIFICIO"
+    },
+    61196: {
+      name: "DOME Suites & Residence – Palermo Hollywood",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: true,
+      subtitle: "EDIFICIO"
+    },
+    66963: {
+      name: "Paz Boulevard – Nuñez",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: true,
+      subtitle: "EDIFICIO"
+    },
+    63094: {
+      name: "Edificio Gregoria – Colegiales",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    67299: {
+      name: "DOME Torre Arcos – Belgrano",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    68692: {
+      name: "DOME Cabello Residence",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    69416: {
+      name: "DOME Torre Beruti – Palermo",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    70464: {
+      name: "Folium Jufré – Villa Crespo",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    88523: {
+      name: "ViraLoft – Villa Crespo",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    },
+    53879: {
+      name: "Cabildo Boulevard 2502",
+      badges: ["EMPRENDIMIENTO", "UNIDAD"],
+      showDestacado: false,
+      subtitle: "EDIFICIO"
+    }
+  };
+
+  const config = configMap[devId] || {
+    name: d.name,
+    badges: ["EMPRENDIMIENTO", "UNIDAD"],
+    showDestacado: false,
+    subtitle: "EDIFICIO"
+  };
+
+  return {
+    ...d,
+    displayName: config.name,
+    badges: config.badges,
+    showDestacado: config.showDestacado,
+    subtitle: config.subtitle
+  };
+});
+
+// Sort developments to ensure specific ones appear first as in design reference
+const orderedDevelopments = [...homeDevelopments].sort((a, b) => {
+  const order = [52973, 60364, 61196, 66963]; // Target order of IDs
+  const idxA = order.indexOf(Number(a.id));
+  const idxB = order.indexOf(Number(b.id));
+  
+  if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+  if (idxA !== -1) return -1;
+  if (idxB !== -1) return 1;
+  return 0;
+});
 
 // Neighborhood properties counts helper (query catalog counts or fallback to mockup counts)
 const normalizeString = (str: string) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -47,8 +151,8 @@ const organizationSchema = {
     "availableLanguage": ["Spanish", "English"]
   },
   "sameAs": [
-    "https://facebook.com/muvpropiedades",
-    "https://instagram.com/muvpropiedades"
+    "https://www.facebook.com/muvprop",
+    "https://www.instagram.com/muvprop"
   ]
 };
 ---
@@ -61,8 +165,9 @@ const organizationSchema = {
     <!-- Inject Organization Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} slot="head" />
     <link rel="preload" as="image" href="/assets/hero2.webp" slot="head" />
-    <!-- Hero Section -->
-    <section class="relative h-[75vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
+    <main id="home-main" class="w-full">
+        <!-- Hero Section -->
+    <section class="relative min-h-[90vh] md:h-[85vh] flex items-center justify-center overflow-hidden pt-28 pb-16 md:py-0">
         <!-- Static background image from assets -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black/45 hero-overlay z-10"></div>
@@ -73,7 +178,7 @@ const organizationSchema = {
             />
         </div>
                <!-- Hero Text and Quick Search -->
-        <div class="relative z-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center text-pure-white space-y-8 animate-fade-up">
+        <div class="relative z-20 w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center text-pure-white space-y-8 animate-fade-up">
             <div class="space-y-3">
                 <h1 class="font-sans text-[48px] md:text-[68px] font-[300] tracking-normal text-white lowercase leading-none mb-1">
                     muv propiedades
@@ -84,7 +189,7 @@ const organizationSchema = {
             </div>
             
             <!-- Tabbed Segmented Search Widget (Upgraded to match mockup reference) -->
-            <div class="space-y-0 max-w-5xl mx-auto font-sans">
+            <div class="space-y-0 w-full max-w-5xl mx-auto font-sans">
                 <!-- Centered Tabs Selector -->
                 <div class="flex gap-1 justify-center -mb-[1px] relative z-10 px-4">
                     <button 
@@ -115,7 +220,7 @@ const organizationSchema = {
                   id="hero-search-form" 
                   action="/search-results/" 
                   method="GET" 
-                  class="bg-pure-white shadow-2xl rounded-3xl md:rounded-full p-2 md:pl-6 md:pr-3 md:py-2.5 border border-outline-variant/25 text-left relative z-25 flex flex-col md:flex-row items-center gap-2"
+                  class="w-full bg-pure-white shadow-2xl rounded-3xl md:rounded-full p-2 md:pl-6 md:pr-3 md:py-2.5 border border-outline-variant/25 text-left relative z-25 flex flex-col md:flex-row items-center gap-2"
                 >
                     <!-- Hidden inputs for active tab -->
                     <input type="hidden" name="operation_id" id="search-operation-id" value="1" />
@@ -307,7 +412,7 @@ const organizationSchema = {
 
     <!-- Destacados Horizontal Carousel Section -->
     <section class="py-24 bg-surface relative overflow-hidden reveal">
-        <div class="px-margin-desktop max-w-container-max mx-auto flex justify-between items-end mb-12">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex justify-between items-end mb-12">
             <div class="space-y-3">
                 <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-none">Propiedades Destacadas</h2>
             </div>
@@ -331,7 +436,7 @@ const organizationSchema = {
         </div>
 
         <!-- Horizontal Scroll Container -->
-        <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide px-margin-desktop flex gap-8 pb-8 snap-x snap-mandatory" id="property-carousel-container">
+        <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide px-margin-mobile md:px-margin-desktop flex gap-8 pb-8 snap-x snap-mandatory" id="property-carousel-container">
             {starredProperties.map((prop) => (
                 <div class="min-w-[280px] md:min-w-[380px] max-w-[400px] snap-start snap-always flex-shrink-0">
                     <PropertyCard property={prop} />
@@ -347,10 +452,10 @@ const organizationSchema = {
             <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" />
         </div>
 
-        <div class="px-margin-desktop max-w-container-max mx-auto relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 items-stretch">
                 <!-- Cell 1: Heading Description Block -->
-                <div class="flex flex-col justify-center gap-4 py-6 text-left pr-4">
+                <div class="col-span-2 md:col-span-1 flex flex-col justify-center gap-4 py-6 text-left pr-4">
                     <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary leading-tight">Residenciales</h2>
                     <div class="w-12 h-[3px] bg-[#121212]"></div>
                     <p class="font-body-md text-secondary leading-relaxed text-sm">
@@ -359,7 +464,7 @@ const organizationSchema = {
                 </div>
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
-                <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer md:row-span-2 min-h-[350px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
+                <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer col-span-2 md:col-span-1 md:row-span-2 min-h-[300px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
                     <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
@@ -480,9 +585,108 @@ const organizationSchema = {
         </div>
     </section>
 
+    <!-- Emprendimientos Section -->
+    <section class="relative py-24 bg-black overflow-hidden flex items-center min-h-[600px] text-pure-white reveal">
+        <!-- Background Image with dark overlay -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="/assets/hero.webp" class="w-full h-full object-cover" alt="MUV Emprendimientos Background" />
+            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left block: Content -->
+            <div class="lg:col-span-5 text-left space-y-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-sans text-white/50 tracking-widest font-bold uppercase block select-none">muv</span>
+                    <h2 class="font-sans font-[300] text-3xl md:text-4xl text-pure-white tracking-tight leading-tight select-none">
+                        Emprendimientos
+                    </h2>
+                </div>
+
+                <div class="space-y-4 text-xs md:text-sm text-white/80 leading-relaxed max-w-md select-none font-sans">
+                    <p>
+                        En MUV desarrollamos y comercializamos proyectos inmobiliarios de alta gama, diseñados para quienes buscan vivir e invertir con visión a futuro. Cada emprendimiento combina arquitectura de vanguardia, ubicación estratégica y calidad constructiva, generando oportunidades exclusivas de inversión con alto potencial de revalorización.
+                    </p>
+                    <p class="font-bold text-pure-white">
+                        Conocé nuestros emprendimientos y descubrí cómo transformar tu próxima inversión en un proyecto seguro y con proyección.
+                    </p>
+                </div>
+
+                <div class="pt-4">
+                    <a 
+                      href="/emprendimientos/" 
+                      class="inline-block bg-pure-white text-black hover:bg-black/90 hover:text-pure-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-lg font-sans border border-transparent hover:border-white/20"
+                    >
+                        Encontrá tu emprendimiento ideal
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right block: Carousel Slider -->
+            <div class="lg:col-span-7 relative w-full overflow-hidden select-none">
+                <!-- Navigation Arrows -->
+                <button type="button" id="dev-carousel-prev" class="absolute left-2 top-[110px] -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-pure-white border border-white/10 flex items-center justify-center transition-all cursor-pointer z-20 focus:outline-none" aria-label="Anterior">
+                    <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                </button>
+                <button type="button" id="dev-carousel-next" class="absolute right-2 top-[110px] -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-pure-white border border-white/10 flex items-center justify-center transition-all cursor-pointer z-20 focus:outline-none" aria-label="Siguiente">
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                </button>
+
+                <!-- Slider list -->
+                <div class="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-4" id="dev-carousel">
+                    {orderedDevelopments.map((dev) => (
+                        <a 
+                          href={`/emprendimientos/${dev.id}/`}
+                          class="min-w-[280px] md:min-w-[340px] max-w-[360px] snap-start snap-always flex-shrink-0 bg-pure-white rounded-xl overflow-hidden shadow-2xl flex flex-col group transition-all duration-500 hover:-translate-y-1"
+                        >
+                            <div class="relative h-[220px] overflow-hidden">
+                                <img 
+                                  src={dev.photos?.[0]?.image || "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg"} 
+                                  alt={dev.displayName} 
+                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                                  loading="lazy"
+                                />
+                                {dev.showDestacado && (
+                                    <div class="absolute top-4 left-4 z-10 text-[9px] font-sans font-medium uppercase tracking-widest text-pure-white select-none">
+                                        <span class="bg-[#7CB342] px-2.5 py-1 rounded shadow-sm">DESTACADO</span>
+                                    </div>
+                                )}
+                                <div class="absolute top-4 right-4 flex gap-1.5 z-10 text-[9px] font-sans font-medium uppercase tracking-widest text-pure-white select-none">
+                                    {dev.badges.map((badge) => (
+                                        <span class="bg-black/75 px-2.5 py-1 rounded backdrop-blur-sm border border-white/10">{badge}</span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div class="p-6 flex flex-col justify-between items-center text-center bg-pure-white border-t border-outline-variant/10 min-h-[90px]">
+                                <h3 class="text-sm font-bold text-primary font-sans tracking-wide leading-tight group-hover:text-black transition-colors">
+                                    {dev.displayName}
+                                </h3>
+                                <span class="text-[9px] font-bold text-secondary uppercase tracking-widest mt-2 block">
+                                    {dev.subtitle}
+                                </span>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+
+                <!-- Slide indicators dots -->
+                <div class="flex justify-center gap-1.5 mt-6" id="dev-carousel-dots">
+                    {orderedDevelopments.map((_, idx) => (
+                        <button 
+                          type="button" 
+                          class={`w-1.5 h-1.5 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${idx === 0 ? 'bg-pure-white w-3' : 'bg-white/30'}`}
+                          aria-label={`Ir al slide ${idx + 1}`}
+                        ></button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section ("Quienes somos") -->
     <section class="py-24 bg-surface-container-lowest overflow-hidden reveal">
-        <div class="px-margin-desktop max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-20">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
             <!-- Team Image Container with Custom Interaction -->
             <div class="w-full lg:w-1/2 relative team-image-container group">
                 <!-- Gold frame that expands on hover -->
@@ -516,7 +720,7 @@ const organizationSchema = {
 
     <!-- Google Reviews Section -->
     <section class="py-20 bg-surface relative overflow-hidden select-none reveal">
-        <div class="px-margin-desktop max-w-container-max mx-auto relative">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative">
             <div class="text-center mb-16">
                 <h2 class="font-sans font-[300] md:text-[35px] text-2xl text-primary font-semibold">Google Reviews</h2>
             </div>
@@ -549,7 +753,7 @@ const organizationSchema = {
                                     <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80" alt="Alan Baquero" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                                 </div>
                                 <div>
-                                    <h4 class="font-headline text-[15px] font-bold text-primary">Alan Baquero</h4>
+                                    <h3 class="font-headline text-[15px] font-bold text-primary">Alan Baquero</h3>
                                     <p class="text-[10px] text-secondary font-medium mt-0.5">hace 9 meses</p>
                                 </div>
                             </div>
@@ -600,7 +804,7 @@ const organizationSchema = {
                                     <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&h=100&q=80" alt="Juano Actis" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                                 </div>
                                 <div>
-                                    <h4 class="font-headline text-[15px] font-bold text-primary">Juano Actis</h4>
+                                    <h3 class="font-headline text-[15px] font-bold text-primary">Juano Actis</h3>
                                     <p class="text-[10px] text-secondary font-medium mt-0.5">hace 9 meses</p>
                                 </div>
                             </div>
@@ -652,7 +856,7 @@ const organizationSchema = {
                                     R
                                 </div>
                                 <div>
-                                    <h4 class="font-headline text-[15px] font-bold text-primary">Rosana Soria</h4>
+                                    <h3 class="font-headline text-[15px] font-bold text-primary">Rosana Soria</h3>
                                     <p class="text-[10px] text-secondary font-medium mt-0.5">hace 12 meses</p>
                                 </div>
                             </div>
@@ -704,7 +908,7 @@ const organizationSchema = {
         </div>
         
         <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center">
-            <h3 class="font-headline-md text-[24px] md:text-[28px] font-medium tracking-tight mb-1">¿Querés recibir nuestras novedades?</h3>
+            <h2 class="font-headline-md text-[24px] md:text-[28px] font-medium tracking-tight mb-1">¿Querés recibir nuestras novedades?</h2>
             <p class="text-xs md:text-sm text-pure-white/60 mb-8 font-light">Suscribite</p>
             
             <!-- Form -->
@@ -729,6 +933,7 @@ const organizationSchema = {
             </form>
         </div>
     </section>
+    </main>
 </MainLayout>
 
 <script>
@@ -927,6 +1132,56 @@ const organizationSchema = {
       const cardWidth = getCardWidth();
       reviewsContainer.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
     });
+  }
+
+  // Emprendimientos Carousel logic
+  const devCarousel = document.getElementById('dev-carousel');
+  const devPrevBtn = document.getElementById('dev-carousel-prev');
+  const devNextBtn = document.getElementById('dev-carousel-next');
+  const devDots = document.getElementById('dev-carousel-dots')?.querySelectorAll('button');
+
+  if (devCarousel) {
+    const getCardWidth = () => {
+      const card = devCarousel.querySelector('.snap-start');
+      return card ? card.clientWidth : 340;
+    };
+    const gap = 24; // gap-6
+
+    devNextBtn?.addEventListener('click', () => {
+      const cardWidth = getCardWidth();
+      devCarousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+    });
+
+    devPrevBtn?.addEventListener('click', () => {
+      const cardWidth = getCardWidth();
+      devCarousel.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+    });
+
+    if (devDots) {
+      devDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          const cardWidth = getCardWidth();
+          devCarousel.scrollTo({
+            left: index * (cardWidth + gap),
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      devCarousel.addEventListener('scroll', () => {
+        const cardWidth = getCardWidth();
+        const scrollPos = devCarousel.scrollLeft;
+        const activeIdx = Math.round(scrollPos / (cardWidth + gap));
+        
+        devDots.forEach((dot, idx) => {
+          if (idx === activeIdx) {
+            dot.className = 'w-1.5 h-1.5 rounded-full bg-pure-white w-3 transition-all duration-300';
+          } else {
+            dot.className = 'w-1.5 h-1.5 rounded-full bg-white/30 transition-all duration-300';
+          }
+        });
+      });
+    }
   }
 
   // Reveal on scroll logic

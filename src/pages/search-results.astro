@@ -362,15 +362,15 @@ function getLayoutUrl(newView: string) {
           </div>
 
           <!-- Row 2: Filter Pills Row -->
-          <div class="flex flex-wrap items-center gap-2" id="filter-pills-row">
+          <div class="flex flex-wrap items-center gap-2 relative" id="filter-pills-row">
             
             <!-- Pill: Operación -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-operation">
                 <span id="pill-label-operation">Operación</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-operation" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
+              <div id="dropdown-operation" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
                 <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">Venta</button>
                 <button type="button" class="btn-select-op w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">Alquiler</button>
@@ -378,12 +378,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Barrio -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-barrio">
                 <span id="pill-label-barrio">Barrio</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-barrio" class="filter-dropdown absolute top-full left-0 mt-2 w-64 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
+              <div id="dropdown-barrio" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-64 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
                 <div class="max-h-60 overflow-y-auto space-y-2 scrollbar-thin" id="barrio-options-container">
                 </div>
                 <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
@@ -394,12 +394,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Propiedad -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-type">
                 <span id="pill-label-type">Propiedad</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-type" class="filter-dropdown absolute top-full left-0 mt-2 w-56 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
+              <div id="dropdown-type" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-56 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
                 <div class="space-y-2">
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
                     <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Departamento" value="2">
@@ -434,12 +434,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Presupuesto -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-price">
                 <span id="pill-label-price">Presupuesto</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-price" class="filter-dropdown absolute top-full left-0 mt-2 w-72 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 animate-fade-in">
+              <div id="dropdown-price" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-72 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 animate-fade-in">
                 <div class="space-y-1.5">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Moneda</label>
                   <div class="grid grid-cols-3 gap-1.5">
@@ -522,12 +522,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Ambientes -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-rooms">
                 <span id="pill-label-rooms">Ambientes</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-rooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
+              <div id="dropdown-rooms" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
                 <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Ambiente</button>
                 <button type="button" class="btn-select-rooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Ambientes</button>
@@ -537,12 +537,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Dormitorios -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-bedrooms">
                 <span id="pill-label-bedrooms">Dormitorios</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-bedrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
+              <div id="dropdown-bedrooms" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
                 <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Dormitorio</button>
                 <button type="button" class="btn-select-bedrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Dormitorios</button>
@@ -552,12 +552,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Baños -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-bathrooms">
                 <span id="pill-label-bathrooms">Baños</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-bathrooms" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
+              <div id="dropdown-bathrooms" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
                 <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Baño</button>
                 <button type="button" class="btn-select-bathrooms w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="2">2 Baños</button>
@@ -566,12 +566,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Cochera -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-garage">
                 <span id="pill-label-garage">Cochera</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
-              <div id="dropdown-garage" class="filter-dropdown absolute top-full left-0 mt-2 w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
+              <div id="dropdown-garage" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-48 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-2 space-y-0.5 animate-fade-in">
                 <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="">Cualquiera</button>
                 <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="0">Sin Cochera</button>
                 <button type="button" class="btn-select-garage w-full text-left px-3.5 py-2 text-xs font-semibold rounded hover:bg-surface transition-colors" data-val="1">1 Cochera</button>
@@ -580,12 +580,12 @@ function getLayoutUrl(newView: string) {
             </div>
 
             <!-- Pill: Más filtros -->
-            <div class="relative filter-pill-wrapper">
+            <div class="static sm:relative filter-pill-wrapper">
               <button type="button" id="btn-more-filters" class="filter-pill flex items-center gap-1.5 px-4 py-2 rounded-full border border-outline-variant/50 text-xs font-semibold text-secondary bg-pure-white hover:border-primary transition-all duration-200" data-dropdown="dropdown-more">
                 <span id="pill-label-surface">Superficie / Más</span>
                 <span class="material-symbols-outlined text-[16px] text-primary">tune</span>
               </button>
-              <div id="dropdown-more" class="filter-dropdown absolute top-full right-0 mt-2 w-[340px] sm:w-[420px] bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin animate-fade-in">
+              <div id="dropdown-more" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:left-auto sm:right-0 mt-2 w-[calc(100vw-40px)] sm:w-[420px] max-w-[420px] bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-4 space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin animate-fade-in">
                 <div class="space-y-2">
                   <label class="text-[9px] font-bold text-[#747878] uppercase tracking-widest block">Superficie (m²)</label>
                   <div class="grid grid-cols-2 gap-2">

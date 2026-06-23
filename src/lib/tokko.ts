@@ -72,7 +72,7 @@ export const mockProperties: Property[] = [
     parking_lot_amount: 1,
     is_starred_on_web: true,
     type: { id: 2, name: "Departamento" },
-    development: { id: 201, name: "DOME Suites" },
+    development: { id: 61196, name: "DOME Suites & Residences" },
     operations: [{
       operation_type: "Venta",
       operation_id: 1,
@@ -101,7 +101,7 @@ export const mockProperties: Property[] = [
     parking_lot_amount: 0,
     is_starred_on_web: true,
     type: { id: 2, name: "Departamento" },
-    development: { id: 201, name: "DOME Suites" },
+    development: { id: 61196, name: "DOME Suites & Residences" },
     operations: [{
       operation_type: "Venta",
       operation_id: 1,
@@ -175,20 +175,44 @@ export const mockProperties: Property[] = [
 
 export const mockDevelopments: Development[] = [
   {
-    id: 201,
-    name: "DOME Suites",
-    description: "Emprendimiento premium residencial y de oficinas temporales de alta gama en pleno centro porteño. Unidades de 1 y 2 ambientes con terminaciones de primer nivel y amenities excepcionales.",
-    construction_status: "En Construcción",
-    location: { name: "Recoleta", full_location: "Argentina | Capital Federal | Recoleta" },
-    photos: [{ image: "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg" }]
+    id: 52973,
+    name: "DOME Green Soho",
+    description: "Emprendimiento de alta gama ubicado en el exclusivo barrio de Palermo. Unidades de diseño moderno con amenities premium.",
+    construction_status: "Destacado",
+    location: { name: "Palermo", full_location: "Argentina | Capital Federal | Palermo" },
+    photos: [{ image: "https://static.tokkobroker.com/dev_water_pics/27914360869976638140734754930712247938299289093841900359843531638118339896978.jpg" }]
   },
   {
-    id: 202,
-    name: "Helix Residencial",
-    description: "Desarrollo residencial innovador de diseño helicoidal con jardines colgantes verticales y eficiencia energética autosustentable.",
+    id: 60364,
+    name: "DOME Cerviño  Boulevard",
+    description: "Torre residencial de lujo con amenities de primer nivel y vistas panorámicas excepcionales a la ciudad y al río.",
+    construction_status: "Destacado",
+    location: { name: "Palermo", full_location: "Argentina | Capital Federal | Palermo" },
+    photos: [{ image: "https://static.tokkobroker.com/dw_pics/60364_31839928654397109378106015551820670817840529182238357586863052781242069085212.jpg" }]
+  },
+  {
+    id: 61196,
+    name: "DOME Suites & Residences",
+    description: "Emprendimiento premium residencial y de oficinas temporales de alta gama en pleno centro porteño. Unidades de 1 y 2 ambientes con terminaciones de primer nivel y amenities excepcionales.",
+    construction_status: "Destacado",
+    location: { name: "Recoleta", full_location: "Argentina | Capital Federal | Recoleta" },
+    photos: [{ image: "https://static.tokkobroker.com/dw_pics/61196_101299875564516569090276404931510130878229827216650519336101080960697553581408.jpg" }]
+  },
+  {
+    id: 68692,
+    name: "DOME Cabello Residence",
+    description: "Desarrollo exclusivo con unidades funcionales de diseño contemporáneo y amplios espacios de recreación.",
     construction_status: "En Construcción",
-    location: { name: "Palermo Chico", full_location: "Argentina | Capital Federal | Palermo | Palermo Chico" },
-    photos: [{ image: "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg" }]
+    location: { name: "Palermo", full_location: "Argentina | Capital Federal | Palermo" },
+    photos: [{ image: "https://static.tokkobroker.com/dw_pics/68692_17595973841343846091468037372581387313648996719309491910218023255737020793612.jpg" }]
+  },
+  {
+    id: 69416,
+    name: "DOME Torre Beruti",
+    description: "Exclusiva propuesta residencial con terminaciones de primer nivel y amenities excepcionales en la mejor zona de Palermo.",
+    construction_status: "En Construcción",
+    location: { name: "Palermo", full_location: "Argentina | Capital Federal | Palermo" },
+    photos: [{ image: "https://static.tokkobroker.com/dw_pics/69416_54569474184354204375525693732181125720482404723332316177238240859102088639045.jpg" }]
   }
 ];
 
