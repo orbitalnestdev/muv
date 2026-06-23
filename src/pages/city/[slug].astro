@@ -291,8 +291,10 @@ if (operationId === '1') activeChips.push({ key: 'operation_id', label: 'Venta' 
 if (operationId === '2') activeChips.push({ key: 'operation_id', label: 'Alquiler' });
 if (propertyTypeId === '2') activeChips.push({ key: 'property_type_id', label: 'Departamento' });
 if (propertyTypeId === '3') activeChips.push({ key: 'property_type_id', label: 'Casa' });
-if (propertyTypeId === '4') activeChips.push({ key: 'property_type_id', label: 'PH' });
+if (propertyTypeId === '13') activeChips.push({ key: 'property_type_id', label: 'PH' });
 if (propertyTypeId === '7') activeChips.push({ key: 'property_type_id', label: 'Local' });
+if (propertyTypeId === '5') activeChips.push({ key: 'property_type_id', label: 'Oficina' });
+if (propertyTypeId === '1') activeChips.push({ key: 'property_type_id', label: 'Terreno' });
 
 const isRent = operationId === '2';
 const defaultMinPrice = isRent ? '200' : '50000';
@@ -346,7 +348,7 @@ const alquilerCount = getLocalFilterCount({ operation_id: '2' });
 const propTypeTotalCount = getLocalFilterCount({ property_type_id: '' });
 const deptoCount = getLocalFilterCount({ property_type_id: '2' });
 const casaCount = getLocalFilterCount({ property_type_id: '3' });
-const phCount = getLocalFilterCount({ property_type_id: '4' });
+const phCount = getLocalFilterCount({ property_type_id: '13' });
 const localCount = getLocalFilterCount({ property_type_id: '7' });
 ---
 
@@ -522,9 +524,9 @@ const localCount = getLocalFilterCount({ property_type_id: '7' });
                                     </div>
                                 </a>
                                 <a 
-                                  href={phCount === 0 && propertyTypeId !== '4' ? '#' : getFilterUrl({ property_type_id: '4' })} 
+                                  href={phCount === 0 && propertyTypeId !== '13' ? '#' : getFilterUrl({ property_type_id: '13' })} 
                                   class={`flex items-center justify-between px-4 py-2 rounded-lg text-[11px] font-[400] uppercase tracking-wider transition-all duration-300 cursor-pointer border ${
-                                    propertyTypeId === '4' 
+                                    propertyTypeId === '13' 
                                       ? 'bg-primary border-primary text-pure-white shadow-sm font-[500]' 
                                       : phCount === 0
                                         ? 'bg-pure-white/20 border-outline-variant/10 text-secondary/30 opacity-40 cursor-not-allowed pointer-events-none'
@@ -533,7 +535,7 @@ const localCount = getLocalFilterCount({ property_type_id: '7' });
                                 >
                                     <span>PH</span>
                                     <div class="flex items-center gap-1.5">
-                                        <span class={`text-[10px] px-2 py-0.5 rounded-full ${propertyTypeId === '4' ? 'bg-pure-white/20 text-pure-white font-[500]' : 'bg-surface-container-low text-secondary/70 font-[300]'}`}>{phCount}</span>
+                                        <span class={`text-[10px] px-2 py-0.5 rounded-full ${propertyTypeId === '13' ? 'bg-pure-white/20 text-pure-white font-[500]' : 'bg-surface-container-low text-secondary/70 font-[300]'}`}>{phCount}</span>
                                         <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                                     </div>
                                 </a>
@@ -756,9 +758,9 @@ const localCount = getLocalFilterCount({ property_type_id: '7' });
                             </div>
                         </a>
                         <a 
-                          href={phCount === 0 && propertyTypeId !== '4' ? '#' : getFilterUrl({ property_type_id: '4' })} 
+                          href={phCount === 0 && propertyTypeId !== '13' ? '#' : getFilterUrl({ property_type_id: '13' })} 
                           class={`flex items-center justify-between px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer border ${
-                            propertyTypeId === '4' 
+                            propertyTypeId === '13' 
                               ? 'bg-primary border-primary text-pure-white shadow-sm font-bold' 
                               : phCount === 0
                                 ? 'bg-pure-white/20 border-outline-variant/10 text-secondary/30 opacity-40 cursor-not-allowed pointer-events-none'
@@ -767,7 +769,7 @@ const localCount = getLocalFilterCount({ property_type_id: '7' });
                         >
                             <span>PH</span>
                             <div class="flex items-center gap-1.5">
-                                <span class={`text-[10px] px-2 py-0.5 rounded-full ${propertyTypeId === '4' ? 'bg-pure-white/20 text-pure-white' : 'bg-surface-container-low text-secondary/80 font-medium'}`}>{phCount}</span>
+                                <span class={`text-[10px] px-2 py-0.5 rounded-full ${propertyTypeId === '13' ? 'bg-pure-white/20 text-pure-white' : 'bg-surface-container-low text-secondary/80 font-medium'}`}>{phCount}</span>
                                 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
                             </div>
                         </a>

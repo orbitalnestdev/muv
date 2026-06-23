@@ -114,6 +114,9 @@ const orderedDevelopments = [...homeDevelopments].sort((a, b) => {
   return 0;
 });
 
+// Dynamic unique neighborhoods extraction for the hero search form dropdown
+const selectBarrios = Array.from(new Set(properties.map(p => p.location?.name?.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'es'));
+
 // Neighborhood properties counts helper (query catalog counts or fallback to mockup counts)
 const normalizeString = (str: string) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 const getCount = (name: string) => properties.filter(p => p.location?.name && normalizeString(p.location.name).includes(normalizeString(name))).length;
@@ -239,7 +242,7 @@ const organizationSchema = {
                                     <option value="">Tipo de propiedad</option>
                                     <option value="2">Departamento</option>
                                     <option value="3">Casa</option>
-                                    <option value="4">PH</option>
+                                    <option value="13">PH</option>
                                     <option value="7">Local</option>
                                 </select>
                                 <span class="material-symbols-outlined text-[16px] text-[#747878] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
@@ -257,22 +260,9 @@ const organizationSchema = {
                                   class="w-full bg-transparent border-0 text-[#191c1d] text-sm font-[600] focus:ring-0 focus:outline-none py-0.5 appearance-none cursor-pointer pr-6 font-sans !bg-none"
                                 >
                                     <option value="">Todos los barrios</option>
-                                    <option value="Belgrano">Belgrano</option>
-                                    <option value="Colegiales">Colegiales</option>
-                                    <option value="Flores">Flores</option>
-                                    <option value="Microcentro">Microcentro</option>
-                                    <option value="Nuñez">Núñez</option>
-                                    <option value="Once">Once</option>
-                                    <option value="Palermo">Palermo</option>
-                                    <option value="Palermo Hollywood">Palermo Hollywood</option>
-                                    <option value="Palermo Soho">Palermo Soho</option>
-                                    <option value="Palermo Chico">Palermo Chico</option>
-                                    <option value="Palermo Nuevo">Palermo Nuevo</option>
-                                    <option value="Puerto Madero">Puerto Madero</option>
-                                    <option value="Recoleta">Recoleta</option>
-                                    <option value="San Telmo">San Telmo</option>
-                                    <option value="Villa Crespo">Villa Crespo</option>
-                                    <option value="Villa Urquiza">Villa Urquiza</option>
+                                    {selectBarrios.map(barrio => (
+                                        <option value={barrio}>{barrio}</option>
+                                    ))}
                                 </select>
                                 <span class="material-symbols-outlined text-[16px] text-[#747878] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
                             </div>

@@ -68,8 +68,10 @@ if (operationId === '1') activeChips.push({ key: 'operation_id', label: 'Venta' 
 if (operationId === '2') activeChips.push({ key: 'operation_id', label: 'Alquiler' });
 if (propertyTypeId === '2') activeChips.push({ key: 'property_type_id', label: 'Departamento' });
 if (propertyTypeId === '3') activeChips.push({ key: 'property_type_id', label: 'Casa' });
-if (propertyTypeId === '4') activeChips.push({ key: 'property_type_id', label: 'PH' });
+if (propertyTypeId === '13') activeChips.push({ key: 'property_type_id', label: 'PH' });
 if (propertyTypeId === '7') activeChips.push({ key: 'property_type_id', label: 'Local' });
+if (propertyTypeId === '5') activeChips.push({ key: 'property_type_id', label: 'Oficina' });
+if (propertyTypeId === '1') activeChips.push({ key: 'property_type_id', label: 'Terreno' });
 const isRent = operationId === '2';
 const defaultMinPrice = isRent ? '200' : '50000';
 const defaultMaxPrice = isRent ? '5000' : '2000000';
@@ -414,7 +416,7 @@ function getLayoutUrl(newView: string) {
                     <span>Casa</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="PH" value="4">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="PH" value="13">
                     <span>PH</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
@@ -422,11 +424,11 @@ function getLayoutUrl(newView: string) {
                     <span>Local</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Oficina" value="8">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Oficina" value="5">
                     <span>Oficina</span>
                   </label>
                   <label class="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-secondary hover:text-primary">
-                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Terreno" value="10">
+                    <input type="checkbox" class="filter-type-chk rounded border-outline-variant/50 text-primary focus:ring-primary w-4 h-4" data-name="Terreno" value="1">
                     <span>Terreno</span>
                   </label>
                 </div>
