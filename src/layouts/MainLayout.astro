@@ -217,9 +217,9 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
             const pageInfo = document.getElementById('whatsapp-page-info');
             let waPhone = '5491122862000';
             if (pageInfo) {
-              const title = pageInfo.dataset.title || '';
-              const id = pageInfo.dataset.id || '';
-              const isDevelopment = pageInfo.dataset.isDevelopment === 'true';
+              const title = pageInfo.getAttribute('data-title') || '';
+              const id = pageInfo.getAttribute('data-id') || '';
+              const isDevelopment = pageInfo.getAttribute('data-is-development') === 'true';
               if (isDevelopment) {
                 waPhone = '5491155796447';
               }
@@ -227,7 +227,14 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
             }
 
             const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(text)}`;
-            window.open(waUrl, '_blank');
+            
+            // Bypass popup blockers in mobile WebViews (Instagram, Facebook ads) and mobile browsers
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+              window.location.href = waUrl;
+            } else {
+              window.open(waUrl, '_blank', 'noopener,noreferrer');
+            }
+            
             dialog.close();
             if (nameInput) nameInput.value = '';
           });
