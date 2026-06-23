@@ -24,6 +24,10 @@ const surfaceMax = url.searchParams.get('surface_max') || '';
 const amenities = url.searchParams.getAll('amenities') || [];
 const currentPage = Number(url.searchParams.get('page') || '1');
 
+// Fetch all properties to get the complete list of unique neighborhoods for filters
+const { properties: allPropertiesForBarrios } = await getProperties();
+const allNeighborhoods = Array.from(new Set(allPropertiesForBarrios.map(p => p.location?.name?.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'es'));
+
 // Fetch properties
 // For Map view we need all properties to filter client-side.
 // We get the full list of properties.
@@ -384,7 +388,7 @@ function getLayoutUrl(newView: string) {
                 <span class="material-symbols-outlined text-[16px] text-primary">expand_more</span>
               </button>
               <div id="dropdown-barrio" class="filter-dropdown absolute top-full left-0 right-0 mx-auto sm:mx-0 sm:right-auto mt-2 w-[calc(100vw-40px)] sm:w-64 bg-pure-white border border-outline-variant/30 rounded-lg shadow-lg z-50 hidden p-3 space-y-3 animate-fade-in">
-                <div class="max-h-60 overflow-y-auto space-y-2 scrollbar-thin" id="barrio-options-container">
+                <div class="max-h-60 overflow-y-auto space-y-2 scrollbar-thin" id="barrio-options-container" data-all-barrios={JSON.stringify(allNeighborhoods)}>
                 </div>
                 <div class="border-t border-outline-variant/20 pt-2 flex justify-between items-center">
                   <button type="button" class="btn-clear-barrio text-[10px] font-bold text-secondary hover:text-primary transition-colors">Limpiar</button>
@@ -1822,14 +1826,7 @@ function getLayoutUrl(newView: string) {
         const barrioContainer = document.getElementById('barrio-options-container');
         if (!barrioContainer) return;
         
-        const barrios = new Set<string>();
-        rawProperties.forEach((p: any) => {
-          if (p.location?.name) {
-            barrios.add(p.location.name.trim());
-          }
-        });
-        
-        const sortedBarrios = Array.from(barrios).sort((a, b) => a.localeCompare(b, 'es'));
+        const sortedBarrios = JSON.parse(barrioContainer.dataset.allBarrios || '[]');
         let html = '';
         sortedBarrios.forEach(b => {
           html += `
