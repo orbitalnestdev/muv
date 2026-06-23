@@ -1503,7 +1503,7 @@ function getLayoutUrl(newView: string) {
           const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
 
           const photos = p.photos || [];
-          const imageList = photos.length > 0 ? photos.map((ph: any) => ph.thumb || ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+          const imageList = photos.length > 0 ? photos.map((ph: any) => ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
           const optimizedSrc = imageList[0];
 
           const specs = [];
