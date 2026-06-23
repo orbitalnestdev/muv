@@ -215,13 +215,18 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
 
             let text = `Hola! Soy ${nameVal}. Quisiera hacer una consulta sobre propiedades.`;
             const pageInfo = document.getElementById('whatsapp-page-info');
+            let waPhone = '5491122862000';
             if (pageInfo) {
               const title = pageInfo.dataset.title || '';
               const id = pageInfo.dataset.id || '';
+              const isDevelopment = pageInfo.dataset.isDevelopment === 'true';
+              if (isDevelopment) {
+                waPhone = '5491155796447';
+              }
               text = `Hola, me interesa la propiedad ${title} (ID: ${id}) que vi en el sitio web. Mi nombre es ${nameVal}.`;
             }
 
-            const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(text)}`;
+            const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(text)}`;
             window.open(waUrl, '_blank');
             dialog.close();
             if (nameInput) nameInput.value = '';

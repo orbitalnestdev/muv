@@ -25,7 +25,8 @@ const {
   construction_status,
   location,
   photos = [],
-  address
+  address,
+  construction_date
 } = development;
 
 const mainTitle = name;
@@ -33,6 +34,32 @@ const mainTitle = name;
 const statusText = construction_status || "PREMIUM";
 const addressText = address || location?.name || "Buenos Aires";
 const fullLocationText = location?.full_location ? location.full_location.split('|').slice(-2).join(', ') : '';
+
+function formatDeliveryDate(dateStr: string | null | undefined): string {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length < 2) return '';
+  const year = parts[0];
+  const monthNum = parseInt(parts[1], 10);
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  const monthName = months[monthNum - 1] || '';
+  return monthName ? `${monthName} ${year}` : year;
+}
+
+const deliveryDateText = formatDeliveryDate(construction_date);
+
+function getUnitName(u: any): string {
+  if (u.real_address && u.real_address.trim()) {
+    return u.real_address.replace(/\s+/g, ' ').trim();
+  }
+  if (u.address && u.address.trim()) {
+    return u.address.replace(/\s+/g, ' ').trim();
+  }
+  return u.publication_title || `Unidad ${u.id}`;
+}
 
 const photosList = photos.length > 0 ? photos.map(p => p.image) : [];
 
@@ -259,6 +286,11 @@ const schemaJsonLd = {
                         <span class="bg-[#545F72] text-pure-white px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-full">
                             EMPRENDIMIENTO
                         </span>
+                        {deliveryDateText && (
+                            <span class="bg-black/60 text-pure-white border border-white/25 px-3 py-1 text-[9px] font-bold tracking-widest uppercase rounded-full">
+                                Entrega {deliveryDateText}
+                            </span>
+                        )}
                     </div>
                 </div>
                 
@@ -299,11 +331,16 @@ const schemaJsonLd = {
                     <span class="text-sm text-primary mt-1 whitespace-nowrap">{units.length} {units.length === 1 ? 'unidad' : 'unidades'}</span>
                 </div>
                 
-                <!-- Item 4: Pisos -->
+                <!-- Item 4: Pisos / Fecha de Entrega -->
                 <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
                 <div class="flex flex-col items-center justify-center min-w-[100px]">
-                    <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">layers</span>
-                    <span class="text-sm text-primary mt-1 whitespace-nowrap">12 Pisos</span>
+                    {deliveryDateText ? (
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">calendar_today</span>
+                        <span class="text-sm text-primary mt-1 whitespace-nowrap">Entrega {deliveryDateText}</span>
+                    ) : (
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">layers</span>
+                        <span class="text-sm text-primary mt-1 whitespace-nowrap">12 Pisos</span>
+                    )}
                 </div>
                 
                 <!-- Item 5: Amenities -->
@@ -417,7 +454,7 @@ const schemaJsonLd = {
                                     const priceDisplay = ventaVal > 0 ? ventaText : alquilerText;
                                     const sortPriceVal = ventaVal > 0 ? ventaVal : alquilerVal;
 
-                                    const unitTitle = u.publication_title || `${u.address || address || name.split(' - ')[0]}${u.floor || u.apartment_door ? ' ' + [u.floor, u.apartment_door].filter(Boolean).join('-') : ''} (${rooms} Amb)`;
+                                    const unitTitle = getUnitName(u);
                                     
                                     return (
                                         <div 
@@ -529,7 +566,7 @@ const schemaJsonLd = {
                                           data-price={sortPriceVal}
                                           data-rooms={rooms}
                                         >
-                                            <td class="p-6 text-[15px] font-sans font-[300] text-primary">{u.address ? `${u.address}${u.location?.name ? `, ${u.location.name}` : ''}` : `${name.split(' - ')[0]}${u.location?.name ? `, ${u.location.name}` : ''}`}</td>
+                                            <td class="p-6 text-[15px] font-sans font-[300] text-primary">{getUnitName(u)}{u.location?.name ? `, ${u.location.name}` : ''}</td>
                                             <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{rooms}</td>
                                             <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{bedrooms}</td>
                                             <td class="p-6 text-[15px] font-sans font-[300] text-slate-blue">{coveredSize}</td>
@@ -567,7 +604,7 @@ const schemaJsonLd = {
                         </div>
                         <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
                             <span class="text-secondary/80">Año de Entrega</span>
-                            <span class="text-primary font-medium">2026</span>
+                            <span class="text-primary font-medium">{deliveryDateText ? deliveryDateText.split(' ').slice(-1)[0] : '2026'}</span>
                         </div>
                         <div class="flex justify-between border-b border-[#E5E7EB] pb-2">
                             <span class="text-secondary/80">Área de Amenities</span>
@@ -622,7 +659,7 @@ const schemaJsonLd = {
             <section class="pt-8 border-t border-outline-variant/10 text-left">
                 <div class="max-w-2xl mx-auto">
                     <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider mb-6 text-center">Consultar por este Emprendimiento</h2>
-                    <LeadForm propertyTitle={mainTitle} />
+                    <LeadForm propertyTitle={mainTitle} isDevelopment={true} />
                 </div>
             </section>
 
@@ -700,7 +737,7 @@ const schemaJsonLd = {
         </div>
 
         <!-- WhatsApp Property Meta for Global Button -->
-        <div id="whatsapp-page-info" data-title={mainTitle} data-id={id} class="hidden"></div>
+        <div id="whatsapp-page-info" data-title={mainTitle} data-id={id} data-is-development="true" class="hidden"></div>
     </main>
 
     <script is:inline define:vars={{ id, name: mainTitle }}>

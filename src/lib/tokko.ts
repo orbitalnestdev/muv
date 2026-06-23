@@ -17,6 +17,8 @@ export interface Property {
   surface: string;
   total_surface: string;
   covered_surface: string;
+  roofed_surface?: string;
+  real_address?: string;
   parking_lot_amount: number;
   is_starred_on_web: boolean;
   type: { id: number; name: string };
@@ -45,6 +47,7 @@ export interface Development {
   fake_address?: string;
   geo_lat?: string;
   geo_long?: string;
+  construction_date?: string;
 }
 
 export interface LeadPayload {
@@ -233,7 +236,7 @@ function loadCacheFromDisk(): boolean {
     if (fs.existsSync(CACHE_FILE)) {
       const data = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'));
       if (data && Array.isArray(data.properties) && Array.isArray(data.developments)) {
-        propertiesCatalog = data.properties;
+        propertiesCatalog = data.properties.map(normalizeProperty);
         developmentsCatalog = data.developments;
         isInitialized = true;
         console.log(`[Tokko Disk Cache] Loaded ${propertiesCatalog.length} properties and ${developmentsCatalog.length} developments from disk cache.`);
@@ -400,7 +403,7 @@ async function refreshCatalog() {
 
   // Swap to RAM store only if successful
   if (newProperties.length > 0) {
-    propertiesCatalog = newProperties;
+    propertiesCatalog = newProperties.map(normalizeProperty);
   }
   if (newDevelopments.length > 0) {
     developmentsCatalog = newDevelopments;
@@ -440,7 +443,7 @@ export async function ensureCatalogLoaded(): Promise<void> {
       console.log(`[Tokko RAM Store] Initialization complete. Catalog contains ${propertiesCatalog.length} properties.`);
     } catch (err: any) {
       console.error("[Tokko RAM Store] Catalog initialization failed! Using Mock data as last resort.", err.message);
-      propertiesCatalog = [...mockProperties];
+      propertiesCatalog = [...mockProperties].map(normalizeProperty);
       developmentsCatalog = [...mockDevelopments];
       startRefreshInterval();
     } finally {
@@ -658,6 +661,18 @@ const constructionStatusMap: Record<string | number, string> = {
   5: "Entrega Inmediata",
   6: "A Estrenar"
 };
+
+export function normalizeProperty(p: any): Property {
+  if (!p) return p;
+  const roofed = p.roofed_surface ? String(p.roofed_surface) : '';
+  const covered = p.covered_surface ? String(p.covered_surface) : '';
+  const hasCovered = covered && parseFloat(covered) > 0;
+  
+  return {
+    ...p,
+    covered_surface: hasCovered ? covered : (roofed || p.surface || '0')
+  };
+}
 
 function normalizeDevelopmentStatus(dev: Development): Development {
   if (!dev) return dev;

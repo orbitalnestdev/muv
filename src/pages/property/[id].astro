@@ -38,7 +38,8 @@ const {
   expenses_currency,
   transaction_requirements,
   geo_lat,
-  geo_long
+  geo_long,
+  development
 } = property;
 
 const tagTranslations: Record<string, string> = {
@@ -745,7 +746,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
             <section class="pt-8 border-t border-outline-variant/10 text-left">
                 <div class="max-w-2xl mx-auto">
                     <h2 class="font-headline text-[20px] font-bold text-primary uppercase tracking-wider mb-6 text-center">Consultar por esta Propiedad</h2>
-                    <LeadForm propertyId={Number(id)} propertyTitle={publication_title} />
+                    <LeadForm propertyId={Number(id)} propertyTitle={publication_title} isDevelopment={!!development} />
                 </div>
             </section>
 
@@ -774,7 +775,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
         </div>
 
         <!-- WhatsApp Property Meta for Global Button -->
-        <div id="whatsapp-page-info" data-title={publication_title} data-id={id} class="hidden"></div>
+        <div id="whatsapp-page-info" data-title={publication_title} data-id={id} data-is-development={development ? "true" : "false"} class="hidden"></div>
     </main>
 
     <script is:inline>

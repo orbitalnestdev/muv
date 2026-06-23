@@ -4,15 +4,17 @@ import CountryPhoneSelector from './CountryPhoneSelector.astro';
 interface Props {
   propertyId?: number;
   propertyTitle?: string;
+  isDevelopment?: boolean;
 }
 
-const { propertyId, propertyTitle } = Astro.props;
+const { propertyId, propertyTitle, isDevelopment = false } = Astro.props;
 
 // Construct WhatsApp url
+const waPhone = isDevelopment ? "5491155796447" : "5491122862000";
 const waText = propertyTitle 
-  ? `Hola! Estoy interesado en la propiedad: ${propertyTitle} (ID: ${propertyId}). Me gustaría coordinar una visita.` 
+  ? `Hola! Estoy interesado en la propiedad: ${propertyTitle}${propertyId ? ` (ID: ${propertyId})` : ''}. Me gustaría coordinar una visita.` 
   : "Hola! Quisiera realizar una consulta sobre una propiedad.";
-const waUrl = `https://wa.me/5491122862000?text=${encodeURIComponent(waText)}`;
+const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
 ---
 
 <div class="bg-pure-white p-6 border border-outline-variant/30 rounded-lg shadow-sm w-full sticky top-28 font-sans select-none">
