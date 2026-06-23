@@ -1,6 +1,5 @@
 ---
 import type { Property } from '../lib/tokko';
-import { Image } from 'astro:assets';
 
 interface Props {
   property: Property;
@@ -58,7 +57,7 @@ const garage = parking_lot_amount || 0;
 const surfaceAmount = total_surface || covered_surface || surface || '0';
 const formattedSurface = Number(surfaceAmount) > 0 ? Math.round(Number(surfaceAmount)) + ' m²' : '';
 
-const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+const photosList = photos.length > 0 ? photos.map(p => p.thumb || p.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
 ---
 
 <div 
@@ -122,11 +121,11 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
 
         <!-- Image Link -->
         <a href={`/property/${id}/`} class="block w-full h-full" data-astro-prefetch>
-            <Image 
+            <img 
               class="carousel-img card-img w-full h-full object-cover" 
               loading="lazy" 
-              width={360}
-              height={240}
+              width="360"
+              height="240"
               alt={publication_title} 
               src={photosList[0]}
             />

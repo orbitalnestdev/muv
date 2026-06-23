@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 
 interface Props {
   photos: string[];
@@ -18,26 +17,26 @@ const totalPhotos = photos.length;
         </div>
     ) : totalPhotos === 1 ? (
         <div class="w-full aspect-[3/2] md:aspect-auto md:h-full rounded-lg overflow-hidden cursor-pointer zoom-trigger min-h-0" data-index="0">
-            <Image src={photos[0]} alt={title} width={800} height={533} loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+            <img src={photos[0]} alt={title} width="800" height="533" loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
         </div>
     ) : totalPhotos === 2 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full min-h-0">
             <div class="rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0 relative" data-index="0">
-                <Image src={photos[0]} alt={`${title} - Foto 1`} width={600} height={400} loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                <img src={photos[0]} alt={`${title} - Foto 1`} width="600" height="400" loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                 <div class="absolute bottom-4 right-4 md:hidden bg-[#121212]/80 border border-white/20 text-pure-white px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold select-none pointer-events-none shadow-md backdrop-blur-sm">
                     <span class="material-symbols-outlined text-[16px] text-white">photo_library</span>
                     <span>1 / 2</span>
                 </div>
             </div>
             <div class="hidden md:block rounded-lg overflow-hidden cursor-pointer zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
-                <Image src={photos[1]} alt={`${title} - Foto 2`} width={600} height={400} loading="eager" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                <img src={photos[1]} alt={`${title} - Foto 2`} width="600" height="400" loading="eager" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
             </div>
         </div>
     ) : (
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-full min-h-0">
             <!-- Big Image Left -->
             <div class="md:col-span-8 rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="0">
-                <Image src={photos[0]} alt={`${title} - Principal`} width={800} height={533} loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                <img src={photos[0]} alt={`${title} - Principal`} width="800" height="533" loading="eager" fetchpriority="high" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                 <div class="absolute bottom-4 right-4 md:hidden bg-[#121212]/80 border border-white/20 text-pure-white px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold select-none pointer-events-none shadow-md backdrop-blur-sm">
                     <span class="material-symbols-outlined text-[16px] text-white">photo_library</span>
                     <span>1 / {totalPhotos}</span>
@@ -46,10 +45,10 @@ const totalPhotos = photos.length;
             <!-- Two Small Images Right -->
             <div class="hidden md:flex md:col-span-4 flex-col md:grid md:grid-rows-2 gap-4 md:h-full min-h-0">
                 <div class="rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="1">
-                    <Image src={photos[1]} alt={`${title} - Foto 2`} width={400} height={267} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                    <img src={photos[1]} alt={`${title} - Foto 2`} width="400" height="267" loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                 </div>
                 <div class="rounded-lg overflow-hidden cursor-pointer relative zoom-trigger aspect-[3/2] md:aspect-auto md:h-full min-h-0" data-index="2">
-                    <Image src={photos[2]} alt={`${title} - Foto 3`} width={400} height={267} loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
+                    <img src={photos[2]} alt={`${title} - Foto 3`} width="400" height="267" loading="lazy" class="w-full h-full object-cover hover:scale-102 transition-transform duration-700" />
                     {totalPhotos > 3 && (
                         <div class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center text-pure-white font-headline font-bold text-sm pointer-events-none transition-all duration-300 group-hover:bg-black/65">
                             <!-- Premium photo stack SVG -->
