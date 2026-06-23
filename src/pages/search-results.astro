@@ -24,30 +24,39 @@ const surfaceMax = url.searchParams.get('surface_max') || '';
 const amenities = url.searchParams.getAll('amenities') || [];
 const currentPage = Number(url.searchParams.get('page') || '1');
 
-// Fetch all properties to get the complete list of unique neighborhoods for filters
-const { properties: allPropertiesForBarrios } = await getProperties();
-const allNeighborhoods = Array.from(new Set(allPropertiesForBarrios.map(p => p.location?.name?.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'es'));
+// Fetch all properties once (since we need them for neighborhoods or map view anyway)
+const { properties: allProperties } = await getProperties();
+const allNeighborhoods = Array.from(new Set(allProperties.map(p => p.location?.name?.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'es'));
 
-// Fetch properties
-// For Map view we need all properties to filter client-side.
-// We get the full list of properties.
-const searchFilters = view === 'map' ? {} : {
-  q,
-  location,
-  operation_id: operationId,
-  property_type_id: propertyTypeId,
-  price_min: priceMin,
-  price_max: priceMax,
-  currency,
-  rooms,
-  bedrooms,
-  bathrooms,
-  garage,
-  surface_min: surfaceMin,
-  surface_max: surfaceMax,
-  amenities
-};
-const { properties, total } = await getProperties(searchFilters);
+// Determine the final properties dataset
+let properties = [];
+let total = 0;
+
+if (view === 'map') {
+  properties = allProperties;
+  total = allProperties.length;
+} else {
+  // For grid/list view, apply filters on server-side
+  const searchFilters = {
+    q,
+    location,
+    operation_id: operationId,
+    property_type_id: propertyTypeId,
+    price_min: priceMin,
+    price_max: priceMax,
+    currency,
+    rooms,
+    bedrooms,
+    bathrooms,
+    garage,
+    surface_min: surfaceMin,
+    surface_max: surfaceMax,
+    amenities
+  };
+  const filteredResult = await getProperties(searchFilters);
+  properties = filteredResult.properties;
+  total = filteredResult.total;
+}
 
 // Calculate pagination (for grid/list view)
 const limit = 6; // items per page
@@ -248,9 +257,9 @@ function getLayoutUrl(newView: string) {
     </div>
   ) : (
     <!-- MAP SPLIT LAYOUT (Default) -->
-    <!-- Leaflet CSS and JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet CSS and JS (minified, fast CDN, non-blocking deferred load) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 
     <main id="map-page-main" class="min-h-screen pt-[72px] bg-surface flex flex-col lg:flex-row mobile-list-active font-sans">
       

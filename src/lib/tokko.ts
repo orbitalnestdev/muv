@@ -33,6 +33,12 @@ export interface Property {
   tags: Array<{ name: string; type?: number; id?: number }>;
   geo_lat?: string;
   geo_long?: string;
+  toilet_amount?: number;
+  age?: number;
+  orientation?: string;
+  expenses?: number;
+  expenses_currency?: string;
+  transaction_requirements?: string;
 }
 
 export interface Development {
@@ -664,13 +670,54 @@ const constructionStatusMap: Record<string | number, string> = {
 
 export function normalizeProperty(p: any): Property {
   if (!p) return p;
+  
   const roofed = p.roofed_surface ? String(p.roofed_surface) : '';
   const covered = p.covered_surface ? String(p.covered_surface) : '';
   const hasCovered = covered && parseFloat(covered) > 0;
-  
+  const finalCovered = hasCovered ? covered : (roofed || p.surface || '0');
+
   return {
-    ...p,
-    covered_surface: hasCovered ? covered : (roofed || p.surface || '0')
+    id: Number(p.id),
+    reference_code: p.reference_code || '',
+    publication_title: p.publication_title || '',
+    description: p.description || '',
+    address: p.address || '',
+    bathroom_amount: Number(p.bathroom_amount || 0),
+    room_amount: Number(p.room_amount || 0),
+    suite_amount: Number(p.suite_amount || 0),
+    toilet_amount: Number(p.toilet_amount || 0),
+    surface: p.surface || '0',
+    total_surface: p.total_surface || '0',
+    covered_surface: finalCovered,
+    parking_lot_amount: Number(p.parking_lot_amount || 0),
+    is_starred_on_web: Boolean(p.is_starred_on_web),
+    type: p.type ? { id: Number(p.type.id), name: String(p.type.name) } : { id: 0, name: '' },
+    development: p.development ? { id: Number(p.development.id), name: String(p.development.name) } : undefined,
+    operations: Array.isArray(p.operations) ? p.operations.map((op: any) => ({
+      operation_type: String(op.operation_type),
+      operation_id: Number(op.operation_id),
+      prices: Array.isArray(op.prices) ? op.prices.map((pr: any) => ({
+        currency: String(pr.currency),
+        price: Number(pr.price)
+      })) : []
+    })) : [],
+    location: p.location ? { id: Number(p.location.id), name: String(p.location.name), full_location: String(p.location.full_location) } : { id: 0, name: '', full_location: '' },
+    photos: Array.isArray(p.photos) ? p.photos.map((ph: any) => ({
+      image: String(ph.image),
+      thumb: String(ph.thumb)
+    })) : [],
+    tags: Array.isArray(p.tags) ? p.tags.map((t: any) => ({
+      id: t.id ? Number(t.id) : undefined,
+      name: String(t.name),
+      type: t.type ? Number(t.type) : undefined
+    })) : [],
+    geo_lat: p.geo_lat ? String(p.geo_lat) : undefined,
+    geo_long: p.geo_long ? String(p.geo_long) : undefined,
+    age: p.age !== undefined && p.age !== null ? Number(p.age) : undefined,
+    orientation: p.orientation ? String(p.orientation) : undefined,
+    expenses: p.expenses !== undefined && p.expenses !== null ? Number(p.expenses) : undefined,
+    expenses_currency: p.expenses_currency ? String(p.expenses_currency) : undefined,
+    transaction_requirements: p.transaction_requirements ? String(p.transaction_requirements) : undefined
   };
 }
 
