@@ -650,10 +650,31 @@ export async function getPropertyById(id: number | string): Promise<Property | n
   return propertiesCatalog.find(p => p.id === Number(id)) || null;
 }
 
+const constructionStatusMap: Record<string | number, string> = {
+  1: "Pozo",
+  2: "En Pozo",
+  3: "En Construcción",
+  4: "Terminado",
+  5: "Entrega Inmediata",
+  6: "A Estrenar"
+};
+
+function normalizeDevelopmentStatus(dev: Development): Development {
+  if (!dev) return dev;
+  let statusStr = dev.construction_status;
+  if (dev.construction_status !== undefined && dev.construction_status !== null) {
+    statusStr = constructionStatusMap[dev.construction_status as any] || dev.construction_status.toString();
+  }
+  return {
+    ...dev,
+    construction_status: statusStr
+  };
+}
+
 export async function getDevelopments(filters: any = {}): Promise<{ developments: Development[], total: number }> {
   await ensureCatalogLoaded();
   
-  let result = [...developmentsCatalog];
+  let result = developmentsCatalog.map(normalizeDevelopmentStatus);
 
   if (filters.location) {
     const loc = normalizeString(filters.location);
@@ -669,7 +690,8 @@ export async function getDevelopments(filters: any = {}): Promise<{ developments
 
 export async function getDevelopmentById(id: number | string): Promise<Development | null> {
   await ensureCatalogLoaded();
-  return developmentsCatalog.find(d => d.id === Number(id)) || null;
+  const dev = developmentsCatalog.find(d => d.id === Number(id));
+  return dev ? normalizeDevelopmentStatus(dev) : null;
 }
 
 export async function getPropertiesByDevelopmentId(devId: number | string): Promise<Property[]> {
