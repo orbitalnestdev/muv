@@ -1503,10 +1503,8 @@ function getLayoutUrl(newView: string) {
           const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
 
           const photos = p.photos || [];
-          const imageList = photos.length > 0 ? photos.map((ph: any) => ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
-          const optimizedSrc = imageList[0].startsWith('http') 
-            ? `/_image?href=${encodeURIComponent(imageList[0])}&w=400&q=80` 
-            : imageList[0];
+          const imageList = photos.length > 0 ? photos.map((ph: any) => ph.thumb || ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+          const optimizedSrc = imageList[0];
 
           const specs = [];
           if (beds > 0) specs.push({ value: beds, label: beds === 1 ? 'Dormitorio' : 'Dormitorios', icon: 'bed' });
@@ -1618,7 +1616,7 @@ function getLayoutUrl(newView: string) {
           const zoomBtn = card.querySelector('.row-zoom-btn');
 
           if (imgElement && photos.length > 0) {
-            const getOptimizedSrc = (src: string) => src.startsWith('http') ? `/_image?href=${encodeURIComponent(src)}&w=400&q=80` : src;
+            const getOptimizedSrc = (src: string) => src;
             if (prevBtn) {
               prevBtn.addEventListener('click', (e: Event) => {
                 e.preventDefault(); e.stopPropagation();

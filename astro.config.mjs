@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import node from '@astrojs/node';
 import tailwind from '@astrojs/tailwind';
 
@@ -11,6 +11,7 @@ export default defineConfig({
   }),
   integrations: [tailwind()],
   image: {
+    service: passthroughImageService(),
     domains: ['static.tokkobroker.com', 'muvpropiedades.com', 'images.unsplash.com']
   }
 });
