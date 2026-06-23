@@ -1,5 +1,6 @@
 ---
 import type { Property } from '../lib/tokko';
+import { Image } from 'astro:assets';
 
 interface Props {
   property: Property;
@@ -121,11 +122,11 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
 
         <!-- Image Link -->
         <a href={`/property/${id}/`} class="block w-full h-full" data-astro-prefetch>
-            <img 
+            <Image 
               class="carousel-img card-img w-full h-full object-cover" 
               loading="lazy" 
-              width="360"
-              height="240"
+              width={360}
+              height={240}
               alt={publication_title} 
               src={photosList[0]}
             />

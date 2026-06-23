@@ -23,7 +23,7 @@ const {
 <div class={`phone-selector-container relative flex items-center ${containerClass}`}>
   <!-- Trigger Button displaying selected flag -->
   <button type="button" class="country-btn flex items-center gap-1.5 focus:outline-none cursor-pointer pl-1 shrink-0 h-full">
-    <img class="selected-flag w-5 h-auto rounded-sm border border-outline-variant/20" src="https://flagcdn.com/w20/ar.png" alt="AR" />
+    <img class="selected-flag w-5 h-auto rounded-sm border border-outline-variant/20" src="https://flagcdn.com/w20/ar.png" alt="AR" width="20" height="15" />
     <span class="text-[8px] text-primary/50 select-none">▼</span>
   </button>
 
@@ -63,7 +63,7 @@ const {
           data-name={c.name.toLowerCase()}
         >
           <span class="flex items-center gap-2.5">
-            <img class="w-4.5 h-auto rounded-sm shrink-0 border border-outline-variant/10" src={`https://flagcdn.com/w20/${c.code}.png`} alt={c.name} loading="lazy" />
+            <img class="w-4.5 h-auto rounded-sm shrink-0 border border-outline-variant/10" src={`https://flagcdn.com/w20/${c.code}.png`} alt={c.name} loading="lazy" width="20" height="15" />
             <span class="truncate max-w-[140px] text-primary">{c.name}</span>
           </span>
           <span class="text-secondary font-medium shrink-0">+{c.dial}</span>

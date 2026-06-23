@@ -1362,7 +1362,7 @@ function getLayoutUrl(newView: string) {
               popupContent = `
                 <div class="font-body-md select-none">
                   <div class="relative w-full h-[130px] overflow-hidden bg-gray-100 rounded-t-md">
-                    <img src="${thumb}" class="w-full h-full object-cover" alt="" />
+                    <img src="${thumb}" class="w-full h-full object-cover" width="200" height="130" alt="" />
                     <div class="absolute top-2.5 left-2.5 flex gap-1.5 select-none items-center">
                       <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-sans font-[300] leading-[10px] tracking-wider uppercase rounded-md">${opTypeLabel}</span>
                       <span class="bg-[#121212]/85 text-pure-white border border-white/20 px-2 py-1 text-[10px] font-sans font-[300] leading-[10px] tracking-wider uppercase rounded-md">DISPONIBLE</span>
@@ -1387,7 +1387,7 @@ function getLayoutUrl(newView: string) {
                 const thumb = p.photos?.[0]?.thumb || p.photos?.[0]?.image || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80';
                 return `
                   <div class="flex items-center gap-3 p-2 hover:bg-surface rounded-lg transition-colors border border-outline-variant/10">
-                    <img src="${thumb}" class="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+                    <img src="${thumb}" class="w-12 h-12 object-cover rounded-md flex-shrink-0" width="48" height="48" />
                     <div class="min-w-0 flex-grow text-left font-sans">
                       <div class="text-[10px] font-bold text-[#888888] uppercase tracking-wider leading-none">${p.type?.name || 'Propiedad'}</div>
                       <div class="text-[11px] font-semibold text-secondary truncate mt-0.5 leading-tight">${p.address || p.publication_title}</div>
@@ -1504,6 +1504,9 @@ function getLayoutUrl(newView: string) {
 
           const photos = p.photos || [];
           const imageList = photos.length > 0 ? photos.map((ph: any) => ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+          const optimizedSrc = imageList[0].startsWith('http') 
+            ? `/_image?href=${encodeURIComponent(imageList[0])}&w=400&q=80` 
+            : imageList[0];
 
           const specs = [];
           if (beds > 0) specs.push({ value: beds, label: beds === 1 ? 'Dormitorio' : 'Dormitorios', icon: 'bed' });
@@ -1565,7 +1568,7 @@ function getLayoutUrl(newView: string) {
                   </button>
                 </div>
                 <a href="/property/${p.id}/" class="block w-full h-full">
-                  <img src="${imageList[0]}" class="row-carousel-img w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" loading="lazy" alt="${p.publication_title}" />
+                  <img src="${optimizedSrc}" class="row-carousel-img w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" loading="lazy" width="240" height="160" alt="${p.publication_title}" />
                 </a>
               </div>
               <div class="flex flex-col justify-between p-4 flex-grow text-left relative min-w-0 font-sans">
@@ -1615,18 +1618,19 @@ function getLayoutUrl(newView: string) {
           const zoomBtn = card.querySelector('.row-zoom-btn');
 
           if (imgElement && photos.length > 0) {
+            const getOptimizedSrc = (src: string) => src.startsWith('http') ? `/_image?href=${encodeURIComponent(src)}&w=400&q=80` : src;
             if (prevBtn) {
               prevBtn.addEventListener('click', (e: Event) => {
                 e.preventDefault(); e.stopPropagation();
                 currentIdx = (currentIdx - 1 + photos.length) % photos.length;
-                imgElement.src = photos[currentIdx];
+                imgElement.src = getOptimizedSrc(photos[currentIdx]);
               });
             }
             if (nextBtn) {
               nextBtn.addEventListener('click', (e: Event) => {
                 e.preventDefault(); e.stopPropagation();
                 currentIdx = (currentIdx + 1) % photos.length;
-                imgElement.src = photos[currentIdx];
+                imgElement.src = getOptimizedSrc(photos[currentIdx]);
               });
             }
           }

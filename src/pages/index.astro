@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PropertyCard from '../components/PropertyCard.astro';
+import { Image } from 'astro:assets';
 import { getProperties, getDevelopments } from '../lib/tokko';
 
 // Fetch properties for the featured carousel (starred, max 12 items)
@@ -220,6 +221,10 @@ const googleReviews = [
               alt="MUV Propiedades Hero Background" 
               class="w-full h-full object-cover object-top origin-top animate-ken-burns" 
               src="/assets/hero2.webp" 
+              width="1200"
+              height="800"
+              loading="eager"
+              fetchpriority="high"
             />
         </div>
                <!-- Hero Text and Quick Search -->
@@ -481,7 +486,7 @@ const googleReviews = [
     <section class="py-24 bg-surface-container-low/30 relative overflow-hidden reveal">
         <!-- Large Monogram Watermark Image on the bottom-right background (Matches reference screenshot) -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[70%] max-w-[600px] opacity-[0.06] block">
-            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" />
+            <Image src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" width={300} height={300} loading="lazy" />
         </div>
 
         <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10">
@@ -497,7 +502,7 @@ const googleReviews = [
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
                 <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer col-span-2 md:col-span-1 md:row-span-2 min-h-[300px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -514,7 +519,7 @@ const googleReviews = [
 
                 <!-- Cell 3: Palermo -->
                 <a href="/city/palermo/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Casas y departamentos en Palermo, Buenos Aires" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp" alt="Casas y departamentos en Palermo, Buenos Aires" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -531,7 +536,7 @@ const googleReviews = [
 
                 <!-- Cell 4: Recoleta -->
                 <a href="/city/recoleta/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Propiedades residenciales de lujo en Recoleta, CABA" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp" alt="Propiedades residenciales de lujo en Recoleta, CABA" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -548,7 +553,7 @@ const googleReviews = [
 
                 <!-- Cell 5: Puerto Madero -->
                 <a href="/city/puerto-madero/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Departamentos exclusivos y oficinas en Puerto Madero, Buenos Aires" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp" alt="Departamentos exclusivos y oficinas en Puerto Madero, Buenos Aires" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -565,7 +570,7 @@ const googleReviews = [
 
                 <!-- Cell 6: Villa Urquiza -->
                 <a href="/city/villa-urquiza/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Emprendimientos y departamentos en Villa Urquiza, CABA" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp" alt="Emprendimientos y departamentos en Villa Urquiza, CABA" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -582,7 +587,7 @@ const googleReviews = [
 
                 <!-- Cell 7: Colegiales -->
                 <a href="/city/colegiales/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Venta y alquiler de propiedades en Colegiales, CABA" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp" alt="Venta y alquiler de propiedades en Colegiales, CABA" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -599,7 +604,7 @@ const googleReviews = [
 
                 <!-- Cell 8: Núñez -->
                 <a href="/city/nunez/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Casas y departamentos en venta en barrio Núñez, Buenos Aires" loading="lazy" decoding="async" />
+                    <Image class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp" alt="Casas y departamentos en venta en barrio Núñez, Buenos Aires" width={400} height={300} loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -621,7 +626,7 @@ const googleReviews = [
     <section class="relative py-24 bg-black overflow-hidden flex items-center min-h-[600px] text-pure-white reveal">
         <!-- Background Image with dark overlay -->
         <div class="absolute inset-0 z-0 opacity-40">
-            <img src="/assets/hero.webp" class="w-full h-full object-cover" alt="MUV Emprendimientos Background" />
+            <Image src="/assets/hero.webp" class="w-full h-full object-cover" width={1200} height={800} alt="MUV Emprendimientos Background" />
             <div class="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-transparent"></div>
         </div>
 
@@ -672,10 +677,12 @@ const googleReviews = [
                           class="min-w-[280px] md:min-w-[340px] max-w-[360px] snap-start snap-always flex-shrink-0 bg-pure-white rounded-xl overflow-hidden shadow-2xl flex flex-col group transition-all duration-500 hover:-translate-y-1"
                         >
                             <div class="relative h-[220px] overflow-hidden">
-                                <img 
+                                <Image 
                                   src={dev.photos?.[0]?.image || "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg"} 
                                   alt={dev.displayName} 
                                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                                  width={400}
+                                  height={250}
                                   loading="lazy"
                                 />
                                 {dev.showDestacado && (
@@ -725,10 +732,12 @@ const googleReviews = [
                 <div class="team-image-frame"></div>
                 <!-- Masked image -->
                 <div class="team-image-wrapper border border-outline-variant/30">
-                    <img 
+                    <Image 
                       class="w-full aspect-[16/9] object-cover team-img" 
                       src="/assets/home_about.webp" 
                       alt="Equipo MUV Propiedades" 
+                      width={600}
+                      height={338}
                       loading="lazy"
                       decoding="async"
                     />
@@ -771,7 +780,8 @@ const googleReviews = [
               aria-label="Siguiente opinión"
             >
                 <span class="material-symbols-outlined text-[20px]">chevron_right</span>
-                  <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide flex gap-6 pb-6 snap-x snap-mandatory" id="reviews-carousel-container">
+            </button>
+            <div class="w-full overflow-x-auto scroll-smooth scrollbar-hide flex gap-6 pb-6 snap-x snap-mandatory" id="reviews-carousel-container">
                 {googleReviews.map((review) => (
                     <div class="w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] shrink-0 min-w-[285px] md:min-w-[320px] snap-start bg-pure-white p-8 border border-outline-variant/30 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 text-left relative flex flex-col justify-between h-[280px]">
                         <div>
@@ -780,7 +790,7 @@ const googleReviews = [
                                 <div class="flex items-center gap-3">
                                     {review.avatar ? (
                                         <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container shrink-0">
-                                            <img src={review.avatar} alt={review.name} class="w-full h-full object-cover" loading="lazy" decoding="async" />
+                                            <Image src={review.avatar} alt={review.name} class="w-full h-full object-cover" width={40} height={40} loading="lazy" decoding="async" />
                                         </div>
                                     ) : (
                                         <div class={`w-10 h-10 rounded-full flex items-center justify-center ${review.bgColor} text-pure-white font-bold text-sm font-sans shrink-0`}>
@@ -837,7 +847,7 @@ const googleReviews = [
     <section class="bg-black py-16 relative overflow-hidden text-center text-pure-white">
         <!-- Monogram Isotype watermark cropped at bottom-right -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[240px] md:w-[320px] opacity-[0.05]">
-            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0 invert" />
+            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0 invert" width="240" height="240" loading="lazy" />
         </div>
         
         <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center">
