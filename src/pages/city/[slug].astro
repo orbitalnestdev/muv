@@ -235,24 +235,24 @@ const neighborhoodList = [
 ];
 
 const barrioImages: Record<string, string> = {
-  'belgrano': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp',
-  'palermo': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'palermo-hollywood': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'palermo-soho': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'palermo-chico': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'palermo-nuevo': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'recoleta': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp',
-  'puerto-madero': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp',
-  'villa-urquiza': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_VILLA-URQUIZA.webp',
-  'colegiales': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_COLEGIALES.webp',
-  'nunez': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_NUNEZ-1.webp',
-  'villa-crespo': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PALERMO.webp',
-  'flores': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp',
-  'san-telmo': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp',
-  'once': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_RECOLETA.webp',
-  'microcentro': 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_PUERTO-MADERO.webp'
+  'belgrano': '/assets/neighborhoods/MUV-WEB_BELGRANO.webp',
+  'palermo': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'palermo-hollywood': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'palermo-soho': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'palermo-chico': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'palermo-nuevo': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'recoleta': '/assets/neighborhoods/MUV-WEB_RECOLETA.webp',
+  'puerto-madero': '/assets/neighborhoods/MUV-WEB_PUERTO-MADERO.webp',
+  'villa-urquiza': '/assets/neighborhoods/MUV-WEB_VILLA-URQUIZA.webp',
+  'colegiales': '/assets/neighborhoods/MUV-WEB_COLEGIALES.webp',
+  'nunez': '/assets/neighborhoods/MUV-WEB_NUNEZ-1.webp',
+  'villa-crespo': '/assets/neighborhoods/MUV-WEB_PALERMO.webp',
+  'flores': '/assets/neighborhoods/MUV-WEB_BELGRANO.webp',
+  'san-telmo': '/assets/neighborhoods/MUV-WEB_RECOLETA.webp',
+  'once': '/assets/neighborhoods/MUV-WEB_RECOLETA.webp',
+  'microcentro': '/assets/neighborhoods/MUV-WEB_PUERTO-MADERO.webp'
 };
-const heroBg = barrioImages[slug || ''] || 'https://muvpropiedades.com/wp-content/uploads/2025/12/MUV-WEB_BELGRANO.webp';
+const heroBg = barrioImages[slug || ''] || '/assets/neighborhoods/MUV-WEB_BELGRANO.webp';
 
 // Fetch properties in this neighborhood (force locationName filter)
 const { properties, total } = await getProperties({
