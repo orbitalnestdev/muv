@@ -31,7 +31,7 @@ const allNeighborhoods = Array.from(new Set(allPropertiesForBarrios.map(p => p.l
 // Fetch properties
 // For Map view we need all properties to filter client-side.
 // We get the full list of properties.
-const { properties, total } = await getProperties({
+const searchFilters = view === 'map' ? {} : {
   q,
   location,
   operation_id: operationId,
@@ -46,7 +46,8 @@ const { properties, total } = await getProperties({
   surface_min: surfaceMin,
   surface_max: surfaceMax,
   amenities
-});
+};
+const { properties, total } = await getProperties(searchFilters);
 
 // Calculate pagination (for grid/list view)
 const limit = 6; // items per page
@@ -1118,7 +1119,7 @@ function getLayoutUrl(newView: string) {
           searchHereBtn.addEventListener('click', () => {
             if (map) {
               filterState.mapBounds = map.getBounds();
-              filterAndRender();
+              filterAndRender(true);
             }
             searchHereBtn.classList.add('hidden');
             searchHereBtn.classList.remove('flex');
@@ -1268,7 +1269,15 @@ function getLayoutUrl(newView: string) {
         });
       }
 
-      function filterAndRender() {
+      function filterAndRender(keepMapBounds = false) {
+        if (!keepMapBounds) {
+          filterState.mapBounds = null;
+          const searchHereBtn = document.getElementById('btn-search-here');
+          if (searchHereBtn) {
+            searchHereBtn.classList.add('hidden');
+            searchHereBtn.classList.remove('flex');
+          }
+        }
         updatePillLabels();
         const filtered = getFilteredProperties();
 
@@ -1414,7 +1423,7 @@ function getLayoutUrl(newView: string) {
           }
         });
 
-        if (hasCoords && activeMarkers.length > 0) {
+        if (!keepMapBounds && hasCoords && activeMarkers.length > 0) {
           const avgLat = sumLat / coordCount;
           const avgLng = sumLng / coordCount;
           const centroid = L.latLng(avgLat, avgLng);
