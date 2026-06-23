@@ -776,22 +776,38 @@ const expensesFormatted = expenses && Number(expenses) > 0
 
         <!-- WhatsApp Property Meta for Global Button -->
         <div id="whatsapp-page-info" data-title={publication_title} data-id={id} data-is-development={development ? "true" : "false"} class="hidden"></div>
+        
+        <!-- Floating Inquiry Button -->
+        <button 
+          id="btn-floating-inquiry" 
+          class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-pure-white px-5 py-3 rounded-full shadow-2xl hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer border border-white/10 select-none font-sans"
+          aria-label="Consultar por WhatsApp"
+        >
+            <!-- WhatsApp SVG Icon -->
+            <svg class="w-5 h-5 fill-current text-pure-white" viewBox="0 0 24 24">
+                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.982L2 22l5.233-1.371a9.994 9.994 0 004.78 1.218h.004c5.502 0 9.981-4.479 9.982-9.985A9.97 9.97 0 0012.012 2zm5.72 14.158c-.249.704-1.444 1.353-1.996 1.412-.5.053-1.15.084-3.355-.785-2.82-1.11-4.636-3.977-4.777-4.163-.14-.186-1.139-1.517-1.139-2.89 0-1.373.72-2.048 1.002-2.33.282-.282.61-.353.812-.353h.582c.186 0 .436-.07.68.517.25.597.854 2.083.928 2.235.074.152.124.33.023.533-.1.203-.152.33-.3.504-.15.172-.315.386-.45.517-.15.148-.306.31-.132.61.173.3.77 1.27 1.657 2.059.81.71 1.488.93 1.698 1.037.21.107.33.09.454-.052.124-.144.53-.618.67-.83.14-.21.282-.178.477-.107.195.07 1.24.585 1.455.693.215.108.358.162.41.25.05.09.05.518-.2.1.222zm0 0"/>
+            </svg>
+            <span class="text-xs font-semibold uppercase tracking-wider">Consultar</span>
+        </button>
+
     </main>
 
     <script is:inline>
       // Micro-interactions for sharing and liking
       const shareBtn = document.getElementById('btn-share');
-      shareBtn?.addEventListener('click', (e) => {
-        e.preventDefault();
-        navigator.clipboard.writeText(window.location.href);
-        alert('¡Enlace de la propiedad copiado al portapapeles!');
-      });
+      if (shareBtn) {
+        shareBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(window.location.href);
+          alert('¡Enlace de la propiedad copiado al portapapeles!');
+        });
+      }
 
       const favBtn = document.getElementById('btn-favorite');
-      const propertyId = favBtn?.dataset.id || '';
       if (favBtn) {
+        const propertyId = favBtn.dataset.id || '';
         const icon = favBtn.querySelector('.material-symbols-outlined');
-        const favKey = `muv_fav_${propertyId}`;
+        const favKey = 'muv_fav_' + propertyId;
         let isSaved = localStorage.getItem(favKey) === 'true';
         
         const updateFavStyle = () => {
@@ -864,31 +880,21 @@ const expensesFormatted = expenses && Number(expenses) > 0
 
       // Floating inquiry button click behavior (intelligent WhatsApp dialog trigger)
       const floatBtn = document.getElementById('btn-floating-inquiry');
-      floatBtn?.addEventListener('click', (e) => {
-        e.preventDefault();
-        const dialog = document.getElementById('whatsapp-dialog');
-        const nameInput = document.getElementById('whatsapp-user-name');
-        if (dialog) {
-          dialog.showModal();
-          setTimeout(() => {
-            if (nameInput) nameInput.focus();
-          }, 100);
-        }
-      });
+      if (floatBtn) {
+        floatBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const dialog = document.getElementById('whatsapp-dialog');
+          const nameInput = document.getElementById('whatsapp-user-name');
+          if (dialog) {
+            dialog.showModal();
+            setTimeout(() => {
+              if (nameInput) nameInput.focus();
+            }, 100);
+          }
+        });
+      }
     </script>
 
-    <!-- Floating Inquiry Button -->
-    <button 
-      id="btn-floating-inquiry" 
-      class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-pure-white px-5 py-3 rounded-full shadow-2xl hover:bg-[#20ba5a] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer border border-white/10 select-none font-sans"
-      aria-label="Consultar por WhatsApp"
-    >
-        <!-- WhatsApp SVG Icon -->
-        <svg class="w-5 h-5 fill-current text-pure-white" viewBox="0 0 24 24">
-            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.982L2 22l5.233-1.371a9.994 9.994 0 004.78 1.218h.004c5.502 0 9.981-4.479 9.982-9.985A9.97 9.97 0 0012.012 2zm5.72 14.158c-.249.704-1.444 1.353-1.996 1.412-.5.053-1.15.084-3.355-.785-2.82-1.11-4.636-3.977-4.777-4.163-.14-.186-1.139-1.517-1.139-2.89 0-1.373.72-2.048 1.002-2.33.282-.282.61-.353.812-.353h.582c.186 0 .436-.07.68.517.25.597.854 2.083.928 2.235.074.152.124.33.023.533-.1.203-.152.33-.3.504-.15.172-.315.386-.45.517-.15.148-.306.31-.132.61.173.3.77 1.27 1.657 2.059.81.71 1.488.93 1.698 1.037.21.107.33.09.454-.052.124-.144.53-.618.67-.83.14-.21.282-.178.477-.107.195.07 1.24.585 1.455.693.215.108.358.162.41.25.05.09.05.518-.2.1.222zm0 0"/>
-        </svg>
-        <span class="text-xs font-semibold uppercase tracking-wider">Consultar</span>
-    </button>
 </MainLayout>
 
 <style is:global>
