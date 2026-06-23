@@ -209,7 +209,7 @@ const googleReviews = [
 >
     <!-- Inject Organization Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} slot="head" />
-    <link rel="preload" as="image" href="/assets/hero2.webp" slot="head" />
+    <link rel="preload" as="image" href="/assets/hero2_opt.webp" slot="head" />
     <main id="home-main" class="w-full">
         <!-- Hero Section -->
     <section class="relative min-h-[90vh] md:h-[85vh] flex items-center justify-center overflow-hidden pt-28 pb-16 md:py-0">
@@ -219,7 +219,7 @@ const googleReviews = [
             <img 
               alt="MUV Propiedades Hero Background" 
               class="w-full h-full object-cover object-top origin-top animate-ken-burns" 
-              src="/assets/hero2.webp" 
+              src="/assets/hero2_opt.webp" 
               width="1200"
               height="800"
               loading="eager"
@@ -277,7 +277,7 @@ const googleReviews = [
                     <div class="flex-1 w-full grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-outline-variant/20">
                         <!-- Segment 1: Tipo de propiedad -->
                         <div id="segment-prop-type" class="px-6 py-2 flex flex-col items-start justify-center group relative hover:bg-slate-50 transition-colors duration-300 md:rounded-l-full">
-                            <span class="text-[#747878] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Tipo</span>
+                            <span class="text-[#676b6b] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Tipo</span>
                             <div class="relative w-full flex items-center">
                                 <select 
                                   name="property_type_id" 
@@ -291,13 +291,13 @@ const googleReviews = [
                                     <option value="13">PH</option>
                                     <option value="7">Local</option>
                                 </select>
-                                <span class="material-symbols-outlined text-[16px] text-[#747878] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
+                                <span class="material-symbols-outlined text-[16px] text-[#676b6b] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
                             </div>
                         </div>
 
                         <!-- Segment 2: Todos los barrios -->
                         <div class="px-6 py-2 flex flex-col items-start justify-center group relative hover:bg-slate-50 transition-colors duration-300">
-                            <span class="text-[#747878] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Barrio</span>
+                            <span class="text-[#676b6b] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Barrio</span>
                             <div class="relative w-full flex items-center">
                                 <select 
                                   name="location" 
@@ -310,13 +310,13 @@ const googleReviews = [
                                         <option value={barrio}>{barrio}</option>
                                     ))}
                                 </select>
-                                <span class="material-symbols-outlined text-[16px] text-[#747878] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
+                                <span class="material-symbols-outlined text-[16px] text-[#676b6b] absolute right-0 pointer-events-none transition-transform group-hover:scale-110 duration-300">unfold_more</span>
                             </div>
                         </div>
 
                         <!-- Segment 3: Palabra Clave / Búsqueda -->
                         <div class="px-6 py-2 flex flex-col items-start justify-center hover:bg-slate-50 transition-colors duration-300 md:rounded-r-full">
-                            <span class="text-[#747878] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Búsqueda</span>
+                            <span class="text-[#676b6b] font-sans font-[600] text-[9.5px] uppercase tracking-widest block mb-0.5">Búsqueda</span>
                             <input 
                               type="text" 
                               id="search-keyword" 
@@ -485,7 +485,7 @@ const googleReviews = [
     <section class="py-24 bg-surface-container-low/30 relative overflow-hidden reveal">
         <!-- Large Monogram Watermark Image on the bottom-right background (Matches reference screenshot) -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[70%] max-w-[600px] opacity-[0.06] block">
-            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" width="300" height="300" loading="lazy" />
+            <img src="/assets/iso_muv_opt.webp" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0" width="300" height="300" loading="lazy" />
         </div>
 
         <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10">
@@ -501,7 +501,7 @@ const googleReviews = [
 
                 <!-- Cell 2: Belgrano (Tall, spans 2 rows on desktop) -->
                 <a href="/city/belgrano/" class="group relative overflow-hidden rounded-lg cursor-pointer col-span-2 md:col-span-1 md:row-span-2 min-h-[300px] md:h-auto flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_BELGRANO.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_BELGRANO_opt.webp" alt="Propiedades exclusivas en venta y alquiler en barrio Belgrano, CABA" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -518,7 +518,7 @@ const googleReviews = [
 
                 <!-- Cell 3: Palermo -->
                 <a href="/city/palermo/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_PALERMO.webp" alt="Casas y departamentos en Palermo, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_PALERMO_opt.webp" alt="Casas y departamentos en Palermo, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -535,7 +535,7 @@ const googleReviews = [
 
                 <!-- Cell 4: Recoleta -->
                 <a href="/city/recoleta/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_RECOLETA.webp" alt="Propiedades residenciales de lujo en Recoleta, CABA" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_RECOLETA_opt.webp" alt="Propiedades residenciales de lujo en Recoleta, CABA" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -552,7 +552,7 @@ const googleReviews = [
 
                 <!-- Cell 5: Puerto Madero -->
                 <a href="/city/puerto-madero/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_PUERTO-MADERO.webp" alt="Departamentos exclusivos y oficinas en Puerto Madero, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_PUERTO-MADERO_opt.webp" alt="Departamentos exclusivos y oficinas en Puerto Madero, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -569,7 +569,7 @@ const googleReviews = [
 
                 <!-- Cell 6: Villa Urquiza -->
                 <a href="/city/villa-urquiza/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_VILLA-URQUIZA.webp" alt="Emprendimientos y departamentos en Villa Urquiza, CABA" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_VILLA-URQUIZA_opt.webp" alt="Emprendimientos y departamentos en Villa Urquiza, CABA" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -586,7 +586,7 @@ const googleReviews = [
 
                 <!-- Cell 7: Colegiales -->
                 <a href="/city/colegiales/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_COLEGIALES.webp" alt="Venta y alquiler de propiedades en Colegiales, CABA" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_COLEGIALES_opt.webp" alt="Venta y alquiler de propiedades en Colegiales, CABA" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -603,7 +603,7 @@ const googleReviews = [
 
                 <!-- Cell 8: Núñez -->
                 <a href="/city/nunez/" class="group relative overflow-hidden rounded-lg cursor-pointer h-[240px] flex flex-col justify-between p-6 shadow-sm">
-                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_NUNEZ-1.webp" alt="Casas y departamentos en venta en barrio Núñez, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
+                    <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 -z-10" src="/assets/neighborhoods/MUV-WEB_NUNEZ-1_opt.webp" alt="Casas y departamentos en venta en barrio Núñez, Buenos Aires" width="400" height="300" loading="lazy" decoding="async" />
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 -z-10"></div>
                     
                     <div class="text-left text-pure-white">
@@ -625,7 +625,7 @@ const googleReviews = [
     <section class="relative py-24 bg-black overflow-hidden flex items-center min-h-[600px] text-pure-white reveal">
         <!-- Background Image with dark overlay -->
         <div class="absolute inset-0 z-0 opacity-40">
-            <img src="/assets/hero.webp" class="w-full h-full object-cover" width="1200" height="800" alt="MUV Emprendimientos Background" />
+            <img src="/assets/hero_opt.webp" class="w-full h-full object-cover" width="1200" height="800" alt="MUV Emprendimientos Background" />
             <div class="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-transparent"></div>
         </div>
 
@@ -670,14 +670,20 @@ const googleReviews = [
 
                 <!-- Slider list -->
                 <div class="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-4" id="dev-carousel">
-                    {orderedDevelopments.map((dev) => (
+                    {orderedDevelopments.map((dev) => {
+                      const rawDevImage = dev.photos?.[0]?.image || dev.photos?.[0]?.thumb || "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg";
+                      const devImage = rawDevImage.includes('tokkobroker.com')
+                        ? `https://wsrv.nl/?url=${encodeURIComponent(rawDevImage)}&w=400&h=267&output=webp&q=80`
+                        : rawDevImage;
+
+                      return (
                         <a 
                           href={`/emprendimientos/${dev.id}/`}
                           class="min-w-[280px] md:min-w-[340px] max-w-[360px] snap-start snap-always flex-shrink-0 bg-pure-white rounded-xl overflow-hidden shadow-2xl flex flex-col group transition-all duration-500 hover:-translate-y-1"
                         >
                             <div class="relative h-[220px] overflow-hidden">
                                 <img 
-                                  src={dev.photos?.[0]?.image || "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg"} 
+                                  src={devImage} 
                                   alt={dev.displayName} 
                                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                                   width="400"
@@ -705,7 +711,8 @@ const googleReviews = [
                                 </span>
                             </div>
                         </a>
-                    ))}
+                      );
+                    })}
                 </div>
 
                 <!-- Slide indicators dots -->
@@ -733,7 +740,7 @@ const googleReviews = [
                 <div class="team-image-wrapper border border-outline-variant/30">
                     <img 
                       class="w-full aspect-[16/9] object-cover team-img" 
-                      src="/assets/home_about.webp" 
+                      src="/assets/home_about_opt.webp" 
                       alt="Equipo MUV Propiedades" 
                       width="600"
                       height="338"
@@ -846,7 +853,7 @@ const googleReviews = [
     <section class="bg-black py-16 relative overflow-hidden text-center text-pure-white">
         <!-- Monogram Isotype watermark cropped at bottom-right -->
         <div class="absolute right-0 bottom-0 pointer-events-none select-none z-0 w-[240px] md:w-[320px] opacity-[0.05]">
-            <img src="/assets/iso_muv.png" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0 invert" width="240" height="240" loading="lazy" />
+            <img src="/assets/iso_muv_opt.webp" alt="MUV Propiedades Logotipo Monograma de Marca" class="w-full h-auto brightness-0 invert" width="240" height="240" loading="lazy" />
         </div>
         
         <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-center">

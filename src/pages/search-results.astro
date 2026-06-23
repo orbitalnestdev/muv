@@ -1510,9 +1510,16 @@ function getLayoutUrl(newView: string) {
           const baths = (p.bathroom_amount || 0) + (p.toilet_amount || 0);
           const cocheras = p.parking_lot_amount || 0;
           const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
-
           const photos = p.photos || [];
-          const imageList = photos.length > 0 ? photos.map((ph: any) => ph.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+          const imageList = photos.length > 0 
+            ? photos.map((ph: any) => {
+                const originalUrl = ph.image || ph.thumb;
+                if (originalUrl && originalUrl.includes('tokkobroker.com')) {
+                  return `https://wsrv.nl/?url=${encodeURIComponent(originalUrl)}&w=400&h=267&output=webp&q=80`;
+                }
+                return originalUrl;
+              }) 
+            : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
           const optimizedSrc = imageList[0];
 
           const specs = [];
@@ -1521,6 +1528,12 @@ function getLayoutUrl(newView: string) {
           if (baths > 0) specs.push({ value: baths, label: baths === 1 ? 'Baño' : 'Baños', icon: 'bath' });
           if (cocheras > 0) specs.push({ value: cocheras, label: cocheras === 1 ? 'Garage' : 'Garages', icon: 'car' });
           if (parseFloat(surfaceVal) > 0) specs.push({ value: Math.round(parseFloat(surfaceVal)), label: 'm²', icon: 'ruler' });
+          
+          const isRent = opTypeLabel.includes('ALQ') || opTypeLabel.includes('RENT') || opTypeLabel.includes('TEMP');
+          const expVal = p.expenses && Number(p.expenses) > 0 
+            ? `${p.expenses_currency || '$'}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(p.expenses)}`
+            : (isRent ? 'Sin' : '');
+          if (expVal) specs.push({ value: expVal, label: 'Expensas', icon: 'receipt' });
 
           const specsHtml = specs.map((spec, index) => {
             let iconSvg = '';
@@ -1534,6 +1547,8 @@ function getLayoutUrl(newView: string) {
               iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14 L8 9h8l2 5" /><rect x="4" y="14" width="16" height="5" rx="1" /><circle cx="7" cy="16.5" r="0.75" fill="currentColor" /><circle cx="17" cy="16.5" r="0.75" fill="currentColor" /><path d="M6 19v2M18 19v2" /></svg>`;
             } else if (spec.icon === 'ruler') {
               iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v14h14z" /><path d="M8 8v8h8z" /><path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" /></svg>`;
+            } else if (spec.icon === 'receipt') {
+              iconSvg = `<svg class="w-[16px] h-[16px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z" /><path d="M16 8H8" /><path d="M16 12H8" /><path d="M13 16H8" /></svg>`;
             }
 
             const isLast = index === specs.length - 1;

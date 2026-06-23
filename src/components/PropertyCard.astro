@@ -21,7 +21,9 @@ const {
   is_starred_on_web,
   operations,
   photos = [],
-  toilet_amount
+  toilet_amount,
+  expenses,
+  expenses_currency
 } = property;
 
 // Format Price (mockup format: no space between currency and price)
@@ -57,7 +59,23 @@ const garage = parking_lot_amount || 0;
 const surfaceAmount = total_surface || covered_surface || surface || '0';
 const formattedSurface = Number(surfaceAmount) > 0 ? Math.round(Number(surfaceAmount)) + ' m²' : '';
 
-const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
+const opType = op?.operation_type?.toUpperCase() || '';
+const isRent = opType.includes('ALQ') || opType.includes('RENT') || opType.includes('TEMP');
+
+const formattedExpenses = expenses && Number(expenses) > 0 
+  ? `${expenses_currency || '$'}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(expenses)}` 
+  : (isRent ? 'Sin Expensas' : '');
+
+// Use wsrv.nl proxy to crop/resize full original images dynamically so they are extremely sharp but highly optimized WebP files
+const photosList = photos.length > 0 
+  ? photos.map(p => {
+      const originalUrl = p.image || p.thumb;
+      if (originalUrl && originalUrl.includes('tokkobroker.com')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(originalUrl)}&w=400&h=267&output=webp&q=80`;
+      }
+      return originalUrl;
+    }) 
+  : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
 ---
 
 <div 
@@ -215,6 +233,18 @@ const photosList = photos.length > 0 ? photos.map(p => p.image) : ['https://imag
                       <path d="M8 19v-1M11 19v-1M14 19v-1M17 19v-1" />
                     </svg>
                     <span>{formattedSurface}</span>
+                </div>
+            )}
+            {formattedExpenses && (
+                <div class="flex items-center gap-1.5 text-secondary/90" title={`Expensas: ${formattedExpenses}`}>
+                    <!-- Receipt / Expensas SVG -->
+                    <svg class="w-[14px] h-[14px] text-[#191c1d]/90 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z" />
+                      <path d="M16 8H8" />
+                      <path d="M16 12H8" />
+                      <path d="M13 16H8" />
+                    </svg>
+                    <span class="font-sans font-[400] text-[11px]">{expenses && Number(expenses) > 0 ? `exp ${formattedExpenses}` : 'Sin expensas'}</span>
                 </div>
             )}
         </div>
