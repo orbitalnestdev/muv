@@ -72,21 +72,13 @@ const { developments } = await getDevelopments();
                 loading="lazy"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40 z-10 transition-opacity duration-300 group-hover:opacity-90"></div>
-
               <!-- Top Badges -->
               <div class="absolute top-5 left-5 right-5 z-20 flex justify-between items-center pointer-events-none">
                 <!-- Status Badge (Green) -->
                 <span class="bg-[#7CB342] text-pure-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
                   {status}
                 </span>
-                <!-- Tag Badge (Dark) -->
-                {tagBadge === 'PREVENTA' && (
-                  <span class="bg-black/60 text-pure-white border border-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded font-sans shadow-sm">
-                    {tagBadge}
-                  </span>
-                )}
               </div>
-
               <!-- Bottom Overlay Details -->
               <div class="absolute bottom-6 left-6 right-6 z-20 flex justify-between items-end text-pure-white">
                 <div class="space-y-1.5 max-w-[85%] text-left">
