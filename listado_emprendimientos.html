@@ -181,6 +181,7 @@
                     <label class="font-label-sm text-label-sm text-slate-blue uppercase">Estado de Obra</label>
                     <select id="filter-status" class="bg-transparent border-none p-0 pr-8 font-headline-md text-headline-md text-primary focus:ring-0 cursor-pointer appearance-none" onchange="applyFilters()">
                         <option value="">Todos los Estados</option>
+                        <option value="En Pozo">En Pozo</option>
                         <option value="En Construcción">En Construcción</option>
                         <option value="Lanzamiento">Lanzamiento</option>
                         <option value="Terminado">Terminado</option>
@@ -428,7 +429,10 @@
             filtered = filtered.filter(dev => {
                 const label = getStatusLabel(dev.construction_status);
                 if (statusVal === "Lanzamiento") {
-                    return label === "Lanzamiento" || label === "Pozo" || label === "En Pozo";
+                    return label === "Lanzamiento";
+                }
+                if (statusVal === "En Pozo") {
+                    return label === "En Pozo" || label === "Pozo";
                 }
                 if (statusVal === "Terminado") {
                     return label === "Terminado" || label === "Entrega Inmediata" || label === "A Estrenar";
