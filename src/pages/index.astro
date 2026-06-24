@@ -673,7 +673,7 @@ const googleReviews = [
                     {orderedDevelopments.map((dev) => {
                       const rawDevImage = dev.photos?.[0]?.image || dev.photos?.[0]?.thumb || "https://static.tokkobroker.com/w_pics/6806561_27551957937010636039096706013736128573379067213911970307667362385865548524138.jpg";
                       const devImage = rawDevImage.includes('tokkobroker.com')
-                        ? `https://wsrv.nl/?url=${encodeURIComponent(rawDevImage)}&w=400&h=267&output=webp&q=80`
+                        ? `https://wsrv.nl/?url=${encodeURIComponent(rawDevImage)}&w=800&h=533&output=webp&q=80`
                         : rawDevImage;
 
                       return (

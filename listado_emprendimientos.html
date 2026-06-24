@@ -300,6 +300,23 @@
 <script>
     let developmentsList = [];
 
+    const constructionStatusMap = {
+        1: "Pozo",
+        2: "En Pozo",
+        3: "Lanzamiento",
+        4: "En Construcción",
+        5: "Entrega Inmediata",
+        6: "Terminado"
+    };
+
+    function getStatusLabel(status) {
+        if (status === undefined || status === null) return "Premium";
+        if (typeof status === "number" || !isNaN(status)) {
+            return constructionStatusMap[Number(status)] || status.toString();
+        }
+        return status;
+    }
+
     async function loadDevelopments() {
         try {
             const res = await fetch('/api/developments');
@@ -362,7 +379,7 @@
         counter.innerText = `${list.length} ${list.length === 1 ? 'resultado' : 'resultados'}`;
 
         grid.innerHTML = list.map(dev => {
-            const status = dev.construction_status || 'Premium';
+            const status = getStatusLabel(dev.construction_status);
             const locationName = dev.location ? dev.location.name : 'Buenos Aires';
             const imageSrc = dev.photos && dev.photos.length > 0 ? dev.photos[0].image : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
             const shortDesc = dev.description ? dev.description.slice(0, 100) + '...' : 'Desarrollo de diseño exclusivo y terminaciones premium.';
@@ -408,7 +425,16 @@
         }
 
         if (statusVal) {
-            filtered = filtered.filter(dev => dev.construction_status === statusVal);
+            filtered = filtered.filter(dev => {
+                const label = getStatusLabel(dev.construction_status);
+                if (statusVal === "Lanzamiento") {
+                    return label === "Lanzamiento" || label === "Pozo" || label === "En Pozo";
+                }
+                if (statusVal === "Terminado") {
+                    return label === "Terminado" || label === "Entrega Inmediata" || label === "A Estrenar";
+                }
+                return label === statusVal;
+            });
         }
 
         renderGrid(filtered);

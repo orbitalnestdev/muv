@@ -52,7 +52,10 @@ const { developments } = await getDevelopments();
           const locationName = dev.location ? dev.location.name : 'Buenos Aires';
           const imageSrc = dev.photos && dev.photos.length > 0 ? dev.photos[0].image : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
           const shortDesc = dev.description ? dev.description.slice(0, 100) + '...' : 'Desarrollo de diseño exclusivo y terminaciones premium.';
-          const tagBadge = status.toLowerCase().includes('terminado') ? 'VENTA' : 'PREVENTA';
+          const isFinished = status.toLowerCase().includes('terminado') || 
+                             status.toLowerCase().includes('estrenar') || 
+                             status.toLowerCase().includes('inmediata');
+          const tagBadge = isFinished ? 'VENTA' : 'PREVENTA';
 
           return (
             <a 

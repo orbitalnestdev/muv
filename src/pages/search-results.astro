@@ -1511,16 +1511,16 @@ function getLayoutUrl(newView: string) {
           const cocheras = p.parking_lot_amount || 0;
           const surfaceVal = p.total_surface || p.covered_surface || p.surface || '0';
           const photos = p.photos || [];
-          const imageList = photos.length > 0 
+          const photosList = photos.length > 0 
             ? photos.map((ph: any) => {
                 const originalUrl = ph.image || ph.thumb;
                 if (originalUrl && originalUrl.includes('tokkobroker.com')) {
-                  return `https://wsrv.nl/?url=${encodeURIComponent(originalUrl)}&w=400&h=267&output=webp&q=80`;
+                  return `https://wsrv.nl/?url=${encodeURIComponent(originalUrl)}&w=800&h=533&output=webp&q=80`;
                 }
                 return originalUrl;
               }) 
             : ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=500&q=80'];
-          const optimizedSrc = imageList[0];
+          const optimizedSrc = photosList[0];
 
           const specs = [];
           if (beds > 0) specs.push({ value: beds, label: beds === 1 ? 'Dormitorio' : 'Dormitorios', icon: 'bed' });
@@ -1528,12 +1528,6 @@ function getLayoutUrl(newView: string) {
           if (baths > 0) specs.push({ value: baths, label: baths === 1 ? 'Baño' : 'Baños', icon: 'bath' });
           if (cocheras > 0) specs.push({ value: cocheras, label: cocheras === 1 ? 'Garage' : 'Garages', icon: 'car' });
           if (parseFloat(surfaceVal) > 0) specs.push({ value: Math.round(parseFloat(surfaceVal)), label: 'm²', icon: 'ruler' });
-          
-          const isRent = opTypeLabel.includes('ALQ') || opTypeLabel.includes('RENT') || opTypeLabel.includes('TEMP');
-          const expVal = p.expenses && Number(p.expenses) > 0 
-            ? `${p.expenses_currency || '$'}${new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(p.expenses)}`
-            : (isRent ? 'Sin' : '');
-          if (expVal) specs.push({ value: expVal, label: 'Expensas', icon: 'receipt' });
 
           const specsHtml = specs.map((spec, index) => {
             let iconSvg = '';
@@ -1566,12 +1560,12 @@ function getLayoutUrl(newView: string) {
           }).join('');
 
           html += `
-            <div class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[196px]" data-id="${p.id}" data-photos='${JSON.stringify(imageList)}' data-lat="${p.geo_lat || ''}" data-lng="${p.geo_long || ''}">
+            <div class="property-row-card flex flex-col sm:flex-row bg-pure-white rounded-lg border border-outline-variant/30 overflow-hidden hover:shadow-md transition-all duration-300 relative group h-auto sm:h-[196px]" data-id="${p.id}" data-photos='${JSON.stringify(photosList)}' data-lat="${p.geo_lat || ''}" data-lng="${p.geo_long || ''}">
               <div class="relative w-full sm:w-[240px] h-[160px] sm:h-full overflow-hidden shrink-0 bg-gray-100 select-none">
                 <div class="absolute top-3.5 left-3.5 z-10 select-none pointer-events-none opacity-40">
                   <div class="text-[12px] font-bold text-pure-white uppercase tracking-[0.2em] leading-none">MUV</div>
                 </div>
-                ${imageList.length > 1 ? `
+                ${photosList.length > 1 ? `
                   <button class="row-carousel-btn row-btn-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/75 hover:text-white hover:scale-110 transition-all opacity-0 group-hover:opacity-100" aria-label="Anterior">
                     <span class="material-symbols-outlined text-[28px] font-light">chevron_left</span>
                   </button>

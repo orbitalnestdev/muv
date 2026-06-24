@@ -662,10 +662,10 @@ export async function getPropertyById(id: number | string): Promise<Property | n
 const constructionStatusMap: Record<string | number, string> = {
   1: "Pozo",
   2: "En Pozo",
-  3: "En Construcción",
-  4: "Terminado",
+  3: "Lanzamiento",
+  4: "En Construcción",
   5: "Entrega Inmediata",
-  6: "A Estrenar"
+  6: "Terminado"
 };
 
 export function normalizeProperty(p: any): Property {

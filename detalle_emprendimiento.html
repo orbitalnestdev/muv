@@ -383,6 +383,23 @@
 </footer>
 
 <script>
+    const constructionStatusMap = {
+        1: "Pozo",
+        2: "En Pozo",
+        3: "Lanzamiento",
+        4: "En Construcción",
+        5: "Entrega Inmediata",
+        6: "Terminado"
+    };
+
+    function getStatusLabel(status) {
+        if (status === undefined || status === null) return "Premium";
+        if (typeof status === "number" || !isNaN(status)) {
+            return constructionStatusMap[Number(status)] || status.toString();
+        }
+        return status;
+    }
+
     // Extract ID from pathname
     const pathParts = window.location.pathname.replace(/\/$/, "").split('/');
     const devId = pathParts[pathParts.length - 1];
@@ -446,7 +463,7 @@
 
         // Hero info
         document.getElementById('dev-name').innerText = dev.name;
-        document.getElementById('dev-status').innerText = dev.construction_status || "Premium";
+        document.getElementById('dev-status').innerText = getStatusLabel(dev.construction_status);
         document.getElementById('dev-header-desc').innerText = dev.description ? dev.description.slice(0, 140) + '...' : '';
 
         // Description
