@@ -660,9 +660,9 @@ export async function getPropertyById(id: number | string): Promise<Property | n
 }
 
 const constructionStatusMap: Record<string | number, string> = {
-  1: "Pozo",
-  2: "En Pozo",
-  3: "Lanzamiento",
+  1: "Lanzamiento",
+  2: "Pozo",
+  3: "En Pozo",
   4: "En Construcción",
   5: "Entrega Inmediata",
   6: "Terminado"
