@@ -521,12 +521,17 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
 
   if (filters.q) {
     const query = normalizeString(filters.q);
-    result = result.filter(p => 
-      (p.publication_title && normalizeString(p.publication_title).includes(query)) ||
-      (p.address && normalizeString(p.address).includes(query)) ||
-      (p.description && normalizeString(p.description).includes(query)) ||
-      (p.location?.name && normalizeString(p.location.name).includes(query))
-    );
+    const hasAddressMatch = result.some(p => p.address && normalizeString(p.address).includes(query));
+    if (hasAddressMatch) {
+      result = result.filter(p => p.address && normalizeString(p.address).includes(query));
+    } else {
+      result = result.filter(p => 
+        (p.publication_title && normalizeString(p.publication_title).includes(query)) ||
+        (p.address && normalizeString(p.address).includes(query)) ||
+        (p.description && normalizeString(p.description).includes(query)) ||
+        (p.location?.name && normalizeString(p.location.name).includes(query))
+      );
+    }
   }
 
   if (filters.location) {

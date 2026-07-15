@@ -306,21 +306,23 @@ const expensesFormatted = expenses && Number(expenses) > 0
         <!-- Breadcrumbs & Share/Fav Bar -->
         <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
             <div class="flex justify-between items-center py-3 border-b border-outline-variant/15 mb-4">
-                <nav class="flex items-center text-[12px] text-secondary text-left font-sans font-[300] tracking-wide select-none">
-                    <a href="javascript:history.back()" class="hover:text-primary transition-colors flex items-center mr-4 border-r border-outline-variant/30 pr-4">
+                <nav class="flex items-center text-[12px] text-secondary text-left font-sans font-[300] tracking-wide select-none min-w-0">
+                    <a href="javascript:history.back()" class="hover:text-primary transition-colors flex items-center mr-0 sm:mr-4 sm:border-r border-outline-variant/30 sm:pr-4 shrink-0">
                         <span class="material-symbols-outlined text-[16px] mr-1">chevron_left</span>
                         Volver
                     </a>
-                    <a class="hover:text-primary transition-colors flex items-center" href="/">
-                        <span class="material-symbols-outlined text-[16px] mr-1">home</span>
-                        Home
-                    </a>
-                    <span class="text-secondary/40 mx-2">&gt;</span>
-                    <a class="hover:text-primary transition-colors" href="/search-results/">{property.type?.name || 'Propiedad'}</a>
-                    <span class="text-secondary/40 mx-2">&gt;</span>
-                    <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{location?.name || address || publication_title}</span>
+                    <div class="hidden sm:flex items-center min-w-0">
+                        <a class="hover:text-primary transition-colors flex items-center shrink-0" href="/">
+                            <span class="material-symbols-outlined text-[16px] mr-1">home</span>
+                            Home
+                        </a>
+                        <span class="text-secondary/40 mx-2 shrink-0">&gt;</span>
+                        <a class="hover:text-primary transition-colors shrink-0" href="/search-results/">{property.type?.name || 'Propiedad'}</a>
+                        <span class="text-secondary/40 mx-2 shrink-0">&gt;</span>
+                        <span class="text-primary truncate max-w-[180px] sm:max-w-[360px] md:max-w-[500px]">{location?.name || address || publication_title}</span>
+                    </div>
                 </nav>
-                <div class="flex gap-2">
+                <div class="flex gap-2 shrink-0">
                     <button id="btn-share" class="w-10 h-10 border border-outline-variant/35 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-pure-white hover:border-primary transition-all duration-300 shadow-sm bg-pure-white cursor-pointer" title="Compartir propiedad">
                         <span class="material-symbols-outlined text-[20px]">share</span>
                     </button>
@@ -796,10 +798,26 @@ const expensesFormatted = expenses && Number(expenses) > 0
       // Micro-interactions for sharing and liking
       const shareBtn = document.getElementById('btn-share');
       if (shareBtn) {
-        shareBtn.addEventListener('click', (e) => {
+        shareBtn.addEventListener('click', async (e) => {
           e.preventDefault();
-          navigator.clipboard.writeText(window.location.href);
-          alert('¡Enlace de la propiedad copiado al portapapeles!');
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: document.title,
+                text: 'Mirá esta propiedad en MUV Propiedades',
+                url: window.location.href
+              });
+            } catch (err) {
+              console.log('Error sharing:', err);
+            }
+          } else {
+            try {
+              await navigator.clipboard.writeText(window.location.href);
+              alert('¡Enlace de la propiedad copiado al portapapeles!');
+            } catch (err) {
+              console.error('Failed to copy text: ', err);
+            }
+          }
         });
       }
 
