@@ -244,6 +244,7 @@ const schemaJsonLd = {
   title={`${mainTitle} | Emprendimientos | MUV Propiedades`} 
   description={`${mainTitle} - Desarrollo exclusivo en ${addressText}. ${description.substring(0, 150)}...`}
   isDarkHero={false}
+  ogImage={photosList[0]}
 >
     <!-- Inject Development Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaJsonLd)} slot="head" />

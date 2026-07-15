@@ -297,6 +297,7 @@ const expensesFormatted = expenses && Number(expenses) > 0
   title={`${publication_title} | MUV Propiedades`} 
   description={`${publication_title} - ${priceText}. ${description.substring(0, 150)}...`}
   isDarkHero={false}
+  ogImage={photosList[0]}
 >
     <!-- Inject Schema JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaJsonLd)} slot="head" />
