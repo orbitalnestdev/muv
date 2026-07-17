@@ -415,6 +415,17 @@ const expensesFormatted = expenses && Number(expenses) > 0
                   </>
                 )}
                 
+                <!-- Item 4.5: Cochera -->
+                {garage > 0 && (
+                  <>
+                    <div class="h-8 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
+                    <div class="flex flex-col items-center justify-center min-w-[100px]">
+                        <span class="material-symbols-outlined text-primary text-[24px] mb-1 select-none pointer-events-none">directions_car</span>
+                        <span class="text-sm text-primary mt-1 whitespace-nowrap">{garage} {garage === 1 ? 'cochera' : 'cocheras'}</span>
+                    </div>
+                  </>
+                )}
+                
                 <!-- Item 5: Superficie Total -->
                 {Number(totalSurface) > 0 && (
                   <>
