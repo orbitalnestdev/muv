@@ -1335,10 +1335,9 @@ function getLayoutUrl(newView: string) {
               if (!addrMatch) return false;
             } else {
               const titleMatch = clientNormalize(p.publication_title).includes(kw);
-              const descMatch = clientNormalize(p.description).includes(kw);
               const addrMatch = clientNormalize(p.address).includes(kw);
               const locationMatch = p.location?.name && clientNormalize(p.location.name).includes(kw);
-              if (!titleMatch && !descMatch && !addrMatch && !locationMatch) return false;
+              if (!titleMatch && !addrMatch && !locationMatch) return false;
             }
           }
 

@@ -542,7 +542,6 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
       result = result.filter(p => 
         (p.publication_title && normalizeString(p.publication_title).includes(query)) ||
         (p.address && normalizeString(p.address).includes(query)) ||
-        (p.description && normalizeString(p.description).includes(query)) ||
         (p.location?.name && normalizeString(p.location.name).includes(query))
       );
     }
