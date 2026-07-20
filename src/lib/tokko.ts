@@ -513,8 +513,8 @@ const cleanAddressForSearch = (address: string): string => {
   let clean = address;
   // 1. Remove parenthesis and everything inside them (e.g. "(entre Seguí y Libertador)")
   clean = clean.replace(/\s*\(.*?\)/g, ' ');
-  // 2. Truncate at common cross-street markers: "entre", "e/", standalone "y"
-  const crossStreetRegex = /\s+(entre|e\/|\by\b)\s+/i;
+  // 2. Truncate at common cross-street markers: "entre", "e/", standalone "y", "esquina", "esq.", "casi"
+  const crossStreetRegex = /\s+(entre|e\/|\by\b|\besquina\b|\besq\b\.?|\bcasi\b)/i;
   const match = clean.match(crossStreetRegex);
   if (match && match.index !== undefined) {
     clean = clean.substring(0, match.index);
