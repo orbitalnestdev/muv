@@ -508,6 +508,20 @@ const normalizeString = (str: string): string => {
     .trim();
 };
 
+const cleanAddressForSearch = (address: string): string => {
+  if (!address) return '';
+  let clean = address;
+  // 1. Remove parenthesis and everything inside them (e.g. "(entre Seguí y Libertador)")
+  clean = clean.replace(/\s*\(.*?\)/g, ' ');
+  // 2. Truncate at common cross-street markers: "entre", "e/", standalone "y"
+  const crossStreetRegex = /\s+(entre|e\/|\by\b)\s+/i;
+  const match = clean.match(crossStreetRegex);
+  if (match && match.index !== undefined) {
+    clean = clean.substring(0, match.index);
+  }
+  return clean.trim();
+};
+
 // Getters (in-memory filtering and sorting queries)
 export async function getProperties(filters: any = {}): Promise<{ properties: Property[], total: number }> {
   await ensureCatalogLoaded();
@@ -521,9 +535,9 @@ export async function getProperties(filters: any = {}): Promise<{ properties: Pr
 
   if (filters.q) {
     const query = normalizeString(filters.q);
-    const hasAddressMatch = result.some(p => p.address && normalizeString(p.address).includes(query));
+    const hasAddressMatch = result.some(p => p.address && normalizeString(cleanAddressForSearch(p.address)).includes(query));
     if (hasAddressMatch) {
-      result = result.filter(p => p.address && normalizeString(p.address).includes(query));
+      result = result.filter(p => p.address && normalizeString(cleanAddressForSearch(p.address)).includes(query));
     } else {
       result = result.filter(p => 
         (p.publication_title && normalizeString(p.publication_title).includes(query)) ||
