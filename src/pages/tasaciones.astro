@@ -196,7 +196,7 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
               submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
               try {
-                const response = await fetch('/api/lead', {
+                const response = await fetch('/api/lead/', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
