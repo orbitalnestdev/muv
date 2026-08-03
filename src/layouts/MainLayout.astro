@@ -27,6 +27,13 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="es">
 <head>
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PWVL8Z92');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>{title}</title>
@@ -71,6 +78,10 @@ const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, 
     <slot name="head" />
 </head>
 <body class="bg-background text-on-background font-body-md text-body-md overflow-x-hidden relative">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWVL8Z92"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Premium Preloader -->
     <div id="preloader" class="fixed inset-0 bg-[#121212] z-[99999] flex items-center justify-center opacity-100" style="transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
         <div class="relative flex flex-col items-center">
