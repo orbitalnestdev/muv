@@ -210,11 +210,14 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
                   throw new Error(result.error || 'Hubo un error al procesar la tasación.');
                 }
 
-                // Show Success
+                // Show Success & Redirect to Thank You page for Meta Lead Tracking
                 statusBox.classList.remove('hidden');
                 statusBox.classList.add('bg-green-100', 'text-green-800');
-                statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">check_circle</span>Pedido de tasación enviado con éxito. Nos contactaremos a la brevedad.</span>';
+                statusBox.innerHTML = '<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">check_circle</span>Pedido de tasación enviado con éxito. Redirigiendo...</span>';
                 form.reset();
+                setTimeout(() => {
+                  window.location.href = '/gracias/';
+                }, 600);
               } catch (err: any) {
                 // Show Error
                 statusBox.classList.remove('hidden');

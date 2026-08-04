@@ -814,15 +814,7 @@
     const form = document.getElementById('contact-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        alert("¡Muchas gracias! Tu mensaje ha sido recibido. Uno de nuestros asesores se comunicará a la brevedad.");
-        form.reset();
-        inputs.forEach(input => {
-            const label = input.previousElementSibling;
-            if (label) {
-                label.classList.add('text-secondary');
-                label.classList.remove('text-primary');
-            }
-        });
+        window.location.href = '/gracias/';
     });
 
     // Scroll effect for header

@@ -332,12 +332,8 @@
                 btn.classList.add('bg-green-700');
                 
                 setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                    btn.classList.remove('bg-green-700', 'opacity-50');
-                    btn.classList.add('bg-deep-charcoal');
-                    btn.disabled = false;
-                    e.target.reset();
-                }, 3000);
+                    window.location.href = '/gracias/';
+                }, 600);
             }, 1500);
         });
 

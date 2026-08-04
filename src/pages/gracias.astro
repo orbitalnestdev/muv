@@ -1,0 +1,122 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout 
+  title="¡Gracias por contactarnos! | MUV Propiedades" 
+  description="Hemos recibido tu consulta con éxito. Un asesor especializado de MUV Propiedades se pondrá en contacto con vos a la brevedad."
+  isDarkHero={true}
+>
+  <!-- Meta Pixel Lead Event Script for Meta / Facebook Ads Tracking -->
+  <script is:inline>
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead');
+    }
+  </script>
+
+  <main class="bg-[#F8FAFC] min-h-[85vh] flex flex-col justify-between">
+    <!-- Hero Section: Header with M Isotype Watermark -->
+    <section class="relative bg-black pt-32 pb-20 overflow-hidden flex items-center min-h-[280px]">
+      <!-- Watermark M logo background -->
+      <div class="absolute right-0 top-12 h-[calc(100%-3rem)] w-1/2 opacity-15 pointer-events-none select-none">
+        <img 
+          src="/assets/iso_muv_opt.webp" 
+          alt="Watermark MUV" 
+          class="absolute bottom-0 right-6 md:right-16 h-full w-auto object-contain brightness-0 invert"
+          width="160"
+          height="160"
+        />
+      </div>
+
+      <div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full text-center space-y-4">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold uppercase tracking-widest border border-amber-400/30">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          Solicitud Recibida
+        </span>
+
+        <h1 class="font-display-lg text-3xl md:text-5xl text-pure-white leading-tight font-medium tracking-tight">
+          ¡Gracias por tu consulta!
+        </h1>
+
+        <p class="text-white/70 text-xs md:text-sm max-w-md mx-auto">
+          Tu mensaje se ha registrado correctamente en nuestro sistema.
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Message & Actions Card -->
+    <section class="py-12 md:py-16 px-4 md:px-6 max-w-2xl mx-auto text-center w-full -mt-12 relative z-20">
+      <div class="bg-pure-white border border-slate-200/80 rounded-3xl p-8 md:p-12 shadow-2xl space-y-8 relative overflow-hidden">
+        <!-- Accent top line -->
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-black via-amber-400 to-black"></div>
+
+        <!-- Success Icon Badge -->
+        <div class="relative w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600 shadow-sm border border-emerald-100">
+          <svg class="w-10 h-10 text-emerald-600 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+
+        <!-- Text Content -->
+        <div class="space-y-3">
+          <h2 class="font-sans text-2xl md:text-3xl font-bold text-primary tracking-tight">
+            ¡Tu mensaje fue enviado con éxito!
+          </h2>
+          <p class="text-xs md:text-sm text-secondary leading-relaxed max-w-lg mx-auto">
+            Un asesor especializado de <strong>MUV Propiedades</strong> revisará tu inquietud y se pondrá en contacto con vos a la brevedad.
+          </p>
+        </div>
+
+        <!-- Immediate Contact Box with Official MUV Isotype Header -->
+        <div class="bg-slate-50 border border-slate-200/60 rounded-2xl p-5 text-left space-y-3">
+          <div class="flex items-center gap-2.5">
+            <img 
+              src="/assets/iso_muv_opt.webp" 
+              alt="MUV Isotype" 
+              class="w-5 h-5 object-contain shrink-0 brightness-0"
+              width="20"
+              height="20"
+            />
+            <h3 class="text-[11px] font-bold uppercase tracking-wider text-primary">¿Necesitás una respuesta rápida?</h3>
+          </div>
+          <p class="text-xs text-secondary leading-relaxed">
+            Si querés agilizar tu atención, podés escribirnos directamente por WhatsApp.
+          </p>
+          <div class="pt-1">
+            <a 
+              href="https://wa.me/5491122862000?text=Hola!%20Acabo%20de%20enviar%20una%20consulta%20en%20la%20web%20de%20MUV%20y%20quisiera%20mas%20informacion." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-pure-white px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 cursor-pointer"
+            >
+              <!-- Official Clean Vector WhatsApp Icon -->
+              <svg class="w-5 h-5 text-pure-white fill-current shrink-0" viewBox="0 0 24 24">
+                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.993L2 22l5.13-1.347a9.92 9.92 0 0 0 4.878 1.28h.005c5.502 0 9.985-4.478 9.99-9.988 0-2.67-1.039-5.18-2.93-7.073C17.18 3.002 14.675 2 12.012 2zm5.72 13.918c-.313.88-1.534 1.576-2.124 1.666-.52.078-1.026.294-3.328-.623-2.946-1.173-4.834-4.108-4.981-4.303-.147-.196-1.196-1.585-1.196-3.023 0-1.439.752-2.144 1.021-2.438.27-.294.59-.367.785-.367.197 0 .393.002.564.01.18.008.423-.07.662.502.245.587.834 2.03.908 2.177.073.147.123.318.024.514-.098.196-.147.318-.294.49-.147.172-.31.383-.442.514-.147.147-.3.307-.129.6.172.294.765 1.258 1.642 2.039.882.784 1.626 1.025 1.872 1.147.245.123.392.1.539-.074.147-.172.637-.734.81-1.003.17-.27.342-.22.563-.123.22.098 1.4.66 1.643.784.246.123.409.183.47.288.06.104.06.602-.253 1.482z"/>
+              </svg>
+              <span>Contactar por WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a 
+            href="/buscar/" 
+            class="w-full sm:w-auto bg-black text-pure-white hover:bg-black/90 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-md text-center flex items-center justify-center gap-2"
+          >
+            <span>Explorar Propiedades</span>
+            <svg class="w-4 h-4 text-pure-white fill-none stroke-current" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+          <a 
+            href="/" 
+            class="w-full sm:w-auto border border-slate-300 text-primary hover:bg-slate-100 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 text-center"
+          >
+            Volver al Inicio
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

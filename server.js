@@ -477,6 +477,10 @@ app.get('/buscar', (req, res) => {
   res.sendFile(path.join(__dirname, 'buscar.html'));
 });
 
+app.get('/gracias', (req, res) => {
+  res.sendFile(path.join(__dirname, 'gracias.html'));
+});
+
 // Arrancar servidor
 app.listen(PORT, () => {
   console.log(`=======================================================`);
