@@ -43,6 +43,12 @@ const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
 
     <!-- Inquiry Form -->
     <form id="lead-form" class="space-y-5 text-left" data-property-id={propertyId}>
+        <!-- Honeypot Field (campo trampa invisible para bots) -->
+        <div style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+            <label for="lead-website">No llenar este campo</label>
+            <input type="text" id="lead-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
         <!-- Status Notification Box -->
         <div id="form-status" class="hidden p-4 rounded text-xs font-semibold select-none"></div>
 
@@ -167,6 +173,7 @@ const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
 </div>
 
 <script>
+  const pageLoadedAt = Date.now();
   const form = document.getElementById('lead-form') as HTMLFormElement;
   const statusBox = document.getElementById('form-status');
   const submitBtn = document.getElementById('btn-submit-lead') as HTMLButtonElement;
@@ -185,6 +192,7 @@ const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
       const phoneVal = (document.getElementById('lead-phone') as HTMLInputElement).value;
       const text = (document.getElementById('lead-message') as HTMLTextAreaElement).value;
       const propertyId = form.dataset.propertyId ? Number(form.dataset.propertyId) : undefined;
+      const website = (document.getElementById('lead-website') as HTMLInputElement)?.value || '';
 
       // 1. Audit and validate phone number
       let digits = phoneVal.replace(/\D/g, '');
@@ -241,13 +249,32 @@ const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`;
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
+      // Obtenemos token reCAPTCHA si el script de Google está cargado
+      let recaptchaToken = '';
+      if (typeof (window as any).grecaptcha !== 'undefined') {
+        try {
+          recaptchaToken = await (window as any).grecaptcha.execute();
+        } catch (e) {
+          console.warn('reCAPTCHA no ejecutado:', e);
+        }
+      }
+
       try {
         const response = await fetch('/api/lead/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ name, email, phone, text, propertyId })
+          body: JSON.stringify({ 
+            name, 
+            email, 
+            phone, 
+            text, 
+            propertyId,
+            website,
+            form_loaded_at: pageLoadedAt,
+            recaptchaToken
+          })
         });
 
         const result = await response.json();

@@ -59,6 +59,12 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
           
           <!-- Inquiry Form -->
           <form id="tasacion-form" class="space-y-4">
+            <!-- Honeypot Field (campo trampa invisible para bots) -->
+            <div style="position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+                <label for="tasacion-website">No llenar este campo</label>
+                <input type="text" id="tasacion-website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
             <!-- Status Notification Box -->
             <div id="form-status" class="hidden p-4 rounded-xl text-xs font-semibold select-none mb-4"></div>
 
@@ -121,6 +127,7 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
         </div>
 
         <script>
+          const pageLoadedAt = Date.now();
           const form = document.getElementById('tasacion-form') as HTMLFormElement;
           const statusBox = document.getElementById('form-status');
           const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
@@ -138,6 +145,7 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
               const countryCode = (form.querySelector('#country-code') as HTMLSelectElement).value;
               const phoneVal = (form.querySelector('#phone') as HTMLInputElement).value;
               const textVal = (form.querySelector('#message') as HTMLTextAreaElement).value;
+              const website = (form.querySelector('#tasacion-website') as HTMLInputElement)?.value || '';
 
               // 1. Audit and validate phone number
               let digits = phoneVal.replace(/\D/g, '');
@@ -195,13 +203,31 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
               submitBtn.disabled = true;
               submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
+              // Obtenemos token reCAPTCHA si el script de Google está cargado
+              let recaptchaToken = '';
+              if (typeof (window as any).grecaptcha !== 'undefined') {
+                try {
+                  recaptchaToken = await (window as any).grecaptcha.execute();
+                } catch (e) {
+                  console.warn('reCAPTCHA no ejecutado:', e);
+                }
+              }
+
               try {
                 const response = await fetch('/api/lead/', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
                   },
-                  body: JSON.stringify({ name, email, phone, text })
+                  body: JSON.stringify({ 
+                    name, 
+                    email, 
+                    phone, 
+                    text,
+                    website,
+                    form_loaded_at: pageLoadedAt,
+                    recaptchaToken
+                  })
                 });
 
                 const result = await response.json();
