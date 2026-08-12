@@ -22,11 +22,21 @@ const {
 // Compute clean canonical URL (excluding query parameters to avoid duplicate content penalties)
 const canonicalUrl = new URL(Astro.url.pathname, "https://muvpropiedades.com").href;
 const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, "https://muvpropiedades.com").href;
+
+const recaptchaSiteKey = (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_RECAPTCHA_SITE_KEY) || (typeof process !== 'undefined' && process.env?.PUBLIC_RECAPTCHA_SITE_KEY) || '';
 ---
 
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="es">
 <head>
+    {recaptchaSiteKey && (
+      <>
+        <script is:inline src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}></script>
+        <script is:inline define:vars={{ recaptchaSiteKey }}>
+          window.__RECAPTCHA_SITE_KEY__ = recaptchaSiteKey;
+        </script>
+      </>
+    )}
     <!-- Google Tag Manager -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

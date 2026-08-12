@@ -249,9 +249,11 @@ import CountryPhoneSelector from '../components/CountryPhoneSelector.astro';
 
           // Obtenemos token reCAPTCHA si el script de Google está cargado
           let recaptchaToken = '';
-          if (typeof (window as any).grecaptcha !== 'undefined') {
+          const siteKey = (window as any).__RECAPTCHA_SITE_KEY__;
+          if (typeof (window as any).grecaptcha !== 'undefined' && siteKey) {
             try {
-              recaptchaToken = await (window as any).grecaptcha.execute();
+              await new Promise((resolve) => (window as any).grecaptcha.ready(resolve));
+              recaptchaToken = await (window as any).grecaptcha.execute(siteKey, { action: 'submit' });
             } catch (e) {
               console.warn('reCAPTCHA no ejecutado:', e);
             }
